@@ -1,0 +1,89 @@
+
+<script src="../jquery-1.3.2.js"></script>
+<script src="../../src/util/util.lazyload.js"></script>
+
+<style>
+.grow {
+	width:200px;
+	height:200px;
+	background-color:#333;
+	margin:50px;
+	padding:4px;
+	border:1px solid #000;
+	color:#fff;
+}
+
+
+img.test {
+	width:400px;
+	height:300px;	
+}
+
+/* loadables are initially invisible: no broken images + proper fade effects */
+img.test  {
+	visibility:hidden;
+}
+
+.progress {
+	position:absolute;
+	visibility:visible;		
+	color:#fff;
+}
+
+.inner {
+	width:500px;
+}
+</style>
+
+<script>
+$(function() {
+		
+	var els = $(".test").lazyload({			
+		
+		effect: 'grow',		
+		fadeInSpeed: 1000,
+		
+		onLoad: function(e, el) {
+			console.info("loaded", el);		
+		}		
+	});
+
+	window.api = els.lazyload();
+	
+	api.onBeforeLoad(function(e, els) {
+		console.info("before", els);		
+	});
+	
+	api.onError(function(e, el, error) {
+		console.error("my error", error);		
+	});
+	
+	// api.load(els.slice(0, 3));
+}); 
+</script>
+
+
+<div class="grow test">
+	<a href="load1.htm">Lazy a tag</a>
+</div>
+
+<div class="grow">
+	<div class="test" 
+		style="background-image:url(http://farm3.static.flickr.com/2492/3942153630_38e1a62b2d.jpg)"></div>
+</div>
+
+<div class="grow">
+	<img src="http://farm2.static.flickr.com/1354/1302364866_23e7b2c681.jpg" class="test" />
+</div>
+
+
+
+
+<img src="http://farm3.static.flickr.com/2532/3720930469_66ffe057f8.jpg" class="test" />
+<img src="http://farm3.static.flickr.com/2492/3942153630_38e1a62b2d.jpg" class="test" />
+<img src="http://farm3.static.flickr.com/2160/2150890145_1b93f5c407.jpg" class="test" />
+<img src="http://farm1.static.flickr.com/7/6481762_3d2c7e79f7.jpg"       class="test" />
+
+
+
+

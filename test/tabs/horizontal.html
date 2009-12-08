@@ -1,0 +1,51 @@
+
+<script src="../../../jquery-1.3.2.js"></script>
+<script src="../tools.tabs.js"></script>
+<link rel="stylesheet" type="text/css" href="horizontal.css"/> 
+
+
+<script>
+$(function() {
+		
+	$("#accordion").tabs("#accordion div", {
+		tabs: 'img', 
+		effect: 'horizontal'
+	});
+	
+});
+</script>
+
+
+<!-- accordion root -->
+<div id="accordion">
+
+	<!-- accordion header #1 -->
+	<img src="${cdn}/img/title/streaminge.png" />
+	
+	<div style="width:200px; display:block">
+		<h3>First pane</h3>
+		<p>
+			Consectetur adipiscing elit. Praesent bibendum eros ac nulla. Integer vel lacus ac neque viverra.
+		</p>
+	</div>
+	
+	<img src="${cdn}/img/title/flash.png" />
+	
+	<div>
+		<h3>Second pane</h3>
+		<p>
+			Cras diam. Donec dolor lacus, vestibulum at, varius in, mollis id, dolor. Aliquam erat volutpat. 
+		</p>
+	</div>
+
+	<img src="${cdn}/img/title/streaming.png" />
+	
+	<div>
+		<h3>Third pane</h3>
+		<p>
+			Non lectus lacinia egestas. Nulla hendrerit, felis quis elementum viverra, purus felis egestas magna.
+		</p>
+	</div>	
+
+</div>
+

@@ -1,0 +1,18 @@
+
+mask
+	- simple, straighforward, lightweight
+	- fit called when mask loaded
+	- all events are unbind upon close
+	- easy access: $.mask.load(), $.mask.close();
+	- configuration can be given upon load();
+	- 2.6 kB!
+	- conf.startOpacity
+	- conf.top
+	- conf.left
+	- existing element can be mad as mask
+	
+overlay
+	- removed deprecated getContent method
+	- removed the gallery plugin
+	
+	

@@ -1,0 +1,138 @@
+<project name="jQuery.Tools" default="min">
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+	
+	<property name="dir" value="/home/tipiirai/svn/flowplayer"/>
+	<property file="${dir}/www/trunk/etc/version.properties" prefix="v"/>
+	<property name="rhino" value="${dir}/builder/lib/rhino.jar"/>
+	<property name="target.dir" value="/opt/flowplayer/webapp/js/tools"/>
+	<property name="yui.path" value="/opt/yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar"/>
+
+	 
+	<target name="closure">
+	
+		<apply 
+			executable="/usr/lib/jvm/java-6-sun-1.6.0.10/bin/java" 
+			parallel="false" 
+			verbose="true"
+			dest="src">
+									
+			 <fileset dir="src" includes="form/*.js"/>
+			 <arg line="-jar"/>
+			 <arg path="lib/compiler.jar"/>
+			 <arg line="--js"/>
+			 <srcfile/>
+			 <arg line="--js_output_file"/>
+			 <mapper type="glob" from="*.js" to="../build/*.min.js"/>
+			 <targetfile/>
+		</apply>
+		
+	</target>
+	
+   <target name="loop">
+		<for param="file">
+		
+			<path>
+				<fileset dir="${basedir}" includes="**/tools.*.js"/>
+			</path>
+		
+		  <sequential>
+		  		<!-- source file -->
+				<var name="sourceFile" value="@{file}"/>
+				
+		  		<!-- tool name -->
+				<propertyregex input="@{file}" override="yes" property="tool" replace="\1" 
+					regexp=".*tools.(.*)\.js"/>
+		
+				<!-- version number -->
+				<propertycopy name="version" from="v.${tool}" override="yes"/>
+	
+				<!-- base file name --> 
+				<var name="base" value="${target.dir}/tools.${tool}-${version}"/>
+								
+				<!-- only process if the source file is modified -->
+				<outofdate property="isModified">
+					<sourcefiles path="@{file}"/>
+					<targetfiles path="${base}.js"/>					
+					
+					<sequential>
+						<antcall target="${target}"/>
+					</sequential>
+					
+				</outofdate>
+				
+		  </sequential>
+		</for>
+  		  
+	</target>	
+
+	<!-- source code -->
+	<target name="source">	
+
+		<copy file="${sourceFile}" tofile="${base}.js"/>
+
+		<!-- <exec executable="svn" outputproperty="svnlog.out" >  
+			<arg line="info ${sourceFile}"/>  
+		</exec> -->
+		
+		<propertyregex property="revision" input="${svnlog.out}" select="\1">  
+			<regexp pattern="Revision: ([0-9]*)"/>  
+		</propertyregex>
+		
+		<propertyregex property="date" input="${svnlog.out}" select="\1">  
+			<regexp pattern="Date: (.+\))"/>  
+		</propertyregex> 
+
+		<replaceregexp match="@VERSION" replace="${version}" flags="g" byline="true"
+			file="${base}.js" />
+		
+		<replaceregexp match="@DATE" replace="${date}" file="${base}.js" />
+      <replaceregexp match="@REVISION" replace="${revision}" file="${base}.js" />
+		<echo message="Source code: ${base}.js" />
+		
+	</target> 
+	
+	<!-- minify -->
+	<target name="min">
+		<property name="target" value="min.do"/>
+		<antcall target="loop"/>
+	</target>	
+	
+	<!-- yuicompress: http://www.julienlecomte.net/blog/2007/09/16/ -->
+	<target name="min.do" depends="source">
+	
+		<apply executable="java" parallel="false">
+			<fileset file="${base}.js"/>
+			<arg line="-jar"/>
+			<arg path="${yui.path}"/>
+			<srcfile/>
+			<arg line="-o"/>
+			<mapper type="glob" from="*.js" to="${target.dir}/*.min.js"/>
+			<targetfile/>
+		</apply>
+		
+		<replaceregexp match="/\*!" replace="/\*\*" file="${base}.js" />
+		<echo message="Minified: ${base}.min.js"/>	
+		
+	</target>
+	
+	
+	<!-- lint -->
+	<target name="lint">
+		<property name="target" value="lint.do"/>
+		<antcall target="loop"/>
+	</target>	
+	
+	<target name="lint.do">
+		<echo message="Verifying ${tool}"/>
+		<java jar="${rhino}" fork="true">
+			<arg value="${dir}/builder/lib/jslint.js" />
+			<arg value="${sourceFile}" />
+		</java>		
+	</target>
+	
+</project>
+
+
+
+
