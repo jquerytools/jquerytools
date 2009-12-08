@@ -1,0 +1,53 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<!-- styling -->
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-minimal.css" />
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-navig.css" />
+
+<!-- HTML structures -->
+<c:set var="html">
+
+<!-- navigator -->
+<div class="navi"></div>
+
+<!-- prev link -->
+<a class="prev"></a>
+
+<!-- root element for scrollable -->
+<div class="scrollable">
+
+	<!-- root element for the items -->
+	<div class="items">
+		<div>0</div>  <div>1</div>  <div>2</div>  <div>3</div>  <div>4</div> 
+		<div>5</div>  <div>6</div>  <div>7</div>  <div>8</div>  <div>9</div> 
+		<div>10</div> <div>11</div> <div>12</div> <div>13</div> <div>14</div>
+	</div>
+	
+</div>
+
+<!-- next link -->
+<a class="next"></a>
+
+</c:set>
+
+${html}
+
+<!-- let rest of the page float normally -->
+<br clear="all" />
+
+<c:if test="${empty construct}">
+<!-- javascript coding -->
+<script>
+// execute your scripts when DOM is ready. this is a good habit
+$(function() {		
+		
+<c:set var="js"> 
+$("div.scrollable").scrollable();
+</c:set>	
+${js}
+
+});
+</script>	
+</c:if>
+

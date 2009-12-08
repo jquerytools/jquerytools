@@ -1,0 +1,54 @@
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%-- :mode=jsp: --%>
+<c:set var="js">
+$("img[rel]").overlay({
+	effect: 'drop',
+	expose: '#789'
+});
+</c:set>
+
+<%@ include file="index.htm" %> 
+
+<script>
+<c:set var="effect">
+// create custom animation algorithm for jQuery called "drop" 
+$.easing.drop = function (x, t, b, c, d) {
+	return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
+};
+
+// create custom overlay effect for jQuery Overlay
+$.tools.overlay.addEffect("drop",  
+	
+	// loading animation
+	function(done) { 
+		var animateProps = {
+			top: '+=55', 
+			opacity: 1, 
+			width: '+=20'
+		};
+		this.getOverlay().animate(animateProps, "medium", 'drop', done).show();
+	}, 
+	
+	// closing animation
+	function(done) {
+		var animateProps = {
+			top: '-=55', 
+			opacity: 0, 
+			width: '-=20'
+		};
+		this.getOverlay().animate(animateProps, "fast", 'drop', function()  {
+			$(this).hide();
+			done.call();		
+		});
+	}
+);
+</c:set>
+${effect}
+
+
+${js}
+</script>
+
+

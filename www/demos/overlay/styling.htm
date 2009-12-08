@@ -1,0 +1,97 @@
+<%-- :mode=jsp: --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="tools" value="all"/>
+<%@ include file="../standalone.jsf" %>
+
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/overlay-minimal.css"/>
+
+<!-- override styles for some of the overlays -->
+<style>
+<c:set var="css">
+#custom {
+	background-image:url(${cdn}/img/commerce/box-512.png);
+	width:512px;
+	height:531px;
+	padding:0px;
+}
+
+#custom div.close {
+	right:-15px;
+	top:-10px;
+}
+
+#petrol {
+	background-image:url(${cdn}/img/overlay/petrol.png);
+	color:#fff;
+}
+
+#apple {
+	background-image:url(${cdn}/img/overlay/apple.png);
+	color:#fff;
+}
+</c:set>
+${css}
+</style>
+
+<c:set var="install">
+<!-- overlay triggers. overlay is referenced in the 'rel' attribute -->
+<p>
+	<button rel="#petrol" type="button">petrol</button>
+	<button rel="#custom" type="button">custom</button>
+	<button rel="#custom2" type="button">custom <em>2</em></button>
+	<button rel="#apple" type="button">apple</button>
+</p>
+
+
+<!-- each overlay is initialized with this single JavaScript call -->
+<script>
+$(function() {
+		$("button[rel]").overlay({expose: '#000', effect: 'apple'});
+});
+</script>
+</c:set>
+
+${install}
+
+<%-- common content for all overlays --%>
+<c:set var="content">
+
+	<h2 style="margin:0px">Here is my overlay</h2>
+
+	<img src="${cdn}/img/title/eye192.png" style="float: left; margin:0px 20px 0 0;" />
+
+	<p>
+		<strong>Sit amet felis non sem eleifend rhoncus. Mauris imperdiet consequat neque, ac molestie eros venenatis pharetra. In et leo nulla. Vivamus feugiat consequat augue nec vulputate. Vestibulum a ipsum et turpis viverra accumsan.</strong>
+	</p>
+	
+	<p>
+		Cras sit amet est purus, a consectetur augue. Ut scelerisque consequat dictum. Donec in nulla risus. Nulla metus elit, tempus vel fermentum sed, dictum eu justo. Etiam et nulla ligula. Integer in tincidunt tellus. Cras cursus, lectus id tincidunt tincidunt, eros arcu cursus velit, a euismod justo lectus non quam. Ut euismod erat eu elit hendrerit.
+	</p>
+	
+	
+	<p>
+		Nulla vitae tellus justo. Donec condimentum lorem ac enim blandit id lobortis felis pellentesque. Mauris nulla velit, ultrices vel tempor vitae, sollicitudin vitae ligula. Vestibulum nec ullamcorper turpis. Aliquam aliquam aliquam pharetra.
+	</p>
+
+	<p style="color:#666">
+		Cras sit amet est purus, a consectetur augue. Ut scelerisque consequat dictum. Donec in nulla risus. Nulla metus elit, tempus vel fermentum sed, dictum eu justo. Etiam et nulla ligula. Integer in tincidunt tellus. Cras cursus, lectus id tincidunt tincidunt, eros arcu cursus velit, a euismod justo lectus non quam. Ut euismod erat eu elit hendrerit a aliquet odio consequat.
+	</p>	
+</c:set>
+
+
+<div class="overlay" id="petrol">
+	${content}
+</div>
+
+<div class="overlay" id="custom">
+
+</div>
+
+<div class="overlay" id="custom2" style="background-image:url(${cdn}/img/overlay/flowplayer.png)">
+	${content}
+</div>
+
+<div class="overlay" id="apple">
+	${content}
+</div>
+

@@ -1,0 +1,1085 @@
+
+<script>
+$(function() {
+	$("#content h2:gt(0)").each(function(i) {
+		$(this).prepend(i + 1 + ". ");
+	});
+});
+</script>
+
+<style>
+#content li.plus {
+	list-style-image:url(img/plus.png);
+}
+#content li.minus {
+	list-style-image:url(img/minus.png);
+}
+</style>
+
+<h1 style="background:url(img/hero/usersguide.jpg) no-repeat 0 10px">
+	jQuery Tools Users Guide - Common practices for each of the tools
+</h1>
+
+<h2 class="first">In this document</h2>
+
+<p>
+	This document describes common practices for each of the tools such as:
+</p>
+
+<ol>
+	<li><a href="#understanding">Understanding jQuery Tools</a></li>
+	<li><a href="#html">The role of HTML</a></li>
+	<li><a href="#jquery">The role of JavaScript and jQuery</a></li>
+	<li><a href="#css">The role of CSS</a></li>
+	<li><a href="#graphics">Graphic design and Presentation</a></li>
+	<li><a href="#include">Including the Tools</a></li>
+	<li><a href="#initialize">Initializing the Tools</a></li>
+	<li><a href="#global_configuration">Making global configurations</a></li>
+	<li><a href="#extending">Extending the Tools with plugins and effects</a></li>
+	<li><a href="#api">Application Programming Interface (API)</a></li>
+	<li><a href="#callbacks">Callback Functions</a></li>
+	<li><a href="#plugins">Creating jQuery Tools Plugins</a></li>
+	<li><a href="#other_libraries">Using the Tools with other plugins and libraries</a></li>
+	<li><a href="#browser_support">Browser support</a></li>
+	<li><a href="#flowplayer">jQuery Tools and Flowplayer</a></li>
+</ol>
+
+
+
+<!--{{{ understanding -->
+
+<a name="understanding"></a>
+<h2>Understanding <em>jQuery Tools</em></h2>
+
+
+<p>
+	jQuery Tools is a collection of the most important user interface components for the web. These are tabs and accordions, tooltips, overlays, exposing effects and scrollables. They can dramatically improve the usability and responsiveness of your site. They mainly focus on <em>presenting information</em> and <em>visual appeal</em>. After all, this is exactly what most websites desperately want: to present their content to the reader in an easy and visually pleasing manner.
+</p>
+
+<p>
+	Other JavaScript UI libraries focus on desktop-like features such as drag-and-drop, sliders, sortable tables or draggable windows. They are meant to build "rich internet applications" (RIAs) such as email clients, task managers, CRM software, image organizers or feed viewers. These kind of applications are very useful within a small group or when used in intranets; however, normal websites are very different in nature. Their purpose is to look good and present information. jQuery Tools are built exactly for that purpose.
+</p>
+
+<p>
+	It is recommended that you start designing your pages without using any JavaScript. There are many examples of highly functional, good looking and user friendly web sites that are not using JavaScript. The purpose of this library is to enhance an existing site with the great possibilities that modern JavaScript techniques has to offer. This is essentially the idea of "progressive enhancement" which is a common design pattern today. You should realize that highly professional sites don't overuse JavaScript just for the fun of it. Scripting is only used when it truly makes the pages more readable and user friendly. This is where these tools comes in to play.
+</p>
+
+<p>
+	This library is not a framework with a steep learning curve, lots of preliminary work and strict coding rules. You are not tied to any predefined HTML or CSS structures. You can include the library on your pages and start using it immediately. You can freely design the look and feel of your site or you can use the desing we have on our demos as a template.
+</p>
+
+<p>
+	These tools can be easily combined. Think of scrollables that trigger overlays or overlays that contain scrollables together with tooltips or whatever combination you can imagine. The possibilities are endless. And if that is not enough, you can harness the enormous power of the jQuery library. Many times you see complex JavaScript components implemented that could be done with just a few lines of jQuery code. For many websites, this may be the only JavaScript library necessary.
+</p>
+
+<p style="font-size:16px;margin-top:20px">
+	The old UNIX design philosophy <strong>"tools, not policy"</strong> is very important in web design.
+</p>
+
+<!--}}}-->
+
+
+<!--{{{ HTML -->
+<a name="html"></a>
+<h2>The role of <em>HTML</em></h2>
+
+<p>
+	jQuery Tools is primarly developed for "normal" HTML developers. You either have an existing website or start with a new one and these tools are used to enhance it. The goal here is to use "progressive enhancement" so that browsers that do not support JavaScript at all can still visualize your content.
+</p>
+
+<p>
+	These tools are not bound to any specific HTML structure. For example, tabs can be constructed from <samp>UL</samp>, <samp>OL</samp>, <samp>DL</samp>, <samp>DIV</samp> or <samp>TABLE</samp> elements. The same is true of our other jQuery Tools as well. The most important thing is to <em>understand</em> what you are doing and what HTML element is suitable for which specific situation.
+</p>
+
+<p>
+	All tools deal with a <em>root element</em> which is typically a <samp>DIV</samp> element, but it does not have to be. For example, a root element for an overlay is the one that contains all overlayed data. In every tool you can have <em>any</em> combination of HTML inside the root element such as images, forms, Flash objects and tables.
+</p>
+
+<!--}}}-->
+
+
+<!--{{{ jquery -->
+<a name="jquery"></a>
+<h2>The role of <em>JavaScript</em> and <em>jQuery</em></h2>
+
+<p>
+	<a href="http://www.jquery.com" class="external">jQuery</a> is a fast and concise JavaScript library that simplifies the development of cross-browser applications. All <samp>tools</samp> except <a href="flashembed.html">flashembed</a> are dependent of this library. jQuery skills are <strong>not required</strong> when using these tools. People have been using these tools without any prior knowledge about jQuery and even JavaScript itself. Of course, those skills would be a great help, but they are not required.
+</p>
+
+<p>
+	If you want to enhance your jQuery and JavaScript skills, the best things to learn when using these tools are definitely <a href="http://docs.jquery.com/Selectors" class="external">jQuery selectors</a> and <a href="http://www.dyn-web.com/tutorials/obj_lit.php" class="external">object literals</a>. The first skill is used to select elements from the page to be enhanced with the tools and latter is used for configuring the tools. Here is an example that introduces you both of these skills:
+</p>
+
+<pii:code>
+// two jquery selectors and a configuration given as an object literal
+$("#content ul.tabs").tabs("div.panes > div", {
+
+	// configuration variables
+	current: 'current',
+	effect: 'fade'
+
+});
+</pii:code>
+
+<p>
+	Here we have two jQuery selectors. The first one selects all <samp>ul</samp> elements whose class name is <samp>tabs</samp> which are all contained inside an element whose <samp>id</samp> is "content". This query is similar to CSS selectors and if you know CSS, you will feel at home here. The second selector selects all <samp>div</samp> elements that are directly nested inside a <samp>div</samp> whose class name is <samp>panes</samp>.
+</p>
+
+<p>
+	Finally, we have a configuration object starting with <samp>{</samp> and ending with <samp>}</samp>. It contains a comma-separated list of name-value pairs. The name is followed by a colon which is followed by a value. The value can be a number, string, boolean, array, function or another object literal. Care must be taken to enclose string values in quotes. That is about it. You use this syntax to configure these tools.
+</p>
+
+<a name="document_ready"></a>
+<h3>Execute your scripts when document is ready</h3>
+
+<p>
+	It is important that you execute all your scripts only after the document is ready and scriptable. This can be done by enclosing your JavaScript calls inside a <samp>$(document).ready()</samp> block as follows:
+</p>
+
+<pii:code>
+$(document).ready(function() {
+
+	// put all your JavaScript wizardy here
+
+});
+</pii:code>
+
+<p>
+	This might be the most important thing in jQuery. Everything inside it will load as soon as the document is scriptable but <em>before</em> the whole page contents such as images and Flash are loaded. Everything that you stick inside its brackets is ready to go at the earliest possible moment. An unlike traditional old-school "onload" attribute in BODY tag you can have multiple <samp>document.ready</samp> blocks on your page.
+</p>
+
+<p>
+	You can also use a shorter syntax:
+</p>
+
+<pii:code>
+$(function() {
+
+	// same thing here.
+
+});
+</pii:code>
+
+<p>
+	Which does exactly the same thing but is not so intuitive for a newcomer.
+</p>
+
+<!--}}}-->
+
+
+<!--{{{ CSS -->
+<a name="css"></a>
+<h2>The role of <em>CSS</em></h2>
+
+<p>
+	Cascaded Style Sheets (CSS) are the industry standard for styling the presentation and positioning of your elements. It is a powerful language which can do many things that surprise even experienced web developers. Learning this skill is definitely encouraged for every web developer.
+</p>
+
+<p>
+	These tools are very strict about <strong>not</strong> mixing any style declarations in the JavaScript code. You would think that this is an obvious coding principle and should be taken for granted but it isn't. Taking a quick look at the list of <a href="http://plugins.jquery.com" class="external">jQuery plugins</a> reveals many tools that mix CSS into their code and hard code their style. Even if those styling variables are given as configuration variables, be it borders, images, colors, size or positioning, this leads to poor application design.
+</p>
+
+<p>
+	A proper tool should only rely on CSS <em>class names</em> - because they offer a much more flexible styling environment. Let's take <samp>tabs</samp> tool as an example. It offers a configuration variable called <samp>current</samp> representing a class name that is set to the currently active tab. Lets say you have set the value "active" as follows:
+</p>
+
+<pii:code>
+$("ul.tabs").tabs("div.panes > div", {current: 'active'});
+</pii:code>
+
+<p>
+	After that you can style the current tab with CSS as follows:
+</p>
+
+<pii:code lang="css">
+ul.tabs .active {
+	color: '#fff';
+	fontWeight: bold;
+	background-position:0 -40px;
+}
+</pii:code>
+
+<p>
+	This means that you can have a whole CSS arsenal at your disposal while designing what the currently selected tab should look like. This kind of design principle is used throughout these tools. There are no hidden surprises in the tools related to styling. The tools are responsible for setting and removing classes from elements and after that all style is the responsibility of CSS. You can also customize all class names that these tools use.
+</p>
+
+<h3>Default CSS files</h3>
+
+<p>
+	For each tool we offer a default CSS file that you can use as the basis for your design. You can use the code, images and ideas from there for free. No obligations. They are fully documented and coded with good CSS practices. For example, you will never see this kind of statement:
+</p>
+
+<pii:code lang="css">
+/* define colors for body and p elements */
+body {
+	color:#ccc;
+}
+
+p {
+	color:#ccc;
+}
+</pii:code>
+
+<p>
+	and they will always be shortened to
+</p>
+
+<pii:code lang="css">
+body, p {
+	color:#ccc;
+}
+</pii:code>
+
+<p>
+	This was just a primitive example of good CSS practice, but is used extensively in our CSS files.
+</p>
+<!--}}}-->
+
+
+<!--{{{ Graphics  -->
+<a name="graphics"></a>
+<h2>Graphic design and presentation</h2>
+
+<p>
+	Since you are not tied to any specific HTML/CSS structures, you have lots of freedom in designing the look and feel of the tools. When designing the presentation of these tools or basically anything on the web, you have three important but different approaches to choose from. Now think of designing a rounded box for any content or a tooltip background for example. You have to choose one design pattern and stick with it. Here are the advantages and disadvantages of these choises:
+</p>
+
+<h3><em>1.</em> CSS-based design</h3>
+
+<p>
+	This approach depends primarly on CSS for the presentation. You'll use background colors, border colors and styling, web fonts and have only minimal use of graphics.
+</p>
+
+
+<ul>
+	<li class="minus">
+		<strong>limited visual control</strong>. There are lots of things you can tweak with CSS, but in the end they are limited and you simply cannot do everything with them.
+	</li>
+	<li class="plus">
+		<strong>scalable size</strong>. Your elements can stretch horizontally and vertically without problems.
+	</li>
+	<li class="plus">
+		<strong>maintenable</strong>. You can easily change the design just by editing a few lines of code.
+	</li>
+	<li class="plus">
+		<strong>lightweight</strong>. CSS files are text which means that they can be downloaded much faster than images. CSS files can also be compressed and GZIPped which makes them even faster.
+	</li>
+</ul>
+
+<p>
+	There are lot's of new features in the latest CSS version such as rounded borders, gradient borders, shadows and opacity, but these are not yet supported by every major browser. Some of the demos on this site uses these CSS3 features. If you are using Firefox 3.5, Safari 4.0 or other CSS3 compatible browser please take a look at the <a href="demos/combine/scrollable-gallery-with-tooltips.html">scrollable gallery with tooltips</a> demo and click on the thumbnails. You'll see nice looking drop shadows on the overlay. As you can see you can create stunning looks by only using CSS and the design will also behave well on older browsers.
+</p>
+
+
+<h3><em>2.</em> Image-based design</h3>
+
+<p>
+	In this approach you'll typically use a single background image that is optimized for the purpose.
+</p>
+
+<ul>
+	<li class="plus">
+		<strong>best visual control</strong>. Your design will look exactly how you want it to look. No compromises.
+	</li>
+	<li class="minus">
+		<strong>fixed size</strong>. Your elements' width and height is fixed. You have to optimize the content to fit inside elements and for excessive content you must rely on scripting or scrollbars.
+	</li>
+	<li class="minus">
+		<strong>heavy</strong>. More kilobytes to download and more requests to the server. Heavy use of images will slow down your pages.
+	</li>
+</ul>
+
+
+<h3><em>3.</em> CSS <strong>and</strong> image-based design</h3>
+
+<p>
+	With this approach you'll use a lot of CSS tricks together with multiple background images.
+</p>
+
+<ul>
+	<li class="plus">
+		<strong>best of both worlds</strong>. Scalable elements that look good.
+	</li>
+	<li class="minus">
+		<strong>lots of work</strong>. You must master CSS and a tight integration with the graphics designer is needed. This approach needs more planning.
+	</li>
+</ul>
+
+<p>
+	jQuery Tools allows you to use any of above approaches and it does not restrict you to any hard-coded CSS coding or theming frameworks. Our demo area contains examples of all these approaches, but we mainly use the second approach. We typically use a single background image to demonstrate the tool in an appealing manner. We also offer you a lot of different general-use background images that you can use as the basis for your own design.
+</p>
+
+<a name="png24"></a>
+<h3><strong>PNG-24 format</strong></h3>
+
+<p>
+	This website uses a lot of semi-transparent PNG-24 images which are not natively supported by IE6.
+</p>
+
+<div class="box petrol">
+	jQuery Tools are <strong>proven</strong> to work with IE 6.0+</strong> but this website does not optimize the visual experience for IE6 users.
+</div>
+
+<p>
+	Because of this and many other huge limitations in IE6 all major players such as YouTube are <a href="http://www.techcrunch.com/2009/07/14/youtube-will-be-next-to-kiss-ie6-support-goodbye/" class="external">dropping the support for IE6</a>. Having said that we can get to the real point.
+</p>
+
+<p>
+	When saving your web graphics, you should really consider using the PNG-24 file format. It has support for <a class="external" href="http://en.wikipedia.org/wiki/Alpha_compositing">alpha transparency</a>. This means that you can use any kind of opacity setting on your image. It's like working with Adobe Photoshop's layers. You can layer multiple PNG images on top of each other and there is lots of room for experimentation. Below you can see two images. The gray box is a PNG24 image with alpha transparency.
+</p>
+
+
+<p>
+	<img src="/img/logo/eye.png" border="0" />
+	<img src="img/tooltip/white_big.png" border="0" style="margin-left:-150px"/>
+</p>
+
+<p>
+	If you are not using IE6 you can see the eye <em>through</em> the PNG24 image. Many sites don't yet take full advantage of this wonderful graphics format.
+</p>
+
+<h4>Internet Explorer 6.0</h4>
+
+<p>
+	<strong>Alpha transparency is not natively supported by Internet Explorer 6.0</strong>. It is possible to make it work in IE6 by using the IE-proprietary AlphaImageLoader filter but, according to recent studies by Yahoo, this technology <a href="http://developer.yahoo.com/performance/rules.html#no_filters" class="external">should be avoided</a>. The problem with this filter is that it blocks rendering and freezes the browser while the image is being loaded; it increases memory consumption and is applied per element, not per image, so the problem is multiplied.
+</p>
+
+<p>
+	You'll definitely get the most reliable results by using GIF or JPG images in place of PNG images on IE6. You can override this in your CSS as follows:
+</p>
+
+<pii:code lang="css">
+#myelement {
+	background-image: url(corner.png);   /* all browsers */
+	_background-image: url(corner.jpg);  /* IE6 only */
+}
+</pii:code>
+
+<p>
+	The initial underscore is a hack that causes the CSS setting to be applied only to versions of IE older than 7. You may have the patience to do this. I haven't.
+</p>
+
+<h4>PNG24 and opacity in all versions of IE</h4>
+
+<p>
+	If you programmatically change the opacity of a PNG image in all versions of Internet Explorer it will cause ugly black borders around the image as seen on this screenshot:
+</p>
+
+<p>
+	<img src="img/png24-ie.png" border="0" />
+</p>
+
+<p>
+	This bug makes it impossible to make fading animations with PNG images in Internet Explorer. For this reason the Tooltip "slide" effect uses opacity fading in every browser other than in IE. This is the default behaviour but you can of course change this if your tooltip is not decorated with PNG graphics. Take a look at the <a href="tooltip.html">Tooltip front page</a> and look at the first demo in Firefox and in IE. The tooltip fades in/out in Firefox but uses the sliding effect without opacity changes in IE.
+</p>
+
+<p>
+	This "black box" bug can also happen in situations where a PNG image is placed on top of a transparent layer. I noticed this happening in <a href="demos/combine/scrollable-gallery-with-tooltips.html">this demo</a>.
+</p>
+
+<!--}}}-->
+
+
+<!--{{{ INCLUDING -->
+
+<a name="include"></a>
+<h2><em>Including</em> the Tools</h2>
+
+<p>
+	The first thing you must do is include the tools on your pages. You can place the following statement on your page and you are ready to go:
+</p>
+
+<pii:code lang="html">
+${cdnt}/${v.tools}/jquery.tools.min.js
+</pii:code>
+
+<p>
+	This will include the tools on your page with maximum performance. We are offering this high performance content delivery network (CDN) for free. You can use it in production environments. Enjoy!
+</p>
+
+<p>
+	If you are using <a href="http://getfirebug.com/" class="external">Firebug</a> or similar JavaScript debugger you can easily test which tools are included and what are their versions by running the following command from the console:
+</p>
+
+<pii:code>
+console.dir($.tools);
+</pii:code>
+
+<p>
+	You'll see following kind of result
+</p>
+
+<p style="margin:20px 0">
+	<img src="img/global-config.gif" alt="Global Configuration" />
+</p>
+
+<p>
+	You can see each tool you have included and their versions. You can also see plugins and effects and their versions if you have included any from the <a href="download.html#combine">download page</a>. If you inspect a little more about these global settings you will esee each tool's default configuration values which are discussed more on the important <a href="#global_configuration">global configuration</a> section.
+</p>
+<!--}}}-->
+
+
+<!--{{{ Initializing -->
+<a name="initialize"></a>
+<h2><em>Initializing</em> the Tools</h2>
+
+<p>
+	After the needed tools are included on the page, you need to initialize them. All tools follow the same pattern. Initialization always starts with a jQuery selector followed by the tool initialization function (constructor) and its configuration object. Here is an example using the <samp>scrollable</samp> tool:
+</p>
+
+<pii:code>
+// initialize tools.scrollable with configuration variables
+$("#wrap").scrollable({
+	size: 1,
+	clickable: false,
+	loop: true
+});
+</pii:code>
+
+<p>
+	This will make all elements scroll that are contained within an element whose <samp>id</samp> is "wrap". Next, comes a tool constructor named <samp>scrollable</samp> which takes a configuration object as an <em>argument</em>. This object defines the settings for how we want our elements to be scrolled. This example above is mainly the way you initialize tools.
+</p>
+
+<h3>Return value</h3>
+
+<p>
+	The constructor will always return the jQuery object that is a collection of the elements that are selected by the selector. This is how all proper jQuery plugins are recommended to behave. Again we use the scollable tool as our example:
+</p>
+
+<pii:code>
+// return elements specified in the selector as a jQuery object
+var elements = $("div.scrollable").scrollable({size: 3});
+
+/*
+  now you can continue working with the jQuery object. you can,
+  for example, add new plugins and use built-in jQuery constructs
+*/
+elements.someOtherPlugin().onClick(function() {
+	// do something when this element is clicked
+});
+</pii:code>
+
+<!--}}}-->
+
+
+<!--{{{ Global Configuration -->
+
+<a name="global_configuration"></a>
+<h2>Making global configurations</h2>
+
+<p>
+	Althought you can change the default settings of the tools by supplyig configuration on the initialization phase you may be using the same configuration settings over and over again. In this case you may want to change the default configuration variables for the tools so that you don't need to specify same setting every time. Here is an example of an global configuration setting
+</p>
+
+<pii:code>
+// all overlays use the "apple" effect by default
+$.tools.overlay.conf.effect = "apple";
+</pii:code>
+
+<p>
+	After this you can simply do this
+</p>
+
+<pii:code>
+// "apple" effect is now our default effect
+$("a[rel]").overlay();
+</pii:code>
+
+<p>
+	Of course you can override these default settings just like before
+</p>
+
+<pii:code>
+// override the global configuration setting
+$("a[rel]").overlay({effect: 'default'});
+</pii:code>
+
+<p>
+	Every tool has a global configuration under <samp>$.tools.[TOOL_NAME].conf</samp>. For example <samp>$.tools.tabs.conf</samp>. You can change many global settings simultaneously by using jQuery build-in <samp>$.extend</samp> method as follows:
+</p>
+
+<pii:code>
+$.extend($.tools.overlay.conf, {
+	effect: 'apple',
+	api: true,
+	speed: 1000
+});
+</pii:code>
+
+<p>
+	The list of various configuration settings can be found on individual tool's documentation page. One important thing about the global configuration is that it provides you a good source of "documentation". Try hitting following command into your Firebug console:
+</p>
+
+<pii:code>
+console.dir($.tools.overlay.conf);
+</pii:code>
+
+<p>
+	And you can see following information appearing:
+</p>
+
+<p>
+	<img src="img/global-config2.gif" title="Overlay configuration as seen from FireBug" />
+</p>
+
+<p>
+	Here you can see the available configuration options and their default values. Very useful.
+</p>
+
+<!--}}}-->
+
+
+<!--{{{ Plugins and Effects -->
+
+<a name="extending"></a>
+<h2>Extending the Tools with <em>plugins and effects</em></h2>
+
+<p>
+	jQuery Tools is the first framework to take full advantage of the jQuery's powerful chaining technology. Here is an example of a chaining pattern
+</p>
+
+<pii:code>
+// initialize few scrollables and add more features to them
+$("div.scroller").scrollable({size: 4}).infinite().autoscroll({interval: 4000});
+</pii:code>
+
+<p>
+	You take a one or more <samp>div.scroller</samp> elements from a page and make them scrollable. The scrollable tool has only the absolute nessessary features to make things scroll. If you want to have more features you can use plugins. In this example we used <samp>infinite</samp> plugin to make an infinite loop for the scrollable items so that there is no end or beginning for the scrollable items - you can scroll back and forward infinitely. The <samp>autoscroll</samp> plugin makes the items scroll automatically without any user interaction.
+</p>
+
+<p>
+	You can have multiple scrollables on the page and they can all be activated with this single line of code. All plugins may have their own set of configuration variables and they can also be set from the <a href="#global_configuration">global configuration</a>.
+</p>
+
+<p>
+	Almost every tool has a few plugins that can be downloaded from the <a href="download.html">download page</a>. This kind of design pattern makes the overall file size dramatically smaller because you can only use the things you need. It also makes the code more organized and easier to understand. In programming world this pattern is called a <a href="http://en.wikipedia.org/wiki/Decorator_pattern" class="external">decorator pattern</a> which is at the heart of jQuery: "take a bunch of elements from a page and do stuff with them". jQuery Tools takes this seriously and step further than other libraries.
+</p>
+
+<p>
+	Every tool has a build-in plugin architecture and you can easily <a href="#plugin">write your own plugins</a>.
+</p>
+
+<a name="effects"></a>
+<h3>Effects</h3>
+
+<p>
+	Tabs, tooltip and overlay has an unique "effect framework" which enables you to change the default behaviour of the tool. Here is an example
+</p>
+
+<pii:code>
+// use "apple" effect for the overlays
+$("a[rel]").overlay({effect: 'apple'});
+</pii:code>
+
+
+<p>
+	This configuration makes the overlay use an effect called "apple" which makes the overlay work as you may have seen on Apple's website. The purpose of the effects is to <em>change</em> the default behaviour whereas plugins will <em>enriching</em> or adding new features. In case of the overlay the actual tool provides the basic functionality of overlaying such as initialization, keyboard and mouse interaction and document masking (with expose effect) while effects duty is to only perform the opening and closing actions of the tool. This makes it fairly easy to implement different kind of effects. This design pattern makes the code more organized and makes the overall file size smaller just like plugins do.
+<p>
+
+<p>
+	Some tools have many built-in effects and some have only one. You can also get more effects from the <a href="download.html">download page</a>. You can set the default effect in the <a href="#global_configuration">global configuration</a> so that you don't have to explicitly supply it to every initial configuration.
+</p>
+
+<h4>Writing own effects</h4>
+
+<p>
+	 Look for each individual tool's documentation for more information:
+</p>
+
+<ul>
+	<li><a href="tabs.html#effects">Writing effects for Tabs</a></li>
+	<li><a href="tooltip.html#effects">Writing effects for Tooltip</a></li>
+	<li><a href="overlay.html#effects">Writing effects for Overlay</a></li>
+</ul>
+
+<p>
+	<strong>Note:</strong> it is possible to define custom configuration variables for your effect by extending the global configuration. Say you have a custom overlay effect with the configuration property <samp>explosionSpeed</samp>; you can give it a default value as follows:
+</p>
+
+<pii:code>
+$.tools.overlay.conf.explosionSpeed = 500;
+</pii:code>
+
+<p>
+	After that the users can either use the default value or override it from the overlay configuration.
+</p>
+<!--}}}-->
+
+
+<!--{{{ API -->
+<a name="api"></a>
+<h2>Application Programming Interface <em>API</em></h2>
+
+<p>
+	Every tool has a well defined Application Programming Interface (API) that you can work with. This is one of the greatest strengths of this library. You can call tool methods and access their properties. The internal state is hidden and private variables are not accessible by the outer world which is what you would expect from good programming practice. Each tool behaves in a similar manner.
+</p>
+
+<p>
+	The main goal for the API design is that there should be easy access to the tools API and at the same time each tool should behave like all other jQuery plugins do.
+</p>
+
+<h3>Getting the API upon initialization</h3>
+
+<p>
+	As seen above, when a tool is initialized, the return value is, by default, a jQuery object. This is what jQuery users are accustomed to and it should be respected. However, there must be an easy way of accessing the API upon construction and all tools supports an <samp>api</samp> property as follows:
+</p>
+
+<pii:code>
+// create one scrollable element and return the API by enabling the "api" property
+var api = $("#myDiv").scrollable({size: 3, api: true});
+</pii:code>
+
+<p>
+	This is a very useful shortcut and provides quick access to the API. After you have the API available, you can start taking advantage of the powerful methods at your disposal. Here are a few examples:
+</p>
+
+<pii:code>
+// we scroll two items forward
+api.move(2);
+
+// scroll to the beginning in 2000 milliseconds
+api.begin(2000)
+
+// do some custom actions when scrolling occurs
+api.onSeek(function() {
+
+	// inside callbacks the "this" variable is a reference to the API
+	console.info("current position is: " + this.getIndex())
+});
+</pii:code>
+
+<p>
+	It is natural to have a tool-specific API available when working with a certain widget. There are no redundant methods and typically you won't need, for example, the DOM manipluation methods that jQuery offers. You will want to stick with the methods that relate to the task at hand.
+</p>
+
+<p>
+	If you are using jQuery Tools plugins you need to supply the <samp>api</samp> parameter for the last plugin in the initialization chain. For example
+</p>
+
+<pii:code>
+// when using plugins supply the api parameter for the last plugin
+var api = $("#my_scrollable").scrollable().circular().mousewheel({api: true});
+</pii:code>
+
+<p>
+	Every tool and plugin supports this <samp>api</samp> paramter.
+</p>
+
+<h3>Getting the API <em>after</em> initialization</h3>
+
+<p>
+	Another way of grabbing the API is by using the constructor <em>again</em> once the tool has been initialized. Here is an example:
+</p>
+
+<pii:code>
+// grab the scrollable API after it has been initialized
+var api = $("#myDiv").scrollable();
+</pii:code>
+
+<p>
+	If you have multiple scrollable elements on your page and want to access a particular API, you can supply do it in one of the following ways:
+</p>
+
+<pii:code>
+// return the third API from the list of scrollables using a numeric argument.
+var api = $("div.scrollable").scrollable(2);
+
+// alternate method is to use a jQuery selector
+api = $("div.scrollable:eq(2)").scrollable();
+
+// or like this, it is just a matter of taste
+api = $("div.scrollable").eq(2).scrollable();
+</pii:code>
+
+<p>
+	Note that the index argument is always zero-indexed, i.e., the first scrollable is located at <samp>scrollable(0)</samp>, the second at <samp>scrollabe(1)</samp>, etc.
+</p>
+
+<h3>Using the API</h3>
+
+<p>
+	After you have the API available, it behaves in a way that a "normal" programmer (or non-jQuery programmer) is accustomed to. There are getters, setters and methods that invoke actions. Invoking methods will always return the API itself so you can perform method chaining. For example:
+</p>
+
+<pii:code>
+// normal API coding that programmers are accustomed to
+var index = $("#example").tabs().click(1).getIndex();
+</pii:code>
+
+<p>
+	Here the <samp>click</samp> method returns the API so you can continue with other tab methods such as <samp>getIndex</samp>. All tools support this kind of method chaining, just as you would expect from a jQuery plugin.
+</p>
+
+<p>
+	In addition to normal methods, you also have the ability to register callback functions from the API which leads to the development of <em>jQuery Tools plugins</em>, but more about that later. Here is the <a href="scrollable.html#api">scrollable tools API</a> for you to study as an example.
+</p>
+
+<h3>jQuery UI compatibility</h3>
+
+<p>
+	If you are an active user of the jQuery UI library, you may want to get access to the API in a way that is compatible with that library. In jQuery UI, you can grab the API with the <samp>data</samp> method. This similar mechanism is fully supported by the Tools since its initial version. For example:
+</p>
+
+<pii:code>
+// initialize tabs. a jQuery object is returned
+var ul = $("ul.tabs").tabs();
+
+// grab the API using data() method
+var api = ul.data("tabs");
+</pii:code>
+
+<p>
+	You can see that this is a bit more verbose than using the <samp>api</samp> property but this is still supported for your convenience.
+</p>
+
+
+<h3>jQuery UI <em>unified API</em></h3>
+
+<p>
+	jQuery UI has a so-called "unified API" which uses the following syntax for invoking methods:
+</p>
+
+<pii:code>
+// call select method for tabs
+$("ul.example").tabs("select", 1);
+</pii:code>
+
+<p>
+	API methods are called by supplying the method name as a string followed by method arguments. This kind of syntax is <strong>not</strong> supported by the Tools. To be honest, I think that this kind API design is fundamentally wrong. It has the following problems:
+</p>
+
+<ol>
+	<li>The syntax is unique to jQuery UI and people outside the UI community are not accustomed to it.</li>
+	<li>
+		The syntax is cubersome. For example, if you want to perform method chaining you have to write the following:
+		<samp>$("ul.example").tabs("select", 1).tabs("disable", 2);</samp>
+	</li>
+	<li>
+		The JavaScript engine cannot see typos. writing "selecct" does not produce any errors and makes it hard to debug.
+	</li>
+</ol>
+
+
+<!--}}}-->
+
+
+<!--{{{ Callbacks -->
+<a name="callbacks"></a>
+<h2>Using <em>Callback Functions</em></h2>
+
+<p>
+	These tools have extensive support for callback functions. These callbacks are functions that you supply in the configuration and which are called when something critical happens to the tool, such as an overlay is opened. Callback functions are your way to customize and extend the default behaviour of each tool.
+</p>
+
+<p>
+	When you are not happy with the configuration possibilities, you can use callback functions. These functions are just like other configuration variables except that the values are actual functions.
+</p>
+
+<p>
+	These tools provide both the <samp>onBefore</samp> event which occurs before some action is taken and the <samp>on</samp> event that occurs by the time (or after) an action takes place. You can have custom functionality bound to these events. All tools provide such events and they share a common naming policy. The <samp>onBefore</samp> event provides you with the possibility of cancelling the action
+</p>
+
+<h3>Callback example</h3>
+
+<p>
+	This example demonstrates the <samp>onBeforeClick</samp> callback function for tools.tabs.
+</p>
+
+<pii:code>
+$("#example").tabs(".panes > div", {
+
+	// here is a "normal" configuration variable
+	current: 'active,
+
+	// here is a callback function that is called before the tab is clicked
+	onBeforeClick: function(event, tabIndex) {
+
+		// the "this variable is a pointer to the API. You can do a lot with it.
+		var tabPanes = this.getPanes();
+
+		/*
+			By returning false here the default behaviour is cancelled.
+			This time another tab cannot be clicked when "terms" are not accepted
+		*/
+		return $(":checkbox[name=terms]").is(":checked");
+	}
+
+});
+</pii:code>
+
+<p>
+	In every callback function the <samp>this</samp> variable is a reference to the programming API of the tool. In the above example this is a reference to the <a href="/tools/tabs.html#">Tabs API</a>. Again, this is what average programmers are used to and the tools follow this standard programming practice.
+</p>
+
+<h3>Multiple callback functions</h3>
+
+<p>
+	In the above example, we supplied our callback function in the configuration when the tool was initialized. You can supply callback functions from the the API as well. In fact, you can supply multiple callback functions for the same event this way. For example, you may have multiple <samp>onBeforeClick</samp> listeners which are all triggered when a tab is clicked. Here is an example of registering callbacks with the API:
+</p>
+
+<pii:code>
+// get handle to the API. We assume that tabs have already been constructed
+var api = $("#example").tabs();
+
+// register a callback function
+api.onBeforeClick(function(e, tabIndex) {
+
+	// .. do your thing ..
+
+});
+</pii:code>
+
+<p>
+	Again, inside the callback function the <samp>this</samp> variable is a pointer to the programming API.
+<p>
+
+<a name="event_object"></a>
+<h3>The Event object</h3>
+
+<p>
+	Since version 1.1.1. every supplied callback function receives the <a href="http://docs.jquery.com/Events/jQuery.Event" class="external">jQuery.Event</a> object as the first argument for the callback function. This event object standardizes the event processing according to the <a href="http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-flow-cancelation" class="external">W3C standards</a>. Here are some things you can do with this object:
+</p>
+
+<pii:code>
+// the event object is the first argument for *all* callbacks in jQuery Tools
+api.onClick(function(event) {
+
+	// cancel the default action. same as returning false
+	event.preventDefault();
+
+	/* If you have multiple callbacks of the same type this prevents
+		the rest of the callbacks from being executed. */
+	event.stopImmediatePropagation();
+
+	// retrieve the value returned by the previous callback function
+	event.result;
+
+	// The timestamp (in milliseconds) of when the event was created.
+	event.timeStamp;
+
+	/*** the following properties were added in version 1.1.2 ***/
+
+	// mouse position when event was fired
+	var x = event.pageX;
+	var y = event.pageY;
+
+	// whether CTRL, ALT, SHIFT or ESC was being pressed
+	var alt = event.altKey,
+		 ctrl = event.ctrlKey,
+		 shift = event.shiftMey,
+		 esc = event.metaKey;
+
+
+	// the original triggering element
+	var element = e.originalTarget || e.srcElement;
+});
+</pii:code>
+
+<p>
+ 	Within the scope of jQuery Tools, the <samp>preventDefault()</samp> is identical to returning <samp>false</samp> from the callback. This is just a matter of style where the <samp>preventDefault()</samp> is the modern manner of cancelling.
+</p>
+
+<p>
+	You can get the handle to the actual element that fired the event with <samp>var element = e.originalTarget || e.srcElement;</samp>. For example, you can get a handle to the scrollable navigator item that was clicked inside the <samp>onSeek</samp> event.
+</p>
+
+<h3>Removing callbacks</h3>
+
+<p>
+	Sometimes you want to remove your callback function from being used. This can be done with the <samp>unbind</samp> call. Here is an example:
+</p>
+
+<pii:code>
+// remove *all* user supplied onClick callbacks from the tool
+api.unbind("onClick");
+</pii:code>
+
+<p>
+	If you want to remove only a certain callback, you need to specify the callback for the tool with a custom name. This can be done with the <samp>bind</samp> function as follows:
+</p>
+
+<pii:code>
+// supply a callback function with a custom name
+api.bind("onClick.myname", function() {
+
+});
+</pii:code>
+
+<p>
+	Now this particular callback can be removed as follows:
+</p>
+
+<pii:code>
+api.unbind("onClick.myname");
+</pii:code>
+
+<p>
+	Since jQuery Tools 1.1.1. The <samp>bind</samp> and <samp>unbind</samp> methods are available for every tool.
+</p>
+
+<h3>Same callback for multiple events</h3>
+
+<p>
+	You can use the <samp>bind</samp> function to supply the same callback function for different events. For example:
+</p>
+
+<pii:code>
+// bind a custom callback for both onLoad and onClose events of the Overlay tool
+$("#myTrigger").overlay({api: true}).bind("onLoad onClose", function(event) {
+
+	// know which event is being called by using the <samp>type</samp> property of the event object
+	if (event.type == 'onLoad) {
+
+	}
+
+});
+</pii:code>
+
+<p>
+ 	The names of the events are separated by spaces. You can also supply a custom name for each of the callbacks such as <samp>onLoad.my onClose.my</samp>. You can use the <samp>unbind</samp> method to remove all callbacks at the same time by calling <samp>unbind()</samp>. In the case of the previous example you would do so by calling <samp>unbind(".my")</samp>.
+</p>
+
+<p style="font-weight:bold">
+	Please note that the event object, <samp>unbind</samp> and <samp>bind</samp> methods are for experienced scripters only. An average user will most probably never use them.
+</p>
+
+<h3>A quick comparison with class-based inheritance</h3>
+
+<p>
+	Some programmers may argue that a better solution would have been to implement "classes" that users can "extend". Trust me, it's not. JavaScript is an inherently functional language, not an object-oriented one. Trying to mimic classical inherintance leads to poor design and makes programs longer and harder to understand. This is especially important in jQuery development because this library itself is highly dependent on callbacks and does not support any kind of inheritance. Functions are an easy, light-weight and effective way of extending behavior. Even newcomers can use them without understanding the anatomy of the JavaScript language.
+</p>
+
+<!--}}}-->
+
+
+<!--{{{ Plugins -->
+
+<a name="plugins"></a>
+<h2>Creating jQuery Tools <em>Plugins</em></h2>
+
+<p>
+	It is possible to implement jQuery plugins that are tightly integrated with jQuery Tools. These plugins would typically alter the default behaviour of the tool or they can add new functionality.  jQuery Tools plugins are authored just like normal jQuery plugins with the exception that inside your plugin you'll get a handle to the Tools programming API and possibly supply callback functions. The fact that the tools can have an unlimited number of callback functions registered is the backbone of plugin development. Here is a simple skeleton for a plugin that will track Google Analytics each time a tab is clicked:
+</p>
+
+<pii:code>
+// create jQuery plugin called "analytics"
+$.fn.analytics = function(tracker) {
+
+	// loop through each tab and enable analytics
+	return this.each(function() {
+
+		// get handle to tabs API.
+		var api = $(this).tabs();
+
+		// setup onClick listener for tabs
+		api.onClick(function(index)  {
+			tracker.trackEvent("tabs", "foo", index);
+		});
+
+	});
+};
+</pii:code>
+
+<p>
+	After you have this plugin included on your page, you can use the plugin in the following manner:
+</p>
+
+<pii:code>
+// initialize tabs and the analytics plugin. the Analytics tracker argument is defined elsewhere
+$("ul.tabs").tabs("div.panes > div").analytics(tracker);
+</pii:code>
+
+<p>
+	If you are a jQuery plugin developer, you can see that this follows the "standard" way of developing plugins. The interesting part is the retrieval of API with the <samp>var api = $(this).tabs();</samp> command. Instead of constructing new tabs, it will return the API. This is because tabs were already constructed. In fact our previous setup <em>requires</em> that the tabs are initialized before the analytics plugin, so you <strong>cannot</strong> write:
+</p>
+
+<pii:code>
+// this is wrong. the analytics plugin does not get access to the tabs API
+$("ul.tabs").analytics(tracker).tabs("div.panes > div");
+</pii:code>
+
+<p>
+	Here is a solid example about <a href="http://www.learningjquery.com/2007/10/a-plugin-development-pattern" class="external">developing jQuery plugins</a>. There are many plugins available on the <a href="download.html">download page</a>. You can take a look at their commented source code to get more understanding about the plugin development.
+</p>
+
+<!--}}}-->
+
+
+<!--{{{ Browser support -->
+<a name="other_libraries"></a>
+<h2>Using the Tools with other plugins and libraries</h2>
+
+<p>
+	jQuery Tools can be used together with other libraries and plugins. Both jQuery and non-jQuery libraries can be included on the page and they should work together. The only thing that may cause problems is that you cannot use jQuery plugins that have the same name. You cannot, for example, use jQuery UI tabs together with jQuery Tools tabs since both are using the same name. But you can use any other UI widget without problems. The same is true for any other jQuery plugin you can find.
+</p>
+
+<p>
+	If you are using other JavaScript libraries such as <a href="http://www.mootools.net" class="external">MooTools</a>, <a href="http://www.extjs.com" class="external">Ext JS</a> or <a href="http://www.prototypejs.org" class="external">Prototype</a> together with the Tools, then you can be even less worried about name conflicts. If your non-jQuery library uses the dollar sign <samp>$</samp> as the prefix (or namespace) for the plugin names, then you should look at jQuery's possibility to <a href="http://docs.jquery.com/Using_jQuery_with_Other_Libraries" class="external">override the $- function.</a>. jQuery Tools supports the switching of this namespace.
+</p>
+
+
+
+<!--}}}-->
+
+
+<!--{{{ Browser support -->
+<a name="browser_support"></a>
+<h2>Browser Support</h2>
+
+<p>
+	jQuery Tools have been proven to work with following browsers:
+</p>
+
+<ul>
+	<li> <a class="external" href="http://www.mozilla.com/en-US/firefox/">Firefox</a> 2.0+</li>
+	<li> <a class="external" href="http://www.microsoft.com/windows/products/winfamily/ie/">Internet Explorer</a> 6+</li>
+	<li> <a class="external" href="http://www.apple.com/safari/">Safari</a> 3+ </li>
+	<li> <a class="external" href="http://www.opera.com/browser/">Opera</a> 9+ </li>
+	<li> <a class="external" href="http://www.google.com/chrome/">Chrome</a> 1+ </li>
+</ul>
+
+<p>
+	If you encounter any problem with jQuery Tools and any of these browsers, please report it to the <a href="/forum/20/">jQuery Tools forum</a>.
+</p>
+
+<!--}}}-->
+
+
+<!--{{{ Flowplayer -->
+<a name="flowplayer"></a>
+<h2>jQuery Tools and Flowplayer</h2>
+
+<p>
+	You must have noticed that this project is hosted on the Flowplayer website. This is because some of the tools were initially developed for making widgets that work well with video sites. <samp>Scrollable</samp> was made for building playlists and <samp>overlay</samp> was made for showing videos over other elements on the page. Little by little those widgets matured to the point where they are now.
+</p>
+
+<p>
+	Today Flowplayer and jQuery Tools have nothing specific to do with each other. Flowplayer is a video player and jQuery Tools is a generic user-interface library for the web. Of course, they can be used together because both are well behaving pieces of software. Here is a quick example of how videos can be overlayed on a page:
+</p>
+
+<pii:code>
+// install flowplayer into a container element whose id is "player"
+var player = $f("player", "/swf/flowplayer-${v.core}.swf");
+
+// setup button action. it will fire our overlay
+$("a.overlayLink").overlay({
+
+	// when overlay is opened, load our player
+	onLoad: function() {
+		player.load();
+	},
+
+	// when overlay is closed, unload our player
+	onClose: function() {
+		player.unload();
+	}
+});
+</pii:code>
+
+
+<p>
+	Flowplayer is Open Source software licensed with the GPL 3 open source license. There are also commercial licenses that allow us to focus full time on the development of tools and the player itself. They also allow us to provide the free content delivery network for the users of jQuery Tools. There is currently no possibility of expressing your satisfaction through making a donation; however, if you are interested on showing videos on your site you could consider purchasing a <a href="/download/">Flowplayer commercial license</a>.
+</p>
+
+<!--}}}-->
+

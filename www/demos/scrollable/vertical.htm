@@ -1,0 +1,71 @@
+<%-- :mode=jsp: --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="tools" value="all" />
+<%@ include file="../standalone.jsf" %>
+
+<c:set var="images" value="3650/3323058611_d35c894fab, 3635/3323893254_3183671257, 3624/3323893148_8318838fbd, 28/66523124_b468cf4978, 164/399223606_b875ddf797, 163/399223609_db47d35b7c, 135/321464104_c010dbf34c, 40/117346184_9760f3aabc, 153/399232237_6928a527c1, 50/117346182_1fded507fa, 3629/3323896446_3b87a8bf75, 3023/3323897466_e61624f6de" />
+
+<!-- styling -->
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-vertical.css?v=0" />
+
+
+<!-- HTML structures -->
+<div id="actions">
+	<a class="prevPage">&laquo; Back</a>
+	<a class="nextPage">More pictures &raquo;</a>
+</div>
+
+<!-- root element for scrollable -->
+<div class="scrollable vertical">
+	 
+	<!-- root element for the items -->
+	<div class="items">
+	
+		<c:forTokens items="${images}" delims=", " var="img" varStatus="i">
+			<div>
+				<img src="http://farm1.static.flickr.com/${img}_m.jpg" />
+				
+				<h3>${i.index + 1}. Barcelona Pavilion</h3>
+				
+				<strong>
+					The German Pavilion in Barcelona, designed by Ludwig Mies van der Rohe 
+					and built for the International Exposition in 1929.
+				</strong>
+				
+				<p>
+					The Pavilion was not only a pioneer for construction forms with a fresh, disciplined
+					understanding of space, but also for modeling new opportunities for an exciting 
+					association of free art and architecture. 
+				</p>
+				
+				<p>
+					<a href="#">Read more</a> &nbsp; <a href="#">Show in map</a>
+				</p>
+				
+			</div>
+		</c:forTokens>
+ 
+	</div>
+	
+</div>
+
+
+<!-- javascript coding -->
+<c:set var="js">
+<script>
+// execute your scripts when DOM is ready. this is a good habit
+$(function() {		
+		
+	// initialize scrollable 
+	$("div.scrollable").scrollable({
+		vertical:true, 
+		size: 3
+		
+	// use mousewheel plugin
+	}).mousewheel();	
+	
+});
+</script>
+</c:set>
+
+${js}

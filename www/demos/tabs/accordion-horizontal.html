@@ -1,0 +1,62 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+
+
+<p>
+	It's easy to create horizontal accordions with tabs. Just use the built-in <samp>horizontal</samp> effect and a little bit of CSS tweaking. Here is an example:
+</p>
+
+<div style="width:600px;margin:25px auto;">
+	<%@ include file="accordion-horizontal.htm" %>
+</div>
+
+<p>
+	Of course, you can create wildly different looks and sizes with CSS and you can set the <samp>event</samp> configuration property to <samp>mouseover</samp> so that the panes are revealed upon mouseover.
+</p>
+
+<h3>HTML Coding</h3>
+
+<p>
+	Our HTML setup is similar to the <a href="accordion.html">basic accordion setup</a> except that the "headers" are now images:
+</p>
+
+<pii:code lang="html">
+<!-- accordion root -->
+<div id="accordion">
+
+	<!-- 1st header and pane -->
+	<img src="/img/title/streaminge.png" />
+	<div style="width:200px; display:block"> .. pane content .. </div>
+
+	<!-- 2nd header and pane -->
+	<img src="/img/title/flash.png" />
+	<div> .. pane content ..</div>
+
+	<!-- 3rd header and pane -->
+	<img src="/img/title/streaming.png" />
+	<div> .. pane content ..</div>
+
+</div>
+</pii:code>
+
+<p>
+	We are using the CSS file: <a href="/tools/css/tabs-accordion-horizontal.css">tabs-accordion-horizontal.css</a> for styling. Note that the initially opened pane must have an <em>inline style</em> declaration for its width and display. The width specifies the pane width when it is opened and the display must be set to <samp>block</samp> so that it is initially visible.
+</p>
+
+<h3>JavaScript coding</h3>
+
+<p>
+	The <samp>tabs</samp> configuration option defines what elements are used as "accordion headers" and we use the built-in sliding effect called "horizontal" that is suitable for horizontal accordions:
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+
+<br />
+<div class="box petrol">
+	Take a look at a <a href="accordion-horizontal.htm">standalone version</a> of this demo. View its source code to get things going on your page.
+</div>
+

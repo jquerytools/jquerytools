@@ -1,0 +1,65 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+
+
+<p>
+	Flowplayer is a regular Flash component just like any other Flash component. It can be placed on your page with this tool or by using HTML-based <samp>OBJECT</samp> tags or you can use our "competitor", <a href="http://code.google.com/p/swfobject/" class="external">SWFObject</a>.
+</p>
+
+<p>
+	Flowplayer uses its own JavaScript file <samp>flowplayer-${v.js_core}.js</samp> to embed the player on the page. This script comes bundled with the flashembed tool to provide basic embedding functionality. On top of that, the script provides you with the following features that makes it such an exceptional player:
+</p>
+
+<ul>
+	<li>the Flowplayer <a href="/documentation/api/index.html">programming API</a> and event model</li>
+	<li>player loading / unloading mechanism</li>
+	<li>handling of multiple player instances on a page </li>
+	<li>jQuery support</li>
+</ul>
+
+<p>
+	Because flashembed is included in the Flowplayer JavaScript component, you have all flashembed features available such as Flash version detection, handling of older Flash versions and the <a href="wmode.html">wmode property</a>. By default flowplayer.js sets the following properties on your behalf:
+</p>
+
+<table class="listing">
+	<tr>
+		<td class="code">version</td>
+		<td>
+			The required Flash version for Flowplayer is <samp>[9, 0]</samp> and this is supplied as the default value. You can use a greater value, such as <samp>[9, 115]</samp>, if you want to require support for the MP4 format.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">expressInstall</td>
+		<td>
+			By default, Flowplayer uses this file: <samp>http://flowplayer.org/swf/expressinstall.swf</samp> for such users that have less than version <samp>[9, 0]</samp> but greater than <samp>[6, 56]</samp>.
+		</td>
+	</tr>
+</table>
+
+<h2>Example</h2>
+
+<p>
+	It's important to know that all configuration options that you supply to Flowplayer in the second argument are given directly to flashembed. In this example, we will supply a custom <samp>onFail</samp> listener for Flash versions that do not support MP4.
+</p>
+
+<%@ include file="flowplayer.htm" %>
+
+<p>
+	In Flash versions below 9.115, users will experience an Express Install and <em>additionally</em> our custom <samp>onFail</samp> event is called and an info box shows what happened. The same behaviour occurs if the container is configured with an <a href="/demos/installation/splash-image.html">initial splash image</a>. Of course, you can skip the Express Install by setting the <samp>expressInstall</samp> property to <samp>null</samp>.
+</p>
+
+<h3>JavaScript setup</h3>
+
+<p>
+	Here is the JavaScript setup for above example:
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<div class="box petrol">
+	See this example as a <a href="flowplayer.htm">standalone version</a>.
+</div>

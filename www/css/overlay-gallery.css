@@ -1,0 +1,80 @@
+
+/* the large image. we use a gray border around it */
+#img {
+	border:1px solid #666;
+}
+
+/* "next image" and "prev image" links */
+.next, .prev {
+	
+	/* absolute positioning relative to the overlay */
+	position:absolute;
+	top:40%;	
+	border:1px solid #666;	
+	cursor:pointer;
+	display:block;
+	padding:10px 20px;
+	color:#fff;
+	font-size:11px;
+	
+	/* upcoming CSS3 features */
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;	
+}
+
+.prev {
+	left:0;
+	border-left:0;
+	-moz-border-radius-topleft:0;
+	-moz-border-radius-bottomleft:0;
+	-webkit-border-bottom-left-radius:0;
+	-webkit-border-top-left-radius:0;
+}
+
+.next {
+	right:0;
+	border-right:0;
+	-moz-border-radius-topright:0;
+	-moz-border-radius-bottomright:0;
+	-webkit-border-bottom-right-radius:0;
+	-webkit-border-top-right-radius:0;	
+}
+
+.next:hover, .prev:hover {
+	text-decoration:underline;
+	background-color:#000;
+}
+
+/* when there is no next or previous link available this class is added */
+.disabled {
+	visibility:hidden;		
+}
+
+/* the "information box" */
+.info {
+	position:absolute;
+	bottom:0;
+	left:0;	
+	padding:10px 15px;
+	color:#fff;
+	font-size:11px;
+	border-top:1px solid #666;
+}
+
+.info strong {
+	display:block;	
+}
+
+/* progress indicator (animated gif). should be initially hidden */
+.progress {
+	position:absolute;
+	top:45%;
+	left:50%;
+	display:none;
+}
+
+/* everybody should know about RGBA colors. */
+.next, .prev, .info {
+	background:#333 !important;
+	background:rgba(0, 0, 0, 0.6) url(/img/global/gradient/h80.png) repeat-x;		
+}

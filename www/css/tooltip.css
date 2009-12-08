@@ -1,0 +1,19 @@
+
+/* tooltip styling. uses a background image (a black box with an arrow) */
+div.tooltip {
+	background:transparent url(../img/tooltip/black_arrow_big.png) no-repeat scroll 0 0;
+	font-size:14px;
+	height:153px;
+	padding:30px;
+	width:310px;
+	font-size:14px;
+	display:none;
+	color:#fff;
+}
+
+/* tooltip title element (h3) */
+div.tooltip h3 {
+	margin:0;
+	font-size:18px;
+	color:#fff;
+}

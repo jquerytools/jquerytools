@@ -1,0 +1,360 @@
+<%-- :mode=jsp: --%>
+
+<%--{{{ header --%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="org.jtools.JMap" %>
+
+<link rel="stylesheet" type="text/css" href="/tools/css/tooltip-generic.css"/>
+
+<style>
+div.tooltip {
+	background:#234 url(/img/global/gradient/h300.png) repeat-x;
+	width:200px;
+}
+
+div.tooltip h3 {
+	margin-top:0px;
+	color:#ffc;
+}
+
+div.tooltip a {
+	color:yellow;
+}
+
+#components label {
+	width:200px;
+	display:block;
+	padding:4px 0;
+	cursor:pointer;
+	color:#123;
+}
+
+#tool_jquery td {
+	border-bottom:30px solid #fff;
+}
+
+#tool_jquery label {
+	font-weight:bold;
+}
+
+#tool_js_core td {
+	padding-top:30px;
+}
+
+#combined td {
+	font-weight:bold;
+}
+
+#combined td em, #combined td a {
+	font-weight:normal;
+}
+
+#gzipped {
+	font-weight:bold;
+}
+
+#components td {
+	padding:2px 5px;
+}
+
+#components .plugin td {
+	color:#666;
+}
+
+#components .plugin label {
+	text-indent:15px;
+	color:#666;
+	font-size:11px;
+}
+
+#components .plugin a {
+	font-size:11px;
+}
+
+tr.selected {
+	background:#ECF9FA url(/img/global/gradient/h80.png) repeat-x;
+}
+
+tr.plugin.selected {
+	background-color:#FAFAFA;
+}
+
+#tool_js_core {
+	background:#dafddA  url(/img/global/gradient/h80.png) repeat-x;	
+}
+</style>
+
+
+<%-- get demo pages into "demos" application context variable --%>
+<c:if test="${metadata == null || param.reload}">
+
+	<c:set var="json">
+		{tools = [<%@ include file="metadata.js" %>]}
+	</c:set>
+	<%
+		String json = (String)pageContext.getAttribute("json");
+		application.setAttribute("metadata", new JMap(json));
+	%>
+</c:if>
+
+<script>
+$(function() {
+
+	var els = $("#components :checkbox").attr("checked", false);
+
+	// tooltips
+	$("#components img").tooltip({
+		position: ['right', 'top'],
+		effect: 'toggle',
+		offset: [60, 10],
+		opacity: 0.9,
+		delay: 50
+	});
+
+
+	// Flowplayer already has Flashembed inside
+	els.eq(17).change(function() {
+		if (this.checked)  {
+			els.eq(16).attr("disabled", true)[0].checked = false;
+		} else {
+			els.eq(16).removeAttr("disabled");
+		}
+	});
+
+
+	// checkbox change
+	els.change(function() {
+
+		// count size
+		var size = 0, count = 0;
+		els.filter(":checked").each(function() {
+
+			// 170 bytes for stripping down comment size
+			size += parseFloat($(this).val()) - 170;
+			count++;
+		});
+
+		// user information
+		$("#selected").html('(' +count+ ' of ' + els.size() + ' selected)');
+		$("#minified").html(Math.round(size / 10) / 100 + ' kb');
+		$("#gzipped") .html(Math.round(size * 0.0322) / 100 + ' kb <em>gzipped</em>');
+
+		// combination string
+		var tools = "";
+		els.each(function() {
+			tools += (this.checked) ? "x" : "_";
+		});
+
+		$("#downloadLink").attr("href", "/js/tools/${v.tools}/" +tools+ "/jquery.tools.min.js?download=true");
+		$("#tokens").html(tools);
+
+
+		// highlight row
+		var tr = $(this).parents("tr"), checked = this.checked;
+
+		if (checked) {
+			tr.addClass("selected");
+		} else {
+			tr.removeClass("selected");
+		}
+
+		// show/hide plugins
+		if (!tr.is(".plugin")) {
+			tr.nextAll().each(function()  {
+				if ($(this).is(".plugin"))  {
+					if (checked) {
+						$(this).fadeIn();
+					} else {
+						$(this).hide().removeClass("selected").find(":checkbox").attr("checked", false);
+					}
+
+				} else  {
+					return false;
+				}
+			});
+		}
+
+	});
+
+	// default selection
+	$("#components tr[class=''] :checkbox").slice(1, 6).each(function() {
+		$(this).click().triggerHandler("change");
+
+	});
+
+	// hide flowplayer plugins by default
+	$("#components tr").slice(-4).hide();
+
+});
+</script>
+
+<%--}}}--%>
+
+<h1 id="hero">
+	<span></span>
+	Download
+	<em>Select the tools you want or grab the source code</em>
+</h1>
+
+
+<h2 class="first">Quick start</h2>
+
+<p>
+	 Insert the following line on your HTML page and you are done!
+</p>
+
+<pii:code lang="html">
+<script src="${cdnt}/${v.tools}/jquery.tools.min.js"></script>
+</pii:code>
+
+<p>
+	 This is the official <strong>jQuery Tools UI library</strong> and after the inclusion you will have the following tools available:
+</p>
+
+<ol>
+	<c:forEach items="${metadata.tools}" var="tool" end="15" varStatus="i">
+		<c:if test="${empty tool.plugin}">
+			<li><a href="${tool.www}" ${i.index == 0 ? 'class="external"' : ''}>${tool.title}</a></li>
+		</c:if>
+	</c:forEach>
+</ol>
+
+<p>
+	The tools will be loaded with <a href="performance.html">maximum performance</a> no matter where your client is located on the globe. Without the jQuery library, the file size is roughly <strong>${v['tools.size']} Kb</strong> when gzipping is enabled on the server side. If you already have jQuery included on your page, you can simply remove it and use only this one <samp>script src</samp> statement.
+</p>
+
+<p>
+	Please note that this global content delivery network is <strong>completely free</strong>. You can use it freely in any website including production environments. This network has been kindly offered for all jQuery Tools users by <a href="http://www.netdna.com/" class="external">Net DNA</a>. Respect to them!
+</p>
+
+<%--}}}--%>
+
+
+<a name="combine"></a>
+<h2>Grab your own set of jQuery Tools: <em id="selected"></em></h2>
+<h3 style="color:#7788FF;margin:5px 0 15px 0;">Or download the MIT/GPL Source Code</h3>
+
+<p>
+	Here you can download individual tools or create a custom combination of tools by selecting only those you want. Both the <strong>source code</strong> and the <strong>minified versions</strong> are available. For those of you running videos on your site, we also have the Flowplayer files available, for your convenience.
+</p>
+
+
+<table id="components" class="listing">
+	<thead>
+		<tr>
+			<th>Tool</th>
+			<th>Version</th>
+			<th>Requires</th>
+			<th>Source code</th>
+			<th>Minified</th>
+			<th>Info</th>
+		</tr>
+	</thead>
+
+	<c:forEach items="${metadata.tools}" var="tool" varStatus="i">
+
+		<c:set var="key" value="${tool.name}"/>
+		<c:set var="source" value="${tool.file}-${v[key]}.js"/>
+		<c:set var="min" value="${tool.file}-${v[key]}.min.js"/>
+
+
+		<tr id="tool_${key}" ${!empty tool.plugin ? 'class="plugin"' : ''}>
+			<td><label><input type="checkbox" name="tool" value="${f:fileLength(min)}" /> ${tool.title}</label></td>
+			<td><small>${v[key]}</small></td>
+			<td><small>${tool.requires}</small></td>
+
+			<%-- jQuery downloads --%>
+			<c:if test="${tool.name == 'jquery'}">
+				<td><a href="http://jqueryjs.googlecode.com/files/jquery-${v.jquery}.js">${f:fileSize(source)}</a></td>
+				<td><a href="http://jqueryjs.googlecode.com/files/jquery-${v.jquery}.min.js">${f:fileSize(min)}</a></td>
+			</c:if>
+
+			<%-- other downloads --%>
+			<c:if test="${tool.name != 'jquery'}">
+				<td><a href="${source}?download=true">${f:fileSize(source)}</a></td>
+				<td><a href="${min}?download=true">${f:fileSize(min)}</a></td>
+			</c:if>
+
+			<td>
+				<img src="/img/global/info_small.png" alt="" />
+				<div class="tooltip">
+					<h3>${tool.title}</h3>
+					<p>${tool.description}</p>
+					<p>
+						<a href="${tool.www}">more information</a>
+					</p>
+				</div>
+			</td>			
+		</tr>
+
+	</c:forEach>
+
+	<tr class="plugin">
+		<td colspan="6" style="padding:10px 30px;color:#000;font-size:11px">
+			<strong>Note:</strong> Since flowplayer.js <em>already</em> includes the flashembed.js code, to avoid programming conflicts, you <em>cannot include</em> both simultaneously in your download.		
+		</td>
+	</tr>
+	
+</table>
+
+
+<a href="#" id="downloadLink">
+	<img src="/img/commerce/download.png" alt="Download jQuery Tools" />
+</a>
+
+<h3 style="margin:10px 0 20px 0">
+	<em>Size</em>: <span id="minified"></span> / <span id="gzipped"></span>
+</h3>
+
+
+<%--
+<h3>Combined script from CDN</h3>
+
+<p>
+	Include the following HTML snippet on your pages to use your custom combination with maximum performance while testing.
+</p>
+
+<div class="box code">
+<pre>
+<span class="html__tag_start">&lt;script</span>
+   <span class="html__attr_name">type</span>=<span class="html__attr_value">"text/javascript"</span>
+   <span class="html__attr_name">src</span>=<span class="html__attr_value">"http://cdn.jquerytools.org/${v.tools}/<span id="tokens">---------</span>/jquery.tools.min.js"</span><span class="html__tag_start">&gt;</span><span class="html__tag_end">&lt;/script&gt;</span></pre>
+</div>
+--%>
+
+
+<a name="full"></a>
+<h3><strong>FULL</strong> jQuery Tools from CDN</h3>
+
+<p>
+	Insert the following line on your HTML page if you want to use the full library from the content delivery network. 
+</p>
+
+<pii:code lang="html">
+<script src="${cdnt}/${v.tools}/full/jquery.tools.min.js"></script>
+</pii:code>
+
+<p>
+	This includes all the Tools, plugins and effects but <em>not</em> the Flowplayer files. 
+</p>
+
+<a name="tiny"></a>
+<h3>jQuery Tools <em>without jQuery</em></h3>
+
+<p>
+	If you prefer to load jQuery separately we have a <em>minimal</em> jQuery Tools file as follows:
+</p>
+
+<pii:code lang="html">
+<!-- The recommended practice is to load jQuery from Google's CDN service.  -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/${v.jquery}/jquery.min.js"></script>
+
+<!-- Tabs, Tooltip, Scrollable, Overlay, Expose. No jQuery. -->
+<script src="${cdnt}/${v.tools}/tiny/jquery.tools.min.js"></script>
+</pii:code>
+
+<p>
+	Make sure the jQuery library is always loaded <em>before</em> the jQuery Tools library.
+</p>
+

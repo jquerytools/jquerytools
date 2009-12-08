@@ -1,0 +1,125 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<p>
+	Here you can see one scrollable with tooltips. By clicking on the thumbnails you'll open up an overlay with a gallery plugin.
+</p>
+
+<div style="margin:15px -15px">
+<%@ include file="scrollable-gallery-with-tooltips.htm" %>
+</div>
+
+<p>
+	<strong>TIP</strong>: try scrolling your page so that the scrollable stays visible while browsing the gallery. You'll see an interesting effect on the scrollable.
+</p>
+
+<h2>Scrollable with tooltips</h2>
+
+<p>
+	First we describe how you can add tooltips for scrollable items. Scrollable's HTML structure is the same as in the <a href="/tools/demos/scrollable/index.html">minimal setup</a> except that the scrollable images are now wrapped inside an <samp>A</samp> tag so that we can take advantage of their <samp>title</samp> and <samp>href</samp> attributes. The <samp>title</samp> attribute is used for tooltips and the <samp>href</samp> attribute contains the link to the larger version of the image to be overlayed.
+</p>
+
+<h3>HTML Setup</h3>
+
+<pii:code lang="html">
+<!-- root element for scrollable -->
+<div class="scrollable">
+
+	<!-- root element for the items -->
+	<div class="items">
+
+		<!-- first item -->
+		<a href="large_image.jpg" title="Image description">
+			<img src="thumbnail.jpg" /></a>
+
+		<!-- second item -->
+		<a href="large_image2.jpg" title="Image 2 description">
+			<img src="thumbnail2.jpg" /></a>
+
+		<!-- rest of the items ... -->
+	</div>
+
+</div>
+
+<!-- one single tooltip element -->
+<div id="tooltip"></div>
+</pii:code>
+
+
+
+
+<h3>CSS coding</h3>
+
+<p>
+	Scrollable is styled with <a href="/tools/css/scrollable-horizontal.css">scrollable-horizontal.css</a> which depends on the fact that scrollable items are images. Since those images are now wrapped by an A element we have to override some of the settings in this external stylesheet.
+</p>
+
+<pii:code lang="css">
+${css}
+</pii:code>
+
+<h2>Overlayed Gallery</h2>
+
+<p>
+	Our gallery follows exactly the same principles as in the <a href="/tools/demos/overlay/gallery.html">Using the gallery plugin</a> demo. Our scrollable items are properly setup for the gallery plugin and we have included the following overlay on the page:
+</p>
+
+<pii:code lang="html">
+${gallery}
+</pii:code>
+
+<p>
+	As you may have noticed the scrollable is moving at the same time while you are browsing the gallery. This is actually automatic! The scrollable looks for elements whose CSS class names are <samp>prev</samp> and <samp>next</samp> and they are exactly the same names that the gallery plugin depends upon. So now our gallery browsing buttons control both the gallery and the scrollable without any JavaScript setup. If you want to alter this behaviour then you need to change the CSS class names for the scrollable or gallery plugin's configuration.
+</p>
+
+<p>
+	There is also a little confusion in this browsing behaviour. Both tools depend on the class name <samp>disabled</samp> which will make the gallery browsing button invisible. Scrollable makes the next button disabled earlier than the gallery. This is why we are using a different class name "inactive" in the gallery configuration for the disabled state. We have to override this in the CSS as follows:
+</p>
+
+<pii:code lang="css">
+${css2}
+</pii:code>
+
+<h3>Highlighting the active item</h3>
+
+<p>
+	Here is how we highlight the active item in the scrollable to make it visible above the expose mask:
+</p>
+
+<pii:code lang="css">
+/* active item */
+.scrollable .active {
+	border:1px solid #fff;
+	outline:2px solid #000;
+
+	/* these two settings makes it visible over the mask */
+	z-index:9999;
+	position:relative;
+}
+</pii:code>
+
+
+<h2>JavaScript coding</h2>
+
+<p>
+	We have constructed the whole setup with a single chained JavaScript call which has the following structure:
+</p>
+
+<pii:code>
+$(".scrollable").scrollable().find("a").tooltip().overlay().gallery();
+</pii:code>
+
+<p>
+	We initialize our scrollable. Then we find all A tags inside it and enable tooltips for them. After that we setup the overlayed gallery for these same A tags.	That's it. A true demonstration of the power of jQuery Tools. Here is the complete JavaScript setup with commented configuration variables:
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+
+<br />
+<div class="box petrol">
+	Here is the <a href="scrollable-gallery-with-tooltips.htm">standalone version</a> of this demo. You can freely study and copy its source code.
+</div>
+

@@ -1,0 +1,61 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<p>
+	Many times portfolio images are so large that it does not make sense to load them all on the page before they are being viewed. This demo continues from the <a href="index.html">previous demo</a> so that a large image is loaded only when it's being viewed. In addition, the next and previous images are <em>preloaded</em> so that they can also be viewed quickly.
+</p>
+
+<c:set var="preload" value="true"/>
+<%@ include file="index.htm" %>
+
+<p>
+	Images further down on the scrollable are not being loaded. The page responds quickly and the download amount will be minimal. This is very important for artists because many times their images are very large.
+</p>
+
+<h3>Changing the HTML structure</h3>
+
+<p>
+	We use a similar HTML structure as in the previous demo, but only one simple thing needs to be changed. We have modified the HTML structure for a single entry inside the overlay. We are not using a normal <samp>IMG</samp> tag which causes the image to be loaded on the page. Instead, we use a <samp>title</samp> attribute for the scrollable item to store the name of the image file.
+</p>
+
+<pii:code lang="html">
+<!-- image name is specified in title attribute -->
+<div title="image1.jpg">
+
+	<!-- the tooltip -->
+	<div class="info">
+		<h3>A Blue Flower</h3>
+
+		<p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur.</p>
+
+		<p class="copy">
+			Wed Jun 10, 2:35 PM <strong>&copy; John Doe</strong>
+
+		</p>
+	</div>
+</div>
+</pii:code>
+
+<h3>JavaScript magic</h3>
+
+<p>
+	Remember from our <a href="index.html">previous demo</a> that when overlay is opened, the scrollable is seeked to the position that corresponds to the clicked thumbnail image. It is natural to create an <samp>onSeek</samp> callback function for the overlayed scrollable which is triggered every time the scrollable moves.
+</p>
+
+<p>
+	This callback uses the <samp>title</samp> attribute to dynamically create the image tag inside the scrollable item. Also, the tooltip effect is initialized at this point. We also do this for the next and previous items. This is only done once for each image as necessary.
+</p>
+
+<pii:code>
+${js4}
+</pii:code>
+
+
+<br />
+<div class="box petrol">
+	Here is the <a href="index.htm?preload=true">standalone version</a> of this demo. You can freely study and copy its source code.
+</div>
+
+
+

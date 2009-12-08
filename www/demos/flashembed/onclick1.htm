@@ -1,0 +1,52 @@
+
+<%-- :mode=jsp: --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<c:if test="${empty plain}">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- include flashembed. this file is not included in the "official" jQuery tools package -->
+<script type="text/javascript" src="${cdn}/js/tools/tools.flashembed-${v.flashembed}.min.js"></script>
+</c:if>
+
+<style>
+#flash {
+	width:785px;
+	height:300px;
+	background-color:#333;
+	border:1px outset #000;
+	text-align:center;
+	cursor:pointer;
+	${!empty plain ? 'margin-left:-20px' : ''}
+}
+
+#flash h2 {
+	font-size:40px;
+	color:#fff;
+	margin-top:80px;
+}
+
+</style>
+
+<c:set var="html">
+<script>
+// script inside the domReady method is executed after page is scriptable
+flashembed.domReady(function() {
+
+	// get flash container and assign click handler for it
+	document.getElementById("flash").onclick = function() {
+
+		// when being clicked -> load flash inside "this".
+		flashembed(this, "/swf/flash10.swf");
+	}
+});
+</script>
+
+<!-- our flash container with some initial HTML inside it -->
+<div id="flash">
+	<h2>Click here to play movie</h2>
+</div>
+</c:set>
+
+${html}

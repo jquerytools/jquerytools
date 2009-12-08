@@ -1,0 +1,125 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+<h2><samp class="blue">1.</samp> Minimal Flash embedding setup</h2>
+
+<p>
+	Here you have a simple Flash object. Below the object you can see how it is placed on the page:
+</p>
+
+<%@ include file="index1.htm" %>
+
+<h3>HTML setup</h3>
+
+<p>
+	First you need to include the Flashembed script on your page:
+</p>
+
+<pii:code lang="html">
+<script type="text/javascript" src="${cdn}/js/flashembed-${v.flashembed}.min.js"></script>
+</pii:code>
+
+<p>
+	It is recommended that you use the minified (.min) version to reduce the download size. You can get the script <a href="/tools/flashembed.html#download">here</a>. Second, you have to have a HTML container for the object; we are using a <samp>DIV</samp> element in our example. We use an <samp>id</samp> attribute to reference this container later in the embedding.
+</p>
+
+<pii:code lang="html">
+<div id="clock"></div>
+</pii:code>
+
+<h3>JavaScript setup</h3>
+
+<p>
+	Next, we place a Flash object inside the container. This happens with this simple flashembed call:
+</p>
+
+<pii:code>
+flashembed("clock", "/swf/clock.swf");
+</pii:code>
+
+<p>
+	That is really all you need.
+</p>
+
+<h3>CSS code</h3>
+
+<p>
+	By default, the Flash object is placed <strong>inside</strong> the player container so that its width and height properties are set to <samp>100%</samp>. This means that you can control the dimensions of the Flash object by setting the dimensions of the container. In this minimal setup we have following CSS settings:
+</p>
+
+<pii:code lang="css">
+#clock {
+	width: 250px;
+	height: 250px;
+}
+</pii:code>
+
+<p>
+	Show this demo as a <a href="index1.htm">standalone page</a>.
+</p>
+
+
+<h2><samp class="blue">2.</samp> Configuring Flash objects</h2>
+
+<p>
+	Here we have another Flash object and this time we pass parameters (or configuration) to it. Here is our flashembed call:
+</p>
+
+<pii:code>
+flashembed("info", "/swf/flashvars.swf", {
+
+	// these properties are given for the Flash object
+	name1: 'configuration value #1',
+	name2: 'configuration value #2',
+	name3: 'Hello World! I am changing',
+});
+</pii:code>
+
+<p>
+	Here is the result. The passed parameters are seen:
+</p>
+
+<%@ include file="index2.htm" %>
+
+<p>
+	Show this demo as a <a href="index2.htm">standalone page</a>
+</p>
+
+<h2><samp class="blue">3.</samp> Configuring Flash with JSON</h2>
+
+<p>
+	Flashembed has the unique feature of configuring your Flash objects with JSON. This gives you the ability to supply complex configurations directly upon embedding. JSON is a JavaScript-based syntax and is much more flexible and simpler than XML which has historically been used in Flash configuration.
+</p>
+
+<p>
+	Flowplayer is one example of a Flash application that accepts JSON-based configurations. Here is our flashembed call:
+</p>
+
+<pii:code>
+flashembed("player", "/swf/flowplayer-${v.core}.swf", {
+
+	// "config" parameter is a complex JSON object, not just a simple value
+	config: {
+		clip:  {
+			autoPlay: false,
+			autoBuffering: true,
+			url: 'http://e1h13.simplecdn.net/flowplayer/flowplayer.flv'
+		}
+	}
+});
+</pii:code>
+
+<p>
+	And here is the result:
+</p>
+
+<%@ include file="index3.htm" %>
+
+<p>
+	If you are developing a Flash object and want to configure it with JSON, you can find JSON parsers for Flash from <a href="http://code.google.com/p/as3corelib/" class="external">as3corelib</a>.
+</p>
+
+<div class="box petrol">
+	Show the above demo as a <a href="index3.htm">standalone page</a>.
+</div>

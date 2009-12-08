@@ -1,0 +1,589 @@
+
+<%-- :mode=jsp: --%>
+<c:set var="tool" value="tooltip"/>
+
+<h1 style="background:url(img/hero/tooltip.jpg) no-repeat -9px 25px">
+	jQuery Tools / Tooltip - Tooltips done right
+</h1>
+
+<div style="margin:0px -5px">
+	<%@ include file="demos/tooltip/dynamic.htm" %>
+</div>
+
+<h2>The Story</h2>
+
+<p>
+	Tooltips are one of the most important JavaScript widgets on the web. Although important, they also happen to be a very badly misunderstood and poorly implemented component. This tool corrects the situation. You'll get a professional piece of sofware that is easy to understand and use. Here are the highlights of this tool:
+</p>
+
+<ul>
+	<li>Typically, you will need a single JavaScript one-liner to get started.</li>
+	<li>Appearance and dimensions can be tweaked with CSS.</li>
+	<li>
+		The tooltip can <a href="demos/tooltip/any-html.html">contain any HTML</a> such as images, tables and forms or it will generate tooltips from each element's <samp>title</samp> attribute as in the demo above.
+	</li>
+	<li>You have full control over the <a href="#positioning">positioning</a>.</li>
+	<li>There is an improved <a href="#events">event management</a> system for controlling <em>when</em> the tooltip will be shown or hidden.</li>
+	<li>You can move the cursor on top of the tooltip so you can use links or form inside it</li>
+	<li>You can control the tooltip timings before and after your mouse moves over the trigger element.</li>
+	<li>
+		<a href="#effects">Pluggable effects</a>. Tooltip comes with two build-in effects: <samp>toggle</samp>, and <samp>fade</samp> and one separate effect: <a href="#slide">slide</samp> and you can easily <a href="#effects">build your own effects</a>.
+	</li>
+	<li>
+		A <a href="#dynamic">dynamic plugin</a> will dynamically change the tooltip's position so that it always stays in the viewport.
+	</li>
+</ul>
+
+<%@ include file="common-features.jsf" %>
+
+
+<p style="color:#322">
+	The available tooltip functionality and configuration variables are minimal because tooltip functionality is inherently simple. If you want to do complex things, you can do them with "normal" jQuery programming. You often see bloated tooltip solutions because they contain functionality that should not be there. For example, if for some weird reason you want to use AJAX requests with tooltips, you <em>can</em> do them with jQuery. AJAX functionality should not be mixed in with the tooltip code.
+</p>
+
+<a name="usage"></a>
+<h2>Usage</h2>
+
+<p>
+	We believe that the best way to learn is through demos. The following demos are fully documented and a standalone page is provided to get tooltip working on your site. It's really important to <strong>study the first demo</strong> "Basics of using the tooltip", because it teaches you the basics of using the library.
+</p>
+
+<ul>
+	<c:forEach items="${f:getDemo(context.toolDemos, 'tooltip/index.html').category.demos}" var="demo">
+		<li> <a href="demos/${demo.path}">${demo.title}</a> </li>
+	</c:forEach>
+</ul>
+
+<%@ include file="graphics.jsf" %>
+
+
+<img src="img/tooltip/black_arrow.png" alt="" />
+<img src="img/tooltip/black_arrow_big.png" alt="" />
+
+
+<img src="img/tooltip/white.png" alt="" />
+<img src="img/tooltip/white_big.png" alt="" />
+
+
+
+<a name="configuration"></a>
+<h2>Configuration</h2>
+
+<p>
+	There are many other ways of using this tool than the demos provided above. The generic form of initializing tooltips is the following:
+</p>
+
+<pii:code>
+// selectors
+$("<trigger_selector>").tooltip({
+	/* tooltip configuration goes here */
+
+	// one configuration property
+	position: "bottom left",
+
+	// another property
+	opacity: 0.7,
+
+	// ... the rest of the configuration properties
+});
+</pii:code>
+
+
+<p>
+	You select one or more elements with a <a href="http://docs.jquery.com/Selectors" class="external">jQuery selector</a> that will trigger the tooltip(s). The tool looks for the element that is placed next to the tooltip to be the tooltip. The return value is a jQuery object associated with the selection. Here is a full list of available configuration options:
+</p>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>property</th>
+			<th>default</th>
+			<th>description</th>
+		</tr>
+	</thead>
+	<tr>
+		<td class="code">api</td>
+		<td><code>false</code></td>
+		<td>
+			When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp>, the return value is this tool's <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="/tools/using.html#api">accessing the tool API</a> for more information.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">cancelDefault</td>
+		<td><code>true</code></td>
+		<td>
+			<strong>Since 1.1.0.</strong> When tooltip content is fetched from the <samp>title</samp> attribute of the trigger element this property cancels the default tooltip behaviour executed by the browser. This is achieved by simply removing the <samp>title</samp> attribute from the trigger.
+
+			<p style="color:#666">
+				You can still retrieve / modify the title value by calling jQuery's <samp>data("title")</samp> method for the trigger.
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td class="code">effect</td>
+		<td><code>'toggle'</code></td>
+		<td>
+			Specifies how the tooltip is shown and hidden. There are two built-in effects that can be used as values:
+
+			<ul>
+				<li><strong>toggle</strong>. A simple show/hide effect. This is the default</li>
+				<li><a href="#fade">fade</a>. A simple fade in - fade out effect</li>
+			</ul>
+
+			<p>
+				There is also a <a href="#slide">slide effect</a> which is not included in the tool itself. You can <a href="#effects">build your own effects</a> too.
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td class="code">delay</td>
+		<td><code>30</code></td>
+		<td>
+			Specifies how long the tooltip remains visible after the mouse leaves the trigger. This is necessary if the tootip has interactive content and the user will need time to move to the tootip area. By setting this to 0 the tooltip will disappear as soon as the mouse moves away from the trigger element.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">events</td>
+		<td><code>Object</code></td>
+		<td>
+			A configuration object that specifies when the tooltip will be shown and hidden. You can specify different events for different kinds of elements. Here are the default values for this property:
+
+<pii:code>
+events: {
+	def: 	 "mouseover,mouseout",
+	input: 	"focus,blur",
+	widget:	"focus mouseover,blur mouseout",
+	tooltip:		"mouseover,mouseout"
+}
+</pii:code>
+
+			<p>
+				You can read more about this topic in the <a href="#events">event management</a> chapter.
+			</p>
+
+		</td>
+	</tr>
+
+	<tr>
+		<td class="code">lazy</td>
+		<td><code>undefined</code></td>
+		<td>
+			<strong>Since 1.1.0.</strong> Waits to perform the tooltip initialization until the tooltip is first being used. If you have many tooltip elements on the page, this will make your page load faster. By default this is enabled if you have more than 20 tooltips on the page. You can explicitly enable or disable this feature by setting this to <samp>true</samp> or <samp>false</samp> respectively. Note: Currently this feature must be disabled when using it together with the <a href="#dynamic">dynamic</a> plugin.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">offset</td>
+		<td><code>[0, 0]</code></td>
+		<td>
+			Fine tunes the tooltip position specified with the <samp>position</samp> property. See the <a href="#positioning">positioning details</a> for more information.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">opacity</td>
+		<td><code>1</code></td>
+		<td>
+			The transparency of the tooltip. For example, 0 means invisible, 1 means no transparency (fully visible) and 0.4 means that 40% of the tooltip is shown. If your tooltip uses a CSS background image, you can set the transparency of the image if it has been saved in the PNG24 graphics format. Remember that Internet Explorer 6 does not natively support PNG transparency.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">position</td>
+		<td nowrap><code style="font-size:11px">'top center'</code></td>
+		<td>
+			Specifies the position of the tooltip. See the <a href="#positioning">positioning details</a> for more information. The old format: <samp>['top', 'center']</samp> is deprecated and will be removed in the future.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">predelay</td>
+		<td><code>0</code></td>
+		<td>
+			<strong>Since 1.1.0.</strong> Specifies the delay (in milliseconds) before the tooltip is shown. By default there is no delay.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">relative</td>
+		<td><code>false</code></td>
+		<td>
+			<strong>Since 1.1.1.</strong> by default the tooltip position is now determined relative to the document (by using the <samp>offset()</samp> method of jQuery). By enabling this property the tooltip position is determined relative to the parent element
+		</td>
+	</tr>
+	<tr>
+		<td class="code">tip</td>
+		<td><code></code></td>
+		<td>
+			<p>
+				This jQuery selector selects the tooltip element being used.  When tooltip content is fetched from the <samp>title</samp> attribute of the trigger then this property is <strong>required</strong>. If this selector returns a single tooltip element then this <em>same</em> tooltip is used for each trigger.
+			</p>
+
+			<p>
+				If this property is not given <em>or</em> this selector returns multiple elements, it is assumed that the element that is placed next to the trigger will function as the tooltip. In this case this value is used as a filter for jQuery's <a href="http://docs.jquery.com/Traversing/nextAll#expr" class="external">nextAll method</a> which will scan for a tip element after the <em>trigger element</em> and return the first one found. If the scan fails to return any element then an additional scan is made starting from the trigger's <em>parent element</em>.
+			</p>
+
+			<p>
+				 Note that if this is the only configuration variable you are using, then you can give the whole configuration as a string which is the selector for the tip element.
+			</p>
+
+		</td>
+	</tr>
+
+
+	<tr><td colspan="3" style="background-color:#efefef"></td></tr>
+
+	<tr>
+		<td class="code">onBeforeShow</td>
+		<td><code></code></td>
+		<td>
+			This callback function is triggered before the tooltip is shown. Returning <samp>false</samp> in the callback prevents the tooltip from appearing. The callback function receives one argument specifying the tooltip position to be used. This is an object with values <samp>{top: integer, left: integer}</samp>
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onShow</td>
+		<td><code></code></td>
+		<td>
+			This callback function is triggered after the tooltip is shown.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onBeforeHide</td>
+		<td><code></code></td>
+		<td>
+			This callback function is triggered before the tooltip is hidden. Returning <samp>false</samp> in the callback prevents it from hiding.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onHide</td>
+		<td><code></code></td>
+		<td>
+			This callback function is triggered when the tooltip is hidden.
+		</td>
+	</tr>
+</table>
+
+
+<a name="positioning"></a>
+<h3>Tooltip positioning</h3>
+
+<p>
+	The tooltip position is specified with two different configuration properties: <samp>position</samp> and <samp>offset</samp>. Both are JavaScript arrays with two values. The <samp>position</samp> property specifies the position in relation to the trigger element. For example, a value of <samp>'bottom center'</samp> will place the tooltip on the bottom edge of the trigger, centered horizontally. The following image illustrates the "slots" that you can use:
+</p>
+
+<div style="background:url(img/tooltip/positions.png) no-repeat -20px 0;height:340px"></div>
+
+<p>
+	The <samp>offset</samp> property fine tunes the tooltip position specified with the <samp>position</samp> property. For example, the value <samp>[10, -20]</samp> moves the tooltip position 10px downwards and 20px to the left. The first value modifies the vertical positioning from the top edge of the tooltip and the second value modifies the horizontal positioning from the left edge of the tooltip. Positive values move the tooltip downward and to the right, while negative values move the tooltip upward and to the left.
+</p>
+
+<a name="callbacks"></a>
+<h3>Using callback functions</h3>
+
+<p>
+	Inside any callback function, the <samp>this</samp> variable is a pointer to the <a href="#api">tooltip scripting API</a>. Here is an example of an <samp>onShow</samp> callback function that fades out the trigger element when the tooltip is shown:
+</p>
+
+<pii:code>
+$("label").tooltip({
+
+	// change trigger opacity slowly to 0.8
+	onShow: function() {
+		this.getTrigger().fadeTo("slow", 0.8);
+	}
+
+});
+</pii:code>
+
+<p>
+	See the <a href="using.html#callbacks">Using Callback Functions</a> section of the User's Guide for a more detailed dscription about this important topic.
+</p>
+
+<a name="events"></a>
+<h3>Event management</h3>
+
+<p>
+	jQuery Tooltip allows you to fully control <em>when</em> the tooltip will be shown or hidden. You can specify different events for different types of elements. You can control this behaviour with the <samp>events</samp> configuration variable which has following values by default.
+</p>
+
+<pii:code>
+events: {
+	def: 	 "mouseover,mouseout",				// default show/hide events for an element
+	input: 	"focus,blur",						// for all input elements
+	widget:	"focus mouseover,blur mouseout",	// select, checkbox, radio, button
+	tooltip:		"mouseover,mouseout"			// the tooltip element
+}
+</pii:code>
+
+<p>
+	This specifies opening and closing events for various types of trigger elements. <samp>def</samp> accepts a value <samp>mouseover,mouseout</samp> which means that by default the tooltip is shown when the mouse moves over the trigger and hides when the mouse moves away from the trigger. For <samp>input</samp> elements (text, textarea, password) the tooltip shows when the input is focused and hides when focus moves out of the field.
+</p>
+
+<p>
+	<samp>widget</samp> is a convenience type which means <samp>select, checkbox, radio</samp> and <samp>button</samp> elements. For them the tooltip is shown on both <samp>focus</samp> and <samp>mouseover</samp> events and hidden on both <samp>blur</samp> and <samp>mouseout</samp> events. This is just a convenience because these elements usually need same kind of tooltip behaviour.
+</p>
+
+<p>
+	<strong>since 1.1.2</strong> you can also customize the events for the tooltip element. By default the tooltip stays visible when the mouse is moved over it and it is hidden upon <samp>mouseout</samp>. If you don't want to close the tooltip upon <samp>mouseout</samp>, you can simply specify: <samp>tooltip: "mouseover"</samp>. This gives you the possibility of closing the tooltip programmatically. This has been done on the login/signup boxes on the main navigation bar of this website.
+</p>
+
+<p>
+	If you want to customize these events you can follow the example below:
+</p>
+
+<pii:code>
+$("label").tooltip({
+	events: {
+		input: 'click, blur',
+		checkbox: 'mouseover click, mouseout',
+		date: 'click, blur'
+	}
+});
+</pii:code>
+
+<p>
+	This will override the events for every <samp>input</samp> element. We have also defined customized events for <samp>checkbox</samp> field. The tool checks for the trigger element's <samp>type</samp> attribute to lookup appropriate events from the configuration.
+</p>
+
+<p>
+	The format of the value is: <samp>showEvent11 showEvent2 ... showEventN,closeEvent1 closeEvent2 ... closeEventN</samp>. You first supply all showing events separated with spaces followed by a comma (,) followed by all close events separated with spaces. A list of available events can be found <a href="http://docs.jquery.com/Events" class="external">here</a>. Look for the "Event Helpers" section.
+</p>
+
+<p>
+	Nothing stops you from adding special types for your elements just by defining a <samp>type</samp> attribute. Here we use a <samp>date</samp> type that was added to the HTML5 specification and the corresponding element on the page is defined like this:
+</p>
+
+<pii:code lang="html">
+<input type="date" name="birthDate" />
+</pii:code>
+
+<p>
+	Here is a <a href="demos/tooltip/form.html">demo</a> that shows you the various event types in action.
+</p>
+
+<a name="api"></a>
+<h2>Scripting <em>API</em></h2>
+
+<p>
+	This tool has a useful API for scripters. A lot of effort has been put into it so that you can enrich the tooltip experience. You can get a handle to the API in numerous ways as described in the <a href="using.html#api">User's Manual</a>. Here is an example of how to access the API:
+</p>
+
+<pii:code>
+/*
+	get handle to the third tooltip on the page
+	(must have been constructed before the call)
+*/
+var api = $("a.withTooltip").tooltip(2)
+
+// show the tooltip
+api.show();
+</pii:code>
+
+<p>
+	Here is a list of all API methods:
+</p>
+
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>method</th>
+			<th nowrap>return value</th>
+			<th>description / example</th>
+		</tr>
+	</thead>
+
+	<tr>
+		<td class="code">show()</td>
+		<td><code>API</code></td>
+		<td>
+			Shows the tooltip.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">hide()</td>
+		<td><code>API</code></td>
+		<td>
+			Hides the tooltip.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">isShown()</td>
+		<td><code>boolean</code></td>
+		<td>
+			Returns <samp>true</samp> if the tooltip is visible.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">getTip()</td>
+		<td><code>jQuery</code></td>
+		<td>
+			Returns the tooltip as a jQuery object.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">getTrigger()</td>
+		<td><code>jQuery</code></td>
+		<td>
+			Returns the triggering element as a jQuery object.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">getConf()</td>
+		<td><code>Object</code></td>
+		<td>
+			Returns the tooltip configuration.
+		</td>
+	</tr>
+
+	<tr>
+		<td class="code">onBeforeShow(fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Registers a new callback function that is triggered before the tooltip is shown. The callback is given as the argument. Returning <samp>false</samp> in the callback prevents the tooltip from showing. You can assign multiple <samp>onBeforeShow</samp> listeners with this command. See <a href="using.html#callbacks">using callbacks</a> for more information.
+
+			<p>
+				The first <em>argument</em> for the callback function is the <a href="/tools/using.html#event_object">Event</a> object and the second is the tooltip position to be used. This is an object with values <samp>{top: integer, left: integer}</samp>.
+			</p>
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onShow(fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Registers a new callback function that is triggered after the tooltip is shown. The callback is given as the argument. You can assign multiple <samp>onClick</samp> listeners with this command.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onBeforeHide(fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Registers a new callback function that is triggered before the tooltip is hidden. The callback is given as the argument. Returning <samp>false</samp> in the callback prevents the tooltip from hiding. You can assign multiple <samp>onBeforeHide</samp> listeners with this command.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onHide(fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Registers a new callback function that is triggered after the tooltip is hidden. The callback is given as the argument. You can assign multiple <samp>onHide</samp> listeners with this command.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">bind(names, fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Register one or more callbacks to be triggered. See <a href="using.html#callbacks">using callbacks</a> for more information.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">unbind(names)</td>
+		<td><code>API</code></td>
+		<td>
+			Removes callback functions from the tool See <a href="using.html#callbacks">using callbacks</a> for more information.
+		</td>
+	</tr>
+</table>
+
+<a name="fade"></a>
+<h2>Built-in effect: <em>fade</em></h2>
+
+<p>
+	The built-in effect "fade" has its own set of configuration options as follows:
+</p>
+
+<table class="listing">
+
+	<thead>
+		<tr>
+			<th>property</th>
+			<th>default</th>
+			<th>description</th>
+		</tr>
+	</thead>
+	<tr>
+		<td class="code">fadeInSpeed</td>
+		<td class="code">400</td>
+		<td>The fade-in speed when the tooltip is shown, in milliseconds</td>
+	</tr>
+	<tr>
+		<td class="code">fadeOutSpeed</td>
+		<td class="code">200</td>
+		<td>The fade-out speed when the tooltip is hidden, in milliseconds</td>
+	</tr>
+
+</table>
+
+
+<a name="effects"></a>
+<h2>Making custom effects</h2>
+
+<p>
+	If you want to make custom effects, you'll use the <samp>$.tools.tooltip.addEffect</samp> method. This method is "static", meaning that you don't have to have the tooltip API (or instance) already loaded. You can add effects before any tooltips are constructed.
+</p>
+
+<p>
+	This method accepts three arguments. The first argument is the effect name, the second argument is the function that performs the required functionality for showing the tooltip and the third argument is a function that hides the tooltip. You can use this method to modify existing effects or add new ones. Here is an example:
+</p>
+
+<pii:code>
+// adds an effect called "myEffect" to tooltip
+$.tools.tooltip.addEffect("myEffect",
+
+	// show function
+	function(done) {
+
+		// 'this' variable is a reference to the tooltip API
+		var conf = this.getConf(), tip = this.getTip();
+
+		// peform your effect. for example:
+		tip.css({opacity: 1, width: '+=50'});
+
+		// after you have finished you must do
+		done.call();
+	},
+
+	// hide function
+	function(done) {
+
+		// peform your effect. for example:
+		this.getTip().animate({opacity: 0, width: '-=50'}, done);
+	}
+);
+</pii:code>
+
+<p>
+	As you can see inside the functions the <samp>this</samp> variable is a pointer to the <a href="api">scripting API</a>. Which gives you access to various parts of the tooltip elements. The functions are fed with one argument which is a reference to a function that <strong>must</strong> be called after you have performed your effect. The reason for this is that many times those effects perform animations that have a certain duration. We must know when these animations are finished so that the <samp>onShow</samp> and <samp>onHide</samp> events are really called <strong>after</strong> the tooltip is completely shown or hidden.
+</p>
+
+<p>
+	Note that if you are using jQuery's <samp>animate</samp> method the "done" function can simply be given to this method as the last argument. jQuery will take care of it after the animation finishes.
+</p>
+
+<h3>The default effect</h3>
+
+<p>
+	Effects are actually quite easy to implement. Here are the functions for the default show/hide effect:
+</p>
+
+<pii:code>
+// show function
+function(done) {
+	this.getTip().show();
+	done.call();
+},
+
+// hide function
+function(done) {
+	this.getTip().hide();
+	done.call();
+}
+</pii:code>
+
+<p>
+	Look at tooltip's <a href="/js/tools/tools.${tool}-${v[tool]}.js?download=true">source code</a> for more examples of the effects. The basic idea is to use your jQuery skills together with the API methods. Here you can see a demo about the <a href="/tools/demos/tooltip/custom-effect.html">custom sliding effect</a>.
+</p>
+
+<a name="plugins"></a>
+<h2 style="border-bottom:1px solid #333;margin-top:70px">Effects and Plugins</h2>
+
+
+<%@ include file="extensions/tooltip.slide.html" %>
+
+<%@ include file="extensions/tooltip.dynamic.html" %>
+
+

@@ -1,0 +1,46 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+<p>
+	This is a great user interface technique to highlight important parts of the page while the user is doing something. Start using the following form and you can see the exposing effect.
+</p>
+
+<%@ include file="form.htm" %>
+
+<p>
+	Again, the exposing disappears when you click somewhere outside the form or press the ESC button. I personally haven't seen this kind of technique anywhere else before. So, I guess I'll get the credit for this and from now on this has to be called "exposing a form".
+</p>
+
+<h3>CSS code</h3>
+
+<p>
+	This time we use a PNG image as the mask's background. It allows us to change the background color and everything still works. Here we use the color <samp>#678</samp> and the background is positioned so that the form will be centered inside the white "halo".
+</p>
+<pii:code lang="css">${css}</pii:code>
+
+<h3>HTML code</h3>
+
+<p>
+	We use a normal form with labels and input fields. The tableless layout and visualization is done purely with CSS as you can see from <a href="form.htm">standalone page</a>'s source code.
+</p>
+
+<pii:code lang="html">${html}</pii:code>
+
+<h3>JavaScript code</h3>
+
+<p>
+	Here we expose our form when its clicked. We use a customized background color for the "mask" and you can see two callback functions in action. Those functions change the background color of the form.
+</p>
+
+
+<pii:code>${js}</pii:code>
+
+<div class="box petrol">
+	Show this demo as a <a href="form.htm">standalone page</a>
+</div>
+
+
+
+
+

@@ -1,0 +1,129 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<p>
+	Since jQuery Tools 1.1.0 it is possible to instantiate multiple accordion (or tabs) instances with a single call. Here you can see five different Tabs where the last three of them have been nested under the second Tabs instance. This whole thing has been setup with a single call as follows:
+</p>
+
+<pii:code>
+$("ul.tabs").tabs("> .pane");
+</pii:code>
+
+<br /><br />
+
+<%@ include file="multiple-tabs.htm" %>
+
+<h3>HTML coding</h3>
+
+<p>
+	Now how do we know which panes belong to which tabs? The solution is to enclose each tab/pane combination inside the same parent (or wrapper) element. Here is our setup:
+</p>
+
+<pii:code lang="html">
+<!-- wrapper element for the first Tabs/panes combination -->
+<div class="wrap">
+
+	<!-- the tabs -->
+	<ul class="tabs">
+		<li><a href="#">Tab 1</a></li>
+		<li><a href="#">Tab 2</a></li>
+		<li><a href="#">Tab 3</a></li>
+	</ul>
+
+	<!-- tab "panes" -->
+	<div class="pane">First tab content.</div>
+	<div class="pane">Second tab content</div>
+	<div class="pane">Third tab content</div>
+
+</div>
+
+<!-- wrapper element for second set of Tabs  -->
+<div class="wrap">
+
+	<!-- the tabs -->
+	<ul class="tabs">
+		...
+	</ul>
+
+	<!-- tab "panes" (containing the nested Tabs) -->
+	<div class="pane">
+		[ nested tabs/panes #1 ]
+	</div>
+	<div class="pane">
+		[ nested tabs/panes #2 ]
+	</div>
+	<div class="pane">
+		[ nested tabs/panes #3 ]
+	</div>
+
+</div>
+</pii:code>
+
+
+<p>
+	Each nested Tabs are contained within a separate <samp>div.pane</samp> which work as their wrapping element and they do not need any extra wrapper.
+</p>
+
+<p>
+	Our jQuery selector: <samp>&gt; .pane</samp> searches for panes under the wrapper element. If we had used a simple selector such as <samp>.pane</samp> the second Tabs would have selected all the panes that are under the parent <samp>div.wrap</samp>. This would have contained 12 different panes alltogether because those nested tabs are also contained by the <samp>DIV</samp> with the <samp>wrap</samp> class. This is why we need to select only the <em>direct</em> children under the wrapper with the <samp>&gt; .pane</samp> selector.
+</p>
+
+<p>
+	If you don't use nested tabs or your instantiate your nested tabs with a different pane selector then you don't need to be as careful with these selectors as in above setup. You can read more about multiple tab instances in the <a href="/tools/tabs.html#multiple">Tabs documentation</a>.
+</p>
+
+<div class="box petrol">
+	Here is a <a href="multiple-tabs.htm">standalone version</a> for above setup.
+</div>
+
+<h2>Multiple accordions</h2>
+
+<p>
+	Here are two separate accordion instances that are instantiated with a single call as follows:
+</p>
+
+<pii:code>
+$(".accordion").tabs(".pane", {tabs: 'h2', effect: 'slide'});
+</pii:code>
+
+<%@ include file="multiple-accordions.htm" %>
+
+<h3>HTML coding</h3>
+
+<p>
+This time you don't have to worry about additional parent elements since in accordion setup the Tabs and panes are already inside the same parene element. Our HTML setup is identical to the previous <a href="accordion.html">accordion setup</a> but here we use CSS class names instead of <samp>ID</samp>'s so that we can deal with multiple elements. Here is the structure for the above accordions:
+</p>
+
+<pii:code lang="html">
+<div class="accordion">
+
+	<h2>First pane</h2>
+
+	<div class="pane"> ... </div>
+
+	<h2>Second pane</h2>
+
+	<div class="pane"> ... </div>
+
+	<h2>Third pane</h2>
+
+	<div class="pane"> ... </div>
+
+</div>
+</pii:code>
+
+<h3>CSS coding</h3>
+
+<p>
+	Here we style elements with the <samp>.accordion</samp> class instead of a single <samp>#accordion</samp> element. Look at the standalone page for the full CSS declarations.
+</p>
+
+<pii:code lang="css">
+${css}
+</pii:code>
+
+<div class="box petrol">
+	Here is the <a href="multiple-accordions.htm">standalone version</a> of this demo.
+</div>
+
+

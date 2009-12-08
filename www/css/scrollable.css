@@ -1,0 +1,67 @@
+
+/* 
+	root element for the scrollable. 
+	when scrolling occurs this element stays still. 
+*/
+div.scrollable {
+	
+	/* required settings */
+	position:relative;
+	overflow:hidden;	 	
+	width: 570px;	
+	height:160px;			
+}
+
+/* 
+	root element for scrollable items. Must be absolutely positioned
+	and it should have a super large width to accomodate scrollable items.
+	it's enough that you set width and height for the root element and
+	not for this element.
+*/
+div.scrollable div.items {	
+	/* this cannot be too large */
+	width:20000em;	
+	position:absolute;
+	clear:both;		
+	
+	/* decoration */
+	margin-left:10px;
+}
+
+/* single scrollable item */
+div.scrollable div.items div {
+	float:left;
+	
+	/* background image */
+	background: #000 url(../img/scrollable/white.jpg) no-repeat 0 0;
+	
+	
+	/* text/font settings */
+	color:#999;
+	text-align:center;
+	width:178px;
+	height:86px;
+	padding:25px 0px;
+	font-size:70px;
+	margin-right: 10px;	
+	cursor:pointer;
+}
+
+
+/* mouseover state */
+div.scrollable div.items div:hover {	
+	background-position:-178px 0px;
+}
+
+/* clicked state */
+div.scrollable div.items div:active {	
+	background-position:-356px 0;
+}
+
+/* active item */
+div.scrollable div.items div.active {	
+	background-position:-534px 0;
+	cursor:default;
+}
+
+

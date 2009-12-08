@@ -1,0 +1,417 @@
+
+<%-- :mode=jsp: --%>
+<c:set var="tool" value="expose"/>
+
+<style>
+/* tweak expose on this page */
+#exposeMask {
+	background:url(/img/global/gradient_black.png) repeat-x scroll 0 -300px
+}
+</style>
+
+<h1 style="background:url(img/hero/expose.jpg) no-repeat -2px 21px">
+	jQuery Tools / Expose - Make your HTML elements stand out
+</h1>
+
+
+<h2 class="first">Demo</h2>
+
+<p>
+	Start entering text on the fields below and you'll see the exposing effect:
+</p>
+
+<%@ include file="demos/expose/form.htm" %>
+
+
+
+<h2>The story</h2>
+
+<p>
+	Expose is a JavaScript tool that exposes selected HTML elements on the page so that the surrounding elements will gradually fade out. The exposing effect was first introduced in the <a href="overlay.html">overlay</a> tool. Usually the effect is an integral part of the program and cannot be used separately. This tool takes the idea of exposing a little further. It is a separate tool that can be used as a general purpose expose utility. You can use it for overlays, forms, images, videos or Flash objects.
+</p>
+
+<p>
+	You can use CSS to tweak the look of the semi-transparent surrounding layer which we refer to as the "mask".
+</p>
+
+<%@ include file="common-features.jsf" %>
+
+<a name="usage"></a>
+<h2>Usage</h2>
+
+<p>
+	We believe that the best way to learn is through demos. The following demos are fully documented and a standalone page is provided to get expose working on your site. It's really important to <strong>study the first demo</strong> "Minimal setup for expose" because it teaches you the basics of using the library.
+</p>
+
+<ul>
+	<c:forEach items="${f:getDemo(context.toolDemos, 'expose/index.html').category.demos}" var="demo">
+		<li> <a href="demos/${demo.path}">${demo.title}</a> </li>
+	</c:forEach>
+</ul>
+
+<h3>Expose and Flowplayer demos</h3>
+
+<p>
+	These demos show how to use a video player together with the expose tool:
+</p>
+
+<ul>
+	<li> <a href="/demos/events/mouseover.html">Exposing video upon mouseover</a></li>
+	<li><a href="/demos/tools/overlay2.htm">Exposing videos</a></li>
+	<li><a href="/demos/tools/fake-fullscreen.html">Custom fullscreen action with overlay and expose</a></li>
+	<li><a href="/demos/tools/sharing-overlay.html">Email and embed features with overlay and expose</a></li>
+</ul>
+
+<a name="initialization"></a>
+<h3>Initialization</h3>
+
+<p>
+	There are many other ways of using this tool than the demos provided here. It is important to realize that you can have many exposing instances on the page simultaneously and each of them can have different configurations. You can initialize the exposing effect without any configuration variables like this:
+</p>
+
+<pii:code>
+// initialize exposing for selected elements
+var elements = $("div.to_be_exposed").expose();
+</pii:code>
+
+<p>
+	With this JavaScript one-liner you have silently configured the exposing tool with the default dark blue background color <samp>#456</samp> and now you need to call the <samp>load</samp> API method for the exposing to take effect. Here is how it happens:
+</p>
+
+<pii:code>
+// grab the exposing API (with another expose() call) and call load method
+elements.expose().load();
+</pii:code>
+
+<p>
+	Of course, you can do this with one single call like this:
+</p>
+
+<pii:code>
+// return api upon initialization and call load immediately. api is returned
+var api = $("div.to_be_exposed").expose({api: true}).load();
+</pii:code>
+
+<c:set var="description">
+	<p>
+		These graphics are being used as the mask's background image. JPG versions are smaller, but they have a fixed background color. PNG images are larger, but you can use any background color in them. Here is a <a href="demos/expose/styling.html">cool example</a> where the mask's background image has been changed.
+	</p>
+</c:set>
+
+<%@ include file="graphics.jsf" %>
+
+<style>
+#masks img {
+	width:226px;
+	border:2px solid #fff;
+	outline:1px solid #333;
+}
+</style>
+
+<div id="masks">
+	<img src="img/expose/thumb/mask_gradient.jpg" />
+
+	<img src="img/expose/thumb/mask_star.jpg"  />
+	<img src="img/expose/thumb/mask_star.png" />
+</div>
+
+
+<a name="configuration"></a>
+<h2>Configuration</h2>
+
+<p>
+	The simplest form of configuration is to simply supply the background color as a string:
+</p>
+
+<pii:code>
+// a custom background color.
+$("div.to_be_exposed").expose("#987ccc");
+</pii:code>
+
+<p>
+	You can also supply the configuration as an object with many configuration variables. Here is the generic method of using expose:
+</p>
+
+<pii:code>
+// selects one or more elements to be exposed
+$("JQUERY SELECTOR").expose({
+	/* expose configuration goes here */
+
+	// one configuration property
+	color: '#ccc',
+
+	// another property
+	opacity: 0.7,
+
+	// ... the rest of the configuration properties
+});
+</pii:code>
+
+
+<p>
+	You select one or more elements to be exposed with the <a href="http://docs.jquery.com/Selectors" class="external">jQuery selector</a>. By default, the return value is a jQuery object associated with the selection. Here is a a full list of available configuration options:
+</p>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>property</th>
+			<th>default</th>
+			<th>description</th>
+		</tr>
+	</thead>
+
+	<tr>
+		<td class="code">color</td>
+		<td><code>'#456'</code></td>
+		<td>
+			The background color of the mask. This will dramatically affect how it appears. If you supply a value of <samp>null</samp> here, you can control the background color with CSS. See the <samp>maskId</samp> property below for more information.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">opacity</td>
+		<td><code>0.8</code></td>
+		<td>
+			The transparency setting of the mask. A decimal value from 0 to 1. A bigger value means less transparency while a value of 0 is fully transparent (invisible).
+		</td>
+	</tr>
+	<tr>
+		<td class="code">loadSpeed</td>
+		<td><code>'slow'</code></td>
+		<td>
+			How fast the mask will appear. Possible values are 'slow', 'normal' and 'fast or you can supply this in milliseconds. For example, a value of 2000 will cause the the mask to appear in 2 seconds. By setting this to zero there is no animation and the mask appears immediately.
+		</td>
+	</tr>
+
+	<tr>
+		<td class="code">closeSpeed</td>
+		<td><code>'fast'</code></td>
+		<td>
+			How fast the mask disappears. Possible values are 'slow', 'normal' and 'fast or you can supply this in milliseconds. For example, a value of 2000 will cause the the mask to disappear in 2 seconds. by setting this to zero there is no animation and the mask disappears immediately.
+		</td>
+	</tr>
+
+	<tr><td colspan="3" style="background-color:#efefef"></td></tr>
+
+	<tr>
+		<td class="code">maskId</td>
+		<td><code>'exposeMask'</code></td>
+		<td>
+			The mask is a normal <samp>DIV</samp> element placed at the bottom of your page whose size is automatically adjusted to cover the user's screen completely. You can style it normally with CSS just like any other element on the page. By default, the mask's <samp>id</samp> is set to <samp>exposeMask</samp>, but you can change this with the configuration option.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">closeOnClick</td>
+		<td><code>true</code></td>
+		<td>
+			Specifies whether the exposing disappears when the mask is clicked. By default, this is set to <samp>true</samp>.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">closeOnEsc</td>
+		<td><code>true</code></td>
+		<td>
+			Specifies whether exposing disappears when the <samp>ESC</samp> key is pressed from the keyboard. By default, this is set to <samp>true</samp>.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">zIndex</td>
+		<td><code>9998</code></td>
+		<td>
+			This is the z-index CSS property for the mask. The <samp>zIndex</samp> specifies the placement of the element along the z-axis of the document. The default <samp>zIndex</samp> value is very high, so it is unlikely that you will need to alter it;
+			however, this value must be greater than the z-index of any other element on the page so that the overlay will always be visible when called.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">api</td>
+		<td><code>false</code></td>
+		<td>
+		When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp>, the return value is the <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="/tools/using.html#api">accessing the tool API</a> for more information.
+		</td>
+	</tr>
+
+
+	<tr><td colspan="3" style="background-color:#efefef"><a name="callbacks"></a></td></tr>
+
+	<tr>
+		<td class="code">onBeforeLoad</td>
+		<td><code></code></td>
+		<td>
+			This callback function is triggered before the exposing effect. Returning <samp>false</samp> or calling <samp>event.preventDefault</samp> in the callback prevents exposing from occurring.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onLoad</td>
+		<td><code></code></td>
+		<td>
+			This callback function is triggered after exposing takes place.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onBeforeClose</td>
+		<td><code></code></td>
+		<td>
+			This callback function is triggered before exposing is closed. Returning <samp>false</samp> or calling <samp>event.preventDefault</samp> in the callback prevents it from closing.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onClose</td>
+		<td><code></code></td>
+		<td>
+			This callback function is triggered when expose is closed.
+		</td>
+	</tr>
+</table>
+
+
+<a name="callbacks"></a>
+<h3>Using callback functions</h3>
+
+<p>
+	Here is an example of an <samp>onBeforeLoad</samp> callback function. Inside any callback function the <samp>this</samp> variable is a pointer to the <a href="#api">expose scripting API</a>.
+</p>
+
+<pii:code>
+$("#myDiv").expose({
+
+	// before exposing begins ...
+	onBeforeLoad: function(event) {
+
+		// grow the exposed elements smoothly by 100 pixels
+		this.getExposed().animate({width: '+=100'});
+	}
+});
+</pii:code>
+
+<p>
+	See the <a href="using.html#callbacks">Using Callback Functions</a> section in the User's Guide for a more detailed description about this important topic.
+</p>
+
+
+<a name="api"></a>
+<h2>Scripting <em>API</em></h2>
+
+<p>
+	This tool has a useful API for scripters. A lot of effort has been put into it and you can enrich the exposing experience with it. You can get a handle to the API in numerous ways as described in the <a href="using.html#api">Users Manual</a>. Here is an example of how to access the API:
+</p>
+
+<pii:code>
+// initialize expose and return the API
+var api = $("#myDiv").expose({api: true});
+
+// expose programmatically with this call
+api.load()
+
+// close the expose
+api.close();
+
+// register a callback function
+api.onLoad(function() {
+	// alter exposed elements upon loading
+	this.getExposed().css({backgroundColor: 'black'});
+});
+</pii:code>
+
+
+<h3>Method listing</h3>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>method</th>
+			<th nowrap>return value</th>
+			<th>description / example</th>
+		</tr>
+	</thead>
+
+	<tr>
+		<td class="code">load(event)</td>
+		<td><code>API</code></td>
+		<td>
+			Performs exposing. Only available if expose has been initialized. An optional event object can be supplied as the argument and it will be handed to the callback functions. A convenient way to pass data to the callbacks.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">close(event)</td>
+		<td><code>API</code></td>
+		<td>
+			Closes exposing. An optional event object can be supplied as the argument and it will be handed to the callback functions. A convenient way to pass data to the callbacks.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">isLoaded()</td>
+		<td><code>boolean</code></td>
+		<td>
+			Returns <samp>true</samp> if exposing is active.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">getMask()</td>
+		<td><code>jQuery</code></td>
+		<td>
+			Returns the mask as a jQuery object. You can use jQuery methods such as <samp>css</samp> or <samp>animate</samp> to modify it.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">getExposed()</td>
+		<td><code>jQuery</code></td>
+		<td>
+			Returns exposed elements as a jQuery object.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">getConf()</td>
+		<td><code>Object</code></td>
+		<td>
+			Returns the exposing configuration.
+		</td>
+	</tr>
+
+	<tr><td colspan="3" style="background-color:#efefef"></td></tr>
+
+	<tr>
+		<td class="code">onBeforeLoad(fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Registers a new callback function that is triggered before the exposing effect. Returning <samp>false</samp> or calling <samp>event.preventDefault</samp> in the callback prevents exposing from occurring. The callback is given as the argument. You can assign multiple <samp>onBeforeLoad</samp> listeners with this command.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onLoad(fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Registers a new callback function that is triggered after exposing takes effect. The callback is given as the argument. You can assign multiple <samp>onLoad</samp> listeners with this command.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onBeforeClose(fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Registers a new callback function that is triggered before exposing is closed. Returning <samp>false</samp> or calling <samp>event.preventDefault</samp> in the callback prevents it from closing. The callback is given as the argument. You can assign multiple <samp>onBeforeClose</samp> listeners with this command.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onClose(fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Registers a new callback function that is triggered when exposing is closed. The callback is given as the argument. You can assign multiple <samp>onClose</samp> listeners with this command.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">bind(names, fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Register one or more callbacks to be triggered. See <a href="using.html#callbacks">using callbacks</a> for more information.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">unbind(names)</td>
+		<td><code>API</code></td>
+		<td>
+			Removes callback functions from the tool. See <a href="using.html#callbacks">using callbacks</a> for more information.
+		</td>
+	</tr>
+
+</table>
+
+

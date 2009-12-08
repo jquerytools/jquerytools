@@ -1,0 +1,54 @@
+<%-- :mode=jsp: --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="tools" value="all" />
+<c:set var="rootId" value="scroller"/>
+<%@ include file="../../standalone.jsf" %>
+
+<style>
+#actionButtons {
+	text-align:center;
+	margin-top:30px;
+}
+</style>
+
+<!-- required CSS files -->
+<c:if test="${empty plain}">
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-horizontal.css" />
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-buttons.css" />	
+</c:if>
+
+<%@ include file="../scrollable.jsf" %>
+
+<br clear="all" />
+
+<c:set var="html">
+<div id="actionButtons">
+	<button type="button" onClick="api.play()">Play</button>
+	<button type="button" onClick="api.pause()">Pause</button>
+	<button type="button" onClick="api.stop()">Stop</button>
+</div>
+</c:set>
+
+${html}
+
+<br clear="all" />
+
+<!-- javascript coding -->
+<script>
+// What is $(document).ready ? See: http://flowplayer.org/tools/using.html#document_ready
+$(document).ready(function() {
+<c:set var="js">		
+// initialize scrollable together with the autoscroll plugin
+window.api = $("#${rootId}").scrollable().autoscroll({
+	autoplay: false,
+	api: true
+});
+</c:set>
+${js}
+
+	
+});
+</script>
+
+
+

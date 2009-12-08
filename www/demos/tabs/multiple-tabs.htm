@@ -1,0 +1,97 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<c:if test="${empty plain}">
+<!-- tab styling -->
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/tabs.css" />
+</c:if>
+
+<!-- tab pane styling -->
+<style>
+div.wrap {
+	width:700px;
+	margin-bottom:40px;
+}
+
+.wrap .pane  {	
+	background:#fff url(${cdn}/img/global/gradient/h150.png) repeat-x 0 20px;
+	display:none;		
+	padding:20px;
+	border:1px solid #999;
+	border-top:0;
+	font-size:14px;	 
+	font-size:18px;
+	color:#456;	
+	
+	_background-image:none;
+}
+
+.wrap .pane p {
+	font-size:38px;	
+	margin:-10px 0 -20px 0;	
+	text-align:right;
+	color:#578;
+}
+</style>
+
+<c:set var="html">
+<!-- the tabs -->
+<ul class="tabs">
+	<li><a href="#">Tab 1</a></li>
+	<li><a href="#">Tab 2</a></li>
+	<li><a href="#">Tab 3</a></li> 
+</ul>
+
+<!-- tab "panes" -->
+<div class="pane">First tab content.</div>
+<div class="pane">Second tab content</div>
+<div class="pane">Third tab content</div>
+</c:set>
+
+
+<div class="wrap">
+	${html}
+</div>
+
+<div class="wrap">
+
+	<!-- the tabs -->
+	<ul class="tabs">
+		<li><a href="#">Tab 1</a></li>
+		<li><a href="#">Tab 2</a></li>
+		<li><a href="#">Tab 3</a></li>
+	</ul>
+
+	<!-- tab "panes" -->
+	<div class="pane">
+		<p>#1</p>
+		${html}
+	</div>
+	 
+	<div class="pane">
+		<p>#2</p>
+		${html}
+	</div>
+	
+	<div class="pane">
+		<p>#3	</p>
+		${html}
+	</div>
+	
+</div>
+
+
+
+<!-- This JavaScript snippet activates those tabs -->
+<script>
+<c:set var="js">
+// perform JavaScript after the document is scriptable.
+$(function() {
+	$("ul.tabs").tabs("> .pane");
+});
+</c:set>
+${js}
+</script>
+
+
+

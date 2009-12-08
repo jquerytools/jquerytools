@@ -1,0 +1,49 @@
+
+<%-- :mode=jsp: --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<c:if test="${empty plain}">
+<!-- include flowplayer JavaScript file -->
+<script src="${cdn}/js/flowplayer-${v.js_core}.min.js"></script>
+</c:if>
+
+<!-- setup player container -->
+<div id="player" style="width:425px;height:300px"></div>
+
+<div id="info" class="box info">
+	You have Flash version 9.115 or above. Enjoy high quality video!
+</div>
+
+<!-- flowplayer configuration -->
+<script>
+<c:set var="js">
+// Flowplayer installation with Flashembed parameters
+flowplayer("player", {
+
+	// our Flash component
+	src: "/swf/flowplayer-${v.core}.swf",
+
+	// we need at least this version
+	version: [9, 115],
+
+	// older versions will see a custom message
+	onFail: function()  {
+		document.getElementById("info").innerHTML =
+			"You need the latest Flash version to view MP4 movies. " +
+			"Your version is " + this.getVersion()
+		;
+	}
+
+	// here is our third argument which is the Flowplayer configuration
+}, {
+	clip: "http://blip.tv/file/get/KimAronson-TwentySeconds6421.m4v"
+});
+</c:set>
+
+${js}
+</script>
+
+
+
+
+

@@ -1,0 +1,49 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %> 	
+
+<c:if test="${empty plain}">
+<!-- tab styling -->	
+<link rel="stylesheet" type="text/css" href="${cdn}/css/tabs.css"/>	
+</c:if>
+
+<!-- all panes are initially hidden -->
+<style>
+div.panes div {
+	display:none;		
+	padding:20px;
+	border:1px solid #666;
+	border-width:0 1px 1px 1px;
+	font-size:16px;
+}
+</style>
+
+<c:set var="html">
+<!-- the tabs -->
+<ul class="tabs">
+	<li><a href="#">Tab 1</a></li>
+	<li><a href="#">Tab 2</a></li>
+	<li><a href="#">Tab 3</a></li>
+</ul>
+
+<!-- tab "panes" -->
+<div class="panes">
+	<div>First tab content. Tab contents are called "panes"</div>
+	<div>Second tab content</div>
+	<div>Third tab content</div>
+</div>
+</c:set>
+
+${html}
+
+
+<!-- This JavaScript snippet activates those tabs -->
+<script>
+<c:set var="js">
+// setup ul.tabs to work as tabs for each div directly under div.panes
+$("ul.tabs").tabs("div.panes > div");
+</c:set>
+${js}
+</script>
+
+
+

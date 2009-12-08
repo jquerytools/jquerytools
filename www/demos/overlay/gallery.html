@@ -1,0 +1,95 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<p>
+	Here is the <a href="/tools/overlay.html#gallery">Gallery plugin</a> for overlay in action. Use the arrow keys to navigate through the images. This is a true example of how extendable the overlay tool is.
+</p>
+
+<%@ include file="gallery.htm" %>
+
+
+<h3>HTML setup for thumbnails</h3>
+
+<p>
+	Here are the trigger elements for overlay. The large image that is being viewed with the overlay is given in the <samp>href</samp> attribute. The <samp>title</samp> attribute will be shown in the overlay's info box. This kind of standard syntax will behave well on browsers that do not support JavaScript. The <samp>title</samp> attribute can also be seen when you move your mouse over the thumbnail and is readable by search engines.
+</p>
+
+<pii:code lang="html">
+<!-- list of thumbnails -->
+<div id="thumbs">
+
+    <a href="path/to/big-picture1.jpg" title="Image description #1">
+        <img src="path/to/thumbnail1.jpg" /></a>
+
+    <a href="path/to/big-picture2.jpg" title="Image description #2">
+        <img src="path/to/thumbnail2.jpg" /></a>
+
+    <a href="path/to/big-picture3.jpg" title="Image description #3">
+        <img src="path/to/thumbnail3.jpg" /></a>
+
+    <!-- and so on ... -->
+</div>
+</pii:code>
+
+<h3>HTML setup for the overlay</h3>
+
+<p>
+	Here is our overlay and the nested elements that are crucial for the gallery plugin:
+</p>
+
+<pii:code lang="html">
+${html}
+</pii:code>
+
+<h3>CSS coding</h3>
+
+<p>
+	Two CSS files are being used: <a href="/tools/css/overlay-basic.css">overlay-basic.css</a> for styling the overlay which already has been used in our <a href="index.html">minimal setup</a> and <a href="/tools/css/overlay-gallery.css">overlay-gallery.css</a>  for styling the gallery-specific elements inside the overlay. Here are some important snippets from the gallery CSS file:
+</p>
+
+<pii:code lang="css">
+.next, .prev {
+	/* absolute positioning relative to the overlay */
+	position:absolute;
+	top:40%;
+
+	/* upcoming CSS3 rounded border feature */
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+/* progress indicator (animated gif). should be initially hidden */
+.progress {
+	position:absolute;
+	top:45%;
+	left:50%;
+	display:none;
+}
+
+/* active thumbnail is raised on top of the mask using the z-index property */
+#thumbs a.active img {
+	outline:1px solid #000;
+	z-index:9999;
+	position:relative;
+}
+</pii:code>
+
+<h3>JavaScript setup</h3>
+
+<p>
+	We use the overlay just like before except that we now chain a <samp>gallery</samp> call after the overlay call. This gallery plugin accepts its <a href="/tools/overlay.html#gallery_configuration">own set</a> of configuration properties and here we tweak the <samp>speed</samp> parameter as an example:
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+
+<br />
+<div class="box petrol">
+	Here is the <a href="gallery.htm">standalone version</a> of this demo. You can freely study and copy its source code.
+</div>
+
+<p>
+	<a href="/tools/credits.html" id="credits">Photo credits &raquo;</a>
+</p>

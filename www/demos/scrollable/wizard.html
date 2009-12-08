@@ -1,0 +1,130 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<style>
+#wizard li {
+	margin-top:0 !important;
+	list-style-type:none !important;
+	list-style-image:none !important;
+}
+</style>
+
+<p>
+	Here is a registration wizard with primitive input validation logic and a "twitter" style message box for validation errors:
+</p>
+
+<%@ include file="wizard.htm" %>
+
+<h3>HTML coding</h3>
+
+<p>
+	The HTML structure follows the same principles as the <a href="index.html">minimal setup</a> for Scrollable with the addition of two special elements: <samp>#drawer</samp> for showing the error messages in "twitter style" and <samp>#status</samp> for displaying the page the user is currently on.
+</p>
+
+<pii:code lang="html">
+<!-- twitter style "drawer" for displaying validation errors -->
+<div id="drawer">[ERROR MESSAGE]</div>
+
+<!-- the form -->
+<form action="#">
+
+	<!-- scrollable root element -->
+	<div id="wizard">
+
+		<!-- status bar -->
+		<ul id="status">
+			<li class="active"><strong>1.</strong> Create Account</li>
+			<li><strong>2.</strong> Contact Information</li>
+			<li><strong>3.</strong> Finalize</li>
+		</ul>
+
+		<!-- scrollable items -->
+		<div class="items">
+
+			<!-- pages -->
+			<div class="page">[ Any HTML content ]</div></div>
+			<div class="page">[ Any HTML content ]</div></div>
+			<div class="page">[ Any HTML content ]</div></div>
+
+		</div>
+
+	</div>
+
+</form>
+</pii:code>
+
+<h3>CSS coding</h3>
+
+<p>
+	The CSS coding is the hardest part of this demo. Here are the most important parts taken from the <a href="/tools/css/scrollable-wizard.css">scrollable-wizard.css</a> which is used for styling the entire demo.
+</p>
+
+<pii:code lang="css">
+/* the root element for scrollable */
+#wizard {
+	overflow:hidden;
+	position:relative;
+}
+
+/* scrollable items */
+#wizard .items {
+	width:20000em;
+	clear:both;
+	position:absolute;
+}
+
+/* single scrollable item called ".page" in this setup */
+#wizard .page {
+	padding:20px 30px;
+	width:500px;
+	float:left;
+}
+
+/* validation error message bar. positioned on the top edge */
+#drawer {
+	overflow:visible;
+	position:fixed;
+	left:0;
+	top:0;
+</pii:code>
+
+<h3>Scrollable setup</h3>
+
+<p>
+	This is the easy part (again). Self explanatory.
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<h3>Input validation logic</h3>
+
+<p>
+	The wizard contains a simple validation logic that only checks that the required fields are not blank. It checks for input fields that are nested inside an <samp>li.required</samp> element and makes sure that they have a value. White space characters are not accepted. There are hundreds of different ways to implement input validation. Some rely solely on client-side validation with JavaScript and some use only server-side validation. Many times both are used simultaneously. Because of the wild world of input validation there is no full-blown solution presented here.
+</p>
+
+<p>
+	I have added lot's of comments so that you'll understand what's happening. Notice that the "drawer" logic is a very simple one-liner although the effect is very useful.
+</p>
+
+<pii:code>
+${validation}
+</pii:code>
+
+<h3>The final tweak</h3>
+
+<p>
+	We still need to make one optimization for the whole setup. If the user advances through those form fields with the TAB key we must make sure that the form page is validated before advancing to the next tab. This can be achieved with following JavaScript snippet:
+</p>
+
+<pii:code>
+${tabindex}
+</pii:code>
+
+<br />
+<div class="box petrol">
+	Here is the <a href="wizard.htm">standalone version</a> of this demo. You can freely study and copy its source code.
+</div>
+
+

@@ -1,0 +1,60 @@
+<%-- :mode=jsp: --%>
+
+<!--[if IE 6]>
+<div class="box petrol">
+	You are using Internet Explorer 6.0. Please <a href="/tools/using.html#png24">read this first</a>
+</div>
+<![endif]-->
+
+
+<%@ include file="scrollable/demo-area.htm" %>
+
+<c:forEach items="${context.toolDemos.categories}" var="cat" varStatus="i">
+
+	<div class="cat">
+		<h2>${cat.title}</h2>
+
+		<c:forEach items="${cat.demos}" var="demo">
+			<a href="${demo.path}">${demo.title}</a>
+		</c:forEach>
+	</div>
+
+	<c:if test="${i.index == 3}"><br clear="all" /></c:if>
+	
+</c:forEach>
+
+<style>
+.cat {
+	width:230px;
+	float:left;
+	margin:30px 6px 0 6px;
+}
+
+.cat a {
+	display:block;
+	text-decoration:none;
+	font-size:11px;
+	color:#999;	
+	margin:2px 0;
+}
+
+.cat a:hover {
+	color:#333;
+}
+
+.cat h2 {
+	font-size:14px;
+}
+</style>
+
+<div class="cat">
+	<h2>7. jQuery Tools and Flowplayer</h2>
+
+	<c:forEach items="${f:getDemo(context.demoArea, 'tools/overlay.html').category.demos}" var="demo">
+		<a href="/demos/${demo.path}">${demo.title}</a>
+	</c:forEach>
+</div>
+
+<script>
+$("#jqt3").addClass("active");
+</script>

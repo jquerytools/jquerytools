@@ -1,0 +1,102 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<style>
+#flowtabs li {
+	list-style-image: none !important;
+	margin:0px !important;
+}
+</style>
+
+<p>
+	This demo continues from this <a href="/tools/demos/tabs/skins.html">tabs demo</a> and makes it scrollable. Try clicking on the tabs, content area and the action buttons below the scrollable. This scrolalble uses the <samp>navigator</samp> and <samp>circular</samp> plugins.
+</p>
+
+<div style="margin-left:-5px">
+	<%@ include file="one-sized.htm" %>
+</div>
+
+<h3>HTML coding</h3>
+
+<p>
+	The trick here is to enable scrolling on the tab panes and the <a href="/tools/scrollable.html#navigator">navigator plugin</a> is enabled for the tabs. This time navigator items are not auto-generated and we make them ourselves as follows:
+</p>
+
+<pii:code lang="html">
+${html}
+</pii:code>
+
+<p>
+	Then we have the panes which have the following structure:
+</p>
+
+<pii:code lang="html">
+<!-- tab panes -->
+<div id="flowpanes">
+
+	<!-- wrapper for scrollable items -->
+	<div class="items">
+
+		<!-- the items -->
+		<div> [ any HTML here ]</div>
+		<div> [ any HTML here ]</div>
+		<div> [ any HTML here ]</div>
+		<div> [ any HTML here ]</div>
+
+	</div>
+
+</div>
+</pii:code>
+
+<p>
+	Below the panes we have our action buttons:
+</p>
+
+<pii:code lang="html">
+<!-- "Previous" action -->
+<button class="prev">&laquo; Previous</button>
+
+<!-- "Next" action -->
+<button class="next">Next &raquo;</button>
+</pii:code>
+
+<p>
+	These buttons do not need any programming and they will work on-the-fly. This is because by default the scrollable tool looks for elements whose class names are "prev" and "next".
+</p>
+
+<h3>CSS coding</h3>
+
+<p>
+	Just like the tabs demo this setup has also been styled with this <a href="/tools/css/tabs-flowplayer-v2.css">CSS file</a> and it has been overridden with the following settings to enable scrolling:
+</p>
+
+<pii:code lang="css">
+${css}
+</pii:code>
+
+<h3>JavaScript coding</h3>
+
+<p>
+	Here is the commented JavaScript setup. The circular plugin must be defined <em>before</em> the navigator plugin.
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<p>
+	Enclosing your call inside <samp>$(document).ready</samp> executes the script right after the document is scriptable. Read more about that from <a href="/tools/using.html#document_ready">User'ss Manual</a>.
+</p>
+
+<p>
+	You may also want to try this demo <em>without</em> the circular plugin. You'll notice that by clicking on the content area it will change direction when it reaches the last item. You may also want to disable the clicking feature altogether by setting the <samp>disabled</samp> configuration property to <samp>false</samp>.
+</p>
+
+<br />
+<div class="box petrol">
+	Here is the <a href="one-sized.htm">standalone version</a> of this demo. You can freely study and copy its source code.
+</div>
+
+<p>
+	<a href="/tools/credits.html" id="credits">Photo credits &raquo;</a>
+</p>

@@ -1,0 +1,31 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-horizontal.css" />
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-buttons.css" />
+
+<!-- HTML structures -->
+<c:set var="html">
+	<%@ include file="scrollable.jsf" %>
+</c:set>
+
+${html}
+
+<br clear="all" />
+
+<!-- javascript coding -->
+<c:set var="js">
+<script>
+// execute your scripts when the DOM is ready. this is a good habit
+$(function() {
+
+	// initialize scrollable
+	$("div.scrollable").scrollable();
+
+});
+</script>
+</c:set>
+
+${js}
+
+

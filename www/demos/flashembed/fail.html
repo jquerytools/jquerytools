@@ -1,0 +1,88 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+<h2><samp class="blue">1.</samp> Default behaviour</h2>
+
+<p>
+	You can supply the required Flash version in the second argument for flashembed like this:
+</p>
+
+<pii:code>
+flashembed("clock", {
+	src: "/swf/clock.swf",
+	version: [20, 0]
+});
+</pii:code>
+
+<p>
+	This time, the second argument is not just a string, it's an object with two properties: <samp>data</samp> and <samp>version</samp>. The latter property specifies the required version that is required. We used a very large number so that you can see what happens without any additional setup. The default behaviour is to write the following HTML snippet to the container if the user does not have the required version:
+</p>
+
+<pii:code lang="html">
+<div id="clock">
+	<h2>Flash version 20,0 or greater is required</h2>
+	<h3>Your version is 9,31</h3>
+	<p>
+		Download the latest version from
+		<a href="http://www.adobe.com/go/getflashplayer">here</a>
+	</p>
+</div>
+</pii:code>
+
+<p>
+	And you can style this content any way you want with CSS. Here is how it could possibly look:
+</p>
+
+<%@ include file="fail1.htm" %>
+
+<p>
+	Show this demo as a <a href="fail1.htm">standalone page</a>
+</p>
+
+<a name="default_content" />
+<h2><samp class="blue">2.</samp> Default content in the container</h2>
+
+<p>
+	If you are not happy with the default error message, you can supply your own error message simply by placing some HTML inside the container. Here is one example message:
+</p>
+
+<%@ include file="fail2.htm" %>
+
+<p>
+	And here is the corresponding HTML code:
+</p>
+
+<pii:code lang="html">
+${html}
+</pii:code>
+
+<p>
+	Show this demo as a <a href="fail2.htm">standalone page</a>
+</p>
+
+<h2><samp class="blue">3.</samp> Express Install and the custom onFail function</h2>
+
+<p>
+	Here we are using Adobe's <a href="http://www.adobe.com/devnet/flashplayer/articles/express_install.html" class="external">Express Install</a> when an old Flash version is detected. Express Install is an option for seamlessly upgrading visitors to your website to the latest player using a Flash-based experience. Express Install allows you to design an in-context upgrade experience for your content so users never have to leave your site. It also lets you gracefully handle user cancellation and avoid system restarts.
+</p>
+
+<p>
+	We also use the <samp>onFail</samp> callback function here where you can do your own custom logic with JavaScript when an old version is detected. Here we write some information below the Express Install SWF file:
+</p>
+
+<%@ include file="fail3.htm" %>
+
+<h3>JavaScript coding</h3>
+
+<p>
+	Here is how the above example was configured:
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<p>
+	Show this demo as a <a href="fail3.htm">standalone page</a>
+</p>

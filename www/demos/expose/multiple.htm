@@ -1,0 +1,53 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<style>
+/* the styling of the exposed element */
+div.exposed {
+	border:1px solid #ccc;
+	background:#fff url(${cdn}/img/global/gradient/h150.png);
+	padding:30px 20px;
+	font-size:25px;
+	margin:20px auto;
+	text-align:center;
+	width:450px;
+	margin-top:15px;
+	-moz-border-radius:10px;	
+}
+</style>
+
+<!-- element to be exposed when clicked -->
+<c:set var="html">
+<div class="exposed" id="e1">
+	Exposed element #1
+</div>
+
+<div class="exposed" id="e2">
+	Exposed element #2
+</div>
+</c:set>
+
+<c:set var="buttons">
+<div style="position:relative;z-index:10000;text-align:center">
+	<button type="button" onClick="api1.load()">Load 1</button>
+	<button type="button" onClick="api1.close()">Close 1</button>
+	<button type="button" onClick="api2.load()">Load 2</button>
+	<button type="button" onClick="api2.close()">Close 2</button>
+</div>
+</c:set>
+
+${buttons}
+
+${html}
+
+<!-- javascript coding -->
+<script>
+<c:set var="js">
+// initialize first expose and make it's API available
+var api1 = $("#e1").expose({api:true, lazy:true, color: '#78c'});
+
+// second expose
+var api2 = $("#e2").expose({api:true, lazy:true, color: '#7a1'});
+</c:set>
+${js}
+</script>

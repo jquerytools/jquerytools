@@ -1,0 +1,11 @@
+
+/* tab pane styling */
+div.panes div {
+	display:none;		
+	padding:15px 10px;
+	border:1px solid #999;
+	border-top:0;
+	height:100px;
+	font-size:14px;
+	background-color:#fff;
+}

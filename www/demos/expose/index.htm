@@ -1,0 +1,42 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<style>
+/* the styling of the exposed element */
+#test {
+	border:1px solid #ccc;
+	background-color:#fff;
+	padding:50px;
+	font-size:30px;
+	margin:20px auto;
+	text-align:center;
+	width:600px;
+}
+</style>
+
+<!-- element to be exposed when clicked -->
+<c:set var="html">
+<div id="test">
+	Click on this element to expose it.
+</div>
+</c:set>
+
+${html}
+
+<!-- javascript coding -->
+<script>
+<c:set var="js">
+// execute your scripts when the DOM is ready. this is a good habit
+$(function() {
+
+	// assign a click event to the exposed element, using normal jQuery coding
+	$("#test").click(function() {
+
+		// perform exposing for the clicked element
+		$(this).expose({api: true}).load();
+
+	});
+});
+</c:set>
+${js}
+</script>

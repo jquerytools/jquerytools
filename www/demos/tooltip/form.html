@@ -1,0 +1,57 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+
+<style>
+#myform textarea {
+	height:50px;
+}
+</style>
+
+<p>
+	Here you can see a tooltip when you put your focus on any of the following form fields. You can move between fields with your keyboard (using the TAB key) or with your mouse.
+</p>
+
+<center>
+<%@ include file="form.htm" %>
+</center>
+
+<h3>HTML coding</h3>
+
+<p>
+	Here is our HTML structure. Each tooltip is specified in the <samp>title</samp> attribute of each form element:
+</p>
+
+<pii:code lang="html">
+${html}
+</pii:code>
+
+<p>
+	This form has minimal CSS styling and you can see it by loooking at the <a href="form.htm">standalone page</a>'s source code.
+</p>
+
+<h3>CSS coding</h3>
+
+<p>
+	Here is our tooltip "skin". Everything is pure CSS without any images or background images:
+</p>
+
+<pii:code lang="css">
+<%@ include file="/tools/css/tooltip-generic.css" %>
+</pii:code>
+
+<h3>JavaScript coding</h3>
+
+<p>
+	All tooltips are enabled with the following configuration. If you want to customize the events when the tooltip is shown, then you should read about <a href="/tools/tooltip.html#events">event management</a> from the tooltip documentation.
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+
+<div class="box petrol">
+	Take a look at a <a href="form.htm">standalone version</a> of this demo. View its source code to get things going on your page.
+</div>
+

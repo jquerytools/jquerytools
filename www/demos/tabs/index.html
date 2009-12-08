@@ -1,0 +1,62 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+
+<p style="margin-bottom:30px">
+	This page introduces two you the minimal setup for tabs. It's important to understand how this example works because it teaches you the theory behind tabs. Understanding this helps you to build any kind of tabs you want. Here is our example.
+</p>		
+
+<%@ include file="index.htm" %>
+
+<p style="margin-top:20px">
+	There are two terms being used: <em>tabs</em> are the elements that you click and <em>panes</em> are containers for your content that are associated with tabs.
+</p>
+
+<h3>HTML code</h3>
+
+<p>
+	You can use any HTML element for tabs and for panes. This tool is not dependent on any specific element. However it is important to keep your HTML as simple as possible and stick to the standards. Here is the HTML layout for the tabs in this demo.
+</p>
+
+<pii:code lang="html">${html}</pii:code>
+
+<h3>JavaScript code</h3>
+
+<p>
+	The role of JavaScript is to "bind tabs to panes" and enable the tabbing effect. Here is the code being used in this demo
+</p>	
+
+<pii:code>${js}</pii:code>
+
+<p>
+	First you must select the <em>root element</em> for tabs with <a href="http://docs.jquery.com/Selectors" class="external">jQuery selector</a>. All direct childrens under the root work as tabs. Then you supply another jQuery selector as the first argument to the <samp>tabs</samp> constructor which selects the panes being used. This time you don't select root element - you select all the panes directly instead. This is because you don't nessesarily have a reasonable parent element for your panes. 
+</p>
+
+<p>
+	After this JavaScript one-liner everything is pure CSS coding.
+</p>
+
+<h3>CSS Code</h3>
+
+<p>
+	CSS coding is the biggest work on making tabs. This example uses following <a href="/css/tabs.css">stylesheet for tabs</a>. The workings of the stylesheet is commented in the file. This stylesheet is not "minimal" because we wanted to use nice looking tabs on the first demo.
+</p>
+
+
+<p>
+	There are hundreds different tab designs on the net and it's up to you how your own tabs will look like. You you can either desing them from scratch or steal designs from the net or you can use our tabs as a template. These tabs are implemented using "CSS Sprite" technique. We use a single background image that you can see here.
+</p>
+
+<p style="margin:40px 0">
+	<img src="/tools/img/tabs/blue.png" />
+</p>
+
+<p>
+	You can see that it contains different width alternatives. You can adjust individual tab's width by assigning different class name for on indivifual tab: from narrowest to widest <samp>s, l</samp> and <samp>xl</samp> respectively. This technique is very good when you want to use images on your tab design and at the same time have customized mouseover and selected states.  
+</p>
+
+<div class="box petrol">
+	Show this demo as a <a href="index.htm">standalone page</a>
+</div>
+

@@ -1,0 +1,130 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<style>
+<c:set var="css">
+.modal {
+	background-color:#fff;
+	display:none;
+	width:350px;
+	padding:15px;
+	text-align:left;
+	border:2px solid #333;
+
+	opacity:0.8;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	-moz-box-shadow: 0 0 50px #ccc;
+	-webkit-box-shadow: 0 0 50px #ccc;
+}
+
+.modal h2 {
+	background:url(/img/global/info.png) 0 50% no-repeat;
+	margin:0px;
+	padding:10px 0 10px 45px;
+	border-bottom:1px solid #333;
+	font-size:20px;
+}
+</c:set>
+
+${css}
+</style>
+
+<c:set var="html">
+
+<!-- the triggers -->
+<p>
+	<button class="modalInput" rel="#yesno">Yes or no?</button>
+	<button class="modalInput" rel="#prompt">User input</button>
+</p>
+
+<!-- yes/no dialog -->
+<div class="modal" id="yesno">
+	<h2>This is a modal dialog</h2>
+
+	<p>
+		You can only interact with elements that are inside this dialog.
+		To close it click a button or use the ESC key.
+	</p>
+
+	<!-- yes/no buttons -->
+	<p>
+		<button class="close"> Yes </button>
+		<button class="close"> No </button>
+	</p>
+</div>
+
+<!-- user input dialog -->
+<div class="modal" id="prompt">
+	<h2>This is a modal dialog</h2>
+
+	<p>
+		You can only interact with elements that are inside this dialog.
+		To close it click a button or use the ESC key.
+	</p>
+
+	<!-- input form. you can press enter too -->
+	<form>
+		<input />
+		<button type="submit"> OK </button>
+		<button type="button" class="close"> Cancel </button>
+	</form>
+	<br />
+
+</div>
+</c:set>
+
+${html}
+
+
+<script>
+// What is $(document).ready ? See: http://flowplayer.org/tools/using.html#document_ready
+$(document).ready(function() {
+<c:set var="js">
+var triggers = $("button.modalInput").overlay({
+
+	// some expose tweaks suitable for modal dialogs
+	expose: {
+		color: '#333',
+		loadSpeed: 200,
+		opacity: 0.9
+	},
+
+	closeOnClick: false
+});
+</c:set>
+${js}
+
+<c:set var="yesno">
+var buttons = $("#yesno button").click(function(e) {
+	
+	// get user input
+	var yes = buttons.index(this) === 0;
+
+	// do something with the answer
+	triggers.eq(0).html("You clicked " + (yes ? "yes" : "no"));
+});
+</c:set>
+${yesno}
+
+<c:set var="prompt">
+$("#prompt form").submit(function(e) {
+
+	// close the overlay
+	triggers.eq(1).overlay().close();
+
+	// get user input
+	var input = $("input", this).val();
+
+	// do something with the answer
+	triggers.eq(1).html(input);
+
+	// do not submit the form
+	return e.preventDefault();
+});
+</c:set>
+${prompt}
+
+});
+</script>
+

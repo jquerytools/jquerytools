@@ -1,0 +1,99 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/overlay-basic.css"/>
+
+<style>
+/* some styling for triggers */
+#triggers {
+	text-align:center;
+}
+
+#triggers img {
+	cursor:pointer;
+	margin:0 5px;
+	background-color:#fff;
+	border:1px solid #ccc;
+	padding:2px;
+
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+}
+
+<c:set var="css">
+/* styling for elements inside overlay */
+.details {
+	position:absolute;
+	top:15px;
+	right:15px;
+	font-size:11px;
+	color:#fff;
+	width:150px;
+}
+
+.details h3 {
+	color:#aba;
+	font-size:15px;
+	margin:0 0 -10px 0;
+}
+</c:set>
+
+${css}
+</style>
+
+<!-- trigger elements -->
+<div id="triggers">
+	<img src="http://farm4.static.flickr.com/3651/3445879840_7ca4b491e9_m.jpg" rel="#mies1"/>
+	<img src="http://farm4.static.flickr.com/3346/3449388113_71a06b8548_m.jpg" rel="#mies2"/>
+</div>
+
+<!-- overlays -->
+<div class="simple_overlay" id="mies1">
+	<img src="http://farm4.static.flickr.com/3651/3445879840_7ca4b491e9.jpg" />
+
+	<div class="details">
+		<h3>The Barcelona Pavilion</h3>
+
+		<h4>Barcelona, Spain</h4>
+
+		<p>
+			The Barcelona Pavilion, designed by Ludwig Mies van der Rohe, was the German Pavilion for the 1929 International Exposition in Barcelona, Spain. It was an important building in the history of modern architecture.
+		</p>
+
+		<p>
+			Several critics, historians and modernists have declared it "the most beautiful building of the century"
+		</p>
+	</div>
+</div>
+
+<div class="simple_overlay" id="mies2">
+	<img src="http://farm4.static.flickr.com/3346/3449388113_71a06b8548.jpg" />
+	<div class="details">
+		<h3>The Barcelona Pavilion</h3>
+
+		<h4>Barcelona, Spain</h4>
+
+		<p>
+			Another unique feature of this building is the <em>exotic materials Mies chose to use</em>.
+		</p>
+
+		<p>
+			Plates of high-grade stone materials like veneers of Tinos verde antico marble and golden onyx as well as tinted glass of grey, green, white, in addition to translucent glass, perform exclusively as spatial dividers.
+		</p>
+	</div>
+</div>
+
+<script>
+// What is $(document).ready ? See: http://flowplayer.org/tools/using.html#document_ready
+$(document).ready(function() {
+<c:if test="${empty js}">
+<c:set var="js">
+$("img[rel]").overlay();
+</c:set>
+</c:if>
+${js}
+});
+</script>
+
+
+

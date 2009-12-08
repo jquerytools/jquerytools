@@ -1,0 +1,48 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="plugins/navigator.htm" %>
+
+<script>
+<c:set var="actions">
+
+function addItem() {
+
+	// get handle to scrollable API
+	var api = $("div.scrollable").scrollable();
+
+	// append new item using jQuery's append() method
+	api.getItemWrap().append(
+		'<img src="http://farm1.static.flickr.com/153/399232237_6928a527c1_t.jpg"/>'
+	);
+
+	// rebuild scrollable and move to the end to see what happened
+	api.reload().end();
+}
+
+
+function removeItem() {
+	// get handle to scrollable api
+	var api = $("div.scrollable").scrollable();
+
+	// move in 1 millisecond to the end to see what will happen
+	api.end(1);
+
+	// remove last item with jQuery's remove() method
+	api.getItems().filter(":last").remove();
+
+	// rebuild scrollable and go one step backward
+	api.reload().prev();
+}
+</c:set>
+
+${actions}
+</script>
+
+
+<p style="margin:15px 0 0 37px">
+	<button type="button" onclick="addItem()">add item</button>
+	<button type="button" onclick="removeItem()">remove item</button>
+</p>
+
+
+

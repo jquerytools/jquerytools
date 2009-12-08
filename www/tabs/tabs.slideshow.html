@@ -1,0 +1,202 @@
+<%-- :mode=jsp: --%>
+
+<a name="slideshow"></a>
+<h2 class="plugin">tabs.<em>slideshow</em></h2>
+
+<p>
+	The slideshow plugin provides an automatic switching between tabs. It advances to the next tab in pre-configured intervals. Here is a slideshow plugin in action:
+</p>
+
+<%@ include file="/tools/demos/tabs/slideshow.htm" %>
+
+<a name="slideshow_features"></a>
+<h3>Highlights</h3>
+
+<ul>
+	<li>
+		Easy configuration of the "previous tab" and "next tab" actions without any JavaScript. These buttons can easily be hidden when there is no next or previous tab available.
+	</li>
+	<li>
+		When you mouseover the tab elements, the automatic switching is paused.
+	</li>
+	<li>
+		By default the next slide is shown when the active pane is clicked; however, this can be changed in the configuration.
+	</li>
+</ul>
+
+<a name="slideshow_usage"></a>
+<h3>Usage</h3>
+
+<p>
+	The best way to learn is to study the <a href="/tools/demos/tabs/slideshow.html">full documentation</a> for the example above.
+	For the impatient here is the JavaScript setup:
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<a name="slideshow_configuration"></a>
+<h3>Configuration</h3>
+
+<p>
+	Here is a full list of available configuration options:
+</p>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>property</th>
+			<th>default</th>
+			<th>description</th>
+		</tr>
+	</thead>
+
+	<tr>
+		<td class="code">next</td>
+		<td><code>'.forward'</code></td>
+		<td>
+			Selector for the element to which a "next tab" action should be bound. If you instantiate multiple slideshows on the same page you need to enclose all slideshow elements (tabs/panes/next &amp; prev actions) inside a mutual wrapper element. This logic follows the <a href="#multiple">same principles</a> as creating multiple Tabs instances.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">prev</td>
+		<td><code>'.backward'</code></td>
+		<td>
+			Selector for the sibling element to which a "previous tab" action should be bound. If you instantiate multiple slideshows with the same call you need to enclose all slideshow elements (tabs/panes/next &amp; prev actions) inside a mutual wrapper element. This logic follows the <a href="#multiple">same principles</a> as creating multiple Tabs instances.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">disabledClass</td>
+		<td><code>'disabled'</code></td>
+		<td>
+			The CSS class name for disabled <samp>next</samp> and <samp>prev</samp> elements. For example, the <samp>prev</samp> element is disabled when there are no previous items to scroll to.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">autoplay</td>
+		<td><code>false</code></td>
+		<td>
+			If this property is set to <samp>true</samp> then the tabs will automatically advance to the next tab implementing an automatically "playable" slideshow. This is convenient when you have enabled the <samp>rotate</samp> property for tabs.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">autopause</td>
+		<td><code>true</code></td>
+		<td>
+			If  this property is set to <samp>true</samp>, when the next/prev tab action buttons are mouseovered then the autoplay functionality will pause.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">interval</td>
+		<td><code>3000</code></td>
+		<td>
+			The time (in milliseconds) between automatic stepping between tabs. This option is valid only when <samp>autoplay</samp> is enabled or the <samp>play()</samp> method is called.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">clickable</td>
+		<td><code>true</code></td>
+		<td>
+			When set to <samp>true</samp> then the the tabs will automatically advance to the next tab by clicking on the visible pane.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onBeforePlay</td>
+		<td></td>
+		<td>
+			This callback function is triggered before the playback starts. Returning <samp>false</samp> in the callback prevents the playback from starting.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onPlay</td>
+		<td></td>
+		<td>
+			This callback function is triggered when the playback starts.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onBeforePause</td>
+		<td></td>
+		<td>
+			This callback function is triggered before the playback pauses. Returning <samp>false</samp> in the callback prevents the playback from starting.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onPause</td>
+		<td></td>
+		<td>
+			This callback function is triggered when the playback pauses.
+		</td>
+	</tr>
+
+</table>
+
+<a name="slideshow_api"></a>
+<h3>JavaScript API</h3>
+
+<p>
+	The following methods are <strong>added</strong> to the main <a href="#api">JavaScript API</a> of the tabs and they are ready to be used after the plugin has been installed.
+</p>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>method</th>
+			<th nowrap>return value</th>
+			<th>description / example</th>
+		</tr>
+	</thead>
+
+	<tr>
+		<td class="code">play</td>
+		<td><code>API</code></td>
+		<td>
+			Begins a playable slideshow.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">pause</td>
+		<td><code>API</code></td>
+		<td>
+			Pauses the slideshow. Playback will resume when the mouse has moved away from the tabs, panes and navigational buttons.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">stop</td>
+		<td><code>API</code></td>
+		<td>
+			Stops the slideshow. This can only be resumed by calling the <samp>play()</samp> method.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onBeforePlay(fn)</td>
+		<td>API</td>
+		<td>
+			This callback function is triggered before the playback starts. Returning <samp>false</samp> in the callback prevents the playback from starting.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onPlay(fn)</td>
+		<td>API</td>
+		<td>
+			This callback function is triggered when the playback starts.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onBeforePause(fn)</td>
+		<td>API</td>
+		<td>
+			This callback function is triggered before the playback pauses. Returning <samp>false</samp> in the callback prevents the playback from starting.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onPause(fn)</td>
+		<td>API</td>
+		<td>
+			This callback function is triggered when the playback pauses.
+		</td>
+	</tr>
+</table>
+
+

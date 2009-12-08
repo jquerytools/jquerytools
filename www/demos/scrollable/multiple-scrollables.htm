@@ -1,0 +1,87 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<style>
+<c:set var="css">
+/* root element for single scroll */
+.scroll {
+	position:relative;
+	overflow:hidden;
+	width: 394px;
+	height: 266px;
+	float:left;
+}
+
+/* root element for the scroll pics */
+.scroll .pics {
+	width:20000em;
+	position:absolute;
+	clear:both;
+}
+
+/* single scroll item */
+.pics img {
+	float:left;
+	cursor:pointer;
+	width:400px;
+	margin:0px;
+}
+
+/* possible settings for the active scroll */
+.scroll.active {
+
+}
+</c:set>
+${css}
+</style>
+
+<c:set var="html">
+<!-- scroll #1 -->
+<div class="scroll">
+	<div class="pics">
+		<img src="http://farm1.static.flickr.com/114/299183878_4feac12b04.jpg" />
+		<img src="http://farm1.static.flickr.com/200/507751258_5f13e3d802.jpg" />
+		<img src="http://farm1.static.flickr.com/30/37446217_14bc95631a.jpg" />
+	</div>
+</div>
+</c:set>
+${html}
+
+<!-- scroll #4 -->
+<div class="scroll">
+	<div class="pics">
+		<img src="http://farm1.static.flickr.com/143/321464099_a7cfcb95cf.jpg" />
+		<img src="http://farm1.static.flickr.com/164/399223606_b875ddf797.jpg" />
+		<img src="http://farm4.static.flickr.com/3651/3445879840_7ca4b491e9.jpg" />
+	</div>
+</div>
+
+<!-- scroll #3 -->
+<div class="scroll">
+	<div class="pics">
+		<img src="http://farm4.static.flickr.com/3155/2636513939_cd75b704ec.jpg" />
+		<img src="http://farm1.static.flickr.com/40/122343298_22333fb8e3.jpg" />
+		<img src="http://farm4.static.flickr.com/3105/2618870872_cf22d3cdb1.jpg" />
+	</div>
+</div>
+
+<!-- scroll #4 -->
+<div class="scroll">
+	<div class="pics">
+		<img src="http://farm4.static.flickr.com/153/399232237_6928a527c1.jpg" />
+		<img src="http://farm1.static.flickr.com/50/117346182_1fded507fa.jpg" />
+		<img src="http://farm4.static.flickr.com/3629/3323896446_3b87a8bf75.jpg" />
+	</div>
+</div>
+
+<br clear="all" />
+
+<script>
+<c:set var="js">
+// enable scrolls. a simple magical one liner
+$(".scroll").scrollable({size: 1, loop: true});
+</c:set>
+
+${js}
+</script>
+

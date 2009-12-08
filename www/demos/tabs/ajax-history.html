@@ -1,0 +1,37 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<p>
+	These tabs combine the power of the history plugin and the AJAX effect. Notice that you can build your website's global navigation like this and it will also behave well on those browsers that do not support JavaScript at all!
+</p>
+
+<%@ include file="ajax-history.htm" %>
+
+<h3>HTML Coding</h3>
+
+<p>
+	We use anchor links (starting with <samp>#</samp>) on the tabs so that the history feature will work:
+</p>
+
+<pii:code lang="html">
+${html}
+</pii:code>
+
+<h3>JavaScript coding</h3>
+
+<p>
+	We use the <samp>history</samp> plugin together with the <samp>ajax</samp> effect:
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+
+<br />
+<div class="box petrol">
+	Take a look at a <a href="ajax-history.htm">standalone version</a> of this demo. View its source code to get things going on your page.
+</div>
+
+

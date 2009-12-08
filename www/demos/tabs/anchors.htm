@@ -1,0 +1,46 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<c:if test="${empty plain}">
+<!-- tab styling -->
+<link rel="stylesheet" type="text/css" href="${cdn}/css/tabs.css" />
+</c:if>
+
+<!-- tab pane styling -->
+<style>
+<%@ include file="/tools/css/tabs-panes.css" %>
+</style>
+
+<c:set var="html">
+<!-- the tabs -->
+<ul class="tabs">
+	<li><a href="#first">Tab 1</a></li>
+	<li><a href="#second">Tab 2</a></li>
+	<li><a href="#third">Tab 3</a></li>
+</ul>
+
+<!-- tab "panes" -->
+<div class="panes">
+	<div>First pane. <a href="#third">open third tab</a></div>
+	<div>Second pane. You can open other tabs with normal <a href="#first">anchor links</a></div>
+	<div>Third tab content</div>
+</div>
+</c:set>
+
+${html}
+
+
+<!-- This JavaScript snippet activates the tabs -->
+<script>
+<c:set var="js">
+// perform JavaScript after the document is scriptable.
+$(function() {
+	// setup ul.tabs to work as tabs for each div directly under div.panes
+	$("ul.tabs").tabs("div.panes > div");
+});
+</c:set>
+${js}
+</script>
+
+
+

@@ -1,0 +1,37 @@
+
+/* the overlayed element */
+div.overlayRed {
+	
+	/* growing background image */
+	background-image:url(../img/overlay/red.png);
+	
+	/* dimensions after the growing animation finishes  */
+	width:556px;
+	height:424px;		
+	
+	/* initially overlay is hidden */
+	display:none;
+	
+	/* some padding to layout nested elements nicely  */
+	padding:50px;
+	color:#fff;	
+}
+
+div.overlayRed p {
+	font-size:16px;	
+}
+
+/* 
+	image is contained on the overlay background image. 
+	the closing button is thus just a transparent container. 
+*/
+div.overlayRed div.close {
+	background:none;
+	position:absolute;
+	left:8px;
+	top:8px;
+	cursor:pointer;
+	height:35px;
+	width:35px;
+}
+

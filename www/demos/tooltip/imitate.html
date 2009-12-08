@@ -1,0 +1,56 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<p>
+	The first two images show the browser's default tooltip and the last two show the jQuery Tools tooltip. We are trying to mimic the standard browser behaviour.
+</p>
+
+<%@ include file="imitate.htm" %>
+
+<p>
+	So what is the point of all this? First of all we have a similar syntax for enabling both of the tips. Browsers without JavaScript enabled will always see the default tooltip. Secondly, the browser's tooltip is not always the best one. Here are the main benefits of the jQuery Tools tooltip which cannot be achieved with the browser's default tooltip:
+</p>
+
+<ul>
+	<li>Appearance and dimensions can be tweaked.</li>
+	<li>The tooltip can contain any HTML element.</li>
+	<li>You have a full control over the positioning.</li>
+	<li>You can move the cursor on top of the tooltip so you can use links or forms inside of them.</li>
+	<li>You can control the delay in showing or hiding the tooltip before and after your mouse moves over the trigger element.</li>
+	<li>You can change the show/hide effect.</li>
+	<li>Everything is scriptable and you can even make your own tooltip plugins.</li>
+</ul>
+
+<h3>HTML / CSS coding</h3>
+
+<p>
+	Our HTML structure is identical to the <a href="index.html">basic setup</a>. Here we have a single tooltip element and here is how it has been styled:
+</p>
+
+<pii:code lang="css">
+${css}
+</pii:code>
+
+<p>
+	Note that we are using a drop shadow for the latest browsers, i.e. the latest versions of Firefox, Safari, Konqueror and Chrome.
+</p>
+
+<h3>JavaScript coding</h3>
+
+<p>
+	A single JavaScript call initializes the tooltip. The configuration options are commented:
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<p>
+	Enclosing your call inside <samp>$(document).ready</samp> executes the script right after the document is scriptable. Read more about that in the <a href="/tools/using.html#document_ready">User's Manual</a>.
+</p>
+
+<br />
+<div class="box petrol">
+	Here is the <a href="imitate.htm">standalone version</a> of this demo. You can freely study and copy its source code.
+</div>
+

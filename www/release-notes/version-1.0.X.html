@@ -1,0 +1,137 @@
+
+<h1 id="hero">
+	<span></span>
+	Version <i>1.0.X.</i>
+	<em>Changes and fixes in <strong>1.0.1.</strong> and <strong>1.0.2.</strong></em>
+</h1>
+
+
+<h2 class="first">
+	Version 1.0.2. <em>June 11 / 2009</em> 
+</h2>
+
+<h3><strong>The power of combinations</strong></h3>
+<p>
+	jQuery Tools can be easily combined. This gives you a lot of new possibilities for experimentation and new widgets that are based on multiple tools working together. We have a new demo called <a href="/tools/demos/combine/portfolio/index.html">An artist's portfolio</a> which uses two scrollables, an overlay, tooltips and an exposing effect. It also uses one jQuery plugin that does not belong to the library. These tools can obviously be used together with other libraries and tools out there.
+</p>
+
+<h3>cdn.jquerytools.org is now <samp>gzipped</samp></h3>
+
+<p>
+	The official Tools distribution is now gzipped:
+</p>
+
+<pii:code lang="html">
+<script src="http://cdn.jquerytools.org/${v.tools}/jquery.tools.min.js"></script>
+</pii:code>
+
+<p>
+	I had a true mess with various DNS, CDN and CNAME configurations. Now I almost understand how these work. :P
+</p>
+
+<h3>Minor changes and fixes</h3>
+
+<ul>
+	<li>
+		<strong>expose</strong>: Now works with elements whose position is static (fixed), <a href="http://flowplayer.org/forum/20/20627">see forum post</a>.
+	</li>
+	<li>
+		<strong>overlay</strong>: When being used with the <samp>expose</samp> property the <samp>close</samp> action sometimes fails. This has been fixed.
+	</li>
+	<li>
+		<strong>overlay</strong>: Multiple initializations to the same overlay element (with target property) caused multiple close buttons to be created. This has been fixed.
+	</li>
+	<li>
+		<strong>scrollable</strong>: Using a zero (<samp>0</samp>) in the scrolling animation caused it to use the default speed (400ms). Now zero speed is possible (no delay between changing panes).
+	</li>
+	<li>
+		<strong>scrollable</strong>: When <samp>autoScroll</samp> was enabled and it was programmatically paused, this caused multiple timers to be created. This was spotted in <a href="http://www.flowplayer.org/forum/20/20923">this thread</a>. <samp>autoScroll is now considered a deprecated feature and it will be replaced by an "autoscroll plugin" in scrollable 1.2.
+	</li>
+
+	<li>
+		<strong>tooltip</strong>: Fixed a bug where the trigger could change when it had child elements, such as table. See this <a href="http://flowplayer.org/forum/20/20772">forum thread</a>.
+	</li>
+	<li>
+		<strong>tooltip</strong>: The tooltip now closes when the mouse leaves the tip while it's still being animated. See this <a href="http://flowplayer.org/forum/20/20635#post-20793">forum thread</a>.
+	</li>
+	<li>
+		<strong>tooltip</strong>: New built-in effect: "fade" with two configuration variables: <samp>fadeInSpeed</samp> and <samp>fadeOutSpeed</samp>.
+	</li>
+	<li>
+		<strong>tabs</strong>: Added the new method <samp>getConf()</samp> that returns the tab configuration.
+	</li>
+	<li>
+		<strong>tabs</strong>: Added a new configuration option, <samp>fadeInSpeed</samp>, that can be used together with the built-in "fade" effect. This property defines how fast the opened pane reveals itself. Suggested by "paradise" in <a href="http://www.flowplayer.org/forum/20/20976">this thread</a>.
+	</li>
+</ul>
+
+
+
+<h2>Version 1.0.1. <em>June 07 / 2009</em></h2>
+
+<h3><strong>jQuery Tools vs jQuery UI</strong></em></h3>
+
+<p>
+	The initial release was an unexpected success. Before the release, there were around 60 000 page loads / day on the Flowplayer website and two days after the release there were 270 000 page loads! On Twitter, a search for <a href="http://twitter.com/#search?q=jquery%20tools" class="external">jQuery Tools</a> will give you thousands of highly positive responses. At one point, there was a new Tools related status update occurring every two minutes. The slogan "Missing UI library for the Web" seems to be true.
+</p>
+
+<p>
+	I am glad to say that the Tools are really stable and so far only 4 bugs have been found and they have all been fixed in this release.
+</p>
+
+<h3>A major change in <em>tooltip</em></h3>
+
+<p>
+	The biggest "semantic" bug was in tooltips and I needed to change the way it was being initialized. In 1.0.0 you had to do following:
+</p>
+
+<pii:code>
+// grab tooltip elements and make them tooltips
+$("div.tooltip").tooltip()
+</pii:code>
+
+<p>
+	This did not match the philosophy behind jQuery: <strong>1.</strong> Find element(s) on the page and <strong>2.</strong> Do something to them. Because the tooltip is a behavior and not its own entity, we need to grab elements on the page and attach tooltips <strong>to</strong> them. In tooltip 1.0.1. the initialization goes like this:
+</p>
+
+<pii:code>
+// grab label elements and attach tooltips to them
+$("label").tooltip();
+</pii:code>
+
+<p>
+	Now, instead of selecting the tooltip, we are selecting the triggering element. So, if you have already using the tooltips, you'll need to change your setup a little bit. Sorry for the inconvenience. Look at the <a href="/tools/demos/tooltip/index.html">minimal setup for tooltip</a> for more details.
+</p>
+
+<h3>jQuery Tools vs jQuery UI</h3>
+
+<p>
+	The above bug was a starting point to an article that compared jQuery Tools and jQuery UI. This article became a bit flamy and more and more people (including me) started to comment on it. I recommend reading the article <strong>and the comments</strong>: <a href="http://marcgrabanski.com/article/jquery-tools-vs-jquery-ui" class="external">jQuery Tools vs jQuery UI</a>.
+</p>
+
+<p>
+	The article also criticizes the API of jQuery Tools. In response to this, I have rewritten the <a href="/tools/using.html#api">API documentation</a> which is now more clear. You can see that there is even a jQuery UI compatible way of using the Tools API which has been there from the beginning. It has now been opened to the public. Notice also that the User's Guide has a new section: <a href="/tools/using.html#other_libraries">using the Tools with other plugins and libraries</a>.
+</p>
+
+<p>
+	Now both issues in the article: the tooltip semantics and "going solo with the API" have been resolved.
+</p>
+
+<h3>Minor changes and fixes</h3>
+
+<ul>
+	<li>
+		<strong>scrollable</strong>. Fixed a bug where the Alt-left and Alt-right browser keystrokes failed to navigate backwards and forwards between pages. Now, when the Alt or Control keys are pressed, the arrow keypresses are ignored. See the details in this <a href="http://flowplayer.org/forum/20/20384">forum thread</a>.
+	</li>
+	<li>
+		<strong>overlay</strong>. The load method can now be called upon <samp>$(document).ready()</samp>. See the details in this <a href="http://flowplayer.org/forum/20/20284">forum thread</a>.
+	</li>
+	<li>
+		<strong>tooltip</strong>. tooltips now work corretcly with textareas. See details in this <a href="http://flowplayer.org/forum/20/20480">forum thread</a>.
+	</li>
+	<li>
+		<strong>tooltip</strong>. the tooltip can be positioned next to the trigger element's parent too. This is sometimes needed in forms, for example. The input is nested inside a <samp>label</samp> element and the tooltip is placed next to the label. See the details in this <a href="http://flowplayer.org/forum/20/20510">forum thread</a>.
+	</li>
+
+</ul>
+

@@ -1,0 +1,29 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+
+
+<p>
+	It is possible to place HTML elements in front of the Flash movies to prevent the Flash from showing through. This is achieved by setting the <samp>wmode</samp> property to <samp>opaque</samp>. Then the Flash object can accept placement and positioning like any other element including the the <samp>z-index</samp> CSS property. Here is an example:
+</p>
+
+<%@ include file="wmode.htm" %>
+
+<p>
+	This feature does not work on Linux and in early versions of Opera, but browser support is still quite good.
+</p>
+
+<h3>JavaScript setup</h3>
+
+<p>
+	This is our JavaScript setup:
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<p>
+	You can find a standalone version of this example <a href="wmode.htm">here</a>.
+</p>

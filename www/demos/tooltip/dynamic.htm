@@ -1,0 +1,72 @@
+<%-- :mode=jsp: --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<c:set var="tools" value="all"/>
+<c:set var="wrapId" value="dyna"/>
+
+<c:set var="js">
+$(document).ready(function() {
+
+	// initialize tooltip
+	$("#${wrapId} img[title]").tooltip({
+	
+		// use single tooltip element for all tips
+		tip: '#${wrapId}tip', 
+		
+		// tweak the position
+		offset: [10, 2],
+		
+		// use "slide" effect
+		effect: 'slide'
+		
+	// add dynamic plugin 
+	}).dynamic( {
+	
+		// customized configuration on bottom edge
+		bottom: {
+		
+			// slide downwards
+			direction: 'down',
+			
+			// bounce back when closed
+			bounce: true
+		}
+	});
+	
+});
+</c:set>
+
+<%@ include file="index.htm" %> 
+
+<style>
+<c:set var="css">
+/* override the arrow image of the tooltip */
+#${wrapId}tip.bottom {
+	background:url(${cnd}/tools/img/tooltip/black_arrow_bottom.png);	
+	padding-top:40px;
+	height:55px;
+}
+
+#${wrapId}tip.bottom {
+	background:url(${cnd}/tools/img/tooltip/black_arrow_bottom.png);
+}
+</c:set>
+${css}
+</style>
+
+<c:set var="ie6">
+<!-- use gif image for IE -->
+<!--[if lt IE 7]>
+<style>
+#${wrapId}tip {
+	background-image:url(${cnd}/tools/img/tooltip/black_arrow.gif);
+}
+
+#${wrapId}tip.bottom {
+	background:url(${cnd}/tools/img/tooltip/black_arrow_bottom.gif);
+}
+</style>
+<![endif]-->
+</c:set>
+
+${ie6}

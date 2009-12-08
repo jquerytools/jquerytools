@@ -1,0 +1,71 @@
+/* root element for scrollable */
+.vertical {  
+	
+	/* required settings */
+	position:relative;
+	overflow:hidden;	
+
+	/* vertical scrollers have typically larger height than width */	
+	height: 665px;	 
+	width: 700px;
+	border-top:1px solid #ddd;	
+}
+
+/* root element for scrollable items */
+.items {	
+	position:absolute;
+	
+	/* this time we have very large space for height */	
+	height:20000em;	
+	margin: 0px;
+}
+
+/* single scrollable item */
+.items div {
+	border-bottom:1px solid #ddd;
+	margin:10px 0;
+	padding:15px;
+	font-size:12px;
+	height:180px;
+}
+
+/* elements inside single item */
+.items img {
+	float:left;
+	margin-right:20px;
+	height:180px;
+	width:240px;
+}
+
+.items h3 {
+	margin:0 0 5px 0;
+	font-size:16px;
+	color:#456;
+	font-weight:normal;
+}
+
+/* the action buttons above the scrollable */
+#actions {
+	width:700px;
+	margin:30px 0 10px 0;	
+}
+
+#actions a {
+	font-size:11px;		
+	cursor:pointer;
+	color:#666;
+}
+
+#actions a:hover {
+	text-decoration:underline;
+	color:#000;
+}
+
+.disabled {
+	visibility:hidden;		
+}
+
+.nextPage {
+	float:right;
+}	
+

@@ -1,0 +1,137 @@
+
+<h1>
+	jquery.scrollable <strong>1.0.0</strong>
+	<em>release notes</em>
+</h1>
+
+<div id="breadcrumb">
+	<a href="scrollable.html">&laquo; scrollable ${v.scrollable}</a>
+</div>
+
+<h2>New Features</h2>
+
+<p>
+	This is a major upgrade. A version number went from 0.13 to an "official" 1.0.0. Here are the new features.
+</p>
+
+
+<ul>
+	<li>now it's possible to add/remove items from scrollable using standard jQuery methods. <a href="demos/scrollable/edit.html">see demo</a></li>
+	<li>automatic action generation for "next page" and "prev page". <a href="demos/scrollable/navigation.html#pagescroll">see demo</a> </li>
+	<li>interval option to automatically step through elements in specified intervals. <a href="demos/scrollable/autoscroll.html">see demo</a>  </li>
+	<li>next/prev links can now be hidden (or styled) when they are not active using <samp>disabledClass</samp> configuration option </li>
+	<li><samp>hoverClass</samp> for styling elements upon mouseover event</li>
+	<li>new event handler <samp>onBeforeSeek</samp> which is triggered before seeking occurs. returning false here cancels seeking</li>
+	<li>a whole new <a href="scrollable.html#api">API</a> for interacting with scrollable. </li>
+	<li><samp>getConf()</samp> method that you can read <em>and modify</em> for making the tool behave differently at runtime</li>
+	<li><samp>easing</samp> configuration option for changing how scrolling animation behaves. two options "swing" and "linear"	</li>
+	<li>all seeking funktions in an api accept optional callback function that is triggered when seeking finished. this happens after <samp>onBeforeSeek</samp> and before <samp>onSeek</samp> events.</li>
+	<li><samp>keyboard</samp> option to enable/disable navigation with arrow keys</li>
+	<li>error handling on callback functions</li>
+	<li><samp>alert</samp> configuration option to enable/disable alert boxes when you have erroneous code in your callbacks</li>
+	<li>removed the auto generated wrapper element <samp>DIV.__scrollable</samp> so that there are no undocumented surprises</li>
+	<li>better code structure (public methods, private members, source code is easy to understand)</li>
+</ul>
+
+<h2>Bug fixes</h2>
+
+<ul>
+	<li>scrollable now works when there are less or equal to two items </li>
+	<li>made opera mousewheel work</li>
+	<li>click on the next to last item now works</li>
+</ul>
+
+
+<h2>Changes</h2>
+
+<p>
+	This version is not backward compatible so you are using older version you will have to change your HTML/CSS and JavaScript codes. Here is a list of changes that may break your old setup.
+</p>
+
+<h3>New HTML layout</h3>
+
+<p>
+	This version of scrollable requires that you have two nested wrapper elements for scrollable items as follows.
+</p>
+
+<pii:code lang="html">
+
+<!-- root element for scrollable. class name is optional but useful -->
+<div class="scrollable">
+
+	<!-- root element for entries. again class name is optional -->
+	<div class="entries">
+		<!-- first entry -->
+		<div></div>
+
+		<!-- second entry -->
+		<div></div>
+
+		<!-- ... -->
+	</div>
+</div>
+</pii:code>
+
+<p>
+	And those wrappers must be styled according to the rules specified in <a href="demos/scrollable/index.html">minimal setup</a> demo. Previous version did some dirty work on the background and added an extra wrapper element automatically to achieve scrolling. This was a good thing for non- programmers but bad for serious programmers who doesn't like dirty tricks they do not understand. Now everything is "open" and understandable.
+</p>
+
+<h3>Navigational elements as siblings</h3>
+
+<p>
+	Navigational elements are no longer positioned inside the root element and they are not positioned as <strong>siblings</strong>. Here is an example of the new layout
+</p>
+
+<pii:code lang="html">
+<!-- link that navigates to previous item. this is on the same level as scrollable -->
+<a class="prev"></a>
+
+<!-- root element for scrollable -->
+<div class="scrollable">
+
+	<!-- root element for entries -->
+	<div class="entries">
+		...
+	</div>
+
+</div>
+
+<!-- link that navigates to next item. same here. not placed inside scrollable -->
+<a class="next"></a>
+</pii:code>
+
+<p>
+	So those "next" and "prev" links are now beside the <samp>DIV.scrollable</samp> element and not inside it. This leads to simpler CSS coding and makes things easier to understand. The tool searches for the <em>first</em> elements beside it to act as navigators so you can have multiple scrollables on the page and things will work.
+</p>
+
+<p>
+	Same goes to navigator (the one that navigates between pages), which must also be a sibling to the scrollable. Also note that the tags that are now auto generated inside navigator are now <samp>A</samp> tags and not <samp>SPAN</samp>s. This may affect to your CSS files.
+</p>
+
+<p>
+	The 'activeClass' for navigator has moved from being attached to the active &lt;a&gt; tag to being attached to the direct children of the navigator root.
+</p>
+
+<h3>API changes</h3>
+
+<p>
+	"Unified" API support has been deprecated for a long time and it is now removed. This means that calls such as
+</p>
+
+<pii:code>
+$("div.scrollable").scrollable("next");
+</pii:code>
+
+<p>
+	Won't work and you must do
+</p>
+
+<pii:code>
+$("div.scrollable").scrollable().next();
+</pii:code>
+
+<p>
+	<samp>getStatus</samp> function is no longer supported and it is now splitted into bunch of other methods such as <samp>getIndex, getPageIndex, getSize</samp> and <samp>getPageAmount</samp>.
+</p>
+
+

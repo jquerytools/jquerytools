@@ -1,0 +1,266 @@
+
+<style>
+p.more {
+	font-weight:bold;
+	font-size:13px;
+}
+
+#promo {
+	width:721px;
+}
+
+#hero {
+	height:330px;
+	background:url(img/hero/index.jpg) 0 -17px no-repeat;
+}
+
+#toolnavi {
+	text-align:center;
+	width:721px;
+	margin-top:10px;
+}
+
+#toolnavi a {
+	color:#999;
+	font-size:12px;
+	padding:2px 7px;
+	text-decoration:none;
+}
+
+#toolnavi a.current {
+	color:#000;
+}
+
+#description {
+	height:43px;
+	padding:15px;
+	background:#123;
+	margin-bottom:20px;
+}
+
+#description p {
+	display:none;
+	color:#fff;
+	text-shadow: 0.5px 0.5px 3px #000;
+	margin:0px;
+	font-size:11px;
+}
+
+#description a {
+	background:transparent url(${cdn}/tools/img/downloadnow.png) no-repeat scroll 0 0;
+	display:block;
+	height:44px;
+	overflow:hidden;
+	text-indent:-999em;
+	width:159px;
+}
+
+#description #see {
+	background-image: url(${cdn}/tools/img/seeitinaction.png);
+	float:left;
+	margin-right:10px;
+}
+
+#description a#see:hover {
+	background-position:0 -44px ;
+}
+
+#description a#see:focus {
+	background-position:0 -88px ;
+}
+
+#release {
+	color:#666;
+	margin:-14px 25px 10px 0;
+	text-align:right;
+}
+
+#release, #release a {
+	font-size:11px;
+}
+</style>
+
+
+<div id="promo">
+
+	<div id="toolnavi">
+		<a href="index.html" class="current">intro</a>
+		<a href="tabs.html">tabs</a>
+		<a href="tooltip.html">tooltip</a>
+		<a href="overlay.html">overlay</a>
+		<a href="expose.html">expose</a>
+		<a href="scrollable.html">scrollable</a>
+		<a href="flashembed.html">flashembed</a>
+	</div>
+
+	<div id="hero"></div>
+
+	<div id="description">
+
+		<div class="col" style="width:300px">
+
+			<p style="display:block">
+				<strong>jQuery Tools</strong> is a collection of the most important user-interface components for today's websites. This single JavaScript file weighs only <span style="color:yellow">${v['tools.size']} Kb</span>
+			</p>
+
+			<p>
+				<strong>Tabs</strong> is the most popular JavaScript tool on the web. Tabs, horizontal tabs and accordions, finally done the right way.
+			</p>
+			<p>
+				Great looking <strong>tooltips</strong>. Big or small. Pluggable effects. Yet another crucial tool.
+			</p>
+			<p>
+				Visually appealing <strong>overlays</strong>. This tool is a significant part of the JavaScript/Web 2.0 landscape.
+			</p>
+			<p>
+				Make your HTML elements stand out by fading out the surrounding elements with the <strong>expose</strong> tool.
+			</p>
+			<p>
+				<strong>Scrollable</strong> is the most successfull tool in this library. It allows you to scroll your HTML in wildly different ways.
+			</p>
+			<p>
+				The role of JavaScript is rising with tremendous speed. However, Flash still has its place and you need a proper tool for embedding.
+			</p>
+
+		</div>
+
+		<div style="float:right;width:340px">
+			<a href="demos/index.html" id="see">See them in action</a>
+			<a href="download.html" id="download">Download jQuery Tools now</a>
+		</div>
+
+	</div>
+
+	<p id="release">
+		Version: ${v.tools}. <a href="/tools/release-notes/index.html">What's new?</a>
+	</p>
+
+</div>
+
+<br clear="all" />
+
+
+<div class="col50">
+
+	<h3 class="first blue">Essential tools for modern websites</h3>
+
+	<p class="more">
+		Let's face it: do you really need drag-and-drop, resizable windows or sortable lists in your web applications? Websites are not desktop applications. They are different.
+	</p>
+
+	<img src="img/essential_tools.jpg" style="float:left;margin:0 25px -10px 0" />
+
+	<p>
+		What you really need are tabs, tooltips, accordions, overlays, high usability, striking visual effects and all those "web 2.0" goodies that you have seen on your favourite websites.
+	</p>
+
+	<p>
+		This library contains six of the most useful JavaScript tools available for today's website. The beauty of this library is that all of these tools can be used together, extended, configured and styled. In the end, you can have hundreds of different widgets and new personal ways of using the library.
+	</p>
+
+	<p style="color:#bf17a2;font-weight:bold;">
+		This library is open source and dual licensed under MIT and GPL 2+ licenses.
+	</p>
+
+</div>
+
+<div class="col50 last">
+
+	<h3 class="first blue">Performance never seen before</h3>
+
+	<p class="more">
+		This library weighs ${v['tools.size']} Kb. This is possible with good programming habits, compressed files and a Content Delivery Network (CDN).
+	</p>
+
+	<img src="img/performance.jpg" style="float:left;margin-right:15px" />
+
+	<p>
+		The file size is definitely not the primary reason why this library speeds up your site. The fact that this tool is a single file makes it performance friendly. According to Yahoo experts, this is the first rule for making highly responsive websites.
+	</p>
+
+	<p>
+		Yahoo's second rule state: "Use a Content Delivery Network". Well, we will give you one for free! It has been configured with the proper expire headers and compression settings making the file load with the maximum performance possible. You can use the CDN in every possible situation, including production environments.
+	</p>
+
+</div>
+
+<br clear="all" />
+
+<div class="col50 higher">
+
+	<h3 class="first blue">For beginners</h3>
+
+	<p class="more">
+		You don't need to be a programmer to use these tools. We have lots of demos you can explore and you can copy their source code to your site and things will work.
+	</p>
+
+	<img src="/tools/img/user_basic.png" style="float:left;margin:0 25px 10px 0" />
+
+	<p>
+		Our CSS files use minimal syntax and the crucial parts have been documented. You can use them as a template for your own work.
+	</p>
+
+	<p>
+		And if you find suitable graphics you can freely use them on your site. In fact we have downloadable zip files for graphics designers that can be used as a starting point.
+	</p>
+
+	<p>
+		Each tool is used in a similar manner and by learning one tool you can easily learn the other tools. Can programming be any simpler?
+	</p>
+
+</div>
+
+<div class="col50 last higher">
+
+	<h3 class="first blue">For serious programmers</h3>
+
+	<p class="more">
+		Each tool does only what it is supposed to do and nothing else. If you want modify this default behaviour, we offer clever ways of altering and/or extending it.
+	</p>
+
+	<img src="/tools/img/user_advanced.png" style="float:left;margin:0 25px 10px 0" />
+
+	<p>
+		The API design is probably the strongest area of these tools. The design patterns are understandable. We follow the UNIX tradition of providing tools - not policy.
+	</p>
+
+	<p>
+		CSS is never mixed with code. This library takes this seriously. CSS is the ultimate tool for styling - not JavaScript.
+	</p>
+
+	<p>
+		And above all, the library is constantly maintained and updated. Expect to see new releases coming out on a regular basis. You are in good hands with jQuery Tools.
+	</p>
+
+</div>
+
+<br clear="all" />
+
+
+<script>
+$(function() {
+	var links = $("#toolnavi a");
+
+	links.click(function(e) {
+		var el = $(this);
+
+		// hero image
+		var base = el.attr("href").replace(".html", "");
+		$("#hero").fadeTo(0, 0).css("backgroundImage", "url(img/hero/" + base + ".jpg?_)").fadeTo("slow", 1);
+
+		// description
+		var i = links.index(el);
+		$("#description p").filter(":visible").slideUp().end().eq(i).slideDown();
+
+		$("#see").attr("href", i ? "demos/" + base + "/index.html" : "demos/");
+
+		// link
+		links.removeClass("current").eq(i).addClass("current");
+
+		return e.preventDefault();
+	});
+
+	$("#jqt1").addClass("active"); 
+	
+});
+</script>

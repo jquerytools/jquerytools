@@ -1,0 +1,42 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<p>
+	Here we use a history <strong>plugin</strong> to enable support for the browser's back and forward buttons. Click on the tabs and then use the history buttons (browser arrow buttons) to see it in action.
+</p>
+
+<%@ include file="history.htm" %>
+
+<h3>HTML coding</h3>
+
+<p>
+	To enable history support we must assign unique anchor labels to the tabs. Here we just use the simple labels <samp>t1</samp>, <samp>t2</samp>, <samp>t3</samp> and <samp>t4</samp>:
+</p>
+
+<pii:code lang="html">
+${html}
+
+<!-- the panes are defined normally, no need for labels -->
+<div class="panes">
+	<div> lorem ipsum ...</div>
+	<div> lorem ipsum ...</div>
+	<div> lorem ipsum ...</div>
+</div>
+</pii:code>
+
+<h3>JavaScript coding</h3>
+
+<p>
+	We setup things as usual with the additional history plugin which is simply chained after the <samp>tabs()</samp> call. You can configure multiple tabs on the same page in the same way.
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+
+<br />
+<div class="box petrol">
+	Take a look at a <a href="history.htm">standalone version</a> of this demo. View its source code to get things going on your page.
+</div>
+

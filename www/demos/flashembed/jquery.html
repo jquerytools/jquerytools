@@ -1,0 +1,69 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+<h2>Embedding multiple Flash objects</h2>
+
+<p>
+	Flashembed has support for jQuery. This means that it can work as both a standalone script and as a jQuery plugin. You can use jQuery selectors to select elements from the page and place Flash object inside them. In this example we will find three <samp>DIV</samp> elements with the class name "clock" and place a SWF-based clock inside them:
+</p>
+
+<%@ include file="jquery1.htm" %>
+
+<br clear="all"/>
+
+<h3>HTML Setup</h3>
+
+<p>
+	Our HTML setup is plain and simple:
+</p>
+
+<pii:code lang="html">
+${html}
+</pii:code>
+
+<h3>JavaScript code</h3>
+
+<p>
+	All those clocks were installed with this one jQuery call:
+</p>
+
+<pii:code lang="html">
+${js}
+</pii:code>
+
+<p>
+	Those clocks were laid side-by-side using CSS. You can find a standalone example of this <a href="jquery1.htm">here</a>.
+</p>
+
+<h2>SIFR example</h2>
+
+<p>
+	In this example, we show you how we can install multiple Flash objects with one call but each object is configured differently. We use a quite popular <a href="http://en.wikipedia.org/wiki/Sifr" class="external">SIFR</a> methodology to replace the header text with Flash to provide a smoother typographical experience. We do not encourage to use this method because today's browsers render fonts much better than they used to. However, this is a great example that shows you how to use jQuery and flashembed together.
+</p>
+
+<%@ include file="jquery2.htm" %>
+
+<h3>HTML code</h3>
+
+<p>
+	We have normal <div>H3</div> tags and they have been given the class name "sifr". Non-Flash browsers will see these headers normally, but Flash-enabled browsers will see the headers with the Flash-based text which is fully <a href="http://en.wikipedia.org/wiki/Anti-aliasing" class="external">anti-aliased</a>.
+</p>
+
+<pii:code lang="html">
+${html}
+</pii:code>
+
+<h3>JavaScript code</h3>
+
+<p>
+	The code loops through the <div>H3</div> tags and places a Flash object inside each one. Each object is configured separately with the HTML code that is provided inside the header tag.
+</p>
+
+<pii:code lang="html">
+${js}
+</pii:code>
+
+<p>
+	Additionally, there are some CSS settings to set dimensions for the <div>H3</div> tags. You can find a standalone example of this <a href="jquery2.htm">here</a>.
+</p>

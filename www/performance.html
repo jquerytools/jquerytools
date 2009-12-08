@@ -1,0 +1,156 @@
+<style>
+p.more, p.more a {
+	font-size:16px;
+	margin:20px 0;
+	letter-spacing:-1px;
+}
+</style>
+
+<h1 style="background-image:url(img/hero/performance.jpg)">
+	jQuery Tools Performance - What makes these tools so fast?
+</h1>
+
+<h2 class="first">
+	80-90% of the end-user response time is spent on the frontend. <br /><strong>Start there.</strong>
+</h2>
+
+
+<p class="higher">
+	This result has been indentified by Yahoo engineers in their famous article <a href="http://developer.yahoo.com/performance/rules.html" class="external">Best Practices for Speeding Up Your Web Site</a>. Most of front end time is tied up in downloading all the components on the page: images, stylesheets, scripts, Flash, etc. As a website developer, you should focus on this fact <strong>first</strong> rather than focusing on other areas such as backend optimization. Here are primary rules that makes your site work faster:
+</p>
+
+<blockquote>
+	<p><strong>1.</strong> Make fewer HTTP requests</p>
+	<p><strong>2.</strong> Use a Content Delivery Network (CDN)</p>
+	<p><strong>3.</strong> Add an Expires header</p>
+	<p><strong>4.</strong> GZIP components</p>
+	<p><strong>8.</strong> Minimize the JavaScript</p>
+</blockquote>
+
+<p>
+	By focusing on these areas, you can improve your website performance by roughly 70-80%. If this is hard to believe, I suggest you read the Yahoo white-paper.
+</p>
+
+<h2>jQuery Tools <em>respects all 5 rules</em></h2>
+
+<p style="margin-bottom:15px">
+	By including jQuery Tools on your pages with following statement:
+</p>
+
+<pii:code lang="html">
+<script src="http://cdn.jquerytools.org/${v.tools}/jquery.tools.min.js"></script>
+</pii:code>
+
+<p>
+	You should respect all five of the Yahoo performance rules mentioned above. We are offering this high performance content delivery network (CDN) for free. You can use it in all environments including production environments. Enjoy! If you are concerned about the file size you should <a href="download.html#combine">download a combined script</a> that contains only those tools that you really need and follow the principles that are mentioned in this document.
+</p>
+
+
+<a name="combined"></a>
+<h2><em>1.</em> Make fewer HTTP requests</h2>
+
+<p>
+	You might be familiar with following setup on the beginning of your page:
+</p>
+
+<pii:code lang="html">
+<script src="js/jquery.js"></script>
+<script src="js/tabs.js"></script>
+<script src="js/lightbox.js"></script>
+<script src="js/another-plugin.js"></script>
+...
+</pii:code>
+
+<p>
+	And immediately after that setup you have noticed that your pages are much slower and you still have more plugins to be included. What an unbearable situation. This is the biggest reason for slow pages - lots of included scripts, CSS files and images. With jquery.tools you'll end up having the following setup:
+</p>
+
+<pii:code lang="html">
+<script src="http://cdn.jquerytools.org/${v.tools}/jquery.tools.min.js"></script>
+</pii:code>
+
+<p>
+	This will include <strong>both</strong> the latest jQuery library and all the tools in a single file. Due to the fact that these tools are very generic in nature you may find yourself in a situation that you don't need a lot of other libraries on your pages. Many times you have your own site-wide JavaScript library that does all the custom stuff you need. If you are still in doubt that this is important, you should take a look at following online tests by Steve Souders:
+</p>
+
+<ul>
+	<li><a href="http://stevesouders.com/hpws/combo-none.php" class="external">Separate script files</a></li>
+	<li><a href="http://stevesouders.com/hpws/combo.php" class="external">Combined script file</a></li>
+</ul>
+
+<p>
+	The first example has five included scripts and it takes roughly 3 seconds to load and the second one has the same scripts in one combined file and it takes roughly 1 second to load - that <strong>is</strong> a noticeable improvement.
+</p>
+
+<a name="cdn"></a>
+<h2><em>2.</em> Use a CDN</h2>
+
+<p>
+	CDN stands for <em>Content Delivery Network</em> and is a collection of web servers distributed across the globe to deliver content to users more efficiently. When a user accesses a file from Europe, then it is served from a server that is located in Europe. The same with with users in the United States and Asia.
+</p>
+
+<p>
+	Our CDN service is kindly provided by <a href="http://www.netdna.com/" class="external">Net DNA</a> and you can use it freely in any situation. Enjoy! Here is their global server distribution at the moment - they are all serving these tools <em>quickly</em>:
+</p>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>location</th>
+			<th>servers</th>
+		</tr>
+	</thead>
+	<tr> <td><samp>North America</samp></td> <td>Chicago, Miami, Dallas, New York, Los Angeles, Atlanta, Seattle, WashingtonDC/Ashburn, SanJose</td> </tr>
+	<tr> <td><samp>Europe</samp></td> <td>Amsterdam, Frankfurt and London in the UK</td> </tr>
+	<tr> <td><samp>Asia</samp></td> <td>Spring 2010</td> </tr>
+</table>
+
+<p>
+	Generally, the files fetched from a CDN load 15-20% faster than without a CDN. You can prove this to yourself with this <a href="http://stevesouders.com/hpws/rule-cdn.php" class="external">live example</a>. If your website is viewed globally, we strongly recommend that you make a deal with a CDN provider. It is not a very complex procedure.
+</p>
+
+
+<h2><em>3.</em> Add an Expires header</h2>
+
+<p>
+	Adding an Expires header to your components with a date in the future makes them cacheable, reducing the load time of your pages. This won't affect performance the first time users hit your page, but on subsequent page views it could reduce response times by <strong>50% or more</strong>. So we are talking about serious improvements here. For example, in Java Servlets you'll do this with the following call:
+</p>
+
+<pii:code>
+response.setHeader("Cache-Control", "max-age=315360000");
+</pii:code>
+
+<p>
+	This will set the Expires header 10 years ahead which will do the job. The Tools under <samp>http://cdn.jquerytools.org</samp> have their Expires headers set correctly.
+</p>
+
+<h2><em>4.</em> GZIP components</h2>
+
+<p>
+	This is another huge performance saver and cuts down the file size roughly 65%. All modern browsers support gzipped files and are able to extract them before usage. There is absolutely no reason why you shouldn't compress them.
+</p>
+
+<p>
+	Approximately 90% of today's Internet traffic travels through browsers that claim to support gzip. You can test the response time improvement of gzipped components from this <a href="http://stevesouders.com/hpws/rule-gzip.php" class="external">live example</a>. The Tools under <samp>http://cdn.jquerytools.org</samp> are gzipped. Look at your web server documentation on how to enable gzipping. This is possible in every major server such as Apache, Tomcat or lighttpd.
+</p>
+
+<h2><em>8.</em> Minify JavaScript</h2>
+
+<p>
+	Minification is the practice of removing unnecessary characters from code to reduce its size thereby improving load times. When code is minified all comments are removed, as well as unneeded white space characters (space, newline, and tab). In a survey of ten top U.S. web sites, minification achieved a 21% size reduction.
+</p>
+
+
+<p class="more">
+	jQuery Tools are minified with the <a href="http://developer.yahoo.com/yui/compressor/" class="external">YUI Compressor</a>.
+</p>
+
+<p>
+	The YUI Compressor is a JavaScript minifier designed to be 100% safe and yield a higher compression-ratio than most other tools.
+</p>
+
+<p>
+	<strong>NOTE:</strong> Although <a href="http://dean.edwards.name/weblog/2007/04/packer3/" class="external">packed scripts</a> usually have smaller file sizes, they offer less performance than minified scripts. See the details of various compression schemes in this <a href="http://ejohn.org/blog/library-loading-speed/" class="external">JavaScript Library Loading Speed</a> article. For this reason, jQuery Tools are minified and not packed.
+</p>
+
+

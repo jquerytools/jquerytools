@@ -1,0 +1,57 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+
+<p>
+	Tooltip content can be any HTML not just plain text. Move your mouse over the Download button and you'll see a tooltip that contains an image, table and an link element. You can also see the <a href="/tools/tooltip.html#slide">slide effect</a> in action.
+</p>
+
+<div style="width:200px;margin:0 auto">
+	<%@ include file="any-html.htm" %>
+</div>
+
+<p>
+	You have enough time to move your cursor away from the trigger element and place it on top of the link that is contained inside the tooltip. You can also customize this delay from the <a href="/tools/tooltip.html#configuration">tooltip configuration</a>.
+</p>
+
+<h3>HTML code</h3>
+
+<p>
+	We have two things: a trigger element - which is the download button as well as the tooltip. By default, this tool assumes that the tooltip is placed right <em>after</em> the trigger element. As you can see we have a regular <samp>DIV</samp> element working as the tooltip container and it can contain <em>anything</em> as opposed to the simple <samp>title</samp> attribute in previous demo.
+</p>
+
+<pii:code lang="html">${html}</pii:code>
+
+<h3>CSS coding</h3>
+
+<p>
+	The tooltip is styled with these settings. We use a white-arrowed background image. The important thing to notice here is that you have all the power of CSS when "skinning" the tooltip. You can change the background settings, colors, borders and fonts, etc.</p>
+
+
+<pii:code lang="css">
+${css}
+</pii:code>
+
+
+<h3>JavaScript code</h3>
+
+<p>
+	We select the trigger element with the <samp>#download_now</samp> selector. If we had chosen to use a class name instead of an <samp>ID</samp>, we could select multiple triggers from the page and all of them would use the element that is positioned <em>after the trigger</em> as the tooltip.
+</p>
+
+<pii:code>${js}</pii:code>
+
+<p>
+	<strong>Note:</strong> the slide effect is not included in the standard jQuery Tools distribution. You must download a <a href="/tools/download.html#combine">custom combination</a> that includes this effect.
+</p>
+
+
+<div class="box petrol">
+	Show this demo as a <a href="any-html.htm">standalone page</a>
+</div>
+
+
+
+
+

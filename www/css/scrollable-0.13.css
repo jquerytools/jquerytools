@@ -1,0 +1,105 @@
+
+/* 
+	this file contains all styles for different scrollable 
+	implementations in Flowplayer website
+*/
+
+
+/* outmost wrapper element */
+#scrollable {
+	background-color:#efefef;
+	border:1px solid #ddd;
+	padding:10px 8px;
+	width:550px;
+	height:65px;
+}
+
+/* container for the scrollable items */
+div.items {
+	height:66px;	
+	margin-left:8px;
+	float:left;
+}
+
+/* single item */
+div.items a {
+	display:block;
+	float:left;
+	margin-right:8px;
+	width:88px;
+	height:66px;
+	background:url(../img/item.gif) 0 0 no-repeat;
+	font-size:50px;
+	color:#ccc;
+	line-height:66px;
+	text-decoration:none;
+	text-align:center;
+	cursor:pointer;
+}
+
+div.items a:hover {
+	color:#999;	
+}
+
+div.items a.active {
+	background-position:-174px 0;		
+	color:#555;
+	cursor:default;
+}
+
+
+/* next / prev buttons */
+a.prev, a.next {
+	display:block;
+	width:30px;
+	height:30px;
+	float:left;
+	background-repeat:no-repeat;	
+	margin:15px 0 0 0;
+}
+
+a.prev {
+	background:url(../img/old/button-left.gif);		
+}
+
+a.prev:hover {
+	background:url(../img/old/button-left-over.gif);		
+}
+
+a.next {
+	background:url(../img/old/button-right.gif);		
+}
+
+a.next:hover {
+	background:url(../img/old/button-right-over.gif);		
+}
+
+
+/* navigator */
+div.navi {
+	position:relative;
+	top:-30px;
+	left:310px;
+	margin-left:-50px;
+	width:50px;
+	height:0px;
+}
+
+
+/* items inside navigator */
+div.navi span {
+	width:8px;
+	height:8px;
+	float:left;
+	margin:3px;
+	background:url(../img/navigator.png) 0 0 no-repeat;     
+	cursor:pointer;
+}
+
+div.navi span:hover {
+	background-position:0 -8px;      
+}
+
+div.navi span.active {
+	background-position:0 -16px;     
+} 	

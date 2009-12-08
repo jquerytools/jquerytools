@@ -1,0 +1,106 @@
+
+<%-- :mode=jsp: --%>
+<%@ taglib uri="http://piimaa.org/taglib" prefix="pii" %>
+<%@ taglib uri="http://piimaa.org/jtags" prefix="j" %>
+
+<link rel="stylesheet" type="text/css" href="${cdn}/forum/forum.css"/>
+<style>
+#support td {
+	background-color:#efefef;
+	border-bottom:1px solid #999;
+}
+</style>
+
+<c:if test="${empty forumNames2 || param.reload}">
+
+	<pii:map var="forumNames2" scope="application">
+		20 = All tools
+		25 = Tabs
+		30 = Tooltip
+		35 = Scrollable
+		40 = Overlay
+		45 = Expose
+		50 = Flashembed
+		55 = Bug reports
+	</pii:map>
+
+	<pii:map var="forumDescriptions2" scope="application">
+		20 = Common issues for all Tools
+		25 = + slideshow and history plugins
+		30 = + dynamic plugin
+		35 = + navigator, circular, mousewheel and autoscroll plugins
+		40 = + gallery plugin and the Apple effect
+		45 =
+		50 =
+		55 = Only post here if you are 90% certain that it is not <i>your</i> bug
+	</pii:map>
+
+</c:if>
+
+<h1 id="hero" style="font-size:75px">
+	<span></span>
+	Forum
+	<em>The missing UI forum for the Web</em>
+</h1>
+
+<h2 class="first">Forum List</h2>
+
+<%-- <div class="box petrol">
+	This forum is currently being categorized. The posts from "All Tools" are being moved to a more suitable forum.
+</div> --%>
+
+<table class="listing">
+
+	<thead>
+		<tr>
+			<th style="width:30px">&nbsp;</th>
+			<th>Forum</th>
+			<th>Posts</th>
+			<th>Views</th>
+			<th>Last post</th>
+		</tr>
+	</thead>
+
+	<%-- forums --%>
+	<j:select>
+		SELECT
+			cast(forumId as char) forumId, count(*) topics, sum(views) views, max(created) lastPost
+		FROM
+			Topic
+		WHERE forumId > 19
+
+		GROUP BY forumId
+	</j:select>
+
+
+	<c:forEach items="${rows}" var="row" varStatus="i">
+		<c:if test="${!empty forumNames2[row.forumId]}">
+
+			<c:set var="newAmount" value="${f:getNewPosts(req, row.forumId)}"/>
+
+			<tr>
+				<td>
+					<span class="${newAmount > 0 ? 'unread' : 'read'}">
+						<c:if test="${newAmount > 0}">${newAmount}</c:if>
+					</span>
+				</td>
+				<td>
+					<a href="${row.forumId}">
+						${forumNames2[row.forumId]}
+						<span>${forumDescriptions2[row.forumId]}</span>
+					</a>
+				</td>
+				<td><strong>${row.topics}</strong></td>
+				<td>${row.views}</td>
+				<td>${j:elapsed(row.lastPost)}</td>
+			</tr>
+		</c:if>
+
+	</c:forEach>
+
+</table>
+
+
+<%-- reset to start from page 0 --%>
+<c:set var="page" scope="session" value="${0}"/>
+

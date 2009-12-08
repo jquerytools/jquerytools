@@ -1,0 +1,108 @@
+
+<%-- :mode=jsp: --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="tools" value="all" />
+<%@ include file="../standalone.jsf" %>
+
+<style>
+<c:set var="css">
+/* trigger button */
+#download_now {
+	background:transparent url(/img/home/download.png) no-repeat scroll 0 0;
+	display:block;
+	height:44px;
+	margin-bottom:30px;
+	overflow:hidden;
+	text-indent:-999em;
+	width:159px;
+	cursor:pointer;
+}
+
+/* mouseover state */
+#download_now:hover {
+	background-position:0 -44px ;		
+}
+
+/* clicked state */
+#download_now:focus {
+	background-position:0 -88px;
+}
+
+/* tooltip styling */
+.tooltip {
+	display:none;
+	background:url(${cdn}/tools/img/tooltip/black_arrow_big.png);
+	height:163px;
+	padding:40px 30px 10px 30px;
+	width:310px;
+	font-size:11px;
+	color:#fff;
+}
+
+/* a .label element inside tooltip */
+.tooltip .label {
+	color:yellow;
+	width:35px;
+}
+
+.tooltip a {
+	color:#ad4;
+	font-size:11px;
+	font-weight:bold;
+}
+</c:set>
+
+${css}
+
+<c:if test="${empty plain}">
+body  {
+	padding:250px 0 0 200px;
+}	
+</c:if>
+</style>
+ 
+<c:set var="html">
+<!-- trigger element. a regular workable link -->
+<a id="download_now" title="System tooltip for search engines">Download now</a>
+
+<!-- tooltip element -->
+<div class="tooltip">
+
+	<img src="${cdn}/img/title/eye.png" alt="Flying screens" 
+		style="float:left;margin:0 15px 20px 0" />
+
+	<table>
+		<tr>
+			<td class="label">File</td>
+			<td>flowplayer-${v.core}.zip</td>
+		</tr>
+		<tr>
+			<td class="label">Date</td>
+			<td>${context.latestVersion.created}</td>
+		</tr>
+		<tr>
+			<td class="label">Size</td>
+			<td>112 kB</td>
+		</tr>
+		<tr>
+			<td class="label">OS</td>
+			<td>all</td>
+		</tr>		
+	</table>
+
+	<a href="/blog/36">New features in 3.1</a>
+</div>
+</c:set>
+${html}
+
+<script>
+// What is $(document).ready ? See: http://flowplayer.org/tools/using.html#document_ready
+<c:set var="js">
+$(document).ready(function() {
+		
+	// enable tooltip for "download" element. use the "slide" effect
+	$("#download_now").tooltip({ effect: 'slide'}); 
+});
+</c:set>
+${js}
+</script>

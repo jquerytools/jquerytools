@@ -1,0 +1,57 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+<p>
+	This is the first demo that shows the built-in effect framework in action. We use an effect called <samp>ajax</samp> to load the pane contents from an external page:
+</p>
+
+<%@ include file="ajax.htm" %>
+
+<p>
+	Of course the loaded content can be any HTML, not just simple text and images as shown here. You can also place <samp>script</samp> tags in your loaded pages which can possibly initialize other jQuery Tools such as scrollables or overlays. The script tag should be placed below the HTML elements not inside the <samp>document.ready()</samp> event because that event is not fired for the pages that are loaded with AJAX.
+</p>
+
+<h3>HTML coding</h3>
+
+<p>
+	This time we have only a single pane available because we use this same pane for all AJAX requests. This pane does not have any initially content - it is loaded using AJAX.
+</p>
+
+<pii:code lang="html">
+${html}
+</pii:code>
+
+<p>
+	The above pane structure could just have been a single <samp>DIV</samp> element but our CSS file is built so that it depends on a wrapping <samp>.css-panes</samp> <samp>DIV</samp> element.
+</p>
+
+<h3>JavaScript configuration</h3>
+
+<p>
+	JavaScript configuration is easy. Just define the <samp>effect</samp> property:
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<p>
+	If you want your page to only be loaded the first time it is opened, then you should tweak your server's HTTP header settings to enable caching.
+</p>
+
+<br />
+<div class="box petrol">
+	Take a look at a <a href="ajax.htm">standalone version</a> of this demo. View its source code to get things going on your page.
+</div>
+
+<h3>Alternate configuration</h3>
+
+<p>
+	This same effect could have been achieved with a <samp>onBeforeClick</samp> callback as the second argument which will perform the required activity. This gives you the possibility to use a different effect such as "fade". You can view such a standalone demo <a href="ajax-noeffect.htm">here</a>.
+</p>
+
+
+
+
+
+

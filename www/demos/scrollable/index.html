@@ -1,0 +1,114 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+<p>
+	Here is a scrollable with 15 elements in total and 5 elements are shown at a time:
+</p>
+
+<div style="margin:20px -15px">
+<%@ include file="index.htm" %>
+</div>
+
+
+<p>
+	You can scroll through these elements by:
+</p>
+
+<ol>
+	<li>Clicking on the elements.</li>
+	<li>Clicking on the arrow buttons.</li>
+	<li>Using the left and right arrow keys from your keyboard.</li>
+</ol>
+
+<p>
+	This time we don't have any other means of scrolling because we are aiming for a minimal setup. It's important to understand how this example works because it teaches you the theory behind HTML scrolling. Understanding this helps you to build any kind of scrolling you want. We are using a very primitive look and feel for most of these demos because we are focusing only on their functionality and not their visual style. On your own pages you can use standard HTML/CSS techniques to style your scrollables.
+</p>
+
+<h3>HTML code</h3>
+
+<p>
+	This is how you lay out your scrollables. You must have a root element for the scrollable and inside that another wrapper element for the items. The items can contain anything you want including images, Flash, HTML text and forms. Here we have just simple thumbnail images from flickr.com:
+</p>
+
+<pii:code lang="html">${html}</pii:code>
+
+<h4>Next / prev buttons</h4>
+
+<p>
+	The scrollable tool looks for elements whose CSS class name is <samp>prevPage</samp> and <samp>nextPage</samp> and automatically bind's the seeking action to them. You can also assign the <samp>next</samp> and <samp>prev</samp> CSS class names that will bind an action to scroll one <em>item</em> forward (or backward), instead of a whole page. By default the page size is 5 elements but you can change that in the <a href="/tools/scrollable.html#configuration">configuration</a>. You can also specify the names of the CSS class names to avoid any clashes with your existing CSS.
+</p>
+
+
+<h3>CSS code</h3>
+
+<p>
+	Our example is using two CSS files: <a href="/tools/css/scrollable-horizontal.css">scrollable-horizontal.css</a> for basic setup for the scrollable and <a href="/tools/css/scrollable-horizontal.css">scrollable-buttons.css</a> for the next/prev action buttons.
+</p>
+
+<p>
+	Here are the mimimum CSS settings for enabling a horizontal scrollable. Except for the <samp>width</samp> property these settings don't have any impact on the appearance. You will have probably have to tweak your <samp>width</samp> property yourself to have as many items visible at once as you want. The number of visible elements must be given to scrollable in the configuration with the <samp>size</samp> property. The default setting for <samp>size</samp> is 5 so in this example we don't have to change that property.
+</p>
+
+<pii:code lang="css">
+/*
+	root element for the scrollable.
+	when scrolling occurs this element stays still.
+*/
+div.scrollable {
+
+	/* required settings */
+	position:relative;
+	overflow:hidden;
+	width: 660px;
+	height:90px;
+}
+
+/*
+	root element for scrollable items. Must be absolutely positioned
+	and it should have a extremely large width to accomodate scrollable items.
+	it's enough that you set width and height for the root element and
+	not for this element.
+*/
+div.scrollable div.items {
+	/* this cannot be too large */
+	width:20000em;
+	position:absolute;
+}
+
+/*
+	a single item. must be floated in horizontal scrolling.
+	typically, this element is the one that *you* will style
+	the most.
+*/
+div.scrollable div.items div {
+	float:left;
+}
+
+/* you may want to setup some decorations to active the item */
+div.items div.active {
+	border:1px inset #ccc;
+	background-color:#fff;
+}
+</pii:code>
+
+<p>
+	CSS coding is actually the hardest part of making scrollables and it's recommended that you have more than just a basic understanding of it.
+</p>
+
+<h3>JavaScript setup</h3>
+
+<p>
+	This is the easy part. Just select the elements from the page that will be made scrollable. This is achieved with a <a href="http://docs.jquery.com/Selectors" class="external">jQuery selector</a> followed by the <samp>scrollable</samp> constructor. This constructor accepts a configuration object as the first argument but in this minimal setup we can stick with the default settings.
+</p>
+
+<pii:code>${js}</pii:code>
+
+
+<div class="box petrol">
+	Show this demo as a <a href="index.htm">standalone page</a>
+</div>
+
+<p>
+	<a href="/tools/credits.html" id="credits">Photo credits &raquo;</a>
+</p>

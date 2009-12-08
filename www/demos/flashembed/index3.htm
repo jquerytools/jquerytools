@@ -1,0 +1,20 @@
+
+<c:if test="${empty plain}">
+<!-- include flashembed. this file is not included in the "official" jQuery tools package -->
+<script type="text/javascript" src="${cdn}/js/tools/tools.flashembed-${v.flashembed}.min.js"></script>
+</c:if>
+
+<script>
+flashembed("player", "/swf/flowplayer-${v.core}.swf", {
+	config: {
+		clip:  {
+			autoPlay: false,
+			autoBuffering: true,
+			url: 'http://e1h13.simplecdn.net/flowplayer/flowplayer.flv'
+		}
+	}
+});
+</script>
+
+<div id="player" style="width:400px;height:300px"></div>
+

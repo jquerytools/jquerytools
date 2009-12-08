@@ -1,0 +1,54 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %> 	
+
+<!-- accordion styling -->	
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/tabs-accordion-horizontal.css"/> 
+
+
+<!-- accordion root -->
+<div id="accordion">
+
+	<!-- accordion header #1 -->
+	<img src="${cdn}/img/title/streaminge.png" />
+	
+	<div style="width:200px;">
+		<h3>First pane</h3>
+		<p>
+			Consectetur adipiscing elit. Praesent bibendum eros ac nulla. Integer vel lacus ac neque viverra.
+		</p>
+	</div>
+	
+	<img src="${cdn}/img/title/flash.png" />
+	
+	<div>
+		<h3>Second pane</h3>
+		<p>
+			Cras diam. Donec dolor lacus, vestibulum at, varius in, mollis id, dolor. Aliquam erat volutpat. 
+		</p>
+	</div>
+
+	<img src="${cdn}/img/title/streaming.png" />
+	
+	<div>
+		<h3>Third pane</h3>
+		<p>
+			Non lectus lacinia egestas. Nulla hendrerit, felis quis elementum viverra, purus felis egestas magna.
+		</p>
+	</div>	
+
+</div>
+
+<!-- activate tabs with JavaScript -->
+<script>
+$(function() {
+<c:set var="js">
+$("#accordion").tabs("#accordion div", {
+	tabs: 'img', 
+	effect: 'horizontal'
+});
+</c:set>
+${js}
+});
+</script>
+

@@ -1,0 +1,114 @@
+<%-- :mode=jsp: --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="tools" value="x____x_x___"/>
+<%@ include file="../standalone.jsf" %>
+
+<style>
+<c:set var="css">
+#exposeMask {
+	/* use a custom background color and image on the mask */
+	background:#123 url(${cdn}/img/player/acme-gray.png) 50px 366px no-repeat;
+}
+</c:set>
+
+${css}
+
+/* player splash image styling */
+#player {
+	background-image:url(${cdn}/img/home/flow_eye.jpg);
+	width:425px;
+	height:300px;
+	display:block;
+	text-align:center;
+	margin:10px auto;
+}
+
+#player img {
+	margin-top:110px;
+	border:0px;
+}
+
+/* style for the player's wrapper element */
+#player_wrap {
+	background:#000 url(${cdn}/img/global/gradient/h300.png) 0 0 repeat-x;
+}
+</style>
+
+
+<!-- javascript coding -->
+<script>
+// execute your scripts when the the DOM is ready. this is a good habit
+$(function() {
+<c:set var="expose">
+/* here is the exposing part of this demo */
+var expose = $("#player").expose({
+
+	// return exposing API
+	api: true,
+
+
+	// use our customized mask
+	maskId: 'exposeMask',
+
+	// mask shows only 10% of the content through
+	opacity: 0.9,
+
+	// close expose slowly
+	closeSpeed: 'slow',
+
+	// we only want to close exposing when playback is finished
+	// (or the ESC button is pressed)
+	closeOnClick: false,
+
+	// when the mask closes, alter its background color
+	onBeforeClose: function() {
+		this.getMask().css({backgroundColor: '#b8128f'});
+		$f().pause();
+	},
+
+	// when the mask loads again, use the original background color
+	onBeforeLoad: function() {
+		this.getMask().css({backgroundColor: null});
+	}
+});
+</c:set>
+
+${expose}
+
+<c:set var="js">
+// install flowplayer.
+$f("player", "/swf/flowplayer-${v.core}.swf", {
+
+	// when playback starts, perform exposing
+	onStart: function() {
+		expose.load();
+	},
+
+	onResume: function() {
+		expose.load();
+	},
+
+	// when playback finishes, close the expose
+	onFinish: function() {
+		expose.close();
+	}
+
+});
+</c:set>
+
+${js}
+
+});
+</script>
+
+
+<!-- the player -->
+<c:set var="html">
+<div class="black box" id="player_wrap">
+	<a id="player" href="${v.promo}">
+		<img src="${cdn}/img/player/btn/play_text_large.png" alt="Show me" />
+	</a>
+</div>
+</c:set>
+
+${html}

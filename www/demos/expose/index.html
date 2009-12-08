@@ -1,0 +1,40 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+
+<p>
+	This document shows you the basics of setting up expose. You take one or more elements then call the <samp>expose</samp> method and the magic happens. Here is a demo:
+</p>
+
+<%@ include file="index.htm" %>
+
+<p>
+	The exposing disappears when you click somewhere outside the element or press the ESC button.
+</p>
+
+<h3>HTML code</h3>
+
+<p>
+	This demo uses the following simple <samp>DIV</samp> element to be exposed. It is styled with CSS.
+</p>
+
+<pii:code lang="html">${html}</pii:code>
+
+<h3>JavaScript code</h3>
+
+<p>
+	The exposing happens inside the <samp>click</samp> event. You'll get access to the clickable element with the <samp>$(this)</samp> call and the exposing is initialized with the <samp>expose()</samp> constructor. The <samp>api</samp> variable is enabled to get access to the <a href="/tools/expose.html">exposing API</a> and the <samp>load()</samp> method performs the exposing effect.
+</p>
+
+
+<pii:code>${js}</pii:code>
+
+<div class="box petrol">
+	Show this demo as a <a href="index.htm">standalone page</a>
+</div>
+
+
+
+
+

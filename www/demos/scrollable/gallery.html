@@ -1,0 +1,73 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<p>
+	This demo continues from the <a href="index.html">minimal setup</a> and adds a simple <samp>click</samp> action to the scrollable items which will open up a larger version of the thumbnail image.
+</p>
+
+<div style="margin:20px -15px">
+	<%@ include file="gallery.htm" %>
+</div>
+
+<h3>HTML coding</h3>
+
+<p>
+	The scrollable setup is identical to the <a href="index.html">minimal setup</a>. Nothing has been modified from that. Here we focus only on the elements that are required for showing the large image. First we add a container for the image above the scrollable. Here is the HTML:
+</p>
+
+<pii:code lang="html">
+${html2}
+</pii:code>
+
+<p>
+	It's good to give those initial dimensions for the image so that there is no "jumping" on the page and everything stays stable.
+</p>
+
+<h3>CSS coding</h3>
+
+<p>
+	We only add styling for the wrapper element:
+</p>
+
+<pii:code lang="css">
+${css}
+</pii:code>
+
+<h3>JavaScript setup</h3>
+
+<p>
+	We add a <samp>click</samp> handler for the scrollable items. The idea is to load a larger version of the thumbnail image and while the image is loading we apply a simple transparency effect so that the user understands that something is happening.
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<a name="alternate"></a>
+<h3>Applications</h3>
+
+<p>
+	 Our thumbnail images come directly from the www.flickr.com service and the associated large images are simply the same image URL but without a "_t" substring. You are propably not using flickr, but it's very easy to make another kind of solution. Perhaps you can supply the large image's URL to the "alt" attribute of the thumbnail and get it like this:
+</p>
+
+<pii:code>
+// in the above example replace the url assignment with this line
+var url = $(this).attr("alt");
+</pii:code>
+
+<p>
+	If you want to have more syntaxically correct pages, you might want to enclose your thumbnail images with <samp>A</samp> tags and supply the large image's url in the <samp>href</samp> attribute and maybe add some image description to the <samp>title</samp> attribute. In that case you can have the interesting opportunity to add a <a href="/tools/demos/combine/scrollable-gallery-with-tooltips.html">tooltip for scrollable items</a>.
+</p>
+
+<p>
+	It is fairly easy to change the setup so that the thumbnail images will load entire HTML pages with AJAX. This could result in some good user interfaces.
+</p>
+
+<br />
+<div class="box petrol">
+	Here is the <a href="gallery.htm">standalone version</a> of this demo. You can freely study and copy its source code.
+</div>
+
+<p>
+	<a href="/tools/credits.html" id="credits">Photo credits &raquo;</a>
+</p>

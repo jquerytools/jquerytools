@@ -1,0 +1,86 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+<style>
+#nav li {
+	list-style-image:none !important;
+}
+</style>
+
+<p>
+	This page demonstrates various ways of skinning tabs. For more background information you may want to read about <a href="http://localhost:8080/tools/using.html#graphics">graphic design and presentation</a> as it applies to jQuery Tools.
+</p>
+
+<h2>Mostly CSS based skin</h2>
+
+<p>
+	Here we have a tab setup that uses only one background image for the selected tab and a semi-transparent gradient for the background of the panes. Otherwise the whole thing is just simple CSS dimensions, borders, paddings and coloring.
+</p>
+
+<%@ include file="skin4.htm" %>
+
+<p style="margin-top:30px">
+	The above tabs use a cross-fading effect which can be accomplished with following setup:
+</p>
+
+<pii:code>
+${crossfade}
+</pii:code>
+
+<p>
+	The individual panes need to be absolutely positioned so that the cross-fading is possible. Take a look at the <a href="skin4.htm">standalone page</a> to fully understand this.
+</p>
+
+<h2>Tab skin with images</h2>
+
+<p>
+	Here we are using a single background image for the whole setup. This can be achieved with <a href="http://www.alistapart.com/articles/sprites/" class="external">CSS sprite technique</a>. By using only single image this setup loads very quickly. CSS sprites are a very important technology in modern web design.
+</p>
+
+<%@ include file="skin3.htm" %>
+
+<br clear="all" />
+
+<p>
+	Take a look at the documented <a href="/tools/css/tabs-flowplayer-v2.css">CSS file</a> being used and here you can find the <a href="skin3.htm">standalone page</a>. You may also be interested in a <a href="/tools/demos/scrollable/one-sized.html">scrollable version</a> of these tabs.
+</p>
+
+
+<h2>Tab skin without images</h2>
+
+<p>
+	These tabs are skinned without any images. We are playing solely with background colors and borders. The tab title can be anything and the width is adjusted accordingly:
+</p>
+
+<%@ include file="skin1.htm" %>
+
+<p>
+	The setup is similar to the <a href="index.html">minimal setup</a>. Take a look at the <a href="/tools/css/tabs-no-images.css">CSS file</a> and the <a href="skin1.htm">standalone page</a>.
+</p>
+<br clear="all" />
+
+<h2>A more styled example</h2>
+
+<p>
+	These tabs use the same <a href="/tools/css/tabs-no-images.css">CSS file</a> as the previous tabs with a few extra CSS declarations:
+</p>
+
+<%@ include file="skin2.htm" %>
+
+<h3>CSS overrides</h3>
+
+<p>
+	Here are the CSS settings that override the external CSS file:
+</p>
+
+<pii:code lang="css">
+${css}
+</pii:code>
+
+<p>
+	The benefit of using skins without images is that they are very flexible. You can alter the default tab look and feel with just a few extra settings, allowing you to have many different kinds of tab styling on your pages. Take a look at the <a href="skin2.htm">standalone page</a>.
+</p>
+
+
+<br clear="all" />
+

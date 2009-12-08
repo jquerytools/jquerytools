@@ -1,0 +1,170 @@
+
+<%-- programming variables --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="skin" value="${empty param.skin ? 'boxed' : param.skin}"/>
+<c:set var="tools" value="all"/>
+<c:set var="preload" value="${empty param.preload ? preload : param.preload}"/>
+<c:set var="images" value="02, 03, 04, 06, 07, 09, 11, 12, 15, 16, 17, 19, 20, 22, 23, 59"/>
+
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/standalone.jsf" %>
+
+
+<!-- include reflection plugin -->
+<script src="reflection.min.js"></script>
+
+<!-- styling -->
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/demos/combine/portfolio/${skin}-01.css"/>
+
+<!-- thumbnail scrollable -->
+<div class="navi prevPage"></div>
+
+<div id="thumbnails">
+
+	<div class="items">
+	<c:forTokens items="${images}" delims=", " var="img">
+		<div><img src="img/thumb/${img}.jpg" /></div>
+	</c:forTokens>
+	</div>
+
+</div>
+
+<div class="navi nextPage"></div>
+
+<br clear="all" />
+
+<!-- overlay -->
+<div id="box">
+
+	<!-- overlay scrollable -->
+	<div id="images">
+
+		<div class="items">
+
+		<c:forTokens items="${images}" delims=", " var="img">
+			<c:if test="${preload}"><div title="${img}"></c:if>
+			<c:if test="${!preload}"><div><img src="img/${img}.jpg" /></c:if>
+
+				<div class="info">
+					<h3>A Blue Flower</h3>
+
+					<p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur.</p>
+
+					<p class="copy">
+						Wed Jun 10, 2:35 PM <strong>&copy; John Doe</strong>
+					</p>
+				</div>
+			</div>
+		</c:forTokens>
+
+		</div>
+
+	</div>
+
+	<!-- prev/next buttons -->
+	<div class="navi prevPage"></div>
+	<div class="navi nextPage"></div>
+	<a class="close" href="#"> &nbsp; &nbsp; &nbsp; </a>
+</div>
+
+
+<script>
+// What is $(document).ready ? See: http://flowplayer.org/tools/using.html#document_ready
+$(function() {
+
+	<c:set var="js1">
+	// thumbnail scrollable
+	$("#thumbnails").scrollable({size: ${skin == 'boxed' ? 5 : 3}, clickable: false}).find("img").each(function(index) {
+
+		// thumbnail images trigger the overlay
+		$(this).overlay({
+
+			effect: 'apple',
+			target: '#box',
+			expose: {maskId: 'mask'},
+
+			/*
+				when box is opened, scroll to correct position (in 0 seconds)
+				the "images" variable is defined below
+			*/
+			onLoad: function() {
+				images.seekTo(index, 0);
+			}
+		});
+	});
+	</c:set>
+
+	${js1}
+
+	<c:set var="js2">
+	// scrollable inside the box. Its API is assigned to the "images" variable
+	var images = $("#images").scrollable({size: 1, api:true});
+
+	<c:if test="${!preload}">
+	// enable tooltips for the images
+	$("#images img").tooltip({
+		position: "bottom center",
+		offset: [-75, -30],
+		opacity: 0.8,
+		effect: 'fade',
+
+		// position tooltips relative to the parent scrollable
+		relative: true
+	});
+	</c:if>
+	</c:set>
+
+	${js2}
+
+	<c:set var="js3">
+	// enable reflections
+	$("#thumbnails img").reflect({height: 0.5, opacity: 0.6});
+	</c:set>
+
+	${js3}
+
+	<c:if test="${preload}">
+	<c:set var="js4">
+	// when scrollable moves ...
+	images.onSeek(function() {
+
+		var i = this.getIndex();
+
+		// grab previous/current/next items and place the image inside them
+		this.getItems().slice(Math.max(i-2, 0), i+2).each(function() {
+
+			var el = $(this);
+
+			// if image has not already been created ...
+			if (!el.find("img").length) {
+
+				// create it
+				var img = $("<img/>");
+				img.attr("src", "img/" + el.attr("title") + ".jpg");
+				el.prepend(img).removeAttr("title");
+
+
+				// and initialize the tooltip for it
+				img.tooltip({
+					position: 'bottom center',
+					offset: [-85, -30],
+					opacity: 0.8,
+					effect: 'fade',
+
+					// position tooltips relative to the parent scrollable
+					relative: true
+				});
+			}
+		});
+	});
+	</c:set>
+	${js4}
+	</c:if>
+
+});
+</script>
+
+
+
+
+

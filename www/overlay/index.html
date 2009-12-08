@@ -1,0 +1,488 @@
+
+<%-- :mode=jsp: --%>
+<c:set var="tool" value="overlay"/>
+
+<style>
+#promo {
+	text-align:center;
+	margin-top:-20px;
+}
+</style>
+
+<h1 style="background-image:url(img/hero/overlay.jpg)">
+	jQuery Tools / Overlay - A generic tool for overlaying needs
+</h1>
+
+<div id="promo">
+
+	<h4>For promotional purposes</h4>
+	<c:set var="wrapId" value="apple_promo"/>
+	<%@ include file="/tools/demos/overlay/apple.htm" %>
+
+	<h4>For image galleries</h4>
+
+	<c:set var="wrapId" value="gallery_promo"/>
+	<%@ include file="/tools/demos/overlay/gallery.htm" %>
+
+	<h4>For user interactions</h4>
+	<%@ include file="/tools/demos/overlay/modal-dialog.htm" %>
+</div>
+
+<h2>For every overlaying need</h2>
+
+<p>
+	Overlaying HTML on top of the main document is one of the most common features in today's websites. You need different kinds of overlays for different situations such as:
+</p>
+
+<ol>
+	<li>Great looking overlays for displaying your products.</li>
+	<li>Simple and snappy overlays for showing info or warning boxes.</li>
+	<li>Modal dialogs for prompting and alerting users.</li>
+	<li>"lighbox" style image galleries.</li>
+</ol>
+
+<p>
+	This tool handles all these different situations by offering a flexible <a href="#effects">effect framework</a>. You can use the effect that is most suitable for the situation at hand.
+</p>
+
+
+<p>
+	The overlay can contain any HTML and the whole thing can be styled with CSS. There is no clutter and there are no surprises. This overlay tool is now a significant part of the JavaScript/Web 2.0 landscape. Don't rely on other, half-baked solutions.
+</p>
+
+<%@ include file="common-features.jsf" %>
+
+
+
+<a name="usage"></a>
+<h2>Usage</h2>
+
+<p>
+	You can study the workings of overlay in the following examples. Each contains documented source code, along with a standalone page to allow you to easily transfer the examples to your own site. The most important example is the first one, "Minimal setup for overlay". It teaches you the basics of using the library.
+</p>
+
+<ul>
+	<c:forEach items="${f:getDemo(context.toolDemos, 'overlay/index.html').category.demos}" var="demo">
+		<li> <a href="demos/${demo.path}">${demo.title}</a> </li>
+	</c:forEach>
+</ul>
+
+<h3>Combining overlay with Flowplayer</h3>
+
+<p>
+	These demos provide some examples of how to use overlay and Flowplayer together.
+</p>
+
+<ul>
+	<li>
+		The <a href="/index.html">Flowplayer home page</a>. <small>Open the scripting tab and press "Show me"</small>
+	</li>
+	<li>The basics of <a href="/demos/tools/overlay.html">overlaying videos</a></li>
+	<li><a href="/demos/tools/fake-fullscreen.html">Custom fullscreen action in overlays</a></li>
+	<li><a href="/demos/tools/sharing-overlay.html">E-mail and embed features in overlays</a></li>
+</ul>
+
+<%@ include file="graphics.jsf" %>
+
+<img src="img/overlay/thumb/white.png" alt="White overlay" />
+<img src="img/overlay/thumb/black.png" alt="White overlay" />
+<img src="img/overlay/thumb/red.png" alt="White overlay" />
+
+<a name="configuration"></a>
+<h2>Configuration</h2>
+
+<p>
+	The general way to setup overlay is as follows:
+</p>
+
+<pii:code>
+// select one or more elements to be overlay triggers
+$("JQUERY SELECTOR").overlay({
+
+	// one configuration property
+	color: '#ccc',
+
+	// another property
+	top: 50
+
+	// ... the rest of the configuration properties
+});
+</pii:code>
+
+
+<p>
+	Here is a list of all available configuration options.
+</p>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>Property</th>
+			<th nowrap>Default value</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tr>
+		<td class="code">absolute</td>
+		<td class="code">false</td>
+		<td>
+			If set to <samp>true</samp>, the overlay position is measured from the top-left corner of the browser window and the scrolling position has no impact. By default, the scrolling position is added.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">api</td>
+		<td><code>false</code></td>
+		<td>
+			When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp> the return value is this tool's <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="/tools/using.html#api">accessing the tool API</a>.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">close</td>
+		<td><code></code></td>
+		<td>
+			A jQuery selector for the closing elements inside the overlay. These can be any elements such as links, buttons or images. If this is not supplied, a close element is auto-generated. Read more about this <a href="#close">defining close actions</a>.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">closeOnClick</td>
+		<td><code>true</code></td>
+		<td>
+			By default, overlays are closed when the mouse is clicked <em>outside</em> the overlay area. Setting this property to <samp>false</samp> suppresses this behaviour which is suitable for <a href="demos/overlay/modal-dialog.html">modal dialogs</a>.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">closeOnEsc</td>
+		<td><code>true</code></td>
+		<td>
+			By default, overlays are closed when the ESC keyboard key is pressed. Setting this property to <samp>false</samp> suppresses this behaviour.
+		</td>
+	</tr>
+
+	<tr>
+		<td class="code">effect</td>
+		<td><code>'default'</code></td>
+		<td>
+			<p>
+				The effect to be used when an overlay is opened and closed. This can dramatically change the behaviour of the overlay. By default this tool uses an effect called "default" which is a simple show / hide effect.
+			</p>
+
+			<p>
+				Here is a list of currently <a href="#effects_list">available effects</a> and you can also <a href="#effects">make your own effects</a>.
+			</p>
+		</td>
+	</tr>
+
+	<tr>
+		<td class="code">expose</td>
+		<td><code></code></td>
+		<td>
+			Overlay is very often used together with the <a href="expose.html">expose tool</a>. Because of this, the support for this feature has been built inside the tool. This configuration accepts the <a href="expose.html#configuration">expose tool's configuration</a>. This is either a simple string specifying the background color of the mask or a more complex object literal specifying more configuration variables.
+
+			<p>
+				See an example of an <a href="demos/overlay/modal-dialog.html">overlay together with expose</a>. By default the expose feature is disabled.
+			</p>
+		</td>
+	</tr>
+
+	<tr>
+		<td class="code">left</td>
+		<td class="code">"center"</td>
+		<td>
+			Specifies how far from the left-hand edge of the screen the overlay should be placed. By default the overlay is horizontally centered with the value "center" but you can also supply a numerical value specifying a distance in pixels.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">oneInstance</td>
+		<td><code>true</code></td>
+		<td>
+			By default, there can be only one overlay on the page at once. Setting this property to <samp>false</samp> allows you to have <a href="demos/overlay/multiple.html">multiple overlay instances</a>.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">speed</td>
+		<td><code>'normal'</code></td>
+		<td>
+			The speed of the fade-in animation on the "default" effect. Valid values are 'slow', 'normal' and 'fast', or you can supply a numerical value (in milliseconds). By setting this property to 0, the overlay will appear immediately without any animation.
+		</td>
+	</tr>
+
+	<tr>
+		<td class="code">target</td>
+		<td><code></code></td>
+		<td>
+			The element to be overlayed (if not specified in the <samp>rel</samp> attribute of the triggering element).
+		</td>
+	</tr>
+	<tr>
+		<td class="code">top</td>
+		<td class="code">'10%'</td>
+		<td>
+			Specifies how far from the top edge of the screen the overlay should be placed. Acceptable values are an integer number specifying a distance in pixels, a string (such as '15%') specifying a percentage value or "center" in which case the overlay is vertically centered. Percentage values work consistently in different screen resolutions.
+		</td>
+	</tr>
+	<tr><td colspan="3" style="background-color:#efefef"></td></tr>
+
+	<tr>
+		<td class="code">onBeforeLoad</td>
+		<td><em>None</em></td>
+		<td>
+			This callback function is triggered before the overlay is displayed. A function which returns <samp>false</samp> or calling <samp>event.preventDefault</samp> will prevent a particular overlay from being loaded.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onLoad</td>
+		<td><em>None</em></td>
+		<td>
+			This callback function is triggered when the overlay has completely been shown and a particular overlay is in place.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onBeforeClose</td>
+		<td><em>None</em></td>
+		<td>
+			This callback function is triggered before a particular overlay is closed. A function which returns <samp>false</samp> or calling <samp>event.preventDefault</samp> will prevent a particular overlay from being closed.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onClose</td>
+		<td><em>None</em></td>
+		<td>
+			This callback function is triggered when a particular overlay is closed.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onStart</td>
+		<td><em>None</em></td>
+		<td>
+			<strong>Since 1.1.2</strong>. This callback function is triggered just before the overlay starts appearing in an animated way. This happens between the <samp>onBeforeLoad</samp> and <samp>onLoad</samp> events. The overlay has already been positioned at the location from where it will start animating. This callback is not triggered if the loading action has been cancelled in <samp>onBeforeLoad</samp>.
+		</td>
+	</tr>
+
+</table>
+
+<a name="callbacks"></a>
+<h3>Using callback functions</h3>
+
+<p>
+	Here is an example of an <samp>onLoad</samp> callback function. Inside any callback function the <samp>this</samp> variable is a pointer to the <a href="#api">overlay scripting API</a>:
+</p>
+
+<pii:code>
+$("button[rel]").overlay({
+
+	// hide trigger when the overlay is opened
+	onLoad: function(event) {
+		this.getTrigger().hide();
+	}
+});
+</pii:code>
+
+<p>
+	See the <a href="using.html#callbacks">Using Callback Functions</a> section in the User's Guide for more detailed dscription about this important topic.
+</p>
+
+<a name="close"></a>
+<h3>Defining custom close elements</h3>
+
+<p>
+	By default, a close button is auto-generated as the first element inside the container. Here is the generated HTML:
+</p>
+
+<pii:code lang="html">
+<!-- auto- generated close button -->
+<div class="close"></div>
+</pii:code>
+
+<p>
+	You can easily add more closing elements inside the overlay simply by assignin the CSS class name "close" to them. These elements can be styled and positioned any way you like inside the overlay.
+</p>
+
+</p>
+	If you supply a value for the <samp>close</samp> configuration variable, the close element is not auto-generated and you need to define the closing element(s) yourself.
+</p>
+
+<a name="api"></a>
+<h2>Scripting <em>API</em></h2>
+
+<p>
+	Overlay has a clean and well-designed API for scripters, with which it is possible to enrich the overlay user experience. You can get a handle to the API in numerous ways as described in the <a href="using.html#api">Users Manual</a>. Here is an example of how to access the API:
+</p>
+
+<pii:code>
+// get handle to the API upon initialization by enabling the "api" variable
+var api = $("div.overlay").overlay({oneInstance: false, api: true});
+
+// open the overlay programatically with this API call
+api.load();
+
+// retrieve an existing api
+api = $("div.overlay").overlay();
+</pii:code>
+
+<p>
+	Here is a list of all available API methods:
+</p>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>Method</th>
+			<th nowrap>Return value type</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tr>
+		<td class="code">close()</td>
+		<td><code>Overlay</code></td>
+		<td>
+			Closes the overlay.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">getClosers()</td>
+		<td><code>jQuery</code></td>
+		<td>
+			Returns the closing element(s) as a jQuery object.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">getConf()</td>
+		<td><code>Object</code></td>
+		<td>
+			Returns the configuration for the overlay.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">getOverlay()</td>
+		<td><code>jQuery</code></td>
+		<td>
+			Returns the overlayed element as a jQuery object.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">getTrigger()</td>
+		<td><code>jQuery</code></td>
+		<td>
+			Returns the triggering element as a jQuery object.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">isOpened()</td>
+		<td><code>boolean</code></td>
+		<td>
+			Returns <samp>true</samp> if the overlay is opened.
+		</td>
+	</tr>
+
+	<tr>
+		<td class="code">load()</td>
+		<td><code>Overlay</code></td>
+		<td>
+			Opens the overlay.
+		</td>
+	</tr>
+
+	<tr><td colspan="3" style="background-color:#efefef"></td></tr>
+
+	<tr>
+		<td class="code">onBeforeLoad(fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Registers a new callback function that is triggered before the overlay is shown. The callback is given as the argument. Returning <samp>false</samp> or calling <samp>event.preventDefault</samp> in the callback will prevent the overlaying from taking place. You can assign multiple <samp>onBeforeLoad</samp> listeners with this command.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onLoad(fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Registers a new callback function that is triggered right after the overlay has been loaded. The callback is given as the argument. You can assign multiple <samp>onLoad</samp> listeners with this command.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onBeforeClose(fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Registers a new callback function that is triggered before the overlay is closed. The callback is given as the argument. Returning <samp>false</samp> or calling <samp>event.preventDefault</samp> in the callback will prevent the overlay from closing. You can assign multiple <samp>onBeforeClose</samp> listeners  with this command.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">onClose(fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Registers a new callback function that is triggered after the overlay has been closed. The callback is given as the argument. You can assign multiple <samp>onClose</samp> listeners with this command.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">bind(names, fn)</td>
+		<td><code>API</code></td>
+		<td>
+			Register one or more callbacks to be triggered. See <a href="using.html#callbacks">using callbacks</a> for more information.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">unbind(names)</td>
+		<td><code>API</code></td>
+		<td>
+			Removes callback functions from the tool See <a href="using.html#callbacks">using callbacks</a> for more information.
+		</td>
+	</tr>
+</table>
+
+<a name="effects"></a>
+<h2>Making custom effects</h2>
+
+<p>
+	If you want to make custom effects you should use the <samp>$.tools.overlay.addEffect</samp> method. This method is "static", meaning that you don't have to have the the overlay API (or instance) already loaded. You can add effects before any overlays are initialized.
+</p>
+
+<p>
+	This method accepts three arguments. The first argument is the effect name, the second argument is the function that performs the required functionality for loading the overlay and the third argument is a function that closes the overlay. You can use this method to modify existing effects or add new ones. Here is the official default effect taken directly from the <a href="/js/tools/tools.${tool}-${v[tool]}.js?download=true">source code</a> of the overlay tool:
+</p>
+
+<pii:code>
+// adds an effect called "myEffect" to the overlay
+$.tools.overlay.addEffect("myEffect",
+
+	// load function
+	function(done) {
+
+		/*
+			- the 'this' variable is a reference to the overlay API
+			- here we use jQuery's fadeIn() method to perform the effect
+		*/
+		this.getOverlay().fadeIn(this.getConf().speed, done);
+	},
+
+	// close function
+	function(done) {
+
+		// fade out the overlay
+		this.getOverlay().fadeOut(this.getConf().closeSpeed, done);
+	}
+);
+</pii:code>
+
+
+<p>
+	As you can see it is fairly easy to implement effects. Inside the functions the <samp>this</samp> variable is a pointer to the <a href="api">scripting API</a>. This gives you access to various parts of the overlay elements. The functions are fed with one argument which is a reference to a function that <strong>must</strong> be called after you have performed you effect. The reason for this is that many times those effects perform animations that have a certain duration. We must know when these animations are finished so that the <samp>onLoad</samp> and <samp>onHide</samp> events are really called <strong>after</strong> the overlay is completely shown or hidden.
+</p>
+
+<p>
+	Note that if you are using jQuery's <samp>animate, fadeIn</samp> or <samp>fadeOut</samp> methods the <samp>done</samp> function can simply be given to this method as the last argument. jQuery will take care of it after the animation finishes. Otherwise you must call <samp>done.call()</samp>.
+</p>
+
+<p>
+	Here is one <a href="demos/overlay/custom-effect.html">custom overlay effect</a> demo.
+</p>
+
+
+<a name="effects_list"></a>
+<h2 style="border-bottom:1px solid #333;margin-top:70px">Effects</h2>
+
+<%@ include file="extensions/overlay.apple.html" %>
+
+
+<a name="plugins"></a>
+<h2 style="border-bottom:1px solid #333;margin-top:70px">Plugins</h2>
+
+<%@ include file="extensions/overlay.gallery.html" %>

@@ -1,0 +1,54 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+
+<p>
+	The following button opens an overlay whose contents are loaded from an external URL:
+</p>
+
+<%@ include file="external.htm" %>
+
+<p>
+	You can see the contents of the loaded page <a href="external-content.htm">here</a>.
+</p>
+
+<h3>HTML code</h3>
+
+<p>
+	Our syntax is standard HTML where the external page is specified in the <samp>href</samp> attribute. This insures that even clients that don't support JavaScript can see the external page. This is called "progressive enhancement" in the JavaScript world. Note that we use an extra wrapper tag inside the overlay where the actual content is loaded:
+</p>
+
+<pii:code lang="html">${html}</pii:code>
+
+<h3>JavaScript code</h3>
+
+<p>
+	The loading is done with the <samp>onBeforeLoad</samp> event which can be given directly as the first argument to the overlay constructor. This event loads the external content inside the wrapper element. Inside the event function the <samp>this</samp> variable is a pointer to the <a href="/tools/overlay.html#api">overlay API</a>.
+</p>
+
+
+<pii:code>${js}</pii:code>
+
+<p>
+	<strong>NOTE:</strong> if you only want to load the external page the first time the overlay has been opened, you can wrap the <samp>load</samp> call inside of a <samp>if (wrap.is(":empty"))</samp> statement. In that case you <strong>cannot</strong> have multiple triggers that open up different URLs using the same overlay.
+</p>
+
+<h3>CSS code</h3>
+
+<p>
+	We continue using our <a href="/tools/css/overlay-minimal.css">overlay-minimal.css</a> CSS file and override it with the following CSS settings. This time we used a semi-transparent background image for the overlay. This can be changed with CSS. We also used a scrollbar for the content which is only shown when necessary (little content does not make the scrollbar appear). This is a handy trick if you are not sure how large pages you are loading will be.
+</p>
+
+<pii:code lang="css">${css}</pii:code>
+
+<h3>JavaScript code</h3>
+
+<div class="box petrol">
+	Show this demo as a <a href="external.htm">standalone page</a>.
+</div>
+
+
+
+
+

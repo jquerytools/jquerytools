@@ -1,0 +1,35 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><c:if test="${empty plain}"><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- DOCTYPE is always recommended. see: http://www.quirksmode.org/css/quirksmode.html -->
+
+<!--
+	This is the jQuery Tools standalone demo, the fastest way to get started.
+	You can freely copy things on your site. All demos can be found here:
+
+	http://flowplayer.org/tools/demos/
+
+	- css files should not be referenced from flowplayer.org when in production
+
+	Enjoy!
+-->
+
+<head>
+	<!-- standalone page styling (can be removed)-->
+	<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/standalone.css"/>
+
+	<title>jQuery Tools standalone demo</title>
+	<c:if test="${!context.production && param.debug}"><c:set var="qs">?debug=true</c:set></c:if><c:if test="${empty tools}"><!-- default set of jQuery Tools + jQuery ${v.jquery} -->
+	<script src="${cdnt}/${v.tools}/${!context.production ? 'default/' : ''}jquery.tools.min.js${qs}"></script>
+	</c:if>
+	<c:if test="${!empty tools}">
+	<!-- Full version of jQuery Tools + jQuery ${v.jquery} -->
+	<script src="${cdnt}/${v.tools}/full/jquery.tools.min.js${qs}"></script>
+	</c:if>
+</head>
+
+<!-- without body tag IE may have unprodictable behaviours -->
+<body>
+
+<!-- now that jQuery Tools is included we can begin with the actual demo -->
+</c:if>

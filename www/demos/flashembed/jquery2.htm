@@ -1,0 +1,56 @@
+
+<c:if test="${empty plain}">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- grab jquery from googleapis -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/${v.jquery}/jquery.min.js"></script>
+
+<!-- include flashembed. this file is not included in the "official" jQuery tools package -->
+<script type="text/javascript" src="${cdn}/js/tools/tools.flashembed-${v.flashembed}.min.js"></script>
+</c:if>
+
+<style>
+/* define height for the H3 tags so that Flash has room inside them */
+h3.sifr {
+	height:25px;
+}
+</style>
+
+<c:set var="js">
+<script>
+// perform this function after the page is scriptable
+$(function() {
+
+	// loop through all H3 headers with the class name "sifr"
+	$("h3.sifr").each(function() {
+
+		/*
+			place Flash object inside each tag and configure it with
+			the replacement text and its style. external CSS has no effect
+		*/
+		flashembed(this, "/swf/itc_century.swf", {
+			txt: $(this).html(),
+			css: '* { color: #666666; } a {color: #007766; text-decoration:underline}'
+		});
+
+	});
+});
+</script>
+</c:set>
+
+${js}
+
+<c:set var="html">
+<h3 class="sifr">Savion Glover</h3>
+<h3 class="sifr">Joseph Wiggan</h3>
+<h3 class="sifr">Samuel Smith</h3>
+
+<!-- example of a nested A tag -->
+<h3 class="sifr">
+	Fred Astaire
+	(See <a href="http://en.wikipedia.org/wiki/Fred_Astaire">Wikipedia page</a>)
+</h3>
+</c:set>
+
+${html}

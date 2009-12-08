@@ -1,0 +1,122 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<!-- accordion styling -->
+<style>
+
+/* root element for each accordion  */
+<c:set var="css">
+.accordion {
+
+	/* some decorations for the accordion root element */
+	background:#333 url(/img/global/gradient/h300.png) 0 0;
+	width: 300px;
+	border:1px solid #333;
+
+	/* IE6 cannot handle PNG24 backgrounds. use a solid color instead */
+	-background:#666;
+
+
+	/* put them side by side */
+	float:left;
+	margin:20px 0 20px 30px;
+}
+</c:set>
+
+${css}
+
+/* accordion header */
+.accordion h2 {
+	background:#ccc url(/img/global/gradient/h30.png);
+	margin:0;
+	padding:5px 15px;
+	font-size:14px;
+	font-weight:normal;
+	border:1px solid #fff;
+	border-bottom:1px solid #ddd;
+	cursor:pointer;
+}
+
+/* currently active header */
+.accordion h2.current {
+	cursor:default;
+	background-color:#fff;
+}
+
+/* accordion pane */
+.accordion div.pane {
+	border:1px solid #fff;
+	border-width:0 2px;
+	display:none;
+	height:180px;
+	padding:15px;
+	color:#fff;
+	font-size:12px;
+}
+
+/* a title inside pane */
+.accordion div.pane h3 {
+	font-weight:normal;
+	margin:0 0 -5px 0;
+	font-size:16px;
+	color:#999;
+}
+</style>
+
+
+<!-- accordion -->
+<c:forEach begin="0" end="1" var="foo">
+<div class="accordion">
+
+	<h2>First pane</h2>
+
+	<div class="pane" style="display:block">
+
+		<img src="${cdn}/img/title/javascript24.png" alt="JavaScript tools" style="float:left; margin:0 15px 15px 0" />
+
+		<h3>Lorem ipsum dolor</h3>
+
+		<p>
+			<strong>Fusce semper, nisi nec pellentesque sollicitudin.</strong>
+		</p>
+
+		<p style="clear:both">
+			Consectetur adipiscing elit. Praesent bibendum eros ac nulla. Integer vel lacus ac neque viverra ornare. Nulla id massa nec erat laoreet elementum. Vivamus tristique auctor odio. Integer mi neque.
+		</p>
+
+
+	</div>
+
+	<h2>Second pane</h2>
+
+	<div class="pane">
+		<h3>Vestibulum ante ipsum</h3>
+
+		<p>
+			Cras diam. Donec dolor lacus, vestibulum at, varius in, mollis id, dolor. Aliquam erat volutpat. Praesent pretium tristique est. Maecenas nunc lorem, blandit nec, accumsan nec, facilisis quis, pede. Aliquam erat volutpat. Donec sit amet urna quis nisi elementum fermentum.
+		</p>
+	</div>
+
+	<h2>Third pane</h2>
+
+	<div class="pane">
+		<h3>Curabitur vel dolor</h3>
+
+		<p>
+			Non lectus lacinia egestas. Nulla hendrerit, felis quis elementum viverra, purus felis egestas magna, non vulputate libero justo nec sem. Nullam arcu. Donec pellentesque vestibulum urna. In mauris odio, fringilla commodo, commodo ac, dignissim ac, augue.
+		</p>
+	</div>
+
+</div>
+</c:forEach>
+
+<br clear="all" />
+
+<!-- activate tabs with JavaScript -->
+<script>
+$(function() {
+	$(".accordion").tabs(".pane", {tabs: 'h2', effect: 'slide'});
+});
+</script>
+

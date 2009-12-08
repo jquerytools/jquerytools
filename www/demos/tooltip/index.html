@@ -1,0 +1,66 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<p>
+	Here we have four <samp>IMG</samp> tags and their <samp>title</samp> attribute work as the tooltip. This kind of simple syntax will also show browser's standard tooltips even thought JavaScript is not enabled. This whole setup can be enabled with one JavaScript one-liner.
+</p>
+
+<%@ include file="index.htm" %>
+
+<h3>HTML coding</h3>
+
+<p>
+	You need two things: the elements that show the tooltips when the cursor is placed on top of them, these elements are called <strong>triggers</strong>. Then you need one or more tooltip elements. In this setup we have single tooltip element that works for all of the triggers:
+</p>
+
+<pii:code lang="html">
+<!-- the tooltip -->
+<div id="demotip">&nbsp;</div>
+
+<!-- and the triggers -->
+<div id="demo">
+	<img src="image1.jpg" title="The tooltip text #1"/>
+	<img src="image2.jpg" title="The tooltip text #2"/>
+	<img src="image3.jpg" title="The tooltip text #3"/>
+	<img src="image4.jpg" title="The tooltip text #4"/>
+</div>
+</pii:code>
+
+<p>
+	Trigger elements can be anything such as <samp>A</samp>, <samp>DIV</samp>, <samp>SAMP</samp> and <samp>TABLE</samp> elements.
+</p>
+
+<h3>CSS coding</h3>
+
+<p>
+ 	The tooltip should be initially hidden by the CSS by setting <samp>display: none</samp>. We have no specific styling for the trigger elements.
+</p>
+
+<pii:code lang="css">
+${css}
+</pii:code>
+
+
+<h3>JavaScript coding</h3>
+
+<p>
+	Tooltip activation starts by selecting the trigger elements with jQuery. Here we select all <samp>img</samp> tags that have a <samp>title</samp> attribute. We supply one argument for the tooltip initialization call which is a jQuery selector to the tooltip element.
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<p>
+	The default behaviour is that the tooltip is positioned on the top/center of the trigger and it slides upwards. Of course, the positioning and the sliding effect can be altered in the configuration as seen in the upcoming demos.
+</p>
+
+<p>
+	Enclosing your call inside <samp>$(document).ready</samp> performs the script right after the document is scriptable. Read more about that in the <a href="/tools/using.html#document_ready">User's Manual</a>.
+</p>
+
+<br />
+<div class="box petrol">
+	Here is the <a href="index.htm">standalone version</a> of this demo. You can freely study and copy its source code.
+</div>
+

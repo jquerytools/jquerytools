@@ -1,0 +1,77 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<p>
+	Here you can see a <a href="/tools/tabs.html#slideshow">slideshow plugin</a> in action. Click on the arrow buttons, navigator or the content area to navigate through the slides. You can also enable the automatic slideshow by pressing the "play" button below the slides.
+</p>
+
+<%@ include file="slideshow.htm" %>
+
+<p>
+	Note that when the slideshow is "playing" it will automatically pause when you move your mouse on top of the slideshow elements.
+</p>
+
+<h3>HTML coding</h3>
+
+<p>
+	The HTML setup is similar to the normal tab setup except that we have the "next" and "prev" action buttons available and the tabs are placed below the panes.
+</p>
+
+<pii:code lang="html">
+<!-- "previous slide" button -->
+<a class="prev">prev</a>
+
+<!-- container for the slides -->
+<div class="images">
+
+    <!-- first slide -->
+    <div>Lorem ipsum ..</div>
+
+    <!-- second slide -->
+    <div>Lorem ipsum ..</div>
+
+    <!-- third slide -->
+    <div>Lorem ipsum ..</div>
+
+</div>
+
+<!-- "next slide" button -->
+<a class="next">next</a>
+
+<!-- the tabs -->
+<div class="tabs">
+    <a href="#"></a>
+    <a href="#"></a>
+    <a href="#"></a>
+</div>
+</pii:code>
+
+<p>
+	The style comes from <a href="/tools/css/tabs-slideshow.css">tabs-slideshow.css</a> file.
+</p>
+
+<h3>JavaScript coding</h3>
+
+<p>
+	The JavaScript setup is pretty straightforward. The slideshow plugin is chained after the tabs initialization call. A non-zero <samp>fadeOutSpeed</samp> together with the <samp>fade</samp> effect creates the "cross-fading" effect. The <samp>rotate</samp> configuration property makes the slides behave so that when the last tab is encountered the next tab starts over from the beginning. The same thing happens when going backwards from the last tab.
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<h3>Play/Stop action buttons</h3>
+
+<p>
+	Those play and stop action buttons are there to show the automatic slideshow effect. The slideshow plugin will add <a href="/tools/tabs.html#slideshow_api">additional API methods</a> to the main <a href="/tools/tabs.html#api">Tabs API</a> and those buttons are calling our new <samp>play</samp> and <samp>stop</samp> methods as follows:
+</p>
+
+<pii:code lang="html">
+${buttons}
+</pii:code>
+
+<br />
+<div class="box petrol">
+	Here is the <a href="slideshow.htm">standalone version</a> of this demo. You can freely study and copy its source code.
+</div>
+

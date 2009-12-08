@@ -1,0 +1,19 @@
+<%-- :mode=jsp: --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="tools" value="all" />
+
+<c:set var="js">
+$(function() {
+	$("#flowtabs").tabs("#flowpanes > div").history();
+});
+</c:set>
+
+<%@ include file="skin3.htm" %>
+
+<!-- activate tabs with JavaScript -->
+<script>
+${js}
+</script>
+
+
+

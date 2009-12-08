@@ -1,0 +1,17 @@
+<a name="graphics"></a>
+<h2 style="text-transform:capitalize">${tool} Graphics</h2>
+
+<a href="img/${tool}/${tool}.zip">
+	<img src="/img/global/zip.gif" alt="Download tooltip graphics" style="float:right" />
+</a>
+
+<p>
+	You can use our graphics as the basis for your design. You can freely change the design as you see fit. Click the image on the right to download a zip file. Before using the graphics, you should consult the <a href="using.html#graphics">User's Guide</a> on how graphics can be used when designing the look and feel of the tools.
+</p>
+
+
+<p>
+	Here are a few examples of what is included in the zip file:
+</p>
+
+<br clear="all" />

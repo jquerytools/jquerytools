@@ -1,0 +1,41 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="../header.jsf" %>
+
+<%@ include file="trigger.htm" %>
+
+<p>
+	Sometimes you want to open dialogs or info boxes for your users directly from your JavaScript code. In this case, you don't need any trigger element and the setup is slightly different. This page loads the overlay upon page load but you can also do it from your JavaScript anytime you like.
+</p>
+
+
+<h3>JavaScript coding</h3>
+
+<p>
+	This time our installation is different from the earlier examples. We select the <em>overlay element</em> in the jQuery selector and <strong>not</strong> the trigger element. And then we simply call the <samp>load()</samp> function for the overlay.
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<p>
+	<strong>Note:</strong> if you are want to use the <samp>apple</samp> effect upon page load you should look at the <a href="/tools/overlay.html#apple_load">apple effect documentation</a> for more notes about this.
+</p>
+
+<h3>Facebook look and feel</h3>
+
+<p>
+	If you are interested in the Facebook look and feel the trick is to use a RGBA color on the border. Here is the CSS we are using:
+</p>
+
+<pii:code lang="css">
+${css}
+</pii:code>
+
+
+<div class="box petrol">
+	Show this demo as a <a href="trigger.htm">standalone page</a>.
+</div>
+
+

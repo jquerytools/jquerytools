@@ -1,0 +1,64 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<!-- tab styling -->	
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/tabs-mouseover.css"/>
+
+<c:set var="html">
+<!-- tabs -->
+<div id="products">
+	<img src="${cdn}/img/commerce/free.png" alt="Free version" />
+	<img src="${cdn}/img/commerce/commercial.png" alt="Commercial version" />
+	<img src="${cdn}/img/commerce/multidomain.png" alt="Multidomain version" />
+</div>
+</c:set>
+
+${html}
+
+<!-- panes -->
+<div class="description" id="free">
+	<div class="arrow">&nbsp;</div>
+	
+	<h3>Lorem ipsum dolor</h3>
+	
+	<p>
+		Consectetur adipiscing elit. Curabitur tempus, massa at facilisis aliquet, urna metus interdum felis, sit amet adipiscing justo neque eget risus. 
+	</p>
+	
+	<p>
+		<strong>Nullam ut ligula id dolor dapibus aliquam.</strong>
+	</p>
+</div>
+
+<div class="description" id="commercial">
+	<div class="arrow"></div>
+	
+	<h3>Maecenas molestie</h3>
+	
+	<p>
+		Lacus ut blandit malesuada, sem magna varius enim, eu mattis elit justo in quam. Curabitur in magna. Nam luctus aliquet ante. Nam ut nunc. Quisque ligula nunc, molestie non, gravida sit amet, consequat eu, lectus. Proin aliquet nulla eget massa. Vestibulum ac dolor a tortor porta commodo.
+	</p>
+</div>
+
+<div class="description" id="multidomain">
+	<div class="arrow"></div>
+	
+	<h3>In hac habitasse platea dictumst</h3>
+	
+	<p>
+		Quisque mattis gravida est. Vestibulum orci nisl, egestas vel, pharetra quis, auctor nec, lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sodales massa quis nunc. Sed velit risus, feugiat ut, pharetra a, venenatis et, arcu.
+	</p>
+</div>
+	
+
+<!-- activate tabs with JavaScript -->
+<script>
+$(function() {
+<c:set var="js">
+$("#products").tabs("div.description", {event:'mouseover'});
+</c:set>
+${js}
+});
+</script>
+
+

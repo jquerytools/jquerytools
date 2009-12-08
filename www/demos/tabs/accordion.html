@@ -1,0 +1,58 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+
+
+<p>
+	The accordion effect is in many ways similar to tabs. The only difference is the way in which panes are shown and hidden. The tabs tool contains a built-in effect called <samp>slide</samp> for making accordions. Here is an example:
+</p>
+
+<div style="width:280px;height:330px; margin:25px auto">
+	<%@ include file="accordion.htm" %>
+</div>
+
+<p>
+	It's important to realize that <strong>jquery.tabs</strong> is a single file weighing around 2KB and it can create both tabs and accordion in a professional manner.
+</p>
+
+<h3>HTML coding</h3>
+
+<p>
+	Our HTML layout is a bit different than in tabs. The accordion headers are positioned in front of the panes and everything is contained as a flat list inside a single root <samp>DIV</samp> element with an <samp>id</samp> of "accordion". We make the first tab visible "manually" on the HTML by setting the <samp>display:block</samp> property for the fist tab. We won't let the tabs do this automatically because we don't want to perform a slide effect when the page loads.
+</p>
+
+<pii:code lang="html">
+<div id="accordion">
+
+	<h2 class="current">First pane</h2>
+	<div class="pane" style="display:block">... pane content ...</div>
+
+	<h2>Second pane</h2>
+	<div class="pane">... pane content ...</div>
+
+	<h2>Third pane</h2>
+	<div class="pane">... pane content ...</div>
+
+</div>
+</pii:code>
+
+<p>
+	The styling is defined in a single documented CSS file: <a href="/tools/css/tabs-accordion.css">tabs-accordion.css</a>.
+</p>
+
+<h3>JavaScript coding</h3>
+
+<p>
+	This time we have no root element for our tabs so we have to explicitly tell the tool which elements work as tabs. This is specified in the <samp>tabs</samp> configuration option. The sliding effect suitable for accordions is supplied with the <samp>effect</samp> attribute. We unset the <samp>initialIndex</samp> property so that the first tab is not automatically opened when the page loads.
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+
+<br />
+<div class="box petrol">
+	Take a look at a <a href="accordion.htm">standalone version</a> of this demo. View its source code to get things going on your page.
+</div>
+

@@ -1,0 +1,47 @@
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+
+<p>
+	Here you can see a customized "drop" overlay effect. We setup things similarly as in the <a href="index.html">basic setup</a>, but we modify the loading effect with our own:
+</p>
+
+<%@ include file="custom-effect.htm" %>
+
+<h3>Creating the effect</h3>
+
+<p>
+	We start by adding a new animation algorithm for jQuery called "drop". This is possible by extending the <samp>jQuery.easing</samp> object. I grabbed this easing function from the <a href="http://gsgd.co.uk/sandbox/jquery/easing/" class="external">jQuery Easing Plugin</a>'s <a href="http://gsgd.co.uk/sandbox/jquery/easing/jquery.easing.1.3.js" class="external">source code</a>. There are quite a lot of different easing algorithms that you can try.
+</p>
+
+<p>
+	Custom overlay effects are done with the <samp>$.tools.overlay.addEffect</samp> method. The first argument is the effect name, the second argument is the function that defines how the overlay is shown and the third argument defines how the overlay closes. Inside the functions the <samp>this</samp> variable is a reference to the <a href="/tools/overlay.html#api">overlay API</a>.
+</p>
+
+<pii:code>
+${effect}
+</pii:code>
+
+<p>
+	Note that you can get access to the configuration option with the <samp>this.getConf()</samp> method, and you can use this object to supply custom configuration options as well.
+</p>
+
+<h3>JavaScript coding</h3>
+
+<p>
+	Here is the overlay configuration. We supply our newly created overlay effect with the <samp>effect</samp> configuration variable.
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+
+<br />
+<div class="box petrol">
+	Take a look at a <a href="custom-effect.htm">standalone version</a> of this demo. View its source code to get things going on your page.
+</div>
+
+<p>
+	<a href="/tools/credits.html" id="credits">Photo credits &raquo;</a>
+</p>

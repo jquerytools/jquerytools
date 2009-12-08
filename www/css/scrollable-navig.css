@@ -1,0 +1,73 @@
+
+/* DEPRECATED FILE */
+
+
+
+
+/* this makes it possible to add next button beside scrollable */
+div.scrollable {
+	float:left;	
+}
+
+/* prev, next, prevPage and nextPage buttons */
+a.prev, a.next, a.prevPage, a.nextPage {
+	display:block;
+	width:18px;
+	height:18px;
+	background:url(../img/scrollable/arrow/left.png) no-repeat;
+	float:left;
+	margin:43px 10px;
+	cursor:pointer;
+	font-size:1px;
+}
+
+/* mouseover state */
+a.prev:hover, a.next:hover, a.prevPage:hover, a.nextPage:hover {
+	background-position:0px -18px;		
+}
+
+/* disabled navigational button */
+a.disabled {
+	visibility:hidden !important;		
+}
+
+/* next button uses another background image */
+a.next, a.nextPage {
+	background-image:url(../img/scrollable/arrow/right.png);
+	clear:right;	
+}
+
+
+
+/*********** navigator ***********/
+
+
+/* position and dimensions of the navigator */
+div.navi {
+	margin-left:328px;
+	width:200px;
+	height:20px;
+}
+
+
+/* items inside navigator */
+div.navi a {
+	width:8px;
+	height:8px;
+	float:left;
+	margin:3px;
+	background:url(../img/scrollable/arrow/navigator.png) 0 0 no-repeat;
+	display:block;
+	font-size:1px;
+}
+
+/* mouseover state */
+div.navi a:hover {
+	background-position:0 -8px;      
+}
+
+/* active state (current page state) */
+div.navi a.active {
+	background-position:0 -16px;     
+} 	
+

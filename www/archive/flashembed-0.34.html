@@ -1,0 +1,461 @@
+
+<script>
+$(function() {
+	$("ul.tabs").tabs("div.pane");
+});
+</script>
+
+<style>
+#benefits a {
+	line-height:25px;
+	font-size:13px;
+}
+</style>
+
+<h1>
+	<strong>JavaScript tool</strong> flashembed
+	<em>your tool to embed Flash to your pages</em>
+</h1>
+
+<h2>Motivation</h2>
+
+<p>
+	In modern world Flash components are more sophisticated. They are more like real world applications than just animated banners. A real application needs to be configured and installed properly. This is where flashembed shines. By using this tool you can supply complex JSON configurations to your Flash objects making them more usable for everyday HTML/JavaScript developers.
+</p>
+
+<p>
+	Basically flashembed is a JavaScript tool that you can use to embed Flash objects to you website. There are other tools for embedding flash objects but none of them offers the same flexibility and ease of use as this one. This tool is the backbone of <samp>flowplayer.js</samp> script. Other Flash embedding tools could't do the job. There are many other reasons for developing this tool too - so read on.
+</p>
+
+<p>
+	<button type="button" class="custom low xlarge" onclick="location.href='#download'">
+		Download <em>vers. ${v.flashembed}</em>
+	</button>
+</p>
+
+<h2>A trivial example</h2>
+
+<div class="col" style="width:500px">
+
+	<p>
+		Place a Flash-based clock into following HTML div. Simple and elegant.
+	</p>
+
+<pii:code lang="html">
+<div id="clock" style="width:100px;float:right"></div>
+
+<script>
+	flashembed("clock", "clock.swf");
+</script>
+</pii:code>
+
+</div>
+
+<div id="clock" style="width:100px;height:100px;float:right;margin:40px 70px 10px 0"></div>
+
+<br clear="all"/>
+
+<script>
+	flashembed("clock", "clock.swf");
+</script>
+
+<h2>Benefits</h2>
+
+<div id="benefits">
+	<p>
+		<a href="#usage">Easy to use</a><br />
+		Other Flash embedding tools can be hard to understand and use. You need to read loads of documentation for achieving a very simple task. This tool takes only 1 to 3 arguments and thats it.
+	</p>
+
+	<p>
+		<a href="#json">JSON configuration</a><br />
+
+		Today many flash objects are configured with lot's of parameters and many of those parameters are complex JSON objects. This plugin enables to supply JSON configurations directly to your Flash object. You don't need to hazzle with complex strings and character escapes. In fact this was the main reason for developing this plugin. We could customize our previous clock object.
+
+		<pii:code>flashembed("clock", "clock.swf", {digital:true});</pii:code>
+	</p>
+
+	<p>
+		<a href="#api">flexible API access</a><br />
+		After you have placed your Flash object to the page you'll instantly have the handle to the Flash object's programming interface (API) if such is profided. For example.
+
+		<pii:code>var api = flashembed("containerId", "foo.swf");</pii:code>
+	</p>
+
+	<p>
+		<a href="#jquery">jQuery support</a><br />
+		jQuery is a popular and very powerfull JavaScript library and when it is combined with flasembed there are many new creative ways of inserting Flash on your page. Previous example could be rewritten as:
+
+		<pii:code>$("#clock").flashembed("clock.swf");</pii:code>
+	</p>
+
+
+
+	<p>
+		<a href="#alternate">Alternate content</a><br />
+		This plugin offers the easiest way to handle users with old Flash versions or users that do not have flash at all. You have following choices
+	</p>
+
+	<ul>
+		<li>
+			Alternate content is placed directly into containing element and it is replaced if user has required flash version.
+		</li>
+		<li>
+			You setup express install to upgrade Flash on the fly.
+		</li>
+		<li>
+			You can configure you own <strong>onFail</strong> method that can generate content dynamically. You may even want to set up alternate browser instead of Flash.
+		</li>
+		<li>
+			If you are too lazy to configure anything you can let this tool to show default message which is actually very informational. User will see a message informing about required player version and a direct link to correct download page.
+		</li>
+	</ul>
+
+	<p>
+		<a href="#download">Size</a><br />
+		Although rich in features this plugin weights around <strong>5 kb</strong> when minified.
+	</p>
+</div>
+
+
+<%--{{{ full syntax --%>
+
+<a name="usage"></a>
+<h2>Full syntax</h2>
+
+<pii:code>
+flashembed(element, flash_parameters, [swf_configuration]);
+</pii:code>
+
+<h3><em>1.st argument:</em> element</h3>
+
+<p>
+	is either a <samp>DOM element</samp> or a <samp>String</samp> indicating some HTML element's id
+</p>
+
+<h3><em>2.nd argument:</em> flash_parameters</h3>
+
+<p>
+	is a relative or absolute path to the swf file. This argument can also be given as JSON Object where path to swf file is given in <samp>src</samp> property. Here is a list of other properties that you can set.
+</p>
+
+<ul class="tabs">
+	<li><a href="#customParams" class="w3">Custom parameters</a></li>
+	<li><a href="#standardParams" class="w3">Standard Flash parameters</a></li>
+</ul>
+
+<br clear="all"/>
+
+<div class="panes">
+
+	<div class="pane">
+
+		<p>
+			These custom parameters are <samp>null</samp> by default.
+		</p>
+
+		<table class="listing" style="border-top:1px solid #ddd">
+			<tr>
+				<td style="width:120px" class="code">version</td>
+				<td>
+					specifies the minimum version required from the plugin. Adobe releases Flash versions in following format. <samp>[major, 0, fix]</samp> where the minor number is always zero. For this reason you must supply this parameter is in format <samp>[major, fix]</samp>.
+
+					<p>
+						So if you want to provide alternate content for versions that are below <samp>[9,0,45]</samp> you must supply <samp>[9,45]</samp> here.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td class="code">expressInstall</td>
+				<td>path to <a href="/swf/expressinstall.swf">expressinstall.swf</a> file, and if it is given this plugin attempts to install Flash on the fly</td>
+			</tr>
+			<tr>
+				<td class="code">onFail</td>
+				<td>a JavaScript function that is evaluated when flash plugin is missing or version is too old</td>
+			</tr>
+
+		</table>
+
+	</div>
+
+	<div class="pane">
+
+		<p>
+			Here are default settings for standard Flash parameters. You can freely customize them
+		</p>
+
+		<table class="listing" style="border-top:1px solid #ddd">
+			<tr>
+				<td style="width:120px" class="code">allowfullscreen</td>
+				<td>
+					<samp>true</samp>, if you don't need this and are concerned about security set this to: false
+				</td>
+			</tr>
+			<tr>
+				<td class="code">allowscriptaccess</td>
+				<td>
+					<samp>always</samp>. this enables Flash to JavaScript communication.
+				</td>
+			</tr>
+			<tr>
+				<td class="code">quality</td>
+				<td>high</td>
+			</tr>
+			<tr>
+				<td class="code">bgcolor</td>
+				<td>- not set -</td>
+			</tr>
+			<tr>
+				<td class="code">width</td>
+				<td>100%</td>
+			</tr>
+			<tr>
+				<td class="code">height</td>
+				<td>100%</td>
+			</tr>
+			<tr>
+				<td class="code">type</td>
+				<td>application/x-shockwave-flash</td>
+			</tr>
+			<tr>
+				<td class="code">pluginspage</td>
+				<td>http://www.adobe.com/go/getflashplayer</td>
+			</tr>
+		</table>
+
+		<p>
+			Most of the time you only need to specify <samp>src</samp> parameter. Full list of standard Flash parameters can be found <a class="external" href="http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_12701">here</a>.
+		</p>
+
+	</div>
+
+</div>
+
+<h3><em>3.rd argument:</em> swf_configuration</h3>
+
+<p>
+	this is an optional argument that configures your Flash object. All parameters in this object are given as variables (or flashvars) to your Flash object. This can be as complex JSON object if possible.
+</p>
+<%--}}}--%>
+
+
+<a name="jquery"></a>
+<h2>jQuery support</h2>
+
+<p>
+	jQuery is mainly supported because of it's highly effective selector language. All you have to do is to include jquery to the page and your ready to use following syntax
+</p>
+
+<pii:code>
+$("jQuery selector").flashembed(flash_ parameters, [swf_configuration]);
+</pii:code>
+
+<h3>jQuery selector</h3>
+
+<p>
+	Selects one <strong>or more</strong> elements to be replaced with Flash object. Uses jQuery <a class="external" href="http://docs.jquery.com/Selectors">selector syntax</a> which is quite similar to CSS but more advanced.
+</p>
+
+<p>
+	If you have many Flash objects on your site (such as <a class="external" href="http://www.mikeindustries.com/sifr">sifr</a> objects) jQuery is an ideal tool for "flash-enabling" them. It has native query language for finding elements and this plugin can replace those elements with Flash. If you are a JavaScript developer and you are not familiar with it already - <a class="external" href="http://www.jquery.com">study it now!</a>
+</p>
+
+<h3><em>2nd and 3rd</em> arguments</h3>
+
+<p>
+	Thse follow the same practices as in <a href="#usage">full syntax</a>
+</p>
+
+
+<h2>Static methods</h2>
+
+<p>
+	Flashembed exposes three static methods for your own free use
+</p>
+
+<pii:code>
+// get current flash version. returns an array [major, fix]
+flashembed.getVersion();
+
+// check if version [9, 0] is supported
+flashembed.isSupported([9, 0]);
+
+// use this when you want to perform JavaScript when document is fully scriptable
+flashembed.domReady(function()  {
+	// place your code here
+
+});
+
+// returns embedding code for the Flash object that works with the browser in use
+flashembed.getHTML();
+
+// returns embedding code for the Flash object that works on all browsers
+flashembed.getFullHTML();
+</pii:code>
+
+<p>
+	<samp>domReady</samp> function uses jQuery:s <samp>$(document).ready()</samp> if jQuery is present. Waiting for you DOM to load before scripting is one of the most important topics JavaScript developer must master. Here is some documentation about <a href="/documentation/users-guide.html#dom">DOM loading</a>
+</p>
+
+
+<h2 style="margin-top:100px"><em>Examples</em></h2>
+
+<a name="json"></a>
+<h2>JSON Configuration</h2>
+
+<p>
+	As we are on Flowplayer website let's show how it can be configured.
+</p>
+
+<pii:code>
+flashembed("player", "FlowPlayerDark.swf", {config: {
+	autoPlay: false,
+	playList: [{ url: 'video/spammer.flv', overlayId: 'play' }],
+	initialScale: 'scale',
+	useNativeFullScreen: true
+}});
+</pii:code>
+
+<p>
+	Flowplayer object is configured with second argument. It requires a complex JSON object in "config" variable. This is easy with flashembed.js.
+</p>
+
+<a name="alternate"></a>
+<h2>Alternate content</h2>
+
+<p>
+	Here we need to have at least version 9.0.115. If such a version was not found show default error message.
+</p>
+
+<pii:code>
+flashembed("example", {
+  src: 'example.swf',
+  version: [9,115]
+});
+</pii:code>
+
+<p>
+	Our error message is even usefull! Here is a real example of one.
+</p>
+
+<div class="box">
+
+	<h2>
+		Flash version 9,115 or greater is required
+	</h2>
+
+	<h3 class="first">Your version is <script>document.write(flashembed.getVersion())</script></h3>
+
+	<p>
+		Download latest version from
+		<a href="http://www.adobe.com/go/getflashplayer">here</a>
+	</p>
+
+</div>
+
+<p>
+	Note that you should ignore the <samp>minor</samp> number in the versioning because that is always zero according to Flash release history. If you need to have your own alternate content - simply place this content inside the element that is supposed to be replaced by Flash. Here's an example:
+</p>
+
+<pii:code>
+<div id="example">
+	Your browser does not support Flash. Please download it from Adobe
+</div>
+</pii:code>
+
+<p>
+	Or you can specify a custom method when flash is not supported.
+</p>
+
+<pii:code>
+flashembed("example", {
+  src: 'example.swf',
+  version: [9,115],
+
+  /*
+    this- variable points to the supplied parameters
+    and user's version is given as argument
+  */
+  onFail: function(version)  {
+     return "version " +this.version+ " is required. you have " +version;
+  }
+});
+</pii:code>
+
+<a name="lazy"></a>
+<h2>Lazy loading</h2>
+
+<p>
+	Lazy loading was introduced into flashembed in version 0.26. It is a feature where Flash object was loaded only after the containing element was clicked or mouseovered. Since 0.29 this feature was dropped because this kind of functionality should be coded outside the tool if you want to make more readable code. This is how lazy loading could be achieved with jQuery.
+</p>
+
+<pii:code>
+// lazy loading with jQuery. so easy!
+$("div#example").click(function() {
+	flashembed(this, 'example.swf');
+});
+</pii:code>
+
+<a name="express"></a>
+<h2>Express install</h2>
+
+<p>
+	The Express Install feature is used to install a required Flash player plug-in right there in the same page. In the following example we need to have at least version 9.1.23. If such a version was not found use <a class="external" href="http://kb.adobe.com/selfservice/viewContent.do?externalId=6a253b75">express install</a> to upgrade Flash on the fly. You need to have <a href="/swf/expressinstall.swf">expressinstall.swf</a> available for download.
+</p>
+
+<pii:code>
+flashembed("example", {
+  src:'example.swf',
+  version:[9,115],
+  expressInstall:'expressinstall.swf'
+});
+</pii:code>
+
+<a name="api"></a>
+<h2>API Access</h2>
+
+<p>
+	This quick example shows you an example usage of getting handle to the Flash objects API of such is provided.
+</p>
+
+<pii:code lang="html">
+<!-- setup container for your flash object -->
+<div id="example"></div>
+
+<script>
+   // load Flash object, API is automatically returned for you (since 0.27)
+   var api = flashembed("example", {src:'example.swf'});
+</script>
+
+</pii:code>
+
+<p>
+	Now your API is ready to be called:
+</p>
+
+<pii:code lang="html">
+<button onClick="api.doSomething()">API action</button>
+</pii:code>
+
+<p>
+	<strong>Note:</strong> this feature is not supported upon lazy loading or when selecting nodes with jQuery.
+</p>
+
+<h2>Browser support</h2>
+
+<ul>
+	<li>Firefox 1.5/2.0+</li>
+	<li>Internet Explorer 5.5/6.0/7.0+</li>
+	<li>Safari 2.0+</li>
+	<li>Opera 9.0+</li>
+</ul>
+
+<a name="download"></a>
+<h2>Download <em>version ${version}</em></h2>
+
+
+<c:set var="version" value="flashembed-${v.flashembed}"/>
+<%@ include file="/releases.jsf" %>
+
+
+

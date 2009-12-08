@@ -1,0 +1,40 @@
+<%-- :mode=jsp: --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="tools" value="all" />
+<%@ include file="../standalone.jsf" %>
+
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/overlay-apple.css"/>
+
+<!-- make all links with the 'rel' attribute open overlays -->
+<script>
+<c:set var="js">
+
+// install overlay with default settings
+$(function() {
+	$("#overlay").overlay({effect: 'apple', api:true}).load();
+});
+</c:set>
+
+${js}
+</script>
+
+
+<!-- overlayed element, which is styled with the overlay.css stylesheet -->
+<div class="apple_overlay" id="overlay" 
+	style="background-image:url(/tools/img/overlay/white.png);width:640px;padding:35px">
+
+	<!-- here is the content for the overlay, can be anything -->
+	<h2 style="margin:10px 0">Here is my overlay</h2>
+
+	<p style="float: left; margin:0px 20px 0 0;">
+		<img src="${cdn}/img/title/eye192.png" />
+	</p>
+
+	<p>
+		Class aptent taciti sociosqu ad litora torquent per conubia nostra,
+		per inceptos himenaeos. Donec lorem ligula, elementum vitae,
+		imperdiet a, posuere nec, ante. Quisque mattis massa id metus.
+	</p>
+
+</div>
+

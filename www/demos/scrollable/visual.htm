@@ -1,0 +1,131 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<!-- styling -->
+<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-navig.css" />
+
+
+<%--{{{ style --%>
+<style>
+/* root element for the entire scrollable setup */
+div.scrollable {
+	position:relative;
+	overflow:hidden;
+	width: 646px;
+	height:300px;
+}
+
+/*
+	root element for scrollable items. It is
+	absolutely positioned and given a large width.
+*/
+#thumbs {
+	position:absolute;
+	width:20000em;
+	clear:both;
+	border:1px solid #222;
+}
+
+/* custom positioning for navigational links */
+a.prev, a.next {
+	margin-top:118px;
+}
+
+<c:set var="css">
+/* single item */
+#thumbs div {
+	float:left;
+	width:214px;
+	height:300px;
+	background:#333 url(${cdn}/img/global/gradient/h150.png) repeat-x 0 146px;
+	color:#fff;
+	border-left:1px solid #333;
+	cursor:pointer;
+}
+
+/* style when mouse is over the item */
+#thumbs div.hover {
+	background-color:#444;
+}
+
+/* style when element is active (clicked) */
+#thumbs div.active {
+	background-color:#066;
+	cursor:default;
+}
+</c:set>
+
+${css}
+
+#thumbs h3, #thumbs p, #thumbs span {
+	margin:13px;
+	font-family:"bitstream vera sans";
+	font-size:13px;
+	color:#fff;
+}
+
+#thumbs h3 em {
+	font-style:normal;
+	color:yellow;
+}
+</style>
+
+<%--}}}--%>
+
+
+<!-- navigator -->
+<div class="navi"></div>
+
+<!-- prev link -->
+<a class="prev"></a>
+
+<!-- root element for scrollable -->
+<div class="scrollable">
+
+	<div id="thumbs">
+
+		<c:forEach begin="3" end="15" var="i">
+			<div>
+
+				<img src="${cdn}/img/demos/photos/thumb${i + 2}.jpg" />
+
+				<h3><em>${i - 2}. </em>An example title</h3>
+
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et felis eget
+					tellus pharetra porttitor. Praesent dui arcu, egestas quis, adipiscing a.
+				</p>
+
+				<span class="blue">${i * 20} sec</span>
+
+			</div>
+		</c:forEach>
+
+	</div>
+
+</div>
+
+<!-- next link -->
+<a class="next"></a>
+
+<!-- let rest of the page float normally -->
+<br clear="all" />
+
+<!-- javascript coding -->
+<c:set var="js">
+<script>
+// execute your scripts when DOM is ready. this is a good habit
+$(function() {
+
+	// initialize scrollable
+	$("div.scrollable").scrollable({
+		size: 3,
+		items: '#thumbs',
+		hoverClass: 'hover'
+	});
+
+});
+</script>
+</c:set>
+
+${js}

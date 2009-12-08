@@ -1,0 +1,72 @@
+<%-- :mode=jsp: --%>
+<%@ include file="../standalone.jsf" %>
+
+<!-- tooltip styling -->
+<style>
+<c:set var="css">
+.tooltip {
+	display:none;
+	background-color:#ffa;
+	border:1px solid #cc9;
+	padding:3px;
+	font-size:13px;
+	-moz-box-shadow: 2px 2px 11px #666;
+	-webkit-box-shadow: 2px 2px 11px #666;
+} 
+</c:set>
+${css}
+
+/* style the trigger elements */
+#triggers img {
+	border:0;
+	cursor:pointer;
+	margin-left:11px;
+}
+</style>
+
+<!-- the tooltip -->
+<span class="tooltip">&nbsp;</span>
+
+<!-- a couple of trigger elements -->
+<div id="triggers">
+	<img src="${cdn}/tools/img/photos/1.jpg"
+		title="This is browser's default tooltip."/>
+
+	<img src="${cdn}/tools/img/photos/2.jpg"
+		title="Another default tooltip. It comes with a slight delay"/>
+
+	<img src="${cdn}/tools/img/photos/3.jpg"
+		title="This is jQuery.Tools tooltip. Look / feel is almost similar."/>
+
+	<img src="${cdn}/tools/img/photos/4.jpg"
+		title="You can customize every aspect of this tip"/>
+</div>
+
+
+<script>
+// What is $(document).ready ? See: http://flowplayer.org/tools/using.html#document_ready
+$(document).ready(function() {
+	<c:set var="js">
+	$("img[title]:gt(1)").tooltip({
+
+		// use div.tooltip as our tooltip
+		tip: '.tooltip',
+
+		// use fade effect instead of the default
+		effect: 'fade',
+
+		// make fadeOutSpeed similar to browser's default
+		fadeOutSpeed: 100,
+
+		// the time before tooltip is shown
+		predelay: 400,
+
+		// tweak the position
+		position: "bottom right",		
+		offset: [-50, -80]
+	});
+	</c:set>
+	${js}
+});
+</script>
+

@@ -1,0 +1,142 @@
+
+<%-- :mode=jsp: --%>
+<%@ include file="/tools/demos/header.jsf" %>
+
+<p>
+	This document describes how the jQuery Tools <a href="/tools/demos/">demo area</a> has been done. We recommend opening the <a href="demo-area.htm">standalone version</a> of the demo in another browser window or tab while reading this document.
+</p>
+
+<img src="${cdn}/tools/img/demo.jpg" style="margin:20px -20px;border:0" />
+
+<h3>HTML coding</h3>
+
+<p>
+	We have one root element <samp>div#scroll</samp> for everything and it also functions as the root element for the scrollable. The scrollable setup follows the same principles as the <a href="one-sized.html">previous demo</a> but this time we have two additions:
+</p>
+
+<ol>
+	<li>An empty scrollable item which is shown when the page is loaded.
+	<li>An initial "intro page" which is shown on top of the empty scrollable item when the page is loaded
+	<li>the scrollable navigator (at the bottom of the items) also has an item for the first "empty" item but it is invisible making it impossible to click
+</ol>
+
+<pii:code lang="html">
+<!-- root element for everything -->
+<div id="scroll">
+
+	<!-- scrollable items -->
+	<div id="tools">
+
+		<!-- empty item -->
+		<div class="tool">&nbsp;</div>
+
+		<!-- item #1: tabs -->
+		<div class="tool" style="background-image:url(tabs.jpg)">
+			... the content ...
+		</div>
+
+		<!-- .. rest of the items .. -->
+
+		<!-- the intro "page"  -->
+		<div id="intro" class="tool" style="background:url(tools.jpg)">
+			... the content ...
+		</div>
+
+	</div>
+
+	<!-- thumbnails -->
+	<div id="thumbs" class="t">
+
+		<!-- intro page navigator button -->
+		<a id="t0" class="active"></a>
+
+		<!-- scrollable navigator root element -->
+		<div class="navi">
+
+			<!-- navigator item for the first empty "page" -->
+			<a style="display:none"></a>
+
+			<!-- navigator items for the rest of the scrollable items -->
+			<a id="t1"></a>
+			<a id="t2"></a>
+			<a id="t3"></a>
+			<a id="t4"></a>
+			<a id="t5"></a>
+			<a id="t6"></a>
+		</div>
+
+	</div>
+
+</div>
+</pii:code>
+
+<h3>CSS coding</h3>
+
+<p>
+	As in every jQuery Tools setup, the CSS is the hardest part. We are not going very deep into the details on this. We follow the same principles on the scrollable elements as in the <a href="index.html">minimal setup</a> (as always). The navigator items are done with a CSS sprite technique using this single <a href="/tools/img/demo-navi.jpg">background image</a>. We define a different background position for each thumbnail and the position is changed when the item is being clicked, mouseovered or it is active. Here is the CSS setup for the first thumbnail.
+</p>
+
+<pii:code lang="css">
+#t0.active { background-position:-21px 0 !important; }
+#t0:hover  { background-position:-21px -180px; }
+#t0:active { background-position:-21px -270px; }
+</pii:code>
+
+
+<h3>JavaScript coding</h3>
+
+<p>
+	The logic on the demo is that the first page is a special one and is outside the scrollable items. We use special logic for that. The scrollable itself is installed normally.
+</p>
+
+<pii:code>
+// initialize scrollable and return the programming API
+var api = $("#scroll").scrollable({
+	items: '#tools',
+	size: 1,
+	clickable: false
+
+// use the navigator plugin
+}).navigator({api: true});
+</pii:code>
+
+<p>
+	Here is the special logic for the intro page.
+</p>
+
+<pii:code>
+// this callback does the special handling of our "intro page"
+api.onStart(function(e, i) {
+
+	// when on the first item: hide the intro
+	if (i) {
+		$("#intro").fadeOut("slow");
+
+	// otherwise show the intro
+	} else {
+		$("#intro").fadeIn(1000);
+	}
+
+	// toggle activity for the intro thumbnail
+	$("#t0").toggleClass("active", i == 0);
+});
+
+// a dedicated click event for the intro thumbnail
+$("#t0").click(function() {
+
+	// seek to the beginning (the hidden first item)
+	$("#scroll").scrollable().begin();
+
+});
+</pii:code>
+
+<p>
+	Note that the demo can also be navigated by using the arrow keys.
+</p>
+
+<br />
+<div class="box petrol">
+	Here is the <a href="demo-area.htm">standalone version</a> of this demo. You can freely study and copy its source code.
+</div>
+
+
