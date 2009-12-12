@@ -1,0 +1,39 @@
+FORM
+	* validator 
+	* stylable 
+	* slider
+	* datepicker
+
+
+TOOLBOX
+	* tools.toolbox.drag
+	* tools.toolbox.wheel
+	* tools.toolbox.hash
+	* tools.toolbox.lazyload
+		support for tabs, scrollable, tooltip, overlay
+	* tools.toolbox.flashembed		
+	
+
+# overlay.gallery --> tabs + slideshow	
+# expose --> overlay.mask()
+# tabs.history: history: true
+# scrollable.navigator: history: true	
+# scrollable.mousewheel:  mousewheel: true
+
+- couple of scrollable easings
+- overlay effect #2
+- tooltip effect
+
+
+DEMOS & DOCUMENTATION!!
+
+	
+- using.html --> Users Manual 2.0. "Developing web applications in modern world"
+	- chaining talk
+	- lazy loading
+	- more about events
+
+
+- "Events" documentation to every tool (remove from configuration / JavaScript API)
+- horizontal accordion effect (kwicks / absolute positioning) 
+- overlay trigger position: calculate when fired (ie. from tooltip)
