@@ -1,0 +1,124 @@
+<%-- :mode=jsp: --%>
+
+<a name="autoscroll"></a>
+<h2 class="plugin">Autoscroll plugin</h2>
+
+<p>
+	Autoscroll plugin provides an automatic scrolling capability. It advances to the next items in pre-configured intervals. Here is a autoscroll plugin in action:
+</p>
+
+<div class="demowrap">
+<%@ include file="${jqt}/demos/scrollable/plugins/autoscroll.htm" %>
+</div>
+
+<a name="autoscroll_features"></a>
+
+<p>
+	You can configure the number of items being scrolled and the interval of the scrolls. When navigational elements are mouseovered the automatic scrolling is paused.
+</p>
+
+<a name="autoscroll_usage"></a>
+<h3>Usage</h3>
+
+<p>
+	Here is the JavaScript setup for the example above:
+</p>
+
+<pii:code>
+$("#scroller").scrollable().autoscroll({autoplay: false});
+</pii:code>
+
+<a name="autoscroll_configuration"></a>
+<h3>Configuration</h3>
+
+<p>
+	Here is a full list of available configuration options:
+</p>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>property</th>
+			<th>default</th>
+			<th>description</th>
+		</tr>
+	</thead>
+	<tr>
+		<td class="code">api</td>
+		<td><code>false</code></td>
+		<td>
+			When the scrolalble and its chained plugins are initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp>, the return value is this tool's <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. The <samp>api</samp> property must be added to the <em>last</em> plugin in the initialization chain. Read more about <a href="${jqt}/using.html#api">accessing the tool API</a> for more information.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">steps</td>
+		<td><code>1</code></td>
+		<td>
+			The number of items being scrolled within a single autoscroll.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">interval</td>
+		<td><code>1000</code></td>
+		<td>
+			The time (in milliseconds) between autoscrolls.  If this is the only configuration variable for this plugin you can give the interval value directly for the plugin. For example: <samp>$("#scroller").scrollable().autoscroll(2000);</samp>
+		</td>
+	</tr>
+	<tr>
+		<td class="code">autoplay</td>
+		<td><code>true</code></td>
+		<td>
+			When enabled the scrolling starts automatically upon page load. If this is set to <samp>false</samp>, the autoscroll can be started by using the <samp>play()</samp> method (see below).
+		</td>
+	</tr>
+	<tr>
+		<td class="code">autopause</td>
+		<td><code>true</code></td>
+		<td>
+			If this property is set to <samp>true</samp> then, when any navigational buttons are mouseovered, the autoscrolling will pause.
+		</td>
+	</tr>
+
+</table>
+
+
+<a name="autoscroll_api"></a>
+<h3>JavaScript API</h3>
+
+<p>
+	The following methods are <strong>added</strong> to the main <a href="#api">JavaScript API</a> of the scrollable and they are ready to be used after the plugin has been installed.
+</p>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>method</th>
+			<th nowrap>return value</th>
+			<th>description / example</th>
+		</tr>
+	</thead>
+
+	<tr>
+		<td class="code">play</td>
+		<td><code>API</code></td>
+		<td>
+			Begins a playable autoscroll.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">pause</td>
+		<td><code>API</code></td>
+		<td>
+			Pauses the autoscroll and it will resume when mouse has moved away from the navigational buttons.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">stop</td>
+		<td><code>API</code></td>
+		<td>
+			Stops the autoscroll. Autoscroll can only be resumed by calling the <samp>play()</samp> method.
+		</td>
+	</tr>
+
+</table>
+

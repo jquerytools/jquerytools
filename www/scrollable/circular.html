@@ -1,0 +1,121 @@
+<%-- :mode=jsp: --%>
+
+<a name="circular"></a>
+<h2 class="plugin">Circular plugin <em>version: ${v['scrollable.circular']}</em></h2>
+
+<p>
+	The circular plugin generates an infinite loop for the scrollable items. There is no fixed beginning or end and when you surpass the last item it will magically start from the beginning. The same thing happens if you navigate backwards from the first item. Here is this plugin in action:
+</p>
+
+<div class="demowrap">
+<%@ include file="${jqt}/demos/scrollable/plugins/circular.htm" %>
+</div>
+
+<p>
+	This circular feature can be used in horizontal scrollables too. The plugin behaves so that the first and last items are <em>cloned</em> at both ends. When those cloned items are visible the scroll position is changed to the <em>real</em> position of the cloned item. Because of this behavioir there are actually more scrollable items than in the original setup.
+</p>
+
+
+<a name="circular_usage"></a>
+<h3>Usage details</h3>
+
+<p>
+	Here is the JavaScript setup for the example above:
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<p>
+	Look at a <a href="${jqt}/demos/scrollable/plugins/circular.htm">standalone version</a> of the demo above.
+</p>
+
+
+<a name="navigator_configuration"></a>
+<h3>Configuration</h3>
+
+<p>
+	Here is a full list of available configuration options:
+</p>
+
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>property</th>
+			<th>default</th>
+			<th>description</th>
+		</tr>
+	</thead>
+	<tr>
+		<td class="code">api</td>
+		<td><code>false</code></td>
+		<td>
+			When the scrollable and its chained plugins are initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp>, the return value is this tool's <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. The <samp>api</samp> property must be added to the <em>last</em> plugin in the initialization chain. Read more about <a href="${jqt}/using.html#api">accessing the tool API</a> for more information.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">clonedClass</td>
+		<td><code>'cloned'</code></td>
+		<td>
+			The plugin behaves so that the first and last items are <em>cloned</em> at both ends. These cloned items are assigned the CSS class name given in this configuration variable. 
+		</td>
+	</tr>	
+</table>
+
+<a name="circular_api"></a>
+<h3>Known issues</h3>
+
+
+<p>
+	This plugin is still in beta stage. It has not been fully tested an in complex setups it may not bahave well. Here are some issues that are not yet solved.
+</p>
+
+<p>
+	 Most of the API methods are overridden so that they return the correct results. As a result of this methodology the following issues exist in the current implementation of this plugin:
+</p>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>method</th>
+			<th nowrap>return value</th>
+			<th>description / example</th>
+		</tr>
+	</thead>
+
+
+	<tr>
+		<td class="code">getItems()</td>
+		<td><code>jQuery</code></td>
+		<td>
+			Returns both the original and cloned items together.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">getSize()</td>
+		<td><code>integer</code></td>
+		<td>
+			Returns the amount of the original and cloned items together.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">seekTo()</td>
+		<td><code>integer</code></td>
+		<td>
+			Does not work properly. Use the <samp>move()</samp> API call if possible.
+		</td>
+	</tr>
+</table>
+
+<p>
+	If you are using the <a href="#navigator">navigator plugin</a> together with this plugin, you must chain the navigator plugin <strong>after</strong> this plugin. For example:
+</p>
+
+<pii:code>
+// always place the navigator plugin AFTER the circular plugin
+$("#myroot").scrollable().circular().navigator();
+</pii:code>
+
+
