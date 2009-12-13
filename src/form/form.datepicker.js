@@ -22,6 +22,7 @@
 */ 
 (function($) {	
 
+  $.tools = $.tools || {};
 	$.tools.form = $.tools.form || {};
 	
 	var instances = [], tool = $.tools.form.datepicker = {
