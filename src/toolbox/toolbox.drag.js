@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * toolbox.drag @VERSION - Drag is an event
  * 
  * based on jquery.event.drag.js ~ v1.5 ~ 

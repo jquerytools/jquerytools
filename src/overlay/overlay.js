@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * tools.overlay @VERSION - Overlay base. Extend it.
  * 
  * Copyright (c) 2010 Tero Piirainen

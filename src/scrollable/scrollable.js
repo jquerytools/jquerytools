@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * tools.scrollable @VERSION - New wave UI component
  * 
  * Copyright (c) 2010 Tero Piirainen

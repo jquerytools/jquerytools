@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * tooltip.slide effect @VERSION
  * 
  * Copyright (c) 2010 Tero Piirainen

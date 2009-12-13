@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * toolbox.mousewheel @VERSION - Mousewheel is an event.
  * 
  * based on jquery.event.wheel.js ~ rev 1 ~ 

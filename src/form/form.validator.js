@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * form.validator @VERSION - HTML5 is here. Now use it.
  * 
  * Copyright (c) 2010 Tero Piirainen

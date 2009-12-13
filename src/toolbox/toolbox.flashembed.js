@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * tools.flashembed @VERSION - The future of Flash embedding.
  * 
  * Copyright (c) 2010 Tero Piirainen

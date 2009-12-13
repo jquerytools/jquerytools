@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * toolbox.mask @VERSION - We need a faster web
  * 
  * Copyright (c) 2010 Tero Piirainen

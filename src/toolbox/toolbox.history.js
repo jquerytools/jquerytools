@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * toolbox.history @VERSION - Back button for AJAX apps.
  * 
  * Copyright (c) 2010 Tero Piirainen

@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * overlay.apple @VERSION - Commercial bling bling for all of us
  * 
  * Copyright (c) 2010 Tero Piirainen

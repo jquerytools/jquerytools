@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * toolbox.mask @VERSION - Dim the lights.
  * 
  * Copyright (c) 2010 Tero Piirainen

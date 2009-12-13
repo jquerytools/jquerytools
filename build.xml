@@ -1,11 +1,11 @@
 <project name="jQuery.Tools" default="min">
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml"/> 
-	<property file="version.properties" prefix="v"/>
+	<property file="build.properties" prefix="v"/>
 	
-	<!-- hardcoded -->
-	<property name="www" value="/opt/flowplayer/webapp/tools-${v.tools}"/>
-	<property name="js" value="/opt/flowplayer/webapp/js/tools/${v.tools}"/>
+	<property name="www" value="${v.www}-${v.tools}"/>
+	<property name="js" value="${www}/js"/>
+	
 	
 	<!-- minify with Closure Compiler (default mode) --> 
 	<target name="min">                                                   
@@ -31,7 +31,7 @@
 			 <arg line="--js"/>
 			 <srcfile/>
 			 <arg line="--js_output_file"/>
-			 <mapper type="glob" from="*.js" to="../build/*.min.js"/>
+			 <mapper type="glob" from="*.js" to="../build/${v.tools}/*.min.js"/>
 			 <targetfile/>
 		</apply>
 		

@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * scrollable.navigator @VERSION
  * 
  * Copyright (c) 2010 Tero Piirainen

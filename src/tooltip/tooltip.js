@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * jQuery Tools Tooltip @VERSION 
  * 
  * Copyright (c) 2010 Tero Piirainen

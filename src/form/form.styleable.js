@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * form.styleable @VERSION - You waited. Here it is.
  * 
  * Copyright (c) 2010 Tero Piirainen

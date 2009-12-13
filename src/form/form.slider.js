@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * form.slider @VERSION - HTML5 slider. Implemented.
  * 
  * Copyright (c) 2010 Tero Piirainen

@@ -1,4 +1,5 @@
-/* @license                                     
+/**
+ * @license                                     
  * form.datepicker @VERSION - Pick your (HTML5) day.
  * 
  * Copyright (c) 2010 Tero Piirainen

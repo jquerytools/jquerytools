@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * tabs.slideshow @VERSION - 
  * 
  * Copyright (c) 2010 Tero Piirainen

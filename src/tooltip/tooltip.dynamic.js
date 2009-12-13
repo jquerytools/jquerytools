@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * tooltip.dynamic @VERSION - Always visible tips
  * 
  * Copyright (c) 2010 Tero Piirainen

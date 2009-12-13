@@ -1,4 +1,5 @@
-/* @license
+/**
+ * @license 
  * scrollable.circular @VERSION - Not production ready yet.
  * 
  * Copyright (c) 2010 Tero Piirainen
