@@ -1,10 +1,19 @@
-/*! 
-jquery.event.drag.js ~ v1.5 ~ Copyright (c) 2008, Three Dub Media (http://threedubmedia.com)  
-Liscensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-LICENSE.txt
-*/
+/* @license
+ * toolbox.drag @VERSION - Drag is an event
+ * 
+ * based on jquery.event.drag.js ~ v1.5 ~ 
+ * Copyright (c) 2008, Three Dub Media
+ * http://flowplayer.org/tools/toolbox/drag.html
+ * 
+ * Dual licensed under MIT and GPL 2+ licenses
+ * http://www.opensource.org/licenses
+ *
+ * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Date: @DATE 
+ */
 ;(function($){ // secure $ jQuery alias
 /*******************************************************************************************/
-// Created: 2008-06-04 | Updated: 2009-03-24
+// Created: 2008-06-04 | Updated: 2010-03-24
 /*******************************************************************************************/
 // Events: drag, dragstart, dragend
 /*******************************************************************************************/

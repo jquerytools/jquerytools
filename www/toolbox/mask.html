@@ -34,7 +34,7 @@
 	You can use CSS to tweak the look of the semi-transparent surrounding layer which we refer to as the "mask".
 </p>
 
-<%@ include file="common-features.jsf" %>
+<%@ include file="../common-features.jsf" %>
 
 <a name="usage"></a>
 <h2>Usage</h2>
@@ -57,9 +57,9 @@
 
 <ul>
 	<li> <a href="/demos/events/mouseover.html">Exposing video upon mouseover</a></li>
-	<li><a href="/demos/tools/overlay2.htm">Exposing videos</a></li>
-	<li><a href="/demos/tools/fake-fullscreen.html">Custom fullscreen action with overlay and expose</a></li>
-	<li><a href="/demos/tools/sharing-overlay.html">Email and embed features with overlay and expose</a></li>
+	<li><a href="/demos${jqt}/overlay2.htm">Exposing videos</a></li>
+	<li><a href="/demos${jqt}/fake-fullscreen.html">Custom fullscreen action with overlay and expose</a></li>
+	<li><a href="/demos${jqt}/sharing-overlay.html">Email and embed features with overlay and expose</a></li>
 </ul>
 
 <a name="initialization"></a>
@@ -226,7 +226,7 @@ $("JQUERY SELECTOR").expose({
 		<td class="code">api</td>
 		<td><code>false</code></td>
 		<td>
-		When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp>, the return value is the <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="/tools/using.html#api">accessing the tool API</a> for more information.
+		When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp>, the return value is the <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="${jqt}/using.html#api">accessing the tool API</a> for more information.
 		</td>
 	</tr>
 

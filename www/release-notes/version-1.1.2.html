@@ -8,11 +8,11 @@
 <h2 class="first">Website upgrade</h2>
 
 <p>
-	Take a quick look around our updated website. jQuery Tools now has equal status to Flowplayer. Both are serious projects with active development. The largest upgrade was the intro page of our <a href="/tools/demos/index.html">demo area</a> which is done with the new version of Scrollable. The intro page is also documented so you can have a similar setup on your site too.
+	Take a quick look around our updated website. jQuery Tools now has equal status to Flowplayer. Both are serious projects with active development. The largest upgrade was the intro page of our <a href="${jqt}/demos/index.html">demo area</a> which is done with the new version of Scrollable. The intro page is also documented so you can have a similar setup on your site too.
 </p>
 
-<a href="/tools/demos/index.html">
-	<img src="${cdn}/tools/img/demo.jpg" style="margin:20px -20px;border:0" /></a>
+<a href="${jqt}/demos/index.html">
+	<img src="${cdn}${jqt}/img/demo.jpg" style="margin:20px -20px;border:0" /></a>
 
 <h2>Extended event object</h2>
 
@@ -41,7 +41,7 @@ $("#scroll").scrollable().onSeek(function(event, index) {
 </pii:code>
 
 <p>
-	You can read more about the event object from the <a href="/tools/using.html#event_object">User's Manual</a>.
+	You can read more about the event object from the <a href="${jqt}/using.html#event_object">User's Manual</a>.
 </p>
 
 <h2 class="blue">Full list of changes in this release</h2>
@@ -53,7 +53,7 @@ $("#scroll").scrollable().onSeek(function(event, index) {
 		You can specify whether the tooltip closes upon <samp>mouseout</samp> or not. In fact you can configure the opening and closing event for the tooltip element. This occurs with the new <samp>effects.tooltip</samp> configuration option.
 	</li>
 	<li>
-		Tooltip works flawlessly with animated effects when being quickly moved from one trigger to another. This was especially problematic in the <a href="http://flowplayer.org/tools/demos/tooltip/form.html">form demo</a> which now works smoothly.
+		Tooltip works flawlessly with animated effects when being quickly moved from one trigger to another. This was especially problematic in the <a href="http://flowplayer.org${jqt}/demos/tooltip/form.html">form demo</a> which now works smoothly.
 	</li>
 	<li>
 		Fixed the "black box" PNG bug in the <samp>toggle</samp> effect when using Internet Explorer .
@@ -73,11 +73,11 @@ $("#scroll").scrollable().onSeek(function(event, index) {
 		A new <samp>onStart</samp> callback function which is triggered just before the items start scrolling. This happens between <samp>onBeforeSeek</samp> and <samp>onBeforeSeek</samp> events. All API methods rely on the fact that the scollable is already at its target position. By returning <samp>false</samp> inside this function you can prevent the disabling of the navigational elements.
 	</li>
 	<li>
-		Ability to change the speed inside the <samp>onBeforeSeek</samp> event. Thanks <a href="http://flowplayer.org/tools/forum/35/27451">blacktrash</a></li>
+		Ability to change the speed inside the <samp>onBeforeSeek</samp> event. Thanks <a href="http://flowplayer.org${jqt}/forum/35/27451">blacktrash</a></li>
 	<li>The index argument is supplied for the callback functions that are given to seeking functions as an argument</li>
 	<li>
 		<samp>next</samp> and <samp>nextPage</samp> buttons are now disabled when the item count is less than the scrollable size
-		thanks <a href="http://flowplayer.org/tools/forum/35/27359">sb3den</a>
+		thanks <a href="http://flowplayer.org${jqt}/forum/35/27359">sb3den</a>
 	</li>
 </ul>
 
@@ -122,7 +122,7 @@ $("#scroll").scrollable().onSeek(function(event, index) {
 
 <h2>A piece of information</h2>
 
-<img src="${cdn}/tools/img/gaza.jpg" title="People and Software should be free"
+<img src="${cdn}${jqt}/img/gaza.jpg" title="People and Software should be free"
 	style="float:left;margin:20px" />
 
 <div style="font-size:18px !important;padding:50px 30px;color:#7E7566;">

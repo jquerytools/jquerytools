@@ -17,15 +17,15 @@
 
 	<h4>For promotional purposes</h4>
 	<c:set var="wrapId" value="apple_promo"/>
-	<%@ include file="/tools/demos/overlay/apple.htm" %>
+	<%@ include file="${jqt}/demos/overlay/apple.htm" %>
 
 	<h4>For image galleries</h4>
 
 	<c:set var="wrapId" value="gallery_promo"/>
-	<%@ include file="/tools/demos/overlay/gallery.htm" %>
+	<%@ include file="${jqt}/demos/overlay/gallery.htm" %>
 
 	<h4>For user interactions</h4>
-	<%@ include file="/tools/demos/overlay/modal-dialog.htm" %>
+	<%@ include file="${jqt}/demos/overlay/modal-dialog.htm" %>
 </div>
 
 <h2>For every overlaying need</h2>
@@ -50,7 +50,7 @@
 	The overlay can contain any HTML and the whole thing can be styled with CSS. There is no clutter and there are no surprises. This overlay tool is now a significant part of the JavaScript/Web 2.0 landscape. Don't rely on other, half-baked solutions.
 </p>
 
-<%@ include file="common-features.jsf" %>
+<%@ include file="../common-features.jsf" %>
 
 
 
@@ -77,9 +77,9 @@
 	<li>
 		The <a href="/index.html">Flowplayer home page</a>. <small>Open the scripting tab and press "Show me"</small>
 	</li>
-	<li>The basics of <a href="/demos/tools/overlay.html">overlaying videos</a></li>
-	<li><a href="/demos/tools/fake-fullscreen.html">Custom fullscreen action in overlays</a></li>
-	<li><a href="/demos/tools/sharing-overlay.html">E-mail and embed features in overlays</a></li>
+	<li>The basics of <a href="/demos${jqt}/overlay.html">overlaying videos</a></li>
+	<li><a href="/demos${jqt}/fake-fullscreen.html">Custom fullscreen action in overlays</a></li>
+	<li><a href="/demos${jqt}/sharing-overlay.html">E-mail and embed features in overlays</a></li>
 </ul>
 
 <%@ include file="graphics.jsf" %>
@@ -133,7 +133,7 @@ $("JQUERY SELECTOR").overlay({
 		<td class="code">api</td>
 		<td><code>false</code></td>
 		<td>
-			When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp> the return value is this tool's <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="/tools/using.html#api">accessing the tool API</a>.
+			When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp> the return value is this tool's <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="${jqt}/using.html#api">accessing the tool API</a>.
 		</td>
 	</tr>
 	<tr>
@@ -436,7 +436,7 @@ api = $("div.overlay").overlay();
 </p>
 
 <p>
-	This method accepts three arguments. The first argument is the effect name, the second argument is the function that performs the required functionality for loading the overlay and the third argument is a function that closes the overlay. You can use this method to modify existing effects or add new ones. Here is the official default effect taken directly from the <a href="/js/tools/tools.${tool}-${v[tool]}.js?download=true">source code</a> of the overlay tool:
+	This method accepts three arguments. The first argument is the effect name, the second argument is the function that performs the required functionality for loading the overlay and the third argument is a function that closes the overlay. You can use this method to modify existing effects or add new ones. Here is the official default effect taken directly from the <a href="/js${jqt}${jqt}.${tool}-${v[tool]}.js?download=true">source code</a> of the overlay tool:
 </p>
 
 <pii:code>

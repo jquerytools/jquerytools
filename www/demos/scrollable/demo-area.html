@@ -1,12 +1,12 @@
 
 <%-- :mode=jsp: --%>
-<%@ include file="/tools/demos/header.jsf" %>
+<%@ include file="${jqt}/demos/header.jsf" %>
 
 <p>
-	This document describes how the jQuery Tools <a href="/tools/demos/">demo area</a> has been done. We recommend opening the <a href="demo-area.htm">standalone version</a> of the demo in another browser window or tab while reading this document.
+	This document describes how the jQuery Tools <a href="${jqt}/demos/">demo area</a> has been done. We recommend opening the <a href="demo-area.htm">standalone version</a> of the demo in another browser window or tab while reading this document.
 </p>
 
-<img src="${cdn}/tools/img/demo.jpg" style="margin:20px -20px;border:0" />
+<img src="${cdn}${jqt}/img/demo.jpg" style="margin:20px -20px;border:0" />
 
 <h3>HTML coding</h3>
 
@@ -73,7 +73,7 @@
 <h3>CSS coding</h3>
 
 <p>
-	As in every jQuery Tools setup, the CSS is the hardest part. We are not going very deep into the details on this. We follow the same principles on the scrollable elements as in the <a href="index.html">minimal setup</a> (as always). The navigator items are done with a CSS sprite technique using this single <a href="/tools/img/demo-navi.jpg">background image</a>. We define a different background position for each thumbnail and the position is changed when the item is being clicked, mouseovered or it is active. Here is the CSS setup for the first thumbnail.
+	As in every jQuery Tools setup, the CSS is the hardest part. We are not going very deep into the details on this. We follow the same principles on the scrollable elements as in the <a href="index.html">minimal setup</a> (as always). The navigator items are done with a CSS sprite technique using this single <a href="${jqt}/img/demo-navi.jpg">background image</a>. We define a different background position for each thumbnail and the position is changed when the item is being clicked, mouseovered or it is active. Here is the CSS setup for the first thumbnail.
 </p>
 
 <pii:code lang="css">

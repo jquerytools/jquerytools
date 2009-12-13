@@ -1,0 +1,110 @@
+<%-- :mode=jsp: --%>
+
+<a name="apple"></a>
+<h2 class="effect">Apple Effect</h2>
+
+<p>
+	The Apple effect looks and behaves like you might have seen on apple.com. Click here to see an example:
+</p>
+
+<c:set var="wrapId" value="apple"/>
+<%@ include file="${jqt}/demos/overlay/apple.htm" %>
+
+<p>
+	Overlaying is done in a visually appealing way by growing a background image from 0 to the desired size. If you choose to use this effect you are <em>tied to the dimensions of the image</em>. You can change the width but the height changes accordingly so that the aspect ratio remains the same.
+</p>
+
+<a name="apple_usage"></a>
+<h3>Usage</h3>
+
+<p>
+	The best way to learn is to study the <a href="${jqt}/demos/overlay/apple.html">full documentation</a> for the example above. Here you can see the JavaScript setup for this effect:
+</p>
+
+<pii:code>
+${js}
+</pii:code>
+
+<p>
+	It's important to note that this effect is not included in the standard distribution of jQuery Tools. You need to include it yourself on the <a href="${jqt}/download.html#combine">download page</a>.
+</p>
+
+<p>
+	You may want to configure this effect as a default effect so that you don't have to define the <samp>effect</samp> property on every call. This can be achieved with <a href="using.html#global">global configuration</a>.
+</p>
+
+
+<a name="apple_configuration"></a>
+<h3>Configuration</h3>
+
+<p>
+	Here is a full list of available configuration options for this effect. These options are <em>added</em> to the <a href="#configuration">default configuration options</a>.
+</p>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>property</th>
+			<th>default</th>
+			<th>description</th>
+		</tr>
+	</thead>
+
+	<tr>
+		<td class="code">start (<code>Object</code>)</td>
+		<td nowrap>
+			<code style="font-size:11px">
+			{<br />
+				&nbsp; top: null,<br />
+				&nbsp; left: null,<br />
+				&nbsp; absolute: false<br />
+			}
+			</code>
+		</td>
+		<td>
+			The starting position and dimensions of the animated image. By default, the starting position is the position of the element that triggers the overlay and typically you don't need to configure this option.
+
+			<p>
+				When the overlay is loaded programmatically with the <samp>load()</samp> API call, the default starting position is the centre of the screen. You can override these defaults using the following properties:
+			</p>
+
+			<ul>
+				<li><samp>top</samp> specifies how far from the top edge of the screen the growing animation should start.</li>
+				<li><samp>left</samp> specifies how far from the left-hand edge of the screen the growing animation should start.</li>
+				<li><samp>absolute</samp> By default this is set to <samp>true</samp> so the starting position is measured from the top left-hand corner of the browser window and the scrolling position has no impact. By default the scrolling position is added.</li>
+			</ul>
+		</td>
+	</tr>
+
+	<tr>
+		<td class="code">fadeInSpeed</td>
+		<td><code>'fast'</code></td>
+		<td>
+			The speed at which the content fades in on top of the background image after the growing animation has completed. Valid values are 'slow', 'normal' and 'fast', or you can supply a numerical value (in milliseconds).
+		</td>
+	</tr>
+
+	<tr>
+		<td class="code">zIndex</td>
+		<td><code>9999</code></td>
+		<td>
+			This is the CSS z-index property for the background image. A z-index specifies the placement of an element on a document's z-axis. This value must be greater than the z-index of any other element on the page so that the overlay will always be on top of other elements on the page. Note: If you are using the expose effect together with the overlay the <samp>zIndex</samp> of the expose mask is 9998 by default.
+		</td>
+	</tr>
+
+</table>
+
+<a name="apple_load"></a>
+<h3>Using the Apple effect upon page load</h3>
+
+<p>
+	Due to a <a href="http://dev.jquery.com/ticket/4187" class="external">major bug</a> in jQuery you should not load overlays with the Apple effect upon <samp>document.ready()</samp> event when using external stylesheets. This causes unpredictable behaviour in Safari 3+ and Chrome (webkit-based browsers). There are two workarounds for handling this:
+</p>
+
+<ul>
+	<li>Use <samp>$(window).load()</samp> instead. This will definitely be executed after the stylesheets have been loaded.</li>
+	<li>
+		Define your overlay style directly on the page or inline for the element. Here is a <a href="demos/overlay/onload.htm">demo</a> about this method.
+	</li>
+</ul>
+

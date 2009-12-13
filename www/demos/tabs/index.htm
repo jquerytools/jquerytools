@@ -3,12 +3,12 @@
 
 <c:if test="${empty plain}">
 <!-- tab styling -->
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/tabs.css" />
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/tabs.css" />
 </c:if>
 
 <!-- tab pane styling -->
 <style>
-<%@ include file="/tools/css/tabs-panes.css" %>
+<%@ include file="${jqt}/css/tabs-panes.css" %>
 </style>
 
 <c:set var="html">

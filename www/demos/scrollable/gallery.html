@@ -1,5 +1,5 @@
 <%-- :mode=jsp: --%>
-<%@ include file="/tools/demos/header.jsf" %>
+<%@ include file="${jqt}/demos/header.jsf" %>
 
 <p>
 	This demo continues from the <a href="index.html">minimal setup</a> and adds a simple <samp>click</samp> action to the scrollable items which will open up a larger version of the thumbnail image.
@@ -56,7 +56,7 @@ var url = $(this).attr("alt");
 </pii:code>
 
 <p>
-	If you want to have more syntaxically correct pages, you might want to enclose your thumbnail images with <samp>A</samp> tags and supply the large image's url in the <samp>href</samp> attribute and maybe add some image description to the <samp>title</samp> attribute. In that case you can have the interesting opportunity to add a <a href="/tools/demos/combine/scrollable-gallery-with-tooltips.html">tooltip for scrollable items</a>.
+	If you want to have more syntaxically correct pages, you might want to enclose your thumbnail images with <samp>A</samp> tags and supply the large image's url in the <samp>href</samp> attribute and maybe add some image description to the <samp>title</samp> attribute. In that case you can have the interesting opportunity to add a <a href="${jqt}/demos/combine/scrollable-gallery-with-tooltips.html">tooltip for scrollable items</a>.
 </p>
 
 <p>
@@ -69,5 +69,5 @@ var url = $(this).attr("alt");
 </div>
 
 <p>
-	<a href="/tools/credits.html" id="credits">Photo credits &raquo;</a>
+	<a href="${jqt}/credits.html" id="credits">Photo credits &raquo;</a>
 </p>

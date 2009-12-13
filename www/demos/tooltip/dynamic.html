@@ -1,8 +1,8 @@
 <%-- :mode=jsp: --%>
-<%@ include file="/tools/demos/header.jsf" %>
+<%@ include file="${jqt}/demos/header.jsf" %>
 
 <p>
-	Below you can see triggers whose tooltip is centered on the top edge of the trigger. <a href="#lower">Click here</a> to scroll a little lower and see how the tooltips behave now. We are using <a href="/tools/tooltip.html#dynamic">dynamic plugin</a> which repositions our tooltips so that it is always visible on the viewport.
+	Below you can see triggers whose tooltip is centered on the top edge of the trigger. <a href="#lower">Click here</a> to scroll a little lower and see how the tooltips behave now. We are using <a href="${jqt}/tooltip.html#dynamic">dynamic plugin</a> which repositions our tooltips so that it is always visible on the viewport.
 </p>
 
 <a name="lower"></a>
@@ -21,7 +21,7 @@
 </p>
 
 <p>
-	The dynamic plugin can be used together with any effect. The above configuration uses the custom <a href="/tools/tooltip.html#slide">slide effect</a>.
+	The dynamic plugin can be used together with any effect. The above configuration uses the custom <a href="${jqt}/tooltip.html#slide">slide effect</a>.
 </p>
 
 <h3>HTML coding</h3>
@@ -46,7 +46,7 @@
 <h3>CSS coding</h3>
 
 <p>
-	When tooltip is repositioned it is assigned new CSS class names. By default we are using "top", "bottom", "left" and "right" to identify which edge is the newly positioned edge. These names can be changed from the plugin's <a href="/tools/tooltip.html#dynamic">configuration</a>. Here are our settings for the repositioned bottom edge.
+	When tooltip is repositioned it is assigned new CSS class names. By default we are using "top", "bottom", "left" and "right" to identify which edge is the newly positioned edge. These names can be changed from the plugin's <a href="${jqt}/tooltip.html#dynamic">configuration</a>. Here are our settings for the repositioned bottom edge.
 </p>
 
 <pii:code lang="css">
@@ -56,7 +56,7 @@ ${css}
 <h3>JavaScript coding</h3>
 
 <p>
-	After initializing the tooltip we will chain our <samp>dynamic()</samp> plugin. We have used the <samp>bottom</samp> parameter to alter the tooltip configuration for the bottom edge. Every <a href="/tools/tooltip.html#configuration">configuration option</a> can be used to alter the behaviour.
+	After initializing the tooltip we will chain our <samp>dynamic()</samp> plugin. We have used the <samp>bottom</samp> parameter to alter the tooltip configuration for the bottom edge. Every <a href="${jqt}/tooltip.html#configuration">configuration option</a> can be used to alter the behaviour.
 </p>
 
 <pii:code>
@@ -64,7 +64,7 @@ ${js}
 </pii:code>
 
 <p>
-	<strong>Note:</strong> the dynamic plugin is not included in the standard jQuery Tools distribution. You must download a <a href="/tools/download.html#combine">custom combination</a> that includes this effect.
+	<strong>Note:</strong> the dynamic plugin is not included in the standard jQuery Tools distribution. You must download a <a href="${jqt}/download.html#combine">custom combination</a> that includes this effect.
 </p>
 
 <br />

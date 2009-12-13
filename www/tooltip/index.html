@@ -34,7 +34,7 @@
 	</li>
 </ul>
 
-<%@ include file="common-features.jsf" %>
+<%@ include file="../common-features.jsf" %>
 
 
 <p style="color:#322">
@@ -105,7 +105,7 @@ $("<trigger_selector>").tooltip({
 		<td class="code">api</td>
 		<td><code>false</code></td>
 		<td>
-			When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp>, the return value is this tool's <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="/tools/using.html#api">accessing the tool API</a> for more information.
+			When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp>, the return value is this tool's <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="${jqt}/using.html#api">accessing the tool API</a> for more information.
 		</td>
 	</tr>
 	<tr>
@@ -438,7 +438,7 @@ api.show();
 			Registers a new callback function that is triggered before the tooltip is shown. The callback is given as the argument. Returning <samp>false</samp> in the callback prevents the tooltip from showing. You can assign multiple <samp>onBeforeShow</samp> listeners with this command. See <a href="using.html#callbacks">using callbacks</a> for more information.
 
 			<p>
-				The first <em>argument</em> for the callback function is the <a href="/tools/using.html#event_object">Event</a> object and the second is the tooltip position to be used. This is an object with values <samp>{top: integer, left: integer}</samp>.
+				The first <em>argument</em> for the callback function is the <a href="${jqt}/using.html#event_object">Event</a> object and the second is the tooltip position to be used. This is an object with values <samp>{top: integer, left: integer}</samp>.
 			</p>
 		</td>
 	</tr>
@@ -575,7 +575,7 @@ function(done) {
 </pii:code>
 
 <p>
-	Look at tooltip's <a href="/js/tools/tools.${tool}-${v[tool]}.js?download=true">source code</a> for more examples of the effects. The basic idea is to use your jQuery skills together with the API methods. Here you can see a demo about the <a href="/tools/demos/tooltip/custom-effect.html">custom sliding effect</a>.
+	Look at tooltip's <a href="/js${jqt}${jqt}.${tool}-${v[tool]}.js?download=true">source code</a> for more examples of the effects. The basic idea is to use your jQuery skills together with the API methods. Here you can see a demo about the <a href="${jqt}/demos/tooltip/custom-effect.html">custom sliding effect</a>.
 </p>
 
 <a name="plugins"></a>

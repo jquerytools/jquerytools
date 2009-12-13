@@ -7,7 +7,7 @@
 <%@ include file="../standalone.jsf" %>
 
 <!-- tab styling -->
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/tabs-flowplayer-v2.css"/>
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/tabs-flowplayer-v2.css"/>
 
 <style>
 <c:set var="css">
@@ -108,7 +108,7 @@ ${html}
 				<li>The ability to customize the scrolling experience with <samp>onBeforeSeek</samp> and <samp>onSeek</samp> listeners.</li>
 			</ul>
 
-			<%@ include file="/tools/common-features.jsf" %>
+			<%@ include file="${jqt}/common-features.jsf" %>
 
 		</div>
 
@@ -122,15 +122,15 @@ ${html}
 				</p>
 
 				<ul>
-					<li><a href="/tools/scrollable.html#circular">circular</a> &nbsp; makes an infinite loop from the Scrollable items so they continue cycling back to the beginning once the last item is reached.</li>
-					<li><a href="/tools/scrollable.html#autoscroll">autoscroll</a> &nbsp; makes the scrolling behaviour automatic and is highly configurable.</li>
-					<li><a href="/tools/scrollable.html#navigator">navigator</a> &nbsp; provides navigation buttons for switching between pages in Scrollable.</li>
-					<li><a href="/tools/scrollable.html#mousewheel">mousewheel</a> &nbsp; enables mousewheel support for Scrollable.</li>
+					<li><a href="${jqt}/scrollable.html#circular">circular</a> &nbsp; makes an infinite loop from the Scrollable items so they continue cycling back to the beginning once the last item is reached.</li>
+					<li><a href="${jqt}/scrollable.html#autoscroll">autoscroll</a> &nbsp; makes the scrolling behaviour automatic and is highly configurable.</li>
+					<li><a href="${jqt}/scrollable.html#navigator">navigator</a> &nbsp; provides navigation buttons for switching between pages in Scrollable.</li>
+					<li><a href="${jqt}/scrollable.html#mousewheel">mousewheel</a> &nbsp; enables mousewheel support for Scrollable.</li>
 				</ul>
 
 
 				<p>
-					You can also write <a href="/tools/using.html#plugins">your own plugins</a>. Another way to alter the default behaviour is the ability to make your <a href="/tools/demos/scrollable/easing.html">own animation effects</a>. There is lots of room for experimentation!
+					You can also write <a href="${jqt}/using.html#plugins">your own plugins</a>. Another way to alter the default behaviour is the ability to make your <a href="${jqt}/demos/scrollable/easing.html">own animation effects</a>. There is lots of room for experimentation!
 				</p>
 
 			</div>
@@ -148,7 +148,7 @@ ${html}
 
 				<ul>
 					<c:forEach items="${f:getDemo(context.toolDemos, 'scrollable/index.html').category.demos}" var="demo">
-						<li> <a href="/tools/demos/${demo.path}">${demo.title}</a> </li>
+						<li> <a href="${jqt}/demos/${demo.path}">${demo.title}</a> </li>
 					</c:forEach>
 				</ul>
 			</div>

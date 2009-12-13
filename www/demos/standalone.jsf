@@ -7,7 +7,7 @@
 	This is the jQuery Tools standalone demo, the fastest way to get started.
 	You can freely copy things on your site. All demos can be found here:
 
-	http://flowplayer.org/tools/demos/
+	http://flowplayer.org${jqt}/demos/
 
 	- css files should not be referenced from flowplayer.org when in production
 
@@ -16,7 +16,7 @@
 
 <head>
 	<!-- standalone page styling (can be removed)-->
-	<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/standalone.css"/>
+	<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/standalone.css"/>
 
 	<title>jQuery Tools standalone demo</title>
 	<c:if test="${!context.production && param.debug}"><c:set var="qs">?debug=true</c:set></c:if><c:if test="${empty tools}"><!-- default set of jQuery Tools + jQuery ${v.jquery} -->

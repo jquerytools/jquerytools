@@ -67,12 +67,12 @@
 
 .demos p {
 	margin:0 0 4px;
-	background:transparent url(${cdn}/tools/img/bullet.png) no-repeat scroll 0 2px;
+	background:transparent url(${cdn}${jqt}/img/bullet.png) no-repeat scroll 0 2px;
 	padding:2px 0 1px 22px;
 }
 
 #thumbs {
-	background:url(${cdn}/tools/img/demo-navi.jpg) no-repeat;
+	background:url(${cdn}${jqt}/img/demo-navi.jpg) no-repeat;
 	height:90px;
 	position:absolute;
 	top:410px;
@@ -81,7 +81,7 @@
 }
 
 .t a {
-	background:transparent url(${cdn}/tools/img/demo-navi.jpg) no-repeat scroll -21px -90px;
+	background:transparent url(${cdn}${jqt}/img/demo-navi.jpg) no-repeat scroll -21px -90px;
 	margin-left:11px;
 	display:block;
 	width:99px;
@@ -150,7 +150,7 @@
 		<div class="tool">&nbsp;</div>
 
 		<!-- tabs -->
-		<div class="tool" style="background-image:url(${cdn}/tools/img/hero/tabs.jpg)">
+		<div class="tool" style="background-image:url(${cdn}${jqt}/img/hero/tabs.jpg)">
 
 			<div class="details">
 				<strong>Tabs</strong> is the most popular JavaScript tool on the web. Tabs, horizontal tabs and accordions, finally done the right way.
@@ -161,7 +161,7 @@
 				<h2>Demos</h2>
 
 				<c:forEach items="${f:getDemo(context.toolDemos, 'tabs/index.html').category.demos}" var="demo">
-					<p><a href="/tools/demos/${demo.path}">${demo.title}</a></p>
+					<p><a href="${jqt}/demos/${demo.path}">${demo.title}</a></p>
 				</c:forEach>
 
 			</div>
@@ -169,7 +169,7 @@
 		</div>
 
 		<!-- tooltip -->
-		<div class="tool" style="background-image:url(${cdn}/tools/img/hero/tooltip.jpg)">
+		<div class="tool" style="background-image:url(${cdn}${jqt}/img/hero/tooltip.jpg)">
 
 			<div class="details">
 				<strong>Tooltip</strong> helps you to build easier user interfaces. Big or small. Pluggable effects. Yet another crucial tool.
@@ -180,7 +180,7 @@
 				<h2>Demos</h2>
 
 				<c:forEach items="${f:getDemo(context.toolDemos, 'tooltip/index.html').category.demos}" var="demo">
-					<p><a href="/tools/demos/${demo.path}">${demo.title}</a></p>
+					<p><a href="${jqt}/demos/${demo.path}">${demo.title}</a></p>
 				</c:forEach>
 
 			</div>
@@ -188,7 +188,7 @@
 		</div>
 
 		<!-- overlay -->
-		<div class="tool" style="background-image:url(${cdn}/tools/img/hero/overlay.jpg)">
+		<div class="tool" style="background-image:url(${cdn}${jqt}/img/hero/overlay.jpg)">
 
 			<div class="details">
 				<strong>Overlay</strong> is a significant part of the JavaScript/Web 2.0 landscape. This tool handles them all: commercial overlays, image galleries and modal dialogs.
@@ -199,7 +199,7 @@
 				<h2>Demos</h2>
 
 				<c:forEach items="${f:getDemo(context.toolDemos, 'overlay/index.html').category.demos}" var="demo">
-					<p><a href="/tools/demos/${demo.path}">${demo.title}</a></p>
+					<p><a href="${jqt}/demos/${demo.path}">${demo.title}</a></p>
 				</c:forEach>
 
 			</div>
@@ -207,7 +207,7 @@
 		</div>
 
 		<!-- expose -->
-		<div class="tool" style="background-image:url(${cdn}/tools/img/hero/expose.jpg)">
+		<div class="tool" style="background-image:url(${cdn}${jqt}/img/hero/expose.jpg)">
 
 			<div class="details">
 				Make your HTML elements stand out by fading out the surrounding elements with the <strong>expose</strong> tool.
@@ -218,7 +218,7 @@
 				<h2>Demos</h2>
 
 				<c:forEach items="${f:getDemo(context.toolDemos, 'expose/index.html').category.demos}" var="demo">
-					<p><a href="/tools/demos/${demo.path}">${demo.title}</a></p>
+					<p><a href="${jqt}/demos/${demo.path}">${demo.title}</a></p>
 				</c:forEach>
 
 			</div>
@@ -226,7 +226,7 @@
 		</div>
 
 		<!-- scrollable -->
-		<div class="tool" style="background:url(${cdn}/tools/img/hero/scrollable.jpg) 10px -40px no-repeat">
+		<div class="tool" style="background:url(${cdn}${jqt}/img/hero/scrollable.jpg) 10px -40px no-repeat">
 
 			<div class="details">
 				<strong>Scrollable</strong> is the most successful tool in this library. In fact this page is powered with Scrollable.
@@ -237,7 +237,7 @@
 				<h2>Demos</h2>
 
 				<c:forEach items="${f:getDemo(context.toolDemos, 'scrollable/index.html').category.demos}" var="demo">
-					<p><a href="/tools/demos/${demo.path}">${demo.title}</a></p>
+					<p><a href="${jqt}/demos/${demo.path}">${demo.title}</a></p>
 				</c:forEach>
 
 			</div>
@@ -245,7 +245,7 @@
 		</div>
 
 		<!-- flashembed -->
-		<div class="tool" style="background-image:url(${cdn}/tools/img/hero/flashembed.jpg)">
+		<div class="tool" style="background-image:url(${cdn}${jqt}/img/hero/flashembed.jpg)">
 
 			<div class="details">
 				The role of JavaScript is rising with tremendous speed. However, Flash still has its place and you need a proper tool for embedding.
@@ -256,7 +256,7 @@
 				<h2>Demos</h2>
 
 				<c:forEach items="${f:getDemo(context.toolDemos, 'flashembed/index.html').category.demos}" var="demo">
-					<p><a href="/tools/demos/${demo.path}">${demo.title}</a></p>
+					<p><a href="${jqt}/demos/${demo.path}">${demo.title}</a></p>
 				</c:forEach>
 
 			</div>
@@ -267,7 +267,7 @@
 	</div>
 
 	<!-- intro "page" -->
-	<div id="intro" class="tool" style="background:url(${cdn}/tools/img/hero/index.jpg) -40px -30px no-repeat">
+	<div id="intro" class="tool" style="background:url(${cdn}${jqt}/img/hero/index.jpg) -40px -30px no-repeat">
 
 		<div class="details" style="padding-left:80px">
 			<strong>jQuery Tools</strong> is a collection of the most important user-interface components for today's websites. This single JavaScript file weighs only <span style="color:#000">${v['tools.size']} Kb</span>
@@ -279,7 +279,7 @@
 
 			<p><a href="scrollable/demo-area.html">How this page is done?</a></p>
 			<c:forEach items="${f:getDemo(context.toolDemos, 'combine/portfolio/index.html').category.demos}" var="demo">
-				<p><a href="/tools/demos/${demo.path}">${demo.title}</a></p>
+				<p><a href="${jqt}/demos/${demo.path}">${demo.title}</a></p>
 			</c:forEach>
 		</div>
 

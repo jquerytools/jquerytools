@@ -1,0 +1,76 @@
+
+jQuery Tools / Validator
+Standards based validation for jQuery
+
+DEMO: registration form (fieldsets, url, email, required, number, data-validation ...) 
+
+Above form is initialized with a simple JavaScript one-liner ("view source" in a tab)
+
+<pii:code>
+$("form").validator();
+</pii:code>
+
+	var v = $(elements).validator({api: true}); 
+	var errors = v.checkValidity(); // Web Forms 2.0
+		
+	http://dean.edwards.name/html5/test-forms.html	
+	http://code.google.com/p/webforms2/source/browse/trunk/webforms2.js
+	http://ejohn.org/blog/html-5-data-attributes/	
+	http://weston.ruter.net/
+	
+	http://www.slideshare.net/rsim/jsconfeu-overview
+
+	
+	
+<p>
+jQuery Tools Validation is something that hasn't existed before: a compact, standards based and easy HTML form validation tool. It relies on the new HTML5 input data types and takes the best parts of <a href="http://www.whatwg.org/specs/web-forms/current-work/#form-validation" class="external">Web Forms 2.0</a> standard. Combined with the power of jQuery we can transform the fairly complex Web Forms standard into pure amazing. 
+</p>
+
+Use HTML5 input types now!
+HTML5  provides new input types such as <samp>number, email</samp> and <samp>url</samp>. Or you can specify additional conditions such as <samp>max, min, required</samp> or <samp>pattern</samp>. These work out of the box on every major browser. You can also use amazingly flexible <a href="#custom">API</a> to add your own input types or conditions. You can take full advantage of the jQuery selector engine.
+
+
+Full control of error messages
+- separate / combined
+- localization
+- styling
+
+Web Forms 2.0
+- invalid event
+- :invalid selector
+
+Beyond Web Forms 2.0
+- API, event model, 
+
+
+<a name="configuration"></a>
+<h2>Configuration</h2>
+
+	singleField: false, 		// all inputs at once
+	singleError: false, 		// all errors per input at once			
+	errorClass: 'error',
+	messageClass: 'error',
+	messagePosition: 'after',			
+	lang: 'en',
+	effect: 'default',		
+	
+	events: {
+		input: null,		// change || blur || keyup
+		error: 'keyup',	// change || blur || keyup
+		form:  'submit' 	// click || keypress || mouseover	
+	}
+	
+
+<a name="custom"></a>
+<h2>Adding new validators</h2>
+
+fn: function(matcher, msg, fn, isCustom)
+
+
+
+<a name="localization"></a>
+<h2>Localization</h2>
+
+setMessage: function(matcher, msg, lang) 
+	
+messages: 

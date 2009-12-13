@@ -1,15 +1,14 @@
-/*!
- * jQuery TOOLS plugin :: scrollable.navigator @VERSION
+/* @license
+ * scrollable.navigator @VERSION
  * 
- * Copyright (c) 2009 Tero Piirainen
- * http://flowplayer.org/tools/scrollable.html#navigator
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/scrollable/navigator.html
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Launch  : September 2009
- * Date: @DATE
- * Revision: @REVISION 
+ * Since: September 2009
+ * Date: @DATE 
  */
 (function($) {
 		

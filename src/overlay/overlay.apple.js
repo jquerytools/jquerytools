@@ -1,15 +1,14 @@
-/*!
- * tools.overlay "Apple Effect" @VERSION
+/* @license
+ * overlay.apple @VERSION - Commercial bling bling for all of us
  * 
- * Copyright (c) 2009 Tero Piirainen
- * http://flowplayer.org/tools/overlay.html#apple
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/overlay/apple.html
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Since  : July 2009
- * Date: @DATE
- * Revision: @REVISION 
+ * Since: July 2009
+ * Date: @DATE 
  */
 (function($) { 
 

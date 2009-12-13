@@ -1,25 +1,24 @@
-
-/*!
- * tools.slider - beta. Something that fits under 3Kb when minified. 
+/* @license
+ * form.slider @VERSION - HTML5 slider. Implemented.
  * 
- * Copyright (c) 2009 Tero Piirainen
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/form/slider/
  *
  * Dual licensed under MIT and GPL 2+ licenses
+ * http://www.opensource.org/licenses
  * 
- * Depends on jquery.event.drag.js by http://blog.threedubmedia.com/, Thanks!
- */ 
- (function($) {
- 		 
-	 /*
-	 	# input type="range"
-	 	# browser testing
-	 	# values working
-	 	# vertical	 	
-		# animate
-		# setValue
-		# robust keyboard
-	 	- http://developer.yahoo.com/yui/examples/button/btn_example14.html 
-	 */
+ * Requires toolbox.drag.js
+ *
+ * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Date: @DATE 
+ */
+ 
+/* --- TODO ---
+	browser testing, bug hunting, demos
+	http://developer.yahoo.com/yui/examples/button/btn_example14.html 
+*/
+
+(function($) {
 	 
 	$.tools = $.tools || {};
 	 

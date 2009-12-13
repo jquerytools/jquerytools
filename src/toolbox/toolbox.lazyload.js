@@ -1,15 +1,23 @@
-/*
-	"We need a faster web"
+/* @license
+ * toolbox.mask @VERSION - We need a faster web
+ * 
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/toolbox/lazyload.html
+ * 
+ * Dual licensed under MIT and GPL 2+ licenses
+ * http://www.opensource.org/licenses
+ *
+ * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Date: @DATE 
+ */
+ 
 
-	TODO		
-		get rid of flash effects
-		sizing: padding / margins
-		proper progress behaviour
-		recursive load of content & class names
-		grow --> growParent
-		  
-	http://closure-compiler.appspot.com/home (2.1 --> 2.55)
-	
+/* --- TODO ---		
+	get rid of flash effects
+	sizing: padding / margins
+	proper progress behaviour
+	recursive load + class names
+	grow --> growParent	
 */
 (function($) {
 
@@ -17,7 +25,7 @@
 	 
 	var tool = $.tools.lazyload = {
 		
-		version: '0.0.1 beta',
+		version: '@VERSION',
 		
 		conf: {
 			css: {

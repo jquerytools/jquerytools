@@ -1,0 +1,161 @@
+<%-- :mode=jsp: --%>
+
+<a name="gallery_plugin"></a>
+<h2 class="plugin"><em>Gallery</em> plugin for Overlay</h2>
+
+<p>
+	Click on any of the following thumbnails and you will realize that you don't need any other overlaying solution anymore.
+</p>
+
+<c:set var="wrapId" value="thumbnails"/>
+<%@ include file="${jqt}/demos/overlay/gallery.htm" %>
+
+
+<a name="gallery_features"></a>
+<h3>Highlights</h3>
+
+<ul>
+	<li>Every bit of the system can be skinned and configured.</li>
+	<li>Standards-based syntax. Works even on browsers without JavaScript enabled.</li>
+	<li>Navigation with keyboard arrow keys.</li>
+	<li>Styling of the thumbnail images. Try the demo and navigate through the gallery.</li>
+	<li>Automatic preloading of the images.</li>
+	<li>Auto-hiding functionality for next/prev links and for the image description element.</li>
+	<li>Small file size: only about 2kb of minified code. uncomparable</li>
+</ul>
+
+<a name="gallery_usage"></a>
+<h3>Usage</h3>
+
+<p>
+	The best way to learn is to study the <a href="${jqt}/demos/overlay/gallery.html">full documentation</a> for the example above. For the impatient here is the HTML setup. Notice the standards based syntax.
+</p>
+
+<pii:code lang="html">
+<!-- list of thumbnails -->
+<div id="thumbs">
+
+	<a href="path/to/big-picture1.jpg" title="Image description #1">
+		<img src="path/to/thumbnail1.jpg" /></a>
+
+	<a href="path/to/big-picture2.jpg" title="Image description #2">
+		<img src="path/to/thumbnail2.jpg" /></a>
+
+	<a href="path/to/big-picture3.jpg" title="Image description #3">
+		<img src="path/to/thumbnail3.jpg" /></a>
+
+	<!-- and so on ... -->
+</div>
+</pii:code>
+
+<h4>JavaScript setup</h4>
+
+<pii:code>
+${js}
+</pii:code>
+
+<a name="gallery_configuration"></a>
+<h3>Configuration</h3>
+
+<p>
+	Here is a full list of available configuration options. You can also see these options by running the command <samp>console.dir($.tools.overlay.plugins.gallery.conf);</samp> from the console of the Firebug plugin in Firefox. These options are given for the gallery plugin and not for the overlay itself.
+</p>
+
+<table class="listing">
+	<thead>
+		<tr>
+			<th>property</th>
+			<th>default</th>
+			<th>description</th>
+		</tr>
+	</thead>
+	<tr>
+		<td class="code">activeClass</td>
+		<td><code>'active'</code></td>
+		<td>
+			The CSS class name for the trigger element which corresponds to the current image.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">autohide</td>
+		<td><code>true</code></td>
+		<td>
+			Specifies whether the next/prev buttons and the info box are automatically hidden. If this is set to <samp>false</samp> then these elements are always shown.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">disabledClass</td>
+		<td><code>'disabled'</code></td>
+		<td>
+			The CSS class name for disabled <samp>next</samp> and <samp>prev</samp> elements. For example, the <samp>prev</samp> element is disabled when there are no previous items to scroll to.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">imgId</td>
+		<td><code>img</code></td>
+		<td>
+			The id of the image that will be generated inside the overlay.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">info</td>
+		<td><code>'.info'</code></td>
+		<td>
+			Selector for the nested element where the image information is placed.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">next</td>
+		<td><code>'.next'</code></td>
+		<td>
+			Selector for the nested element to which a "next image" action should be bound.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">preload</td>
+		<td><code>true</code></td>
+		<td>
+			Specifies whether the previous and next images are automatically loaded into the browser's cache.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">prev</td>
+		<td><code>'.prev'</code></td>
+		<td>
+			Selector for the nested element to which a "previous image" action should be bound.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">progress</td>
+		<td><code>'.progress'</code></td>
+		<td>
+			Selector for the nested element that works as the loading indicator. Currently an animated GIF is the only viable option but in the future this may be an animated PNG.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">opacity</td>
+		<td><code>0.8</code></td>
+		<td>
+			The transparency setting for tne next/prev and information elements. A decimal value from 0 to 1. A bigger value means less transparency while a value of 0 is fully transparent (invisible).
+		</td>
+	</tr>
+	<tr>
+		<td class="code">speed</td>
+		<td><code>slow</code></td>
+		<td>
+			The speed of how fast the overlay is resized when the image is changed.
+		</td>
+	</tr>
+	<tr>
+		<td class="code">template</td>
+		<td><code></code></td>
+		<td>
+			A pattern that specifies how the information is formatted inside the info box. By default following string will be used
+			<pii:code>
+			'<strong>\${title}</strong> <span>Image \${index} of \${total}</span>'
+			</pii:code>
+		</td>
+	</tr>
+
+</table>
+

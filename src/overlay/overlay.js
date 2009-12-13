@@ -1,15 +1,14 @@
-/*!
- * tools.overlay @VERSION - Overlay HTML with eye candy.
+/* @license
+ * tools.overlay @VERSION - Overlay base. Extend it.
  * 
- * Copyright (c) 2009 Tero Piirainen
- * http://flowplayer.org/tools/overlay.html
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/overlay/
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Launch  : March 2008
- * Date: @DATE
- * Revision: @REVISION 
+ * Since: March 2008
+ * Date: @DATE 
  */
 (function($) { 
 

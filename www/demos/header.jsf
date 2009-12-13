@@ -28,7 +28,7 @@ $(function() {
 	
 	<c:set var="tool" value="${fn:substringBefore(req.demo.path, '/')}"/>
 
-	<h1 style="background-image:url(/tools/img/hero/${tool == 'combine' ? 'index' : tool}.jpg)">
+	<h1 style="background-image:url(${jqt}/img/hero/${tool == 'combine' ? 'index' : tool}.jpg)">
 		${req.demo.title}
 	</h1>	
 	
@@ -37,15 +37,15 @@ $(function() {
 		<%-- prev --%>
 		<c:if test="${!empty req.demo.previous}">
 			<div style="width:260px;float:left">
-				<a href="/tools/demos/${req.demo.previous.path}">&laquo; ${req.demo.previous.title}</a>
+				<a href="${jqt}/demos/${req.demo.previous.path}">&laquo; ${req.demo.previous.title}</a>
 			</div>
 		</c:if>
 		
 		<%-- index --%>
 		<div style="width:220px;float:left">
 			[ 
-				<a href="/tools/demos/index.html">demo index</a>
-				<c:if test="${tool != 'combine'}">| <a href="/tools/${tool}.html">${tool} home</a></c:if>
+				<a href="${jqt}/demos/index.html">demo index</a>
+				<c:if test="${tool != 'combine'}">| <a href="${jqt}/${tool}.html">${tool} home</a></c:if>
 			]
 		</div>	
 	
@@ -53,7 +53,7 @@ $(function() {
 		<%-- next --%>
 		<c:if test="${!empty req.demo.next}">
 			<div style="float:right;text-align:right">
-				<a href="/tools/demos/${req.demo.next.path}">${req.demo.next.title} &raquo;</a>
+				<a href="${jqt}/demos/${req.demo.next.path}">${req.demo.next.title} &raquo;</a>
 			</div>
 		</c:if>		
 		

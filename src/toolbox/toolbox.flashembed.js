@@ -1,15 +1,14 @@
-/*!
+/* @license
  * tools.flashembed @VERSION - The future of Flash embedding.
  * 
- * Copyright (c) 2009 Tero Piirainen
+ * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/flash-embed.html
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Launch  : March 2008
- * Date: @DATE
- * Revision: @REVISION 
+ * Since  : March 2008
+ * Date: @DATE 
  */ 
 (function() {  
 		
