@@ -1,9 +1,9 @@
 /**
  * @license                                     
- * form.datepicker @VERSION - Pick your (HTML5) day.
+ * form.datepickerer @VERSION - Pick your (HTML5) day.
  * 
  * Copyright (c) 2010 Tero Piirainen
- * http://flowplayer.org/tools/form/datepicker/
+ * http://flowplayer.org/tools/form/datepickerer/
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
@@ -24,7 +24,7 @@
 
 	$.tools.form = $.tools.form || {};
 	
-	var instances = [], tool = $.tools.form.datepick = {
+	var instances = [], tool = $.tools.form.datepicker = {
 		
 		version: '@VERSION',  
 		
@@ -143,7 +143,7 @@
 		
 	
 	
-	function Datepick(input, conf)  { 
+	function Datepicker(input, conf)  { 
 
 		// variables
 		var self = this,
@@ -277,7 +277,7 @@
 				// set date
 				self.setDate();				
 				
-				// show datepicker
+				// show datepickerer
 				var pos = input.offset(), h = root.height(), w = root.width();
 
 				root.css({
@@ -345,7 +345,7 @@
 						
 					});
 					
-					// click outside datepick
+					// click outside datepicker
 					$(window).bind("click.dp", function(e) {
 						var el = $(e.target);
 						if (!el.parents("#" + css.root).length && el.index(input) !== 0) { 
@@ -542,10 +542,10 @@
 
 	
 	
-	$.fn.datepick = function(conf) {   
+	$.fn.datepicker = function(conf) {   
 		
 		// return existing instance
-		var el = this.eq(typeof conf == 'number' ? conf : 0).data("datepick");
+		var el = this.eq(typeof conf == 'number' ? conf : 0).data("datepicker");
 		if (el) { return el; } 
 		
 		// configuration
@@ -553,9 +553,9 @@
 		conf = $.extend(globals, conf);		
 		
 		this.each(function() {									
-			el = new Datepick($(this), conf);
+			el = new Datepicker($(this), conf);
 			instances.push(el);
-			$(this).add(el.getInput()).data("datepick", el);
+			$(this).add(el.getInput()).data("datepicker", el);
 		});		
 		
 		return conf.api ? el: this;		

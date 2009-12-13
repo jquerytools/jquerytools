@@ -24,7 +24,7 @@
 	$.tools = $.tools || {};
 	 
 	var current, tool = $.tools.slider = {
-		version: '0.0.1 beta',
+		version: '@VERSION',
 		
 		conf: {
 			min: 0,

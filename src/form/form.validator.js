@@ -27,6 +27,7 @@
 */
 (function($) {	
 
+	$.tools = $.tools || {};
 	$.tools.form = $.tools.form || {};	
 	
 	// globals
