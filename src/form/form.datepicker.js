@@ -13,15 +13,12 @@
  */
 
 /* --- TODO ---
-	show/setDate code restructure
-	selectors respect min/max
-	show animation
-	better css names
 	event management
 	trigger from icon
 */ 
 (function($) {	
 
+	$.tools = $.tools || {};	
 	$.tools.form = $.tools.form || {};
 	
 	var instances = [], tool = $.tools.form.datepicker = {
@@ -147,7 +144,7 @@
 
 		// variables
 		var self = this,
-			 $self = $(this),			  
+			 $self = $(this).add(input),			  
 			 css = conf.css,
 			 labels = LABELS[conf.lang],
 			 root = $("#" + css.root),

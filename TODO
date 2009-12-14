@@ -1,5 +1,6 @@
+
 GLOBAL
-	* build.xml (closure compiler, tomcat copy)
+	# build.xml (closure compiler, tomcat copy)
 	* new event model
 	
 FORM
@@ -28,6 +29,9 @@ TOOLS
 FIXES
 	* overlay trigger position: calculate when fired (ie. from tooltip)
 	* forum bugs
+
+WEBSITE
+	* new download page
 	
 DEMOS & DOCUMENTATION
 	* new event model

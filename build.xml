@@ -5,61 +5,29 @@
 	
 	<property name="www" value="${v.www}-${v.tools}"/>
 	<property name="js" value="${www}/js"/>
+	<property name="build" value="build/${v.tools}"/>
 	
-	
-	<!-- minify with Closure Compiler (default mode) --> 
-	<target name="min">                                                   
-	
-		<!-- create build directories -->
-		<mkdir dir="build/${v.tools}/form"/>
-		<mkdir dir="build/${v.tools}/toolbox"/>
-		<mkdir dir="build/${v.tools}/overlay"/>
-		<mkdir dir="build/${v.tools}/scrollable"/>
-		<mkdir dir="build/${v.tools}/tabs"/>
-		<mkdir dir="build/${v.tools}/tooltip"/>
-		                            
-		<!-- do the hard work -->   
-		<apply                      
-			executable="java" 
-			parallel="false"         
-			verbose="true"           
-			dest="src">              
-									
-			 <fileset dir="src" includes="*/*.js"/>
-			 <arg line="-jar"/>
-			 <arg path="lib/compiler.jar"/>
-			 <arg line="--js"/>
-			 <srcfile/>
-			 <arg line="--js_output_file"/>
-			 <mapper type="glob" from="*.js" to="../build/${v.tools}/*.min.js"/>
-			 <targetfile/>
-		</apply>
-		
-	</target>
-	
-	<!-- copy stuff under web folder -->
-	<target name="www">
-		<mkdir dir="${www}"/>
-		<copy todir="${www}">
-			<fileset dir="www"/>
+	<!-- replace @VERSION and @DATE tags -->
+	<target name="sources">
+ 
+		<!-- copy sources to build directory -->
+		<mkdir dir="${build}"/> 
+		<copy todir="${build}">
+			<fileset dir="src"/>
 		</copy>
-	</target>	
 		
-	
-	<!-- deploy task -->
-   <target name="deploy" depends="min">
-   
-   	<!-- loop trough files and update version number and last modified date -->
+		
+		<!-- loop trough them -->
 		<for param="file"> 
 			<path>
-				<fileset dir="build/${v.tools}" includes="*/*.js"/>
+				<fileset dir="${build}" includes="*/*.js" excludes="*/*.min.js"/>
 			</path>
 		
 		  <sequential>
 		  
 		  		<!-- version number -->
-				<propertyregex input="@{file}" override="yes" property="tool" replace="\1" 
- 					regexp=".+/(.*)\.min.js"/> 
+				<propertyregex property="tool" input="@{file}" override="yes" replace="\1" 
+ 					regexp=".+/(.*)\.js"/> 
 						
 				<propertycopy name="version" from="v.${tool}" override="yes"/>
 
@@ -68,13 +36,13 @@
 					
 			
 				<!-- last modified (via <git log> command) -->
-				<propertyregex input="@{file}" override="yes" property="source" replace="\1" 
- 					regexp=".+/\d.\d.\d/(.*)\.min.js"/>  
+				<propertyregex property="source" input="@{file}" override="yes" replace="\1" 
+ 					regexp=".+/\d.\d.\d/(.*)\.js"/>  
  				
 				<exec executable="git" outputproperty="git.log" >  
 					<arg line="log src/${source}.js"/>  
-				</exec> 				
- 				
+				</exec> 			
+				
 				<propertyregex property="date" input="${git.log}" select="\1">  
 					<regexp pattern="Date:(.+)"/>  
 				</propertyregex>  
@@ -83,14 +51,60 @@
 				
 		  </sequential>
 		</for>
+	</target>
+	
+	
+	<!-- minify with Closure Compiler (default mode) --> 
+	<target name="min" depends="sources">                                                   
+		                            
+		<!-- do the hard work -->   
+		<apply                      
+			executable="java" 
+			parallel="false"         
+			verbose="true"           
+			dest="${build}">              
+									
+			 <fileset dir="${build}" includes="*/*.js" excludes="*/*.min.js"/>
+			 <arg line="-jar"/>
+			 <arg path="lib/compiler.jar"/>
+			 <arg line="--js"/>
+			 <srcfile/>
+			 <arg line="--js_output_file"/>
+			 <mapper type="glob" from="*.js" to="*.min.js"/>
+			 <targetfile/>
+		</apply>
 		
-		<mkdir dir="${js}"/>
-		
-		<copy todir="${js}">
-			<fileset dir="build/${v.tools}"/>
+	</target>
+	
+	<!-- copy stuff under web folder -->
+	<target name="www">
+	
+		<!-- documentation -->
+		<mkdir dir="${www}"/>
+		<copy todir="${www}">
+			<fileset dir="www"/>
 		</copy>
-  		  
-	</target>	
+		
+	</target>
+	
+	<!-- deploy -->
+	<target name="deploy" depends="www">
+		
+		<!-- zip -->
+		<zip destfile="${build}/tools-${v.tools}.zip"
+		     basedir="${build}"
+		     excludes="*.zip" />		
+		  
+		<!-- javascript -->
+		<mkdir dir="${js}"/> 
+		<copy todir="${js}">
+			<fileset dir="${build}"/>
+		</copy>
+		
+		<!-- properties -->
+		<copy file="build.properties" tofile="${www}/../WEB-INF/tools.properties"/>
+		
+	</target>
 
 	
 </project>
