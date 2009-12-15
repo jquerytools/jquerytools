@@ -22,11 +22,11 @@
 <br clear="all" />
 
 <div style="margin:0 -20px;">
-<%@ include file="/tools/demos/scrollable/multiple-scrollables.htm" %>
+<%@ include file="${jqt}/demos/scrollable/multiple-scrollables.htm" %>
 </div>
 
 
-<a style="color:#555;font-size:11px;text-decoration:none;" href="/tools/demos/scrollable/multiple-scrollables.html">
+<a style="color:#555;font-size:11px;text-decoration:none;" href="${jqt}/demos/scrollable/multiple-scrollables.html">
 	View documentation for this demo &raquo;
 </a>
 
@@ -41,7 +41,7 @@
 	<li><strong>all tools</strong> a whole new <a href="#event_model">event model</a></li>
 	<li><strong>overlay</strong> brought back the support for <samp>top: 'center'</samp></li>
 	<li><strong>overlay</strong> fixed a bug where the file input field was disabled when an overlay was being loaded programmatically. thanks <a href="http://flowplayer.org/forum/8/27115">ncooley</a></li>
-	<li><strong>overlay</strong> fixed a bug when an overlay & expose were closed and the expose effect disappeared while the overlay stayed open. thanks <a href="http://flowplayer.org/tools/forum/55/27292">Glazz</a></li>
+	<li><strong>overlay</strong> fixed a bug when an overlay & expose were closed and the expose effect disappeared while the overlay stayed open. thanks <a href="http://flowplayer.org${jqt}/forum/55/27292">Glazz</a></li>
 
 	<li><strong>overlay</strong> ability to close the overlay immediately after being opened. The <samp>onLoad</samp> event is not fired unless the overlay is truly opened.</li>
 	<li><strong>scrollable</strong> fixed a bug where the <samp>reload()</samp> call broke an existing keyboard navigation feature</li>
@@ -50,23 +50,23 @@
 	<li><strong>scrollable</strong> fixed a bug where the <samp>onBeforeSeek</samp> and <samp>onSeek</samp> callbacks were called although the seeking position did not change. this won't happen anymore.</li>
 	<li><strong>scrollable</strong> brought back the <samp>loop</samp> variable</li>
 	<li>
-		<strong>tabs</strong> panes can be specified as a jQuery object. See this <a href="http://flowplayer.org/tools/forum/25/26677">forum thread</a>.</li>
+		<strong>tabs</strong> panes can be specified as a jQuery object. See this <a href="http://flowplayer.org${jqt}/forum/25/26677">forum thread</a>.</li>
 	<li><strong>tabs.history</strong> now works with the tabs <samp>initialIndex</samp> option</li>
 	<li><strong>tabs.slideshow</strong> now stops working after the first iteration when <samp>autoplay</samp> is enabled</li>
 	<li><strong>tabs.slideshow</strong> added the <samp>onBeforePlay</samp>, <samp>onPlay</samp>, <samp>onBeforePause</samp>, <samp>onPause</samp> events</li>
 	<li>
-		<strong>tabs.history</strong> no more error messages on IE6 when being used together with the HTTPS protocol. See this <a href="http://flowplayer.org/tools/forum/25/26592">forum thread</a></li>
+		<strong>tabs.history</strong> no more error messages on IE6 when being used together with the HTTPS protocol. See this <a href="http://flowplayer.org${jqt}/forum/25/26592">forum thread</a></li>
 	<li>
-		<strong>tooltip</strong> ability to change the tooltip dynamically by setting: <samp>trigger.data("title", title)</samp>. See this <a href="http://flowplayer.org/tools/forum/30/26527">forum thread</a>
+		<strong>tooltip</strong> ability to change the tooltip dynamically by setting: <samp>trigger.data("title", title)</samp>. See this <a href="http://flowplayer.org${jqt}/forum/30/26527">forum thread</a>
 	</li>
 	<li>
-		<strong>tooltip</strong> by default the tooltip position is now determined by using the <samp>offset()</samp> method of jQuery. This gives better results when the trigger is positioned inside relatively or absolutely positioned elements. See <a href="http://flowplayer.org/tools/forum/30/26424">this</a> and <a href="http://flowplayer.org/forum/users/15251">this</a> forum threads. Thanks "bericum".
+		<strong>tooltip</strong> by default the tooltip position is now determined by using the <samp>offset()</samp> method of jQuery. This gives better results when the trigger is positioned inside relatively or absolutely positioned elements. See <a href="http://flowplayer.org${jqt}/forum/30/26424">this</a> and <a href="http://flowplayer.org/forum/users/15251">this</a> forum threads. Thanks "bericum".
 	</li>
 	<li>
 		<strong>tooltip</strong> the <samp>relative</samp> configuration property can be used to switch between positioning schemes. Using <samp>false</samp> positions the tooltip relative to the document and using <samp>true</samp> positions the tooltip relative to the parent element. you should rarely need to touch this property.
 	</li>
 	<li>
-		<strong>tooltip</strong> when calling the <samp>hide</samp> API method the <samp>delay</samp> configuration variable is ignored and the tip will be hidden immediately. thanks <a href="http://flowplayer.org/tools/forum/30/27002">Aramaki</a>.
+		<strong>tooltip</strong> when calling the <samp>hide</samp> API method the <samp>delay</samp> configuration variable is ignored and the tip will be hidden immediately. thanks <a href="http://flowplayer.org${jqt}/forum/30/27002">Aramaki</a>.
 	</li>
 </ul>
 
@@ -91,7 +91,7 @@
 </ol>
 
 <p>
-	You can read the details of the new event model in the <a href="/tools/using.html#callbacks">User's Manual</a>.
+	You can read the details of the new event model in the <a href="${jqt}/using.html#callbacks">User's Manual</a>.
 </p>
 
 <h3>A change from version 1.1.0</h3>
@@ -133,7 +133,7 @@ $(".trigger").tooltip({effect: 'slide'});
 </pii:code>
 
 <p>
-	If you don't want to use the full library and want to download only the tools you want you should download a <a href="/tools/download.html#combine">custom combination</a> of the tools.
+	If you don't want to use the full library and want to download only the tools you want you should download a <a href="${jqt}/download.html#combine">custom combination</a> of the tools.
 </p>
 
 <p>

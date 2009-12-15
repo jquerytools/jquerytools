@@ -1,15 +1,15 @@
-/*!
- * jQuery TOOLS plugin :: tabs.history @VERSION
+/**
+ * @license 
+ * toolbox.history @VERSION - Back button for AJAX apps.
  * 
- * Copyright (c) 2009 Tero Piirainen
- * http://flowplayer.org/tools/tabs.html#history
- *
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/toolbox/history.html
+ * 
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Launch  : September 2009
- * Date: @DATE
- * Revision: @REVISION 
+ * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Date: @DATE 
  */
 (function($) {
 	

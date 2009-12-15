@@ -1,5 +1,5 @@
 <%-- :mode=jsp: --%>
-<%@ include file="/tools/demos/header.jsf" %>
+<%@ include file="${jqt}/demos/header.jsf" %>
 
 <p>
 	Here you can see one scrollable with tooltips. By clicking on the thumbnails you'll open up an overlay with a gallery plugin.
@@ -16,7 +16,7 @@
 <h2>Scrollable with tooltips</h2>
 
 <p>
-	First we describe how you can add tooltips for scrollable items. Scrollable's HTML structure is the same as in the <a href="/tools/demos/scrollable/index.html">minimal setup</a> except that the scrollable images are now wrapped inside an <samp>A</samp> tag so that we can take advantage of their <samp>title</samp> and <samp>href</samp> attributes. The <samp>title</samp> attribute is used for tooltips and the <samp>href</samp> attribute contains the link to the larger version of the image to be overlayed.
+	First we describe how you can add tooltips for scrollable items. Scrollable's HTML structure is the same as in the <a href="${jqt}/demos/scrollable/index.html">minimal setup</a> except that the scrollable images are now wrapped inside an <samp>A</samp> tag so that we can take advantage of their <samp>title</samp> and <samp>href</samp> attributes. The <samp>title</samp> attribute is used for tooltips and the <samp>href</samp> attribute contains the link to the larger version of the image to be overlayed.
 </p>
 
 <h3>HTML Setup</h3>
@@ -51,7 +51,7 @@
 <h3>CSS coding</h3>
 
 <p>
-	Scrollable is styled with <a href="/tools/css/scrollable-horizontal.css">scrollable-horizontal.css</a> which depends on the fact that scrollable items are images. Since those images are now wrapped by an A element we have to override some of the settings in this external stylesheet.
+	Scrollable is styled with <a href="${jqt}/css/scrollable-horizontal.css">scrollable-horizontal.css</a> which depends on the fact that scrollable items are images. Since those images are now wrapped by an A element we have to override some of the settings in this external stylesheet.
 </p>
 
 <pii:code lang="css">
@@ -61,7 +61,7 @@ ${css}
 <h2>Overlayed Gallery</h2>
 
 <p>
-	Our gallery follows exactly the same principles as in the <a href="/tools/demos/overlay/gallery.html">Using the gallery plugin</a> demo. Our scrollable items are properly setup for the gallery plugin and we have included the following overlay on the page:
+	Our gallery follows exactly the same principles as in the <a href="${jqt}/demos/overlay/gallery.html">Using the gallery plugin</a> demo. Our scrollable items are properly setup for the gallery plugin and we have included the following overlay on the page:
 </p>
 
 <pii:code lang="html">

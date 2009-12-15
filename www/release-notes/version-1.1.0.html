@@ -1,8 +1,8 @@
 
 <%-- :mode=jsp: --%>
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-horizontal.css" />
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-buttons.css" />
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-navigator.css" />
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/scrollable-horizontal.css" />
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/scrollable-buttons.css" />
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/scrollable-navigator.css" />
 
 <h1 id="hero">
 	<span></span>
@@ -15,7 +15,7 @@
 </p>
 
 <div style="margin:20px -15px">
-<%@ include file="/tools/demos/scrollable/plugins/chain.htm" %>
+<%@ include file="${jqt}/demos/scrollable/plugins/chain.htm" %>
 </div>
 
 
@@ -33,7 +33,7 @@ ${js}
 </p>
 
 <p>
-	You can find a complete list of the new features and changes in Scrollable in the <a href="version-history.html">Full version history</a>. For example, you are now able to build <a href="/tools/demos/scrollable/site-navigation.html">complete navigational systems</a> by taking advantage of better keyboard control. But read on...
+	You can find a complete list of the new features and changes in Scrollable in the <a href="version-history.html">Full version history</a>. For example, you are now able to build <a href="${jqt}/demos/scrollable/site-navigation.html">complete navigational systems</a> by taking advantage of better keyboard control. But read on...
 </p>
 
 <h3>Overlay plugin and effect framework</h3>
@@ -50,11 +50,11 @@ ${js}
 </ol>
 
 <p>
-	This version of overlay handles all of these situations and you don't need to search for different tools for different needs. It is your all-around solution for overlaying HTML content. It simply has no competition. Here you can see the <a href="/tools/overlay.html#gallery_plugin">Overlay Gallery plugin</a> in action:
+	This version of overlay handles all of these situations and you don't need to search for different tools for different needs. It is your all-around solution for overlaying HTML content. It simply has no competition. Here you can see the <a href="${jqt}/overlay.html#gallery_plugin">Overlay Gallery plugin</a> in action:
 </p>
 
 <c:set var="wrapId" value="triggers"/>
-<%@ include file="/tools/demos/overlay/gallery.htm" %>
+<%@ include file="${jqt}/demos/overlay/gallery.htm" %>
 
 <pii:code>
 ${js}
@@ -76,7 +76,7 @@ $.tools.overlay.addEffect("default", function() {
 </pii:code>
 
 <p>
-	This is a simplified version, but you get the point. As you can see you can add new effects with the <samp>$.tools.overlay.addEffect</samp> method. This was previously <samp>$.tools.addOverlayEffect</samp> which is no longer supported. Here you can see a demo about a <a href="/tools/demos/overlay/custom-effect.html">custom effect for overlay</a>.
+	This is a simplified version, but you get the point. As you can see you can add new effects with the <samp>$.tools.overlay.addEffect</samp> method. This was previously <samp>$.tools.addOverlayEffect</samp> which is no longer supported. Here you can see a demo about a <a href="${jqt}/demos/overlay/custom-effect.html">custom effect for overlay</a>.
 </p>
 
 <h3>Tooltip 1.1.0.</h3>
@@ -86,14 +86,14 @@ $.tools.overlay.addEffect("default", function() {
 </p>
 
 <a name="lower"></a>
-<%@ include file="/tools/demos/tooltip/dynamic.htm" %>
+<%@ include file="${jqt}/demos/tooltip/dynamic.htm" %>
 
 <p>
-	You can now use a brand new <a href="/tools/tooltip.html#dynamic">dynamic plugin</a> for tooltip to dynamically change the position of the tooltip when it cannot be shown on the viewport. <a href="#lower">Click here</a> to scroll a little lower and see how  tooltips behave now. If there is no room on the top edge, then the tooltip is shown on the bottom edge. You can change the effect and any other configuration variable dynamically whenever the repositioning occurs.
+	You can now use a brand new <a href="${jqt}/tooltip.html#dynamic">dynamic plugin</a> for tooltip to dynamically change the position of the tooltip when it cannot be shown on the viewport. <a href="#lower">Click here</a> to scroll a little lower and see how  tooltips behave now. If there is no room on the top edge, then the tooltip is shown on the bottom edge. You can change the effect and any other configuration variable dynamically whenever the repositioning occurs.
 </p>
 
 <p>
-	Tooltip 1.1.0. introduces completely new <a href="/tools/tooltip.html#events">event management</a> where you can fully control <em>when</em> the tooltip will be shown or hidden.
+	Tooltip 1.1.0. introduces completely new <a href="${jqt}/tooltip.html#events">event management</a> where you can fully control <em>when</em> the tooltip will be shown or hidden.
 </p>
 
 <h4>Faster page load with many tooltips</h4>
@@ -109,10 +109,10 @@ $.tools.overlay.addEffect("default", function() {
 <h3>Slideshow plugin for Tabs</h3>
 
 <p>
-	There are many new features for tabs such as a new built-in "ajax" effect, a <samp>fadeOutSpeed</samp> configuration option for performing "crossfades" and a <samp>rotate</samp> configuration property for making circular navigational systems for tabs. The most notable addition is a new <a href="/tools/tabs.html#slideshow">slideshow plugin</a> which you can see here:
+	There are many new features for tabs such as a new built-in "ajax" effect, a <samp>fadeOutSpeed</samp> configuration option for performing "crossfades" and a <samp>rotate</samp> configuration property for making circular navigational systems for tabs. The most notable addition is a new <a href="${jqt}/tabs.html#slideshow">slideshow plugin</a> which you can see here:
 </p>
 
-<%@ include file="/tools/demos/tabs/slideshow.htm" %>
+<%@ include file="${jqt}/demos/tabs/slideshow.htm" %>
 
 <br clear="all" />
 
@@ -127,13 +127,13 @@ $.tools.overlay.addEffect("default", function() {
 	<tr><th>plugin</th><th>tool</th><th>type</th><th colspan="3">description</th></tr>
 
 	<tr>
-		<td class="code"><a href="/tools/tabs.html#slideshow">slideshow</a></td>
+		<td class="code"><a href="${jqt}/tabs.html#slideshow">slideshow</a></td>
 		<td>tabs</td>
 		<td>plugin</td>
 		<td>Transforms a typical tab/pane combination into a working slideshow.</td>
 	</tr>
 	<tr>
-		<td class="code"><a href="/tools/tabs.html#history">history</a></td>
+		<td class="code"><a href="${jqt}/tabs.html#history">history</a></td>
 		<td>tabs</td>
 		<td>plugin</td>
 		<td>
@@ -141,43 +141,43 @@ $.tools.overlay.addEffect("default", function() {
 		</td>
 	</tr>
 	<tr>
-		<td class="code"><a href="/tools/overlay.html#gallery_plugin">gallery</a></td>
+		<td class="code"><a href="${jqt}/overlay.html#gallery_plugin">gallery</a></td>
 		<td>overlay</td>
 		<td>plugin</td>
 		<td>Create "lightbox"-style image galleries.</td>
 	</tr>
 	<tr>
-		<td class="code"><a href="/tools/overlay.html#apple">apple</a></td>
+		<td class="code"><a href="${jqt}/overlay.html#apple">apple</a></td>
 		<td>overlay</td>
 		<td>effect</td>
 		<td>An overlay effect that you have seen on apple.com.</td>
 	</tr>
 	<tr>
-		<td class="code"><a href="/tools/scrollable.html#infinite">infinite</a></td>
+		<td class="code"><a href="${jqt}/scrollable.html#infinite">infinite</a></td>
 		<td>scrollable</td>
 		<td>plugin</td>
 		<td>Makes an infinite loop from the scrollable items so they continue to cycle endlessly.</td>
 	</tr>
 	<tr>
-		<td class="code"><a href="/tools/scrollable.html#autoscroll">autoscroll</a></td>
+		<td class="code"><a href="${jqt}/scrollable.html#autoscroll">autoscroll</a></td>
 		<td>scrollable</td>
 		<td>plugin</td>
 		<td>Makes the scrolling behaviour automatic. Highly configurable.</td>
 	</tr>
 	<tr>
-		<td class="code"><a href="/tools/scrollable.html#navigator">navigator</a></td>
+		<td class="code"><a href="${jqt}/scrollable.html#navigator">navigator</a></td>
 		<td>scrollable</td>
 		<td>plugin</td>
 		<td>Provides navigation buttons for switching between pages in scrollable.</td>
 	</tr>
 	<tr>
-		<td class="code"><a href="/tools/scrollable.html#mousewheel">mousewheel</a></td>
+		<td class="code"><a href="${jqt}/scrollable.html#mousewheel">mousewheel</a></td>
 		<td>scrollable</td>
 		<td>plugin</td>
 		<td>Enables mousewheel support for scrollable. You can also use this as a generic utility for managing the user's mousewheel events.</td>
 	</tr>
 	<tr>
-		<td class="code"><a href="/tools/tooltip.html#dynamic">dynamic</a></td>
+		<td class="code"><a href="${jqt}/tooltip.html#dynamic">dynamic</a></td>
 		<td>tooltip</td>
 		<td>plugin</td>
 		<td>Dynamic positioning of the tooltip so that it always stays in the viewport.</td>
@@ -193,7 +193,7 @@ $.tools.overlay.addEffect("default", function() {
 </p>
 
 <p style="margin:20px 0">
-	<img src="/tools/img/global-config.gif" alt="Global configuration" />
+	<img src="${jqt}/img/global-config.gif" alt="Global configuration" />
 </p>
 
 <br />
@@ -208,7 +208,7 @@ $.tools.scrollable.conf.size = 4;
 </pii:code>
 
 <p>
-	After this you can simply call <samp>$("div.scrollable").scrollable();</samp> and every time the size is 4. Of course you can change the default value in the initial configuration just like before. These global configurations also serve as a good source of documentation. You can quickly look for the available configuration options. Read more about <a href="/tools/using.html#global_configuration">global configuration</a>.
+	After this you can simply call <samp>$("div.scrollable").scrollable();</samp> and every time the size is 4. Of course you can change the default value in the initial configuration just like before. These global configurations also serve as a good source of documentation. You can quickly look for the available configuration options. Read more about <a href="${jqt}/using.html#global_configuration">global configuration</a>.
 </p>
 
 <h3>Internet Explorer issues</h3>
@@ -222,7 +222,7 @@ $.tools.scrollable.conf.size = 4;
 </div>
 
 <p>
-	Because of this confusion I have written a new section in the User's Manual about <a href="/tools/using.html#png24">PNG images</a> together with Internet Explorer 6.
+	Because of this confusion I have written a new section in the User's Manual about <a href="${jqt}/using.html#png24">PNG images</a> together with Internet Explorer 6.
 </p>
 
 
@@ -233,19 +233,19 @@ $.tools.scrollable.conf.size = 4;
 </p>
 
 <ul>
-	<li><span class="lbl">combination</span><a href="/tools/demos/combine/scrollable-gallery-with-tooltips.html">Scrollable Gallery with Tooltips</a></li>
-	<li><span class="lbl">tabs</span><a href="/tools/demos/tabs/skins.html">Skinning the Tabs</a></li>
-	<li><span class="lbl">tabs</span><a href="/tools/demos/tabs/multiple.html">Multiple Tabs and Accordion instances</a></li>
-	<li><span class="lbl">tabs</span><a href="/tools/demos/tabs/slideshow.html">Slideshow plugin for the Tabs</a></li>
-	<li><span class="lbl">tooltip</span><a href="/tools/demos/tooltip/dynamic.html">Dynamic positioning of the tooltip</a></li>
-	<li><span class="lbl">overlay</span><a href="/tools/demos/overlay/modal-dialog.html">Creating modal dialogs with overlay</a></li>
-	<li><span class="lbl">overlay</span><a href="/tools/demos/overlay/trigger.html">Opening overlays programmatically</a></li>
-	<li><span class="lbl">overlay</span><a href="/tools/demos/overlay/gallery.html">Using the gallery plugin</a></li>
-	<li><span class="lbl">scrollable</span><a href="/tools/demos/scrollable/gallery.html">A simple scrollable image gallery</a></li>
-	<li><span class="lbl">scrollable</span><a href="/tools/demos/scrollable/wizard.html">A scrollable registration wizard</a></li>
-	<li><span class="lbl">scrollable</span><a href="/tools/demos/scrollable/plugins/index.html">Scrollable plugins in action</a></li>
-	<li><span class="lbl">scrollable</span><a href="/tools/demos/scrollable/one-sized.html">Large one-sized Scrollable</a></li>
-	<li><span class="lbl">scrollable</span><a href="/tools/demos/scrollable/site-navigation.html">A complete scrollable navigational system</a></li>
+	<li><span class="lbl">combination</span><a href="${jqt}/demos/combine/scrollable-gallery-with-tooltips.html">Scrollable Gallery with Tooltips</a></li>
+	<li><span class="lbl">tabs</span><a href="${jqt}/demos/tabs/skins.html">Skinning the Tabs</a></li>
+	<li><span class="lbl">tabs</span><a href="${jqt}/demos/tabs/multiple.html">Multiple Tabs and Accordion instances</a></li>
+	<li><span class="lbl">tabs</span><a href="${jqt}/demos/tabs/slideshow.html">Slideshow plugin for the Tabs</a></li>
+	<li><span class="lbl">tooltip</span><a href="${jqt}/demos/tooltip/dynamic.html">Dynamic positioning of the tooltip</a></li>
+	<li><span class="lbl">overlay</span><a href="${jqt}/demos/overlay/modal-dialog.html">Creating modal dialogs with overlay</a></li>
+	<li><span class="lbl">overlay</span><a href="${jqt}/demos/overlay/trigger.html">Opening overlays programmatically</a></li>
+	<li><span class="lbl">overlay</span><a href="${jqt}/demos/overlay/gallery.html">Using the gallery plugin</a></li>
+	<li><span class="lbl">scrollable</span><a href="${jqt}/demos/scrollable/gallery.html">A simple scrollable image gallery</a></li>
+	<li><span class="lbl">scrollable</span><a href="${jqt}/demos/scrollable/wizard.html">A scrollable registration wizard</a></li>
+	<li><span class="lbl">scrollable</span><a href="${jqt}/demos/scrollable/plugins/index.html">Scrollable plugins in action</a></li>
+	<li><span class="lbl">scrollable</span><a href="${jqt}/demos/scrollable/one-sized.html">Large one-sized Scrollable</a></li>
+	<li><span class="lbl">scrollable</span><a href="${jqt}/demos/scrollable/site-navigation.html">A complete scrollable navigational system</a></li>
 </ul>
 
 <a name="cdn"></a>
@@ -267,7 +267,7 @@ $.tools.scrollable.conf.size = 4;
 </pii:code>
 
 <p>
-	By using this network the Tools will be loaded with <a href="/tools/performance.html">maximum performance</a> no matter where your client is located on the globe. The DNS records are currently being updated across the globe. Check out our updated <a href="/tools/download.html">Download Area</a>.
+	By using this network the Tools will be loaded with <a href="${jqt}/performance.html">maximum performance</a> no matter where your client is located on the globe. The DNS records are currently being updated across the globe. Check out our updated <a href="${jqt}/download.html">Download Area</a>.
 </p>
 
 
@@ -322,7 +322,7 @@ $(".scroller").scrollable().navigator({navi: '#mynavi'}).autoscroll({interval: 3
 </p>
 
 <p>
-	All these plugins are <strong>not</strong> included in the default distribution of jQuery Tools under <samp>http://cdn.jquerytools.org</samp> and you need to <a href="/tools/download.html#combine">download</a> them separately.
+	All these plugins are <strong>not</strong> included in the default distribution of jQuery Tools under <samp>http://cdn.jquerytools.org</samp> and you need to <a href="${jqt}/download.html#combine">download</a> them separately.
 </p>
 
 <h4>The navigational elements of Scrollable</h4>
@@ -332,7 +332,7 @@ $(".scroller").scrollable().navigator({navi: '#mynavi'}).autoscroll({interval: 3
 </p>
 
 <p>
-	Version 1.1. changes the logic so that the navigational elements can be positioned anywhere on the page and they don't not have to be siblings anymore. Here is more information about <a href="/tools/scrollable.html#multiple">multiple scrollables with navigational element</a>.
+	Version 1.1. changes the logic so that the navigational elements can be positioned anywhere on the page and they don't not have to be siblings anymore. Here is more information about <a href="${jqt}/scrollable.html#multiple">multiple scrollables with navigational element</a>.
 </p>
 
 <h3>History feature in Tabs</h3>
@@ -350,7 +350,7 @@ $("ul.tabs").tabs(".panes > div").history();
 </pii:code>
 
 <p>
-	Again, the history plugin is <strong>not</strong> included in the default distribution of jQuery Tools under <samp>http://cdn.jquerytools.org</samp> and you need to <a href="/tools/download.html#combine">download</a> it separately.
+	Again, the history plugin is <strong>not</strong> included in the default distribution of jQuery Tools under <samp>http://cdn.jquerytools.org</samp> and you need to <a href="${jqt}/download.html#combine">download</a> it separately.
 </p>
 
 <h3>Custom effects</h3>

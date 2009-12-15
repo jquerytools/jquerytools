@@ -1,5 +1,5 @@
 <%-- :mode=jsp: --%>
-<%@ include file="/tools/demos/header.jsf" %>
+<%@ include file="${jqt}/demos/header.jsf" %>
 
 <style>
 #mask {
@@ -30,7 +30,7 @@ ${css}
 </pii:code>
 
 <p>
-	The background image is a JPG image with a fixed background color. In the <a href="/tools/expose.html#graphics">expose graphics zip</a> we also have a PNG version of the "star" which can be used together with any background color. Of course the PNG version has a much larger file size because it has alpha transparency.
+	The background image is a JPG image with a fixed background color. In the <a href="${jqt}/expose.html#graphics">expose graphics zip</a> we also have a PNG version of the "star" which can be used together with any background color. Of course the PNG version has a much larger file size because it has alpha transparency.
 </p>
 
 <h3>HTML coding</h3>
@@ -46,7 +46,7 @@ ${html}
 <h3>JavaScript coding</h3>
 
 <p>
-	Here we setup exposing for the ball image. We have two callback functions that perform the growing/shrinking animation. The <samp>click</samp> event is a normal jQuery event and inside that you'll get the handle to the <a href="/tools/expose.html">exposing API</a> with <samp>$(this).expose().load();</samp>.
+	Here we setup exposing for the ball image. We have two callback functions that perform the growing/shrinking animation. The <samp>click</samp> event is a normal jQuery event and inside that you'll get the handle to the <a href="${jqt}/expose.html">exposing API</a> with <samp>$(this).expose().load();</samp>.
 </p>
 
 <p>

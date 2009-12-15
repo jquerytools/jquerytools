@@ -2,9 +2,9 @@
 <%-- :mode=jsp: --%>
 <c:set var="tool" value="scrollable"/>
 
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-horizontal.css?v=0" />
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-buttons.css?v=0" />
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-navigator.css?v=0" />
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/scrollable-horizontal.css?v=0" />
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/scrollable-buttons.css?v=0" />
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/scrollable-navigator.css?v=0" />
 
 <style>
 #flowtabs li {
@@ -85,7 +85,7 @@ $("JQUERY SELECTOR").scrollable({
 		<td class="code">api</td>
 		<td><code>false</code></td>
 		<td>
-			When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp>, the return value is this tool's <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="/tools/using.html#api">accessing the tool API</a> for more information.
+			When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp>, the return value is this tool's <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="${jqt}/using.html#api">accessing the tool API</a> for more information.
 		</td>
 	</tr>
 	<tr>
@@ -243,7 +243,7 @@ instance.reload();
 			This callback function is triggered before items are scrolled. A function which returns <samp>false</samp> will prevent scrolling from taking place.
 
 			<p>
-				The first <em>argument</em> for the callback function is the <a href="/tools/using.html#event_object">Event</a> object and the second is the index number the item being seeked to.
+				The first <em>argument</em> for the callback function is the <a href="${jqt}/using.html#event_object">Event</a> object and the second is the index number the item being seeked to.
 			</p>
 
 			<p>
@@ -258,7 +258,7 @@ instance.reload();
 			This callback function is triggered after items have been scrolled.
 
 			<p>
-				The first <em>argument</em> for the callback function is the <a href="/tools/using.html#event_object">Event</a> object and the second is the index number the item being seeked to.
+				The first <em>argument</em> for the callback function is the <a href="${jqt}/using.html#event_object">Event</a> object and the second is the index number the item being seeked to.
 			</p>
 		</td>
 	</tr>
@@ -269,7 +269,7 @@ instance.reload();
 			<strong>Since 1.1.2</strong>. This callback function is triggered just before the items start scrolling. This occurs between the <samp>onBeforeSeek</samp> and <samp>onBeforeSeek</samp> events. All API methods rely on the fact that the scollable is already at its target position. By returning <samp>false</samp> inside this function you can prevent the disabling of the navigational elements. If you want to disable the seeking animation you must return <samp>false</samp> inside the <samp>onBeforeSeek</samp> event.
 
 			<p>
-				The first <em>argument</em> for the callback function is the <a href="/tools/using.html#event_object">Event</a> object and the second is the index number the item being seeked to.
+				The first <em>argument</em> for the callback function is the <a href="${jqt}/using.html#event_object">Event</a> object and the second is the index number the item being seeked to.
 			</p>
 		</td>
 	</tr>
@@ -473,7 +473,7 @@ api.next(function() {
 		<td class="code">reload()</td>
 		<td><code>API</code></td>
 		<td>
-		scrollable supports the dynamic addition and removal of scrollable elements. Take a look at this <a href="/tools/demos/scrollable/edit.html">demo</a> for more details. After adding or removing items, calling this method ensures that the navigator has the correct number of elements, <samp>prev</samp>/<samp>next</samp> buttons function correctly, and click handlers are added for new items.
+		scrollable supports the dynamic addition and removal of scrollable elements. Take a look at this <a href="${jqt}/demos/scrollable/edit.html">demo</a> for more details. After adding or removing items, calling this method ensures that the navigator has the correct number of elements, <samp>prev</samp>/<samp>next</samp> buttons function correctly, and click handlers are added for new items.
 		</td>
 	</tr>
 

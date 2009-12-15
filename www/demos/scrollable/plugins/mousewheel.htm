@@ -6,8 +6,8 @@
 
 <!-- required CSS files -->
 <c:if test="${empty plain}">
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-horizontal.css" />
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/scrollable-buttons.css" />	
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/scrollable-horizontal.css" />
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/scrollable-buttons.css" />	
 </c:if>
 
 <%@ include file="../scrollable.jsf" %>
@@ -16,7 +16,7 @@
 
 <!-- javascript coding -->
 <script>
-// What is $(document).ready ? See: http://flowplayer.org/tools/using.html#document_ready
+// What is $(document).ready ? See: http://flowplayer.org${jqt}/using.html#document_ready
 $(document).ready(function() {
 <c:set var="js">		
 // initialize scrollable together with the mousewheel plugin

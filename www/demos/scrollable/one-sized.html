@@ -1,5 +1,5 @@
 <%-- :mode=jsp: --%>
-<%@ include file="/tools/demos/header.jsf" %>
+<%@ include file="${jqt}/demos/header.jsf" %>
 
 <style>
 #flowtabs li {
@@ -9,7 +9,7 @@
 </style>
 
 <p>
-	This demo continues from this <a href="/tools/demos/tabs/skins.html">tabs demo</a> and makes it scrollable. Try clicking on the tabs, content area and the action buttons below the scrollable. This scrolalble uses the <samp>navigator</samp> and <samp>circular</samp> plugins.
+	This demo continues from this <a href="${jqt}/demos/tabs/skins.html">tabs demo</a> and makes it scrollable. Try clicking on the tabs, content area and the action buttons below the scrollable. This scrolalble uses the <samp>navigator</samp> and <samp>circular</samp> plugins.
 </p>
 
 <div style="margin-left:-5px">
@@ -19,7 +19,7 @@
 <h3>HTML coding</h3>
 
 <p>
-	The trick here is to enable scrolling on the tab panes and the <a href="/tools/scrollable.html#navigator">navigator plugin</a> is enabled for the tabs. This time navigator items are not auto-generated and we make them ourselves as follows:
+	The trick here is to enable scrolling on the tab panes and the <a href="${jqt}/scrollable.html#navigator">navigator plugin</a> is enabled for the tabs. This time navigator items are not auto-generated and we make them ourselves as follows:
 </p>
 
 <pii:code lang="html">
@@ -67,7 +67,7 @@ ${html}
 <h3>CSS coding</h3>
 
 <p>
-	Just like the tabs demo this setup has also been styled with this <a href="/tools/css/tabs-flowplayer-v2.css">CSS file</a> and it has been overridden with the following settings to enable scrolling:
+	Just like the tabs demo this setup has also been styled with this <a href="${jqt}/css/tabs-flowplayer-v2.css">CSS file</a> and it has been overridden with the following settings to enable scrolling:
 </p>
 
 <pii:code lang="css">
@@ -85,7 +85,7 @@ ${js}
 </pii:code>
 
 <p>
-	Enclosing your call inside <samp>$(document).ready</samp> executes the script right after the document is scriptable. Read more about that from <a href="/tools/using.html#document_ready">User'ss Manual</a>.
+	Enclosing your call inside <samp>$(document).ready</samp> executes the script right after the document is scriptable. Read more about that from <a href="${jqt}/using.html#document_ready">User'ss Manual</a>.
 </p>
 
 <p>
@@ -98,5 +98,5 @@ ${js}
 </div>
 
 <p>
-	<a href="/tools/credits.html" id="credits">Photo credits &raquo;</a>
+	<a href="${jqt}/credits.html" id="credits">Photo credits &raquo;</a>
 </p>

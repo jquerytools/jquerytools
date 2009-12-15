@@ -2,16 +2,9 @@
 <%-- :mode=jsp: --%>
 <c:set var="tool" value="tabs"/>
 
-<h1 style="background-image:url(img/hero/tabs.jpg)">
+<h1 style="background-image:url(${jqt}/img/hero/tabs.jpg)">
 	jQuery TOOLS / Tabs - Tabs done right
 </h1>
-
-<!--
-	http://jqueryui.com/download
-	tabs ~122.43 kb when minified
-	tabs + accordion ~130.26 kb minified
--->
-
 
 <!--{{{ example tabs -->
 
@@ -79,13 +72,13 @@ div.panes img {
 	<li>
 		<strong>Simple to use</strong>. You need a single line of JavaScript to get started. There are no redundant features.</li>
 	<li>
-		<strong>An effect framework</strong> which can be used to implement <a href="/tools/demos/tabs/accordion.html">vertical accordions</a>, <a href="/tools/demos/tabs/accordion-horizontal.html">horizontal accordions</a> and more.
+		<strong>An effect framework</strong> which can be used to implement <a href="${jqt}/demos/tabs/accordion.html">vertical accordions</a>, <a href="${jqt}/demos/tabs/accordion-horizontal.html">horizontal accordions</a> and more.
 	</li>
 	<li>
 		<strong>Built-in effects</strong> which include: <samp>default, fade, slide, ajax</samp> and <samp>horizontal</samp> and you can easily <a href="#effects">make your own effects</a> or modify the existing default effects.
 	</li>
 	<li>
-		<strong>Plugin framework</strong> Built-in plugins include: <a href="#slideshow">slideshow</a> and <a href="#history">history</a> and you can easily <a href="/tools/using.html#plugins">make your own plugins</a>.
+		<strong>Plugin framework</strong> Built-in plugins include: <a href="#slideshow">slideshow</a> and <a href="#history">history</a> and you can easily <a href="${jqt}/using.html#plugins">make your own plugins</a>.
 	</li>
 	<li>
 		<strong>Cross linking</strong>. If the tab content areas contain any anchor links to other tab's content areas, the correct tab is automatically opened when those links are clicked.
@@ -95,7 +88,7 @@ div.panes img {
 	</li>
 </ul>
 
-<%@ include file="common-features.jsf" %>
+<%@ include file="../common-features.jsf" %>
 
 
 <a name="usage"></a>
@@ -145,7 +138,7 @@ $("ul.tabs").tabs("div.panes > div");
 </pii:code>
 
 <p>
-	The rest is <a href="/tools/css/tabs-no-images.css">CSS coding</a>. Look at the <a href="/tools/demos/tabs/index.htm">standalone version</a> and its source code to get things working on your site.
+	The rest is <a href="${jqt}/css/tabs-no-images.css">CSS coding</a>. Look at the <a href="${jqt}/demos/tabs/index.htm">standalone version</a> and its source code to get things working on your site.
 </p>
 
 <c:set var="description">
@@ -154,7 +147,7 @@ $("ul.tabs").tabs("div.panes > div");
 	</p>
 </c:set>
 
-<%@ include file="graphics.jsf" %>
+<%@ include file="../graphics.jsf" %>
 
 
 <p>
@@ -235,7 +228,7 @@ $("<tabs_selector>").tabs("<pane_selector>", {
 		<td class="code">api</td>
 		<td><code>false</code></td>
 		<td>
-			When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp>, the return value is this tool's <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="/tools/using.html#api">accessing the tool API</a>.
+			When this tool is initialized (constructed), the return value is a jQuery object associated with the selector. By setting this property to <samp>true</samp>, the return value is this tool's <a href="#api">JavaScript API</a> instead. If the selector returns multiple elements, the API of the <em>last</em> element will be returned. Read more about <a href="${jqt}/using.html#api">accessing the tool API</a>.
 		</td>
 	</tr>
 	<tr>
@@ -393,7 +386,7 @@ $("#tabs2").tabs("#panes2 > div");
 </p>
 
 <p>
-	The first <em>argument</em> for the callback function is the <a href="/tools/using.html#event_object">Event</a> object and the second argument is the index number of the tab being clicked. Here is an example of an <samp>onBeforeClick</samp> callback function:
+	The first <em>argument</em> for the callback function is the <a href="${jqt}/using.html#event_object">Event</a> object and the second argument is the index number of the tab being clicked. Here is an example of an <samp>onBeforeClick</samp> callback function:
 </p>
 
 <pii:code>
@@ -517,7 +510,7 @@ api.onClick(function(index) {
 			Registers a new callback function that is triggered before a tab is clicked. The callback is given as the argument. Returning <samp>false</samp> or calling <samp>event.preventDefault</samp> in the callback prevents the tab from opening.
 
 			<p>
-				The first <em>argument</em> for the callback function is the <a href="/tools/using.html#event_object">Event</a> object and the second argument is the index number of the tab being clicked. You can assign multiple callback functions with this command.
+				The first <em>argument</em> for the callback function is the <a href="${jqt}/using.html#event_object">Event</a> object and the second argument is the index number of the tab being clicked. You can assign multiple callback functions with this command.
 			</p>
 		</td>
 	</tr>
@@ -528,7 +521,7 @@ api.onClick(function(index) {
 			Registers a new callback function that is triggered after a tab is clicked. The callback is given as the argument.
 
 			<p>
-				The first <em>argument</em> for the callback function is the <a href="/tools/using.html#event_object">Event</a> object and the second argument is the index number of the tab being clicked. You can assign multiple <samp>onClick</samp> listeners with this command.
+				The first <em>argument</em> for the callback function is the <a href="${jqt}/using.html#event_object">Event</a> object and the second argument is the index number of the tab being clicked. You can assign multiple <samp>onClick</samp> listeners with this command.
 			</p>
 		</td>
 	</tr>
@@ -590,12 +583,7 @@ $.tools.tabs.addEffect("default", function(tabIndex, done) {
 </pii:code>
 
 <p>
-	Look in the tab's <a href="/js/tools/tools.${tool}-${v[tool]}.js?download=true">source code</a> for more examples of the available effects. The basic idea is to use your jQuery skills together with the API methods. Here you can see a demo about a <a href="/tools/demos/tabs/accordion-custom.html">custom accordion effect</a>.
+	Look in the tab's <a href="/js${jqt}${jqt}.${tool}-${v[tool]}.js?download=true">source code</a> for more examples of the available effects. The basic idea is to use your jQuery skills together with the API methods. Here you can see a demo about a <a href="${jqt}/demos/tabs/accordion-custom.html">custom accordion effect</a>.
 </p>
 
-<a name="plugins"></a>
-<h2 style="border-bottom:1px solid #333;margin-top:70px">Plugins</h2>
 
-<%@ include file="extensions/tabs.slideshow.html" %>
-
-<%@ include file="extensions/tabs.history.html" %>

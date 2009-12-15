@@ -66,10 +66,10 @@ body {padding-top: 10px}
 <c:if test="${empty galleryDone}">
 
 <!-- overlay styling -->
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/overlay-basic.css"/>
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/overlay-basic.css"/>
 
 <!-- gallery specific styling -->
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/overlay-gallery.css"/>
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/overlay-gallery.css"/>
 
 <c:set var="html">
 <!-- overlay element -->
@@ -85,7 +85,7 @@ body {padding-top: 10px}
 	<div class="info"></div>
 
 	<!-- load indicator (animated gif) -->
-	<img class="progress" src="${cdn}/tools/img/overlay/loading.gif" />
+	<img class="progress" src="${cdn}${jqt}/img/overlay/loading.gif" />
 </div>
 </c:set>
 

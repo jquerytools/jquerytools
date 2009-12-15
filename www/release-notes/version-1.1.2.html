@@ -1,0 +1,138 @@
+
+<h1 id="hero">
+	<span></span>
+	Version <i>1.1.2.</i>
+	<em>October 05 / 2009: <strong>Website upgrade, richer events & a couple of fixes</strong></em>
+</h1>
+
+<h2 class="first">Website upgrade</h2>
+
+<p>
+	Take a quick look around our updated website. jQuery Tools now has equal status to Flowplayer. Both are serious projects with active development. The largest upgrade was the intro page of our <a href="${jqt}/demos/index.html">demo area</a> which is done with the new version of Scrollable. The intro page is also documented so you can have a similar setup on your site too.
+</p>
+
+<a href="${jqt}/demos/index.html">
+	<img src="${cdn}${jqt}/img/demo.jpg" style="margin:20px -20px;border:0" /></a>
+
+<h2>Extended event object</h2>
+
+<p>
+	This version takes events and callbacks even further than before. Now the supplied event object contains additional information about the event and when the action was initiated by user interaction. For example, when the user clicked on a navigator item of a scrollable. Here is an example:
+</p>
+
+<pii:code>
+$("#scroll").scrollable().onSeek(function(event, index) {
+
+	// mouse position at the time when the event was fired
+	var x = event.pageX;
+	var y = event.pageY;
+
+	// whether CTRL, ALT, SHIFT or ESC was being pressed
+	var alt = event.altKey,
+		ctrl = event.ctrlKey,
+		shift = event.shiftMey,
+		esc = event.metaKey;
+
+
+	// the original triggering element
+	var element = e.originalTarget || e.srcElement;
+
+});
+</pii:code>
+
+<p>
+	You can read more about the event object from the <a href="${jqt}/using.html#event_object">User's Manual</a>.
+</p>
+
+<h2 class="blue">Full list of changes in this release</h2>
+
+<h3>Tooltip</h3>
+
+<ul>
+	<li>
+		You can specify whether the tooltip closes upon <samp>mouseout</samp> or not. In fact you can configure the opening and closing event for the tooltip element. This occurs with the new <samp>effects.tooltip</samp> configuration option.
+	</li>
+	<li>
+		Tooltip works flawlessly with animated effects when being quickly moved from one trigger to another. This was especially problematic in the <a href="http://flowplayer.org${jqt}/demos/tooltip/form.html">form demo</a> which now works smoothly.
+	</li>
+	<li>
+		Fixed the "black box" PNG bug in the <samp>toggle</samp> effect when using Internet Explorer .
+	</li>
+	<li>
+		Fixed a bug where <samp>this.getTrigger()</samp> may return a the tooltip element inside callbacks when the tooltip was being hidden by moving the mouse out of the tooltip.
+	</li>
+	<li>
+		When an effect is not found a proper error message is thrown: <em>Nonexistent effect "myeffect"</em>
+	</li>
+</ul>
+
+<h3>Scrollable</h3>
+
+<ul>
+	<li>
+		A new <samp>onStart</samp> callback function which is triggered just before the items start scrolling. This happens between <samp>onBeforeSeek</samp> and <samp>onBeforeSeek</samp> events. All API methods rely on the fact that the scollable is already at its target position. By returning <samp>false</samp> inside this function you can prevent the disabling of the navigational elements.
+	</li>
+	<li>
+		Ability to change the speed inside the <samp>onBeforeSeek</samp> event. Thanks <a href="http://flowplayer.org${jqt}/forum/35/27451">blacktrash</a></li>
+	<li>The index argument is supplied for the callback functions that are given to seeking functions as an argument</li>
+	<li>
+		<samp>next</samp> and <samp>nextPage</samp> buttons are now disabled when the item count is less than the scrollable size
+		thanks <a href="http://flowplayer.org${jqt}/forum/35/27359">sb3den</a>
+	</li>
+</ul>
+
+<h3>Scrollable navigator</h3>
+
+<ul>
+	<li>
+		A new configuration variable <samp>idPrefix</samp> which generates the <samp>ID</samp> attribute for each item so that they can be uniquely styled with CSS. For example, the value "foo" generates the IDs: "foo0", "foo1", "foo2" and so on. </li>
+	<li>
+		An active class is assigned with the new <samp>onStart</samp> event so that the navigator behaviour is more visually pleasing.
+	</li>
+</ul>
+
+<h3>Tabs</h3>
+
+<ul>
+	<li>
+		Only performs an initial <samp>click()</samp> call when <samp>initialIndex</samp> is a positive number. Now it is possible toinitialize the tabs so that all tabs are hidden.
+	</li>
+	<li>
+		Fixed a bug where <samp>getCurrentPane()</samp> did not return anything although a proper <samp>initialIndex</samp> was specified.
+	</li>
+</ul>
+
+
+<h3>Overlay</h3>
+
+<ul>
+	<li>If an overlayed element is not found, a proper error message is thrown: <em>"Could not find Overlay: #my-overlay2"</em></li>
+	<li>Better error message in an effect is non-existent: <em>'Overlay: cannot find effect : "apple"</em></li>
+	<li>
+		New <samp>onStart</samp> callback which is triggered just before the overlay starts appearing in an animated way. This happens between the <samp>onBeforeLoad</samp> and <samp>onLoad</samp> events. The overlay has already been positioned to the place where it starts animating. This callback is not triggered if the loading action has been cancelled in <samp>onBeforeLoad</samp>.
+	</li>
+</ul>
+
+
+<h3>Expose</h3>
+
+<ul>
+	<li>Optional event object can be given as an argument to the <samp>load()</samp> and <samp>close()</samp> functions and it will be handed to the callback functions. A convenient way to pass data to the callbacks.	</li>
+</ul>
+
+<h2>A piece of information</h2>
+
+<img src="${cdn}${jqt}/img/gaza.jpg" title="People and Software should be free"
+	style="float:left;margin:20px" />
+
+<div style="font-size:18px !important;padding:50px 30px;color:#7E7566;">
+	People in Palestine are trapped inside a Wall. "We are human beings, just like you, with a sense of humour, and lust for life".
+
+	<p>
+		The text on the image is <em>inside</em> the wall. No Photoshop.
+	</p>
+
+	<p>
+		<a href="http://www.sendamessage.nl/your-message-on-the-wall/about/">Put your message on the wall</a>
+	</p>
+</div>

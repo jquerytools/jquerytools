@@ -3,7 +3,7 @@
 <c:set var="tools" value="all" />
 <%@ include file="../standalone.jsf" %>
 
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/overlay-apple.css"/>
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/overlay-apple.css"/>
 
 <!-- make all links with the 'rel' attribute open overlays -->
 <script>
@@ -21,7 +21,7 @@ ${js}
 
 <!-- overlayed element, which is styled with the overlay.css stylesheet -->
 <div class="apple_overlay" id="overlay" 
-	style="background-image:url(/tools/img/overlay/white.png);width:640px;padding:35px">
+	style="background-image:url(${jqt}/img/overlay/white.png);width:640px;padding:35px">
 
 	<!-- here is the content for the overlay, can be anything -->
 	<h2 style="margin:10px 0">Here is my overlay</h2>

@@ -1,15 +1,15 @@
-/*!
- * tools.tooltip @VERSION - Tooltips done right.
+/**
+ * @license 
+ * jQuery Tools Tooltip @VERSION 
  * 
- * Copyright (c) 2009 Tero Piirainen
- * http://flowplayer.org/tools/tooltip.html
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/tooltip/
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Launch  : November 2008
- * Date: @DATE
- * Revision: @REVISION 
+ * Since: November 2008
+ * Date: @DATE 
  */
 (function($) { 
 

@@ -1,15 +1,15 @@
-/*!
- * tools.tooltip "Slide Effect" @VERSION
+/**
+ * @license 
+ * tooltip.slide effect @VERSION
  * 
- * Copyright (c) 2009 Tero Piirainen
- * http://flowplayer.org/tools/tooltip.html#slide
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/tooltip/slide.html
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Since  : September 2009
- * Date: @DATE
- * Revision: @REVISION 
+ * Since: September 2009
+ * Date: @DATE 
  */
 (function($) { 
 

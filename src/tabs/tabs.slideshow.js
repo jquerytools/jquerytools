@@ -1,15 +1,15 @@
-/*!
- * jQuery TOOLS plugin :: tabs.slideshow @VERSION
+/**
+ * @license 
+ * tabs.slideshow @VERSION - 
  * 
- * Copyright (c) 2009 Tero Piirainen
- * http://flowplayer.org/tools/tabs.html#slideshow
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/tabs/slideshow.html
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Launch  : September 2009
- * Date: @DATE
- * Revision: @REVISION 
+ * Since: September 2009
+ * Date: @DATE 
  */
 (function($) {
 	

@@ -1,37 +1,27 @@
+/**
+ * @license                                     
+ * form.datepickerer @VERSION - Pick your (HTML5) day.
+ * 
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/form/datepickerer/
+ *
+ * Dual licensed under MIT and GPL 2+ licenses
+ * http://www.opensource.org/licenses
+ *
+ * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Date: @DATE 
+ */
 
-/* 
-	# default value: 1996-12-19 --> formatted (http://dev.w3.org/html5/markup/datatypes.html#form.data.date)
-	# today highlight
-	# keyboard
-	# calendar positioning / easing
-	# sunday as first date of the week
-	# day header titles
-	# layout/css settings rethink	
-	# min & max input attributes: http://dev.w3.org/html5/markup/input.date.html
-	# default value & reload	
-	# type=date -> text
-	# return value & api flag
-	# home button goes to today
-	
-	show/setDate code restructure
-	selectors respect min/max
-	WOW show animation
-	better css names
+/* --- TODO ---
 	event management
 	trigger from icon
-	
-	http://closure-compiler.appspot.com/home
-		Original Size: 	11.96KB (4.06KB gzipped)
-		Compiled Size: 	5.08KB (2.33KB gzipped)
-*/
-
-$.tools = {};
-
+*/ 
 (function($) {	
 
+	$.tools = $.tools || {};
 	$.tools.form = $.tools.form || {};
 	
-	var instances = [], tool = $.tools.form.datepick = {
+	var instances = [], tool = $.tools.form.datepicker = {
 		
 		version: '@VERSION',  
 		
@@ -150,11 +140,11 @@ $.tools = {};
 		
 	
 	
-	function Datepick(input, conf)  { 
+	function Datepicker(input, conf)  { 
 
 		// variables
 		var self = this,
-			 $self = $(this),			  
+			 $self = $(this).add(input),			  
 			 css = conf.css,
 			 labels = LABELS[conf.lang],
 			 root = $("#" + css.root),
@@ -284,7 +274,7 @@ $.tools = {};
 				// set date
 				self.setDate();				
 				
-				// show datepicker
+				// show datepickerer
 				var pos = input.offset(), h = root.height(), w = root.width();
 
 				root.css({
@@ -352,7 +342,7 @@ $.tools = {};
 						
 					});
 					
-					// click outside datepick
+					// click outside datepicker
 					$(window).bind("click.dp", function(e) {
 						var el = $(e.target);
 						if (!el.parents("#" + css.root).length && el.index(input) !== 0) { 
@@ -549,10 +539,10 @@ $.tools = {};
 
 	
 	
-	$.fn.datepick = function(conf) {   
+	$.fn.datepicker = function(conf) {   
 		
 		// return existing instance
-		var el = this.eq(typeof conf == 'number' ? conf : 0).data("datepick");
+		var el = this.eq(typeof conf == 'number' ? conf : 0).data("datepicker");
 		if (el) { return el; } 
 		
 		// configuration
@@ -560,9 +550,9 @@ $.tools = {};
 		conf = $.extend(globals, conf);		
 		
 		this.each(function() {									
-			el = new Datepick($(this), conf);
+			el = new Datepicker($(this), conf);
 			instances.push(el);
-			$(this).add(el.getInput()).data("datepick", el);
+			$(this).add(el.getInput()).data("datepicker", el);
 		});		
 		
 		return conf.api ? el: this;		

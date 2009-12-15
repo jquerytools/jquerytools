@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="org.jtools.JMap" %>
 
-<link rel="stylesheet" type="text/css" href="/tools/css/tooltip-generic.css"/>
+<link rel="stylesheet" type="text/css" href="${jqt}/css/tooltip-generic.css"/>
 
 <style>
 div.tooltip {
@@ -146,7 +146,7 @@ $(function() {
 			tools += (this.checked) ? "x" : "_";
 		});
 
-		$("#downloadLink").attr("href", "/js/tools/${v.tools}/" +tools+ "/jquery.tools.min.js?download=true");
+		$("#downloadLink").attr("href", "/js${jqt}/${v.tools}/" +tools+ "/jquery.tools.min.js?download=true");
 		$("#tokens").html(tools);
 
 

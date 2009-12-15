@@ -7,14 +7,14 @@
 <c:set var="images" value="02, 03, 04, 06, 07, 09, 11, 12, 15, 16, 17, 19, 20, 22, 23, 59"/>
 
 <%-- :mode=jsp: --%>
-<%@ include file="/tools/demos/standalone.jsf" %>
+<%@ include file="${jqt}/demos/standalone.jsf" %>
 
 
 <!-- include reflection plugin -->
 <script src="reflection.min.js"></script>
 
 <!-- styling -->
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/demos/combine/portfolio/${skin}-01.css"/>
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/demos/combine/portfolio/${skin}-01.css"/>
 
 <!-- thumbnail scrollable -->
 <div class="navi prevPage"></div>
@@ -69,7 +69,7 @@
 
 
 <script>
-// What is $(document).ready ? See: http://flowplayer.org/tools/using.html#document_ready
+// What is $(document).ready ? See: http://flowplayer.org${jqt}/using.html#document_ready
 $(function() {
 
 	<c:set var="js1">

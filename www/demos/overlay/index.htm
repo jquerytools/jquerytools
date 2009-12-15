@@ -1,7 +1,7 @@
 <%-- :mode=jsp: --%>
 <%@ include file="../standalone.jsf" %>
 
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/overlay-basic.css"/>
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/overlay-basic.css"/>
 
 <style>
 /* some styling for triggers */
@@ -84,7 +84,7 @@ ${css}
 </div>
 
 <script>
-// What is $(document).ready ? See: http://flowplayer.org/tools/using.html#document_ready
+// What is $(document).ready ? See: http://flowplayer.org${jqt}/using.html#document_ready
 $(document).ready(function() {
 <c:if test="${empty js}">
 <c:set var="js">

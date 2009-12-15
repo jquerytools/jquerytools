@@ -5,13 +5,13 @@
 <c:set var="tools" value="all"/>
 <%@ include file="../standalone.jsf" %>
 
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/overlay-apple.css"/>
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/overlay-apple.css"/>
 
 <style>
 <c:set var="css">
 /* black version of the overlay. simply uses a different background image */
 div.apple_overlay.black {
-	background-image:url(${cdn}/tools/img/overlay/transparent.png);		
+	background-image:url(${cdn}${jqt}/img/overlay/transparent.png);		
 	color:#fff;
 }
 </c:set>
@@ -47,13 +47,13 @@ div.black h2 {
 <!--[if lt IE 7]>
 <style> 
 div.apple_overlay {
-	background-image:url(${cdn}/tools/img/overlay/overlay_IE6.gif);
+	background-image:url(${cdn}${jqt}/img/overlay/overlay_IE6.gif);
 	color:#fff;
 }
 
 /* default close button positioned on upper right corner */
 div.apple_overlay div.close {
-	background-image:url(${cdn}/tools/img/overlay/overlay_close_IE6.gif);
+	background-image:url(${cdn}${jqt}/img/overlay/overlay_close_IE6.gif);
 
 }	
 </style>
@@ -64,15 +64,15 @@ ${ie6}
 
 <!-- trigger elements -->
 <div id="${wrapId}">
-	<img src="${cdn}/tools/img/photos/gustavohouse.jpg" rel="#photo1"/>
-	<img src="${cdn}/tools/img/photos/alexanderplatz-station.jpg" rel="#photo2"/>
+	<img src="${cdn}${jqt}/img/photos/gustavohouse.jpg" rel="#photo1"/>
+	<img src="${cdn}${jqt}/img/photos/alexanderplatz-station.jpg" rel="#photo2"/>
 </div>
 
 <c:if test="${empty appleOverlays}">
 <c:set var="appleOverlays">
 <!-- overlayed element, which is styled with external stylesheet -->
 <div class="apple_overlay black" id="photo1">
-	<img src="${cdn}/tools/img/photos/gustavohouse-medium.jpg" />
+	<img src="${cdn}${jqt}/img/photos/gustavohouse-medium.jpg" />
 
 	<div class="details">
 		<h2>Berlin Gustavohouse</h2>
@@ -85,7 +85,7 @@ ${ie6}
 </div>
 
 <div class="apple_overlay" id="photo2">
-	<img src="${cdn}/tools/img/photos/alexanderplatz-station-medium.jpg" />
+	<img src="${cdn}${jqt}/img/photos/alexanderplatz-station-medium.jpg" />
 
 	<div class="details">
 		<h2>Berlin Alexanderplatz Station</h2>

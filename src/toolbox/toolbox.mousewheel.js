@@ -1,37 +1,19 @@
-/*!
- * jQuery TOOLS plugin :: scrollable.mousewheel @VERSION
+/**
+ * @license 
+ * toolbox.mousewheel @VERSION - Mousewheel is an event.
  * 
- * Copyright (c) 2009 Tero Piirainen
- * http://flowplayer.org/tools/scrollable.html#mousewheel
- *
+ * based on jquery.event.wheel.js ~ rev 1 ~ 
+ * Copyright (c) 2008, Three Dub Media
+ * http://threedubmedia.com
+ * http://flowplayer.org/tools/toolbox/mousewheel.html
+ * 
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Launch  : September 2009
- * Date: @DATE
- * Revision: @REVISION 
- *
- * 
- * jquery.event.wheel.js - rev 1 
- * Copyright (c) 2008, Three Dub Media (http://threedubmedia.com)
- * Liscensed under the MIT License (MIT-LICENSE.txt)
- * http://www.opensource.org/licenses/mit-license.php
- * Created: 2008-07-01 | Updated: 2008-07-14
+ * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Date: @DATE 
  */
-(function($) {
-		
-	
-	// version number
-	var t = $.tools.scrollable; 
-	t.plugins = t.plugins || {};
-	t.plugins.mousewheel = {	
-		version: '@VERSION',
-		conf: { 
-			api: false,
-			speed: 50
-		} 
-	}; 
-	
+(function($) { 
 	
 	$.fn.mousewheel = function( fn ){
 		return this[ fn ? "bind" : "trigger" ]( "wheel", fn );

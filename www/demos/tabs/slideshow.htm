@@ -3,7 +3,7 @@
 <c:set var="tools" value="all"/>
 <%@ include file="../standalone.jsf" %>
 
-<link rel="stylesheet" type="text/css" href="${cdn}/tools/css/tabs-slideshow.css"/>
+<link rel="stylesheet" type="text/css" href="${cdn}${jqt}/css/tabs-slideshow.css"/>
 
 
 <!-- fix IE "black box" problems with PNG images when opacity is being animated -->
@@ -95,7 +95,7 @@ ${buttons}
 
 
 <script language="JavaScript">
-// What is $(document).ready ? See: http://flowplayer.org/tools/using.html#document_ready
+// What is $(document).ready ? See: http://flowplayer.org${jqt}/using.html#document_ready
 $(function() {
 	<c:set var="js">
 

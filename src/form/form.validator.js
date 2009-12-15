@@ -1,46 +1,33 @@
-/*
-
-	-- Pushing the limits of HTML form validation --
+/**
+ * @license 
+ * form.validator @VERSION - HTML5 is here. Now use it.
+ * 
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/form/validator/
+ *
+ * Dual licensed under MIT and GPL 2+ licenses
+ * http://www.opensource.org/licenses
+ * 
+ * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Date: @DATE 
+ */
+ 
+/* --- TODO ---
+	proper test page
+	existing input replacement 
 	
-	var v = $(elements).validator({api: true}); 
-	var errors = v.checkValidity(); // Web Forms 2.0
-	
-	jQuery 
-		line 1018:
-		return elem.getAttribute(name) || elem[ name ]; 
-	
-		line 2016:
-		elem.getAttribute( name ) ? elem.getAttribute( name ) : elem[ name ],
-	
-		
-		
-		
-	http://dean.edwards.name/html5/test-forms.html	
-	http://code.google.com/p/webforms2/source/browse/trunk/webforms2.js
-	http://ejohn.org/blog/html-5-data-attributes/	
-	http://weston.ruter.net/
-	
-	http://www.slideshare.net/rsim/jsconfeu-overview
+	Web Forms 2.0 compatibility
+		http://www.whatwg.org/specs/web-forms/current-work/#form-validation			
+		- checkValidity() DOM method for form
+		- oninvalid attribute && $.fn.invalid() callback for input, textarea, and select
+		- :invalid pseudo class 
+		- willValidate attribute (true, false)
+		- advanced: validity attribute
+			http://www.whatwg.org/specs/web-forms/current-work/#telling-the-user 
 */
-
-$.tools = {};
-
 (function($) {	
-		
-	/*
-		HTML5 replacement
-		test page
-		
-		Web Forms 2.0 compatibility
-			http://www.whatwg.org/specs/web-forms/current-work/#form-validation			
-			- checkValidity() DOM method for form
-			- oninvalid attribute && $.fn.invalid() callback for input, textarea, and select
-			- :invalid pseudo class 
-			- willValidate attribute (true, false)
-			- advanced: validity attribute
-				http://www.whatwg.org/specs/web-forms/current-work/#telling-the-user
-	*/
 
+	$.tools = $.tools || {};
 	$.tools.form = $.tools.form || {};	
 	
 	// globals

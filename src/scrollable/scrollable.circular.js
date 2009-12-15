@@ -1,15 +1,15 @@
-/*!
- * jQuery TOOLS plugin :: scrollable.circular @VERSION
+/**
+ * @license 
+ * scrollable.circular @VERSION - Not production ready yet.
  * 
- * Copyright (c) 2009 Tero Piirainen
- * http://flowplayer.org/tools/scrollable.html#circular
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/scrollable/circular.html
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Launch  : September 2009
- * Date: @DATE
- * Revision: @REVISION 
+ * Since: September 2009
+ * Date: @DATE 
  */
 (function($) {
 

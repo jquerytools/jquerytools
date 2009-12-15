@@ -1,15 +1,15 @@
-/*!
- * tools.tabs @VERSION - Tabs done right.
+/**
+ * @license 
+ * tools.tabs @VERSION - The basics of UI design.
  * 
- * Copyright (c) 2009 Tero Piirainen
- * http://flowplayer.org/tools/tabs.html
+ * Copyright (c) 2010 Tero Piirainen
+ * http://flowplayer.org/tools/tabs/
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Launch  : November 2008
- * Date: @DATE
- * Revision: @REVISION 
+ * Since: November 2008
+ * Date: @DATE 
  */  
 (function($) {
 		

@@ -1,15 +1,15 @@
-/*!
- * tools.scrollable @VERSION - Scroll your HTML with eye candy.
+/**
+ * @license 
+ * tools.scrollable @VERSION - New wave UI component
  * 
- * Copyright (c) 2009 Tero Piirainen
+ * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/scrollable.html
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Launch  : March 2008
- * Date: @DATE
- * Revision: @REVISION 
+ * Since: March 2008
+ * Date: @DATE 
  */
 (function($) { 
 		

@@ -12,7 +12,7 @@
 %>
 
 <c:set var="isForum" value="${fn:contains(req.path, '/forum/')}"/>
-<c:set var="showTweets" value="${fn:contains(req.path, 'download') || req.path == '/tools/index.html'}"/>
+<c:set var="showTweets" value="${fn:contains(req.path, 'download') || req.path == '/tools-1.2.0/index.html'}"/>
 	
 
 <style>
@@ -39,7 +39,7 @@
 
 			<ul style="display:none">
 				<c:forEach items="${cat.demos}" var="demo">
-					<li> <a href="/tools/demos/${demo.path}">${demo.title}</a> </li>
+					<li> <a href="${jqt}-1.2.0/demos/${demo.path}">${demo.title}</a> </li>
 				</c:forEach>
 			</ul>
 
@@ -60,7 +60,7 @@
 <%-- documentation --%>
 <c:if test="${isDoc}">
 
-	<c:if test="${req.path != '/tools/search.html'}">
+	<c:if test="${!fn:contains(req.path, '/search.html')}">
 		<script>$("#jqt4").addClass("active");</script>
 	</c:if>	
 	
@@ -68,8 +68,8 @@
 		<h2>Documentation</h2>
 		
 		<ul>
-			<li><a href="/tools/using.html">User's Guide</a></li>
-			<li><a href="/tools/performance.html">Performance</a></li>			
+			<li><a href="${jqt}/using.html">User's Guide</a></li>
+			<li><a href="${jqt}/performance.html">Performance</a></li>			
 		</ul>  
 		
 		<div class="clear"></div>
@@ -82,12 +82,12 @@
 		<h2>The Tools</h2> 
 		
 		<ul>
-			<li><a href="/tools/tabs.html">tabs</a></li>
-			<li><a href="/tools/tooltip.html">tooltip</a></li>	
-			<li><a href="/tools/scrollable.html">scrollable</a></li>
-			<li><a href="/tools/overlay.html">overlay</a></li>
-			<li><a href="/tools/expose.html">expose</a></li>
-			<li><a href="/tools/flashembed.html">flashembed</a></li>
+			<li><a href="${jqt}/tabs.html">tabs</a></li>
+			<li><a href="${jqt}/tooltip.html">tooltip</a></li>	
+			<li><a href="${jqt}/scrollable.html">scrollable</a></li>
+			<li><a href="${jqt}/overlay.html">overlay</a></li>
+			<li><a href="${jqt}/expose.html">expose</a></li>
+			<li><a href="${jqt}/flashembed.html">flashembed</a></li>
 		</ul>  
 		
 		<div class="clear"></div>
@@ -98,11 +98,12 @@
 	<h3>Release Notes</h3>
 	
 	<div id="notes">
-		<p><a href="/tools/release-notes/index.html">Version 1.1.2</a></p>
-		<p><a href="/tools/release-notes/version-1.1.1.html">Version 1.1.1</a></p>
-		<p><a href="/tools/release-notes/version-1.1.0.html">Version 1.1.0</a></p>
-		<p><a href="/tools/release-notes/version-1.0.X.html">Versions 1.0.X</a></p>
-		<p><a href="/tools/release-notes/version-history.html">Full version history</a></p>			
+		<p><a href="${jqt}/release-notes/index.html">Version 1.2.0</a></p>
+		<p><a href="${jqt}/release-notes/version-1.1.2.html">Version 1.1.2</a></p>
+		<p><a href="${jqt}/release-notes/version-1.1.1.html">Version 1.1.1</a></p>
+		<p><a href="${jqt}/release-notes/version-1.1.0.html">Version 1.1.0</a></p>
+		<p><a href="${jqt}/release-notes/version-1.0.X.html">Versions 1.0.X</a></p>
+		<p><a href="${jqt}/release-notes/version-history.html">Full version history</a></p>			
 	</div>			
 	
 	
@@ -135,7 +136,7 @@
 		<ul>
 			<c:forEach items="${rows}" var="row" varStatus="i">		
 				<li>
-					<a href="/tools/forum/${row.forumId}/${empty row.threadId ? row.id : row.threadId}#post-${row.id}">
+					<a href="${jqt}/forum/${row.forumId}/${empty row.threadId ? row.id : row.threadId}#post-${row.id}">
 						${row.title}					
 						<span>${j:elapsed(row.modified)} by "${f:getName(row)}"</span>				
 					</a>
@@ -148,14 +149,14 @@
 	</div>
 	
 	<%-- the forums --%>
-	<c:if test="${req.path != '/tools/forum/index.html'}">
+	<c:if test="${!fn:contains(req.path, '/forum/index.html')}">
 		<div class="box">
 		 
 			<h2>Forum List</h2>  
 		
 			<ul>
 				<c:forEach items="${forumNames2}" var="f">
-					<li><a href="/tools/forum/${f.key}" id="forumLink${f.key}">${f.value}</a></li>
+					<li><a href="${jqt}/forum/${f.key}" id="forutabs/index.html?reload=truemLink${f.key}">${f.value}</a></li>
 				</c:forEach>
 			</ul>
 			

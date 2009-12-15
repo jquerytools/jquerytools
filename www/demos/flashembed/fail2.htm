@@ -7,7 +7,7 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <!-- include flashembed. this file is not included in the "official" jQuery tools package -->
-<script type="text/javascript" src="${cdn}/js/tools/tools.flashembed-${v.flashembed}.min.js"></script>
+<script type="text/javascript" src="${cdn}/js${jqt}${jqt}.flashembed-${v.flashembed}.min.js"></script>
 </c:if>
 
 <style>
@@ -37,7 +37,7 @@ flashembed("fail2", {src: "/swf/clock.swf", version: [20, 0]});
 
 <!-- here is the container with the default error message inside it -->
 <div id="fail2">
-	<img src="/tools/img/flashplayer_100x100.jpg" />
+	<img src="${jqt}/img/flashplayer_100x100.jpg" />
 	<h3>Get Adobe Flash Player</h3>
 
 	<p>

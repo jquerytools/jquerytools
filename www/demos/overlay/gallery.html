@@ -1,8 +1,8 @@
 <%-- :mode=jsp: --%>
-<%@ include file="/tools/demos/header.jsf" %>
+<%@ include file="${jqt}/demos/header.jsf" %>
 
 <p>
-	Here is the <a href="/tools/overlay.html#gallery">Gallery plugin</a> for overlay in action. Use the arrow keys to navigate through the images. This is a true example of how extendable the overlay tool is.
+	Here is the <a href="${jqt}/overlay.html#gallery">Gallery plugin</a> for overlay in action. Use the arrow keys to navigate through the images. This is a true example of how extendable the overlay tool is.
 </p>
 
 <%@ include file="gallery.htm" %>
@@ -44,7 +44,7 @@ ${html}
 <h3>CSS coding</h3>
 
 <p>
-	Two CSS files are being used: <a href="/tools/css/overlay-basic.css">overlay-basic.css</a> for styling the overlay which already has been used in our <a href="index.html">minimal setup</a> and <a href="/tools/css/overlay-gallery.css">overlay-gallery.css</a>  for styling the gallery-specific elements inside the overlay. Here are some important snippets from the gallery CSS file:
+	Two CSS files are being used: <a href="${jqt}/css/overlay-basic.css">overlay-basic.css</a> for styling the overlay which already has been used in our <a href="index.html">minimal setup</a> and <a href="${jqt}/css/overlay-gallery.css">overlay-gallery.css</a>  for styling the gallery-specific elements inside the overlay. Here are some important snippets from the gallery CSS file:
 </p>
 
 <pii:code lang="css">
@@ -77,7 +77,7 @@ ${html}
 <h3>JavaScript setup</h3>
 
 <p>
-	We use the overlay just like before except that we now chain a <samp>gallery</samp> call after the overlay call. This gallery plugin accepts its <a href="/tools/overlay.html#gallery_configuration">own set</a> of configuration properties and here we tweak the <samp>speed</samp> parameter as an example:
+	We use the overlay just like before except that we now chain a <samp>gallery</samp> call after the overlay call. This gallery plugin accepts its <a href="${jqt}/overlay.html#gallery_configuration">own set</a> of configuration properties and here we tweak the <samp>speed</samp> parameter as an example:
 </p>
 
 <pii:code>
@@ -91,5 +91,5 @@ ${js}
 </div>
 
 <p>
-	<a href="/tools/credits.html" id="credits">Photo credits &raquo;</a>
+	<a href="${jqt}/credits.html" id="credits">Photo credits &raquo;</a>
 </p>
