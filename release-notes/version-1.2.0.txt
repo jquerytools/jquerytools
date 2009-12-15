@@ -1,15 +1,26 @@
 
+Fundamental changes
+	- everything under form are new. 
+	- toolbox: a set of tools that can be utilized by any other tool
+	- expose is now toolbox/mask
+	- flashembed is moved to tools
+	- tabs.history and scrollable.mousewheel are now under tools as a standalone utilities
+	- toolbox.drag is used by the slider. a generic drag utility by threedubmedia. fast and compact
+	- accordion folder is custom work by Dean Edwards. will not be used in 1.2
+	- overlay.gallery is removed in favor to tabs.slideshow. the grow effect is supplied by lazyload plugin
+	
+
 mask
 	- simple, straighforward, lightweight
 	- fit called when mask loaded
 	- all events are unbind upon close
 	- easy access: $.mask.load(), $.mask.close();
 	- configuration can be given upon load();
-	- 2.6 kB!
+	- 2.6 kB
 	- conf.startOpacity
 	- conf.top
 	- conf.left
-	- existing element can be mad as mask
+	- existing element can be used as a mask
 	
 overlay
 	- removed deprecated getContent method

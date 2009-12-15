@@ -1,10 +1,15 @@
-/* 
-	TODO
-		- :file input replaceWith(wrap)
-		- progress indicator (find or create)
-		# autoStart
-		# queueSizeLimit
-*/
+/*! 
+ *	A front-end script for uploadify.swf (http://www.uploadify.com)
+ *	Experimental stuff. Used by Flowplayer setup in 2010
+ *	
+ *	http://flowplayer.org/setup/
+ *	
+ *	@author Tero Piirainen
+ * @license MIT, GPL2+
+ *	
+ *	TODO
+ *		- :file input replaceWith(wrap)
+ */
 (function() {
 
 	$.tools = $.tools || {};
@@ -57,30 +62,33 @@
 		return "<strong>" + name + "</strong> (" + size + ")";
 	}
 
+	function findOrCreate(context, query) {
+		if (query.substring(0, 1) == '#') { return $(query); }
+		var el = context.parent().find("." + query);
+		
+		if (!el.length) {
+			el = $("<div/>").addClass(query);
+			context.after(el);
+			return el;
+		}
+	}
 	
 	function Upload(input, conf, index) {
 
 		var self = this, 
-			 swfWrap = $("<div/>"), 
+			 swfWrap = input.parent().next(), 
 			 css = conf.css;
 
 		// id attribute required for input field
 		conf.uploadifyID = input.attr("id") || "upload";		
-		input.attr("id", conf.uploadifyID).after(swfWrap).hide();		
+		input.attr("id", conf.uploadifyID).hide();		
 		
 		conf.script += "?name=" + input.attr("name");
 		conf.swf.id = conf.swf.id || 'foo';
 		
 		
-		// progress bar
-		var progress = css.progress.substring(0, 1) == '#' ? 
-			$(css.progress) : swfWrap.next("." + css.progress);
-
-		if (!progress.length) {
-			progress = $("<div/>").addClass(css.progress);
-			swfWrap.after(progress);
-		}
-		
+		// progress and info elements
+		var progress = findOrCreate(swfWrap, css.progress);
 		
 		// install SWF component
 		var api = flashembed(swfWrap.get(0), conf.swf, conf).getApi();
@@ -111,7 +119,7 @@
 				
 				if (!e.isDefaultPrevented()) {
 					input.trigger("uploadifyStart");
-					api.startFileUpload(undefined, true);
+					api.startFileUpload(null, true);
 				} 
 			},
 			
@@ -165,8 +173,8 @@
 
 			
 			// queue is full
-			if (am == conf.queueSizeLimit) {
-				var old = items.children(":first");
+			if (am == conf.queueSizeLimit) {				
+				var old = items.children(":first");				
 				api.cancelFileUpload(old.attr("id"), true, true);
 				old.remove();	
 			}
