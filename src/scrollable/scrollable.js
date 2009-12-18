@@ -288,7 +288,7 @@
 					if (i == index) { i--; }
 					self.getItems().removeClass(klass);
 					item.addClass(klass);					
-					return self.seekTo(i, time, fn);
+					return self.seekTo(i);
 				}				
 		
 				if (!item.hasClass(klass)) {				
