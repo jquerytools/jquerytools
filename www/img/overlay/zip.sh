@@ -1,1 +1,0 @@
-zip overlay.zip *.png
