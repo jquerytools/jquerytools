@@ -1,1 +1,15 @@
 build
+
+# patch
+*.rej
+*.orig
+
+# vim
+*~
+
+# emacs
+\#*\#
+\.\#*
+
+# MacOS directory store
+.DS_Store
