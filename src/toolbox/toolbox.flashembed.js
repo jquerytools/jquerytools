@@ -1,6 +1,6 @@
 /**
  * @license 
- * tools.flashembed @VERSION - The future of Flash embedding.
+ * jQuery Tools @VERSION / Toolbox:Flashembed - The future of Flash embedding.
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/flash-embed.html

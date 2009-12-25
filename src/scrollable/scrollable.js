@@ -1,6 +1,6 @@
 /**
  * @license 
- * tools.scrollable @VERSION - New wave UI component
+ * jQuery Tools @VERSION Scrollable - New wave UI design
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/scrollable.html

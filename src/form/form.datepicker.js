@@ -1,14 +1,14 @@
 /**
  * @license                                     
- * form.datepickerer @VERSION - Pick your (HTML5) day.
+ * jQuery Tools @VERSION Datepicker - Compact HTML5 date picking.
  * 
  * Copyright (c) 2010 Tero Piirainen
- * http://flowplayer.org/tools/form/datepickerer/
+ * http://flowplayer.org/tools/form/datepicker/
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Since: Mar 2010
  * Date: @DATE 
  */
 

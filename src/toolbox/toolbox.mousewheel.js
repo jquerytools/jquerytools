@@ -1,6 +1,6 @@
 /**
  * @license 
- * toolbox.mousewheel @VERSION - Mousewheel is an event.
+ * jQuery Tools @VERSION / Toolbox:Mousewheel - Mousewheel is an event.
  * 
  * based on jquery.event.wheel.js ~ rev 1 ~ 
  * Copyright (c) 2008, Three Dub Media
@@ -10,7 +10,7 @@
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Since: Mar 2010
  * Date: @DATE 
  */
 (function($) { 

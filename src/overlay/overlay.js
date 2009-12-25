@@ -1,6 +1,6 @@
 /**
  * @license 
- * tools.overlay @VERSION - Overlay base. Extend it.
+ * jQuery Tools @VERSION Overlay - Overlay base. Extend it.
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/overlay/

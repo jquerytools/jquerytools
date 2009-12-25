@@ -1,14 +1,14 @@
 /**
  * @license 
- * form.styleable @VERSION - You waited. Here it is.
- * 
+ * jQuery Tools @VERSION Styleable - Forms + CSS. Finally.
+ *                                                      
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/form/styleable/
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Since: Mar 2010
  * Date: @DATE 
  */
 (function($) { 

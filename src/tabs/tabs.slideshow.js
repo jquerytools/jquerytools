@@ -1,6 +1,6 @@
 /**
  * @license 
- * tabs.slideshow @VERSION - 
+ * jQuery Tools @VERSION Slideshow - Extend it.
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/tabs/slideshow.html

@@ -1,6 +1,6 @@
 /**
  * @license 
- * toolbox.drag @VERSION - Drag is an event
+ * jQuery Tools @VERSION / Toolbox:Drag - Drag is an event
  * 
  * based on jquery.event.drag.js ~ v1.5 ~ 
  * Copyright (c) 2008, Three Dub Media
@@ -9,7 +9,7 @@
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Since: Mar 2010
  * Date: @DATE 
  */
 ;(function($){ // secure $ jQuery alias
@@ -145,3 +145,5 @@ function selectable ( elem, bool ){
 	
 /*******************************************************************************************/
 })( jQuery ); // confine scope
+
+

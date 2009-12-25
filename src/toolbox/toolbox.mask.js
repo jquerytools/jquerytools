@@ -1,6 +1,6 @@
 /**
  * @license 
- * toolbox.mask @VERSION - Dim the lights.
+ * jQuery Tools @VERSION / Toolbox:Mask - Dim the lights.
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/toolbox/mask.html
@@ -8,7 +8,7 @@
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Since: Mar 2010
  * Date: @DATE 
  */
 (function($) { 	

@@ -1,6 +1,6 @@
 /**
  * @license 
- * tooltip.slide effect @VERSION
+ * jQuery Tools @VERSION / Tooltip Slide Effect
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/tooltip/slide.html

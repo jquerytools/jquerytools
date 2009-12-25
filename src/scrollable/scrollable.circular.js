@@ -1,6 +1,6 @@
 /**
  * @license 
- * scrollable.circular @VERSION - Not production ready yet.
+ * jQuery Tools @VERSION / Scrollable Circular (beta)
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/scrollable/circular.html

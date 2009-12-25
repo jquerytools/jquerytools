@@ -2,9 +2,6 @@
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml"/> 
 	<property file="build.properties" prefix="v"/>
-	
-	<property name="www" value="${v.www}-${v.tools}"/>
-	<property name="js" value="${www}/js"/>
 	<property name="build" value="build/${v.tools}"/>
 	
 	<!-- replace @VERSION and @DATE tags -->
@@ -25,22 +22,15 @@
 		
 		  <sequential>
 		  
-		  		<!-- version number -->
-				<propertyregex property="tool" input="@{file}" override="yes" replace="\1" 
- 					regexp=".+/(.*)\.js"/> 
-						
-				<propertycopy name="version" from="v.${tool}" override="yes"/>
-
-				<replaceregexp match="@VERSION" replace="${version}" flags="g" byline="true"
-					file="@{file}" />
-					
+		  		<!-- version number -->                             
+				<replaceregexp match="@VERSION" replace="${v.tools}" byline="true" file="@{file}" /> 
 			
 				<!-- last modified (via <git log> command) -->
 				<propertyregex property="source" input="@{file}" override="yes" replace="\1" 
  					regexp=".+/\d.\d.\d/(.*)\.js"/>  
  				
 				<exec executable="git" outputproperty="git.log" >  
-					<arg line="log src/${source}.js"/>  
+					<arg line="log -1 src/${source}.js"/>  
 				</exec> 			
 				
 				<propertyregex property="date" input="${git.log}" select="\1">  
@@ -75,37 +65,6 @@
 		</apply>
 		
 	</target>
-	
-	<!-- copy stuff under web folder -->
-	<target name="www">
-	
-		<!-- documentation -->
-		<mkdir dir="${www}"/>
-		<copy todir="${www}">
-			<fileset dir="www"/>
-		</copy>
-		
-	</target>
-	
-	<!-- deploy -->
-	<target name="deploy" depends="www">
-		
-		<!-- zip -->
-		<zip destfile="${build}/tools-${v.tools}.zip"
-		     basedir="${build}"
-		     excludes="*.zip" />		
-		  
-		<!-- javascript -->
-		<mkdir dir="${js}"/> 
-		<copy todir="${js}">
-			<fileset dir="${build}"/>
-		</copy>
-		
-		<!-- properties -->
-		<copy file="build.properties" tofile="${www}/../WEB-INF/tools.properties"/>
-		
-	</target>
-
 	
 </project>
 

@@ -1,6 +1,6 @@
 /**
  * @license 
- * tooltip.dynamic @VERSION - Always visible tips
+ * jQuery Tools @VERSION / Tooltip Dynamic Positioning
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/tooltip/dynamic.html

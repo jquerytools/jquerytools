@@ -1,6 +1,6 @@
 /**
  * @license 
- * scrollable.navigator @VERSION
+ * jQuery Tools @VERSION / Scrollable Navigator
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/scrollable/navigator.html

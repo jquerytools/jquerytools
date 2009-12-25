@@ -1,6 +1,6 @@
 /**
  * @license 
- * form.slider @VERSION - HTML5 slider. Implemented.
+ * jQuery Tools @VERSION Slider - A HTML5 slider component
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/form/slider/
@@ -10,7 +10,7 @@
  * 
  * Requires toolbox.drag.js
  *
- * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Since: Mar 2010
  * Date: @DATE 
  */
  

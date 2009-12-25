@@ -1,6 +1,6 @@
 /**
  * @license 
- * toolbox.history @VERSION - Back button for AJAX apps.
+ * jQuery Tools @VERSION / Toolbox:History - Back button for AJAX apps.
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/toolbox/history.html
@@ -8,7 +8,7 @@
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
  *
- * Since: jQuery Tools 1.2.0 (Mar 2010)
+ * Since: Mar 2010
  * Date: @DATE 
  */
 (function($) {

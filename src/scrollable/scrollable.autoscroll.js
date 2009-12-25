@@ -1,6 +1,6 @@
 /**
  * @license 
- * scrollable.autoscroll @VERSION 
+ * jQuery Tools @VERSION / Scrollable Autoscroll
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/scrollable/autoscroll.html

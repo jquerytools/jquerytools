@@ -1,6 +1,6 @@
 /**
  * @license 
- * tools.tabs @VERSION - The basics of UI design.
+ * jQuery Tools @VERSION Tabs- The basics of UI design.
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/tabs/
