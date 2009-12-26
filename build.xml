@@ -12,7 +12,13 @@
 		<copy todir="${build}">
 			<fileset dir="src"/>
 		</copy>
-		
+
+		<!-- jQuery library -->
+		<copy todir="${build}">
+			<fileset dir="lib" includes="*.js"/>
+		</copy>
+
+
 		
 		<!-- loop trough them -->
 		<for param="file"> 
