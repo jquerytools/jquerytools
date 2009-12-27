@@ -120,7 +120,7 @@
 		// initialize lazyload
 		if (lazyconf) {
 			
-			if (!$.tools.lazyload) { throw "jQuery Tabs: lazyload tool not included"; }
+			if (!$.tools.toolbox.lazyload) { throw "jQuery Tabs: lazyload tool not included"; }
 			
 			if (typeof lazyconf == 'string') {
 				loadables = root.find(lazyconf);

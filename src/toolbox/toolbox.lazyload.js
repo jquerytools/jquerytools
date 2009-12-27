@@ -14,19 +14,14 @@
  
 
 /* --- TODO ---		
-	get rid of flash effects
 	sizing: padding / margins
-	proper progress behaviour
-	recursive load + class names
-	grow --> growParent	
 */
 (function($) {
 
 	$.tools = $.tools || {};
+	$.tools.toolbox = $.tools.toolbox || {};
 	 
-	var tool = $.tools.lazyload = {
-		
-		version: '@VERSION',
+	var tool = $.tools.toolbox.lazyload = {
 		
 		conf: {
 			css: {
@@ -37,11 +32,12 @@
 			},
 			
 			effect: 'show',
-			fadeInSpeed: 'normal',			
+			fadeInSpeed: 0,			
 			growSpeed: 'slow',
-			grow: '.grow',			
+			growParent: '.grow',	// jquery || closest(growParent) || parent		
 			progress: 'Loading',
-			loadOnScroll: false 
+			loadOnScroll: false,
+			placeholder: 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
 		},
 		
 		addLoader: function(matcher, initFn, loadFn) {			
@@ -68,9 +64,11 @@
 			
 			var self = this, 
 				 conf = self.getConf()
-				 root = conf.grow.jquery ? conf.grow : el.closest(conf.grow),
+				 root = conf.growParent.jquery ? conf.growParent : el.closest(conf.growParent),
 				 css = null;				 
 			 
+				 if (!root.length) { root = el.parent(); }
+				 
 			if (el.is("img")) { 
 				var img = el[0];
 				css = {width: img.width, height: img.height};				
@@ -90,7 +88,7 @@
 			el.css({visibility: 'hidden'}).hide();
 
 			// grow the parent
-			root.animate(css, conf.growSpeed, function() {
+			root.animate(css, conf.growParentSpeed, function() {
 				effects.show.call(self, el, done);				
 			});			
 		}
@@ -129,7 +127,7 @@
 		// initialization	
 		function(img) {
 			var src = img.attr("src");
-			img.attr("src", "").data("src", src);	
+			img.attr("src", this.getConf().placeholder).data("src", src);	
 		},
 		
 		// load function
@@ -137,7 +135,7 @@
 			var p = this.getProgress();
 			if (p) { img.before(p); }
 			
-			img.attr("src", img.data("src")).load(function() {
+			img.load(function() {
 				if (p) { p.remove(); }
 				done.call();	
 				
@@ -146,7 +144,8 @@
 				// TODO, call with error
 				console.error(img.data("src"), error, b);
 				done.call();	
-			});
+				
+			}).attr("src", img.data("src"));
 		}	  
 	);			
 
@@ -198,14 +197,15 @@
 			bg = bg.substring(bg.indexOf("(") + 1, bg.indexOf(")")).replace(/\"/g, "");			
 			
 			// progress indicator
-			el.prepend(p);
+			if (p) { el.prepend(p); }
 			
 			// load image & store it using data()
-			$("<img/>").attr("src", bg).load(function()  {
+			$("<img/>").load(function()  {
 				el.css("backgroundImage", "url(" + bg + ")").data("image", $(this));
-				p.remove();
+				if (p) { p.remove(); }
 				done.call();
-			});
+				
+			}).attr("src", bg);
 		}
 		
 	);
@@ -225,19 +225,7 @@
 			 
 		if (conf.progress) {
 			progress = $("<div/>").addClass(css.progress).text(conf.progress);	
-		}
-		
-		// initialize 
-		els.each(function() {				
-			var el = $(this).addClass(css.before);
-
-			$.each(loaders, function(matcher, loader) {
-				if (el.filter(matcher).length && $.isFunction(loader[0])) {
-					loader[0].call(self, el);	
-				}
-			});
-		});
-		
+		} 
 		
 		// The API  
 		$.extend(self, { 
@@ -250,7 +238,7 @@
 
 								
 				// loop trough nodes
-				nodes.each(function(index) {				
+				nodes.each(function(index) {
 					
 					var el = $(this);		
 
@@ -265,53 +253,49 @@
 						if (el.is(matcher) && $.isFunction(loader[1]))  {
 							
 							// match found
-							var e = new $.Event("onBeforeLoad"), last = !el.next().length;
+							var e = new $.Event("onBeforeLoad");
 							$self.trigger(e, [el]);
 
 							// loading cancelled by user
-							if (e.isDefaultPrevented()) {
-								if (last) { $self.trigger("onLoadAll", [el]); }
+							if (e.isDefaultPrevented()) {	return false; }						
+							
+							// start loading
+							el.addClass(css.loading);										
+							
+							loader[1].call(self, el, function(error)  {
 								
-							} else {															
+								// do not remove this!	
+								if (el.is(":loaded")) { return; }
 								
-								// start loading
-								el.addClass(css.loading);										
-								
-								loader[1].call(self, el, function(error)  {
+								if (error) {
+									$self.trigger("onError", [el, error]);
 									
-									// do not remove this!	
-									if (el.is(":loaded")) { return; }
+								} else {									
 									
-									if (error) {
-										$self.trigger("onError", [el, error]);
+									// perform loading
+									effects[conf.effect].call(self, el, function() {												 
 										
-									} else {									
+										// loaded flag
+										el.data("loaded", true);
 										
-										// perform loading
-										effects[conf.effect].call(self, el, function() {												
-												
-											// onLoad callback
-											$self.trigger("onLoad", [el]);											
-											
-											// CSS class names											
-											el.removeClass(css.before).removeClass(css.loading);
-											if (css.after) { el.addClass(css.after); }
-
-										});
-									}
-									
-									// loaded flag
-									el.data("loaded", true);
-									
-									// onLoadAll callback
-									if (last) {
-										$self.trigger("onLoadAll", [els]);
-									}
-									
-								});
-							}							
+										// onLoad callback
+										$self.trigger("onLoad", [el]);											
+										
+										// CSS class names											
+										el.removeClass(css.before).removeClass(css.loading);
+										if (css.after) { el.addClass(css.after); }  
+									});
+								}  
+							});						
 						}
 					});
+				});
+				
+				$self.bind("onLoad.foo", function() {
+					if (!nodes.not(":loaded").length) {
+						$self.trigger("onLoadAll", [els]);	
+						$self.unbind("onLoad.foo");
+					}
 				});
 				
 				return self;				
@@ -370,6 +354,19 @@
 				});
 			});
 		}
+		
+		
+		// initialize 
+		els.each(function() {				
+			var el = $(this).addClass(css.before);
+
+			$.each(loaders, function(matcher, loader) {
+				if (el.filter(matcher).length && $.isFunction(loader[0])) {
+					loader[0].call(self, el);	
+				}
+			});
+		});
+			
 	}
 					
 	// jQuery plugin implementation

@@ -1,14 +1,17 @@
 
 Fundamental changes
-	- everything under form are new. 
+	- everything under src/form are new. 
 	- toolbox: a set of tools that can be utilized by any other tool
 	- expose is now toolbox/mask
-	- flashembed is moved to tools
-	- tabs.history and scrollable.mousewheel are now under tools as a standalone utilities
+	- flashembed is now under toolbox
+	- tabs.history and scrollable.mousewheel are now under toolbox as a standalone utilities
 	- toolbox.drag is used by the slider. a generic drag utility by threedubmedia. fast and compact
-	- accordion folder is custom work by Dean Edwards. will not be used in 1.2
+	- accordion tool is custom work by Dean Edwards. will not be used in 1.2
 	- overlay.gallery is removed in favor to tabs.slideshow. the grow effect is supplied by lazyload plugin
-	
+	          
+
+all tools
+	- support for lazyloading
 
 mask
 	- simple, straighforward, lightweight
@@ -27,3 +30,5 @@ overlay
 	- removed the gallery plugin
 	
 	
+
+

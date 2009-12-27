@@ -1,10 +1,8 @@
 
 <script src="../jquery-1.3.2.js"></script>
-<script src="../../src/util/util.lazyload.js"></script>
-<script src="../../src/util/util.history.js"></script>
+<script src="../../src/toolbox/toolbox.lazyload.js"></script>
 <script src="../../src/tabs/tabs.js"></script>
-<script src="../../src/tabs/tabs.slideshow.js"></script>
- 
+
 <style>
 #slideshow {
 	position:relative;
@@ -43,15 +41,6 @@
 }
 </style>
 
-<!-- 
-	lazyload
-	preload
-	grow effect
-	onStop
-	wow demo (http://www.apple.com/iphone/)
-	remove gallery
-	overlay gallery demo
--->
 
 <script>
 $(function() { 
@@ -71,11 +60,6 @@ $(function() {
 			console.info("index", i);		
 		}
 		
-	}).slideshow({
-		interval: 3000,
-		autoplay: false,
-		clickable: true,
-		api: true
 	});	
 	
 	
