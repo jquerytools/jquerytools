@@ -17,7 +17,6 @@
 	$.tools = $.tools || {};
 	
 	var tool = $.tools.mask = {
-		version: '@VERSION',
 		
 		conf: {	
 			maskId: 'mask',

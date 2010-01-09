@@ -11,17 +11,15 @@
  * Since: Mar 2010
  * Date: @DATE 
  */
- 
-
-/* --- TODO ---		
-	sizing: padding / margins
-*/
 (function($) {
-
+		
+	/*		
+		sizing: padding / margins
+	*/
+	
 	$.tools = $.tools || {};
-	$.tools.toolbox = $.tools.toolbox || {};
-	 
-	var tool = $.tools.toolbox.lazyload = {
+	
+	var tool = $.tools.lazyload = {
 		
 		conf: {
 			css: {
@@ -168,7 +166,7 @@
 			var assets = root.find("img, :backgroundImage");
 			
 			if (assets.length)  {
-				assets.lazyload({api: true}).onLoad(callback).load();
+				assets.lazyload({api: true}).onLoadAll(callback).load();
 				
 			} else {
 				callback();	
@@ -224,19 +222,38 @@
 			 progress;
 			 
 		if (conf.progress) {
-			progress = $("<div/>").addClass(css.progress).text(conf.progress);	
+			progress = $("<div/>").addClass(css.progress).html(conf.progress);	
 		} 
 		
 		// The API  
 		$.extend(self, { 
 				
-			load: function(filter) {			
+			preload: function(begin, end) {
+				return self.load(begin, end, true);	
+			},
+			
+			/* 
+				load() 			// loads all
+				load(2)			// loads 3:rd element
+				load(2, 4)		// loads elements 3 - 5
+				load(els)		// loads supplied elements. must be a subset of the initial elements
+			*/
+			load: function(begin, end) {			
 				
 				// filtered set of nodes
-				var nodes = els, loaded = [];
-				if (filter) { nodes = filter.jquery ? filter : els.filter(filter); }  
-
-								
+				var nodes = null,
+					 preload = arguments[arguments.length -1] === true;
+				
+				if (begin.jquery) {
+					nodes = begin.filter(function() {
+						return els.index(this) >= 0;		
+					});
+					
+				} else {
+					nodes = begin >= 0 ? els.slice(begin, end || begin + 1) : els;	
+				}
+				
+				
 				// loop trough nodes
 				nodes.each(function(index) {
 					
@@ -263,40 +280,47 @@
 							el.addClass(css.loading);										
 							
 							loader[1].call(self, el, function(error)  {
-								
-								// do not remove this!	
-								if (el.is(":loaded")) { return; }
-								
-								if (error) {
-									$self.trigger("onError", [el, error]);
 									
-								} else {									
+								// if (el.is(":loaded")) { return; } 
+								
+								// loading failed
+								if (error) { 
+									return $self.trigger("onError", [el, error]); 
+								}
+
+								function setLoaded() {
 									
-									// perform loading
-									effects[conf.effect].call(self, el, function() {												 
-										
-										// loaded flag
-										el.data("loaded", true);
-										
-										// onLoad callback
-										$self.trigger("onLoad", [el]);											
-										
-										// CSS class names											
-										el.removeClass(css.before).removeClass(css.loading);
-										if (css.after) { el.addClass(css.after); }  
-									});
+									// loaded flag
+									el.data("loaded", true);
+									
+									// CSS class names											
+									el.removeClass(css.before).removeClass(css.loading);
+									if (css.after) { el.addClass(css.after); }  
+									
+									// onLoad callback
+									$self.trigger("onLoad", [el]);										
+								}
+								
+								if (preload) {
+									// mark as loaded
+									setLoaded();
+									
+								} else {
+									// perform effect and mark loaded
+									effects[conf.effect].call(self, el, setLoaded);	 
 								}  
+								
 							});						
 						}
 					});
 				});
 				
-				$self.bind("onLoad.foo", function() {
+				$self.bind("onLoad.tmp", function() {
 					if (!nodes.not(":loaded").length) {
-						$self.trigger("onLoadAll", [els]);	
-						$self.unbind("onLoad.foo");
+						$self.trigger("onLoadAll", [nodes], preload);	
+						$self.unbind("onLoad.tmp");
 					}
-				});
+				});                                                      
 				
 				return self;				
 			},			
@@ -349,7 +373,7 @@
 				els.each(function()  {
 					var el = $(this);
 					if (!el.is(":loaded") && !el.is(":invisible")) {
-						self.load(el);	
+						self.load(els.index(el[0]));	
 					}
 				});
 			});
@@ -379,10 +403,10 @@
 		// loadOnScroll shortcut
 		if (conf === true) { conf = {loadOnScroll: true, progress: null}; }
 		
-		// configuration
-		var globals = $.extend({}, tool.conf); 
-		conf = $.extend(globals, conf);		
+		// configuration 
+		conf = $.extend(true, {}, tool.conf, conf);		
 		
+		console.info(conf);
 		// construct loader									
 		el = new Loader(this, conf);
 		this.data("lazyload", el);
