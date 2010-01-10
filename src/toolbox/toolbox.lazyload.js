@@ -23,7 +23,7 @@
 		
 		conf: {
 			css: {
-				before: 'lazy',
+				before: null,
 				loading: 'loading',
 				after: null,
 				progress: 'progress'
@@ -101,8 +101,12 @@
 			return $(el).css("backgroundImage") != 'none' || !!$(el).data("bg") ;
 		},
 		
+		unloaded: function(el) {
+			return $(el).data("loaded") === false;
+		},
+		
 		loaded: function(el) {
-			return $(el).data("loaded") == true;
+			return $(el).data("loaded") === true;
 		},		
 		
 		invisible: function(element) {			
@@ -243,24 +247,23 @@
 				// filtered set of nodes
 				var nodes = null,
 					 preload = arguments[arguments.length -1] === true;
-				
-				if (begin.jquery) {
+
+				if (begin && begin.jquery) {
 					nodes = begin.filter(function() {
 						return els.index(this) >= 0;		
-					});
+					}); 
 					
 				} else {
 					nodes = begin >= 0 ? els.slice(begin, end || begin + 1) : els;	
-				}
-				
-				
+				} 
+
 				// loop trough nodes
 				nodes.each(function(index) {
 					
 					var el = $(this);		
 
 					// already loaded --> skip.
-					if (el.is(":loaded")) {								
+					if (el.is(":loaded")) {			
 						return effects[conf.effect].call(self, el, function() {}); 
 					}					
 					
@@ -313,14 +316,18 @@
 							});						
 						}
 					});
-				});
+				});				
 				
+				// onLoadAll callback 
 				$self.bind("onLoad.tmp", function() {
 					if (!nodes.not(":loaded").length) {
 						$self.trigger("onLoadAll", [nodes], preload);	
 						$self.unbind("onLoad.tmp");
 					}
-				});                                                      
+				});                  
+				
+				
+				
 				
 				return self;				
 			},			
@@ -382,7 +389,7 @@
 		
 		// initialize 
 		els.each(function() {				
-			var el = $(this).addClass(css.before);
+			var el = $(this).addClass(css.before).data("loaded", false);
 
 			$.each(loaders, function(matcher, loader) {
 				if (el.filter(matcher).length && $.isFunction(loader[0])) {

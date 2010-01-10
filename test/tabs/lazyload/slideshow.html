@@ -1,7 +1,7 @@
 
-<script src="../jquery-1.3.2.js"></script>
-<script src="../../src/toolbox/toolbox.lazyload.js"></script>
-<script src="../../src/tabs/tabs.js"></script>
+<script src="../../jquery-1.3.2.js"></script>
+<script src="../../../src/toolbox/toolbox.lazyload.js"></script>
+<script src="../../../src/tabs/tabs.js"></script>
 
 <style>
 #slideshow {
@@ -38,6 +38,7 @@
 
 .inner {
 	width:540px;
+	height:500px;
 }
 </style>
 
@@ -49,7 +50,8 @@ $(function() {
 		rotate: true,
 		effect: 'fade',
 		history: true,
-				
+		api: true,
+		
 		// optional when grow, can be boolean and object too
 		lazyload: {
 			select: '.slide',
@@ -60,9 +62,7 @@ $(function() {
 			console.info("index", i);		
 		}
 		
-	});	
-	
-	
+	});	  
 });
 </script>
 
@@ -79,14 +79,14 @@ $(function() {
 
 <div id="slideshow">
 		
-	<div class="slide" style="background-image:url(http://farm3.static.flickr.com/2128/2220611397_73b6486fe9.jpg)">
+	<div class="slide" style="background-image:url(../../img/2220611397_73b6486fe9.jpg)">
 		<h3>First pane</h3>
 		<p>
 			Consectetur adipiscing elit. Praesent bibendum eros ac nulla. Integer vel lacus ac neque viverra.
 		</p>
 	</div>
 	
-	<div class="slide" style="background-image:url(http://farm3.static.flickr.com/2492/3942153630_38e1a62b2d.jpg)">
+	<div class="slide" style="background-image:url(../../img/3942153630_38e1a62b2d.jpg)">
 		<h3>Second pane</h3>
 		<p>
 			Cras diam. Donec dolor lacus, vestibulum at, varius in, mollis id, dolor. Aliquam erat volutpat. 
@@ -94,14 +94,14 @@ $(function() {
 	</div>
 	
 	
-	<div class="slide" style="background-image:url(http://farm3.static.flickr.com/2089/2132556613_ab0a4b8d2f_o.jpg)">
+	<div class="slide" style="background-image:url(../../img/2132556613_ab0a4b8d2f_o.jpg)">
 		<h3>Third pane</h3> 
 		<p>
 			Non lectus lacinia egestas. Nulla hendrerit, felis quis elementum viverra, purus felis egestas magna.
 		</p>
 	</div>	
 	
-	<div class="slide" style="background-image:url(http://farm1.static.flickr.com/151/375832178_02b1b0e4b1.jpg)">
+	<div class="slide" style="background-image:url(../../img/375832178_02b1b0e4b1.jpg)">
 		<h3>Fourth pane</h3>
 		<p>
 			Non lectus lacinia egestas. Nulla hendrerit, felis quis elementum viverra, purus felis egestas magna.
@@ -109,7 +109,7 @@ $(function() {
 	</div>
 
 	<div>
-		<img src="http://farm3.static.flickr.com/2532/3720930469_66ffe057f8.jpg" class="slide" />
+		<img src="../../img/3720930469_66ffe057f8.jpg" class="slide" />
 	</div>
 	
 	<div class="slide">

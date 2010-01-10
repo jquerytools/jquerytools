@@ -12,7 +12,14 @@ Fundamental changes
 
 all tools
 	- support for lazyloading
-
+	
+tabs
+	- history as configuration option
+	- lazyload flag
+	- deprecated "ajax" effect in favor of lazyloading plugin
+	- deprecated "horizontal" effect. separate accordion plugin will be released later
+	
+	
 mask
 	- simple, straighforward, lightweight
 	- fit called when mask loaded

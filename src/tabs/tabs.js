@@ -31,7 +31,7 @@
 			rotate: false,
 			
 			// 1.2
-			lazyload: null,
+			lazyload: false,
 			history: false
 		},
 		
@@ -111,41 +111,7 @@
 		var self = this, 
 			 $self = $(this),
 			 root = panes.parent(),			 
-			 current,
-			 
-			 // lazyload related
-			 loadables,
-			 lazyconf = conf.lazyload;
-			 
-		// initialize lazyload
-		if (lazyconf) {
-			
-			if (!$.tools.toolbox.lazyload) { throw "jQuery Tabs: lazyload tool not included"; }
-			
-			if (typeof lazyconf == 'string') {
-				loadables = root.find(lazyconf);
-				lazyconf = {select: lazyconf};
-				
-			} else if (typeof lazyconf == 'boolean') {
-				loadables = panes;
-				lazyconf = {};
-				
-			} else {
-				loadables = root.find(lazyconf.select);	
-			}
-			
-			if (lazyconf.effect == 'grow') {
-				lazyconf.grow = lazyconf.grow || root;
-			}			
-			
-			loadables.lazyload(lazyconf);
-		}
-
-
-		// bind all callbacks from configuration
-		$.each(conf, function(name, fn) {
-			if ($.isFunction(fn)) { $self.bind(name, fn); }
-		});
+			 current;
 		
 		
 		// public methods
@@ -180,12 +146,7 @@
 				e.type = "onBeforeClick";
 				$self.trigger(e, [i]);				
 				if (e.isDefaultPrevented()) { return; }
-				
-				// perform lazyload
-				if (loadables) {
-					loadables.lazyload().load(panes.eq(i).find(lazyconf.select).andSelf());		
-				}				
-				
+
 				// call the effect
 				effects[conf.effect].call(self, i, function() {
 
@@ -223,7 +184,7 @@
 			},
 			
 			getLoader: function() {
-				return loadables.lazyload();	
+				return loader;	
 			},
 			
 			getIndex: function() {
@@ -258,6 +219,11 @@
 			}			
 		
 		});
+
+		// bind all callbacks from configuration
+		$.each(conf, function(name, fn) {
+			if ($.isFunction(fn)) { $self.bind(name, fn); }
+		});		
 		
 		
 		// setup click actions for each tab
@@ -267,15 +233,6 @@
 				return false;
 			});			
 		});
-
-		// if no pane is visible --> click on the first tab
-		if (location.hash) {
-			self.click(location.hash);
-		} else {
-			if (conf.initialIndex === 0 || conf.initialIndex > 0) {
-				self.click(conf.initialIndex);
-			}
-		}		
 		
 		// cross tab anchor link
 		panes.find("a[href^=#]").click(function(e) {
@@ -296,7 +253,32 @@
 			tabs.click(function(e) {
 				location.hash = $(this).attr("href").replace("#", "");	
 			});		 
+		}  
+			 
+		// lazyload support. all logic is here.
+		var lconf = $.tools.lazyload && conf.lazyload, loader, lazies;
+			 
+		if (lconf) {
+			lazies = lconf === true ? panes : root.find(lconf.select || lconf);
+			
+			if (typeof lconf != 'object') { lconf = {}; }
+			                                                        
+			$.extend(lconf, { growParent: root, api: true}, lconf); 
+			loader = lazies.lazyload(lconf);
+			
+			self.onBeforeClick(function(e, i) {
+				loader.load(panes.eq(i).find(":unloaded").andSelf());			
+			});  
 		}
+		
+		// open initial tab
+		if (location.hash) {
+			self.click(location.hash);
+		} else {
+			if (conf.initialIndex === 0 || conf.initialIndex > 0) {
+				self.click(conf.initialIndex);
+			}
+		}				
 		
 	}
 	

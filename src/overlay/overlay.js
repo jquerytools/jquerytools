@@ -70,22 +70,19 @@
 		var self = this, 
 			 $self = $(this),
 			 w = $(window), 
-			 closers,
+			 closers,            
 			 overlay,
 			 opened,
-			 mask = conf.mask && $.tools.mask.version;		
+			 maskConf = $.tools.mask && (conf.mask || conf.expose),
+			 uid = Math.random().toString().substring(10);		
+		
 			 
-		// @deprecated 
-		if (conf.expose &&  $.tools.mask.version) {
-			mask = conf.expose;	
-		}
-		
 		// mask configuration
-		if (mask) {			
-			if (typeof mask == 'string') { mask = {color: mask}; }
-			mask.closeOnClick = mask.closeOnEsc = false;
-		}			
-		
+		if (maskConf) {			
+			if (typeof maskConf == 'string') { maskConf = {color: maskConf}; }
+			maskConf.closeOnClick = maskConf.closeOnEsc = false;
+		}			 
+		 
 		// get overlay and triggerr
 		var jq = conf.target || trigger.attr("rel");
 		overlay = jq ? $(jq) : null || trigger;	
@@ -130,7 +127,7 @@
 				opened = true;
 				
 				// possible mask effect
-				if (mask) { $.mask.load(overlay, mask); }				
+				if (maskConf) { $.mask.load(overlay, maskConf); }				
 				
 				// calculate end position 
 				var top = conf.top;					
@@ -166,40 +163,33 @@
 						$self.trigger(e);
 					}
 				}); 				
-		
+
+				// mask.click closes overlay
+				if (maskConf) {
+					$.mask.getMask().one("click", self.close); 
+				}
+				
 				// when window is clicked outside overlay, we close
 				if (conf.closeOnClick) {
-					$(document).bind("click.overlay", function(e) { 
-							
-						if (!self.isOpened()) { $(this).unbind("click.overlay"); }
-						
-						// mask.click closes overlay
-						if (mask) { return $.mask.getMask().one("click", self.close); }
-						
-						// otherwize we must click outside the overlay
-						var et = $(e.target);
-						if (et.parents(overlay).length > 1) { return; }
-						
-						// close all instances
-						$.each(instances, function() {
-							this.close(e);
-						}); 
+					$(document).bind("click." + uid, function(e) { 
+						if (!$(e.target).parents(overlay).length) { 
+							self.close(e); 
+						}
 					});						
 				}						
-				
+			
 				// keyboard::escape
-				if (conf.closeOnEsc) {
-					
+				if (conf.closeOnEsc) { 
+
 					// one callback is enough if multiple instances are loaded simultaneously
-					$(document).bind("keydown.overlay", function(e) {
-						if (e.keyCode == 27) {
-							$.each(instances, function() {
-								this.close(e);								
-							});	 
+					$(document).bind("keydown." + uid, function(e) {
+						if (e.keyCode == 27) { 
+							self.close(e);	 
 						}
 					});			
 				}
 
+				
 				return self; 
 			}, 
 			
@@ -220,17 +210,13 @@
 					$self.trigger(e); 
 				});
 				
-				// if all instances are closed then we unbind the keyboard / clicking actions
-				var allClosed = true;
-				$.each(instances, function() {
-					if (this.isOpened()) { allClosed = false; }
-				});				
+				// unbind the keyboard / clicking actions
+				$(document).unbind("click." + uid).unbind("keydown." + uid);		  
 				
-				if (allClosed) {
-					$(document).unbind("click.overlay").unbind("keydown.overlay");		
-					$.mask.close();
-				} 
-							
+				if (maskConf) {
+					$.mask.close();		
+				}
+				 
 				return self;
 			}, 
 			

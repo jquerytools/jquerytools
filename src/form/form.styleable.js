@@ -102,6 +102,11 @@
 			a.addClass(conf.disabledClass);	
 		}
 		
+		input.bind("style", function() {
+			a.toggleClass(cls, this.checked);
+			a.toggleClass(conf.disabledClass, this.disabled);
+		});
+		
 	}
 	
 	$.fn.styleable = function(conf) {   

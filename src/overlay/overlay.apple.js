@@ -101,7 +101,7 @@
 			// set close button and content over the image
 			overlay.css("zIndex", opts.zIndex + 1).fadeIn(opts.fadeInSpeed, function()  { 
 				
-				if (self.isOpened() && !$(this).index(overlay)) {					 
+				if (self.isOpened() && !$(this).index(overlay)) {	
 					onLoad.call(); 
 				} else {
 					overlay.hide();	

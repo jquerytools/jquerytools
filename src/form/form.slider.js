@@ -93,8 +93,11 @@
 					with JavaScript we don't want the HTML5 range element 
 					NOTE: input.attr("type", "text") throws exception by the browser
 				*/
-				var tmp = $('<input/>').attr("type", "text").addClass(input.attr("className"))
-					.attr("name", input.attr("name"));					
+				var tmp = $('<input/>')
+					.attr("type", "text")
+					.addClass(input.attr("className"))
+					.attr("name", input.attr("name"))
+					.attr("disabled", input.attr("disabled"));					
 
 				input.replaceWith(tmp);
 				input = tmp;
@@ -262,12 +265,12 @@
 			self[name] = function(fn) {
 				return self.bind(name, fn);	
 			};
-		});
-		
+		}); 
 			
 
 		// dragging		
-		handle.bind("dragstart", function(e) {				
+		handle.bind("dragstart", function(e) {	
+				
 			if (input.is(":disabled")) { return false; }
 			
 			e.type = "onBeforeSlide";
@@ -276,8 +279,7 @@
 			init();	
 			
 		}).bind("drag", function(e) {			
-			if (input.is(":disabled")) { return false; }
-			
+			if (input.is(":disabled")) { return false; } 
 			
 			seek(conf.vertical ? origo - e.offsetY  : e.offsetX - origo, e);
 			

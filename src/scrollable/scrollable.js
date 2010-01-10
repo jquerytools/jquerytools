@@ -17,7 +17,6 @@
 	$.tools = $.tools || {};
 	
 	$.tools.scrollable = {
-		version: '@VERSION',
 		
 		conf: {
 			
@@ -50,8 +49,8 @@
 			
 			// 1.2
 			mousewheel: false,
-			wheelSpeed: 0
-			
+			wheelSpeed: 0,
+			lazyload: false
 			
 			// CALLBACKS: onBeforeSeek, onSeek, onReload
 		} 
@@ -67,9 +66,8 @@
 			 horizontal = !conf.vertical,
 			 wrap = root.children(),
 			 index = 0,
-			 forward;  
-		
-		
+			 forward;
+				
 		if (!current) { current = self; }
 		
 		// bind all callbacks from configuration
@@ -262,6 +260,10 @@
 				return self;
 			},
 			
+			getLoader: function() {
+				return loader;	
+			},
+			
 			click: function(i) {
 				
 				var item = self.getItems().eq(i), 
@@ -421,10 +423,32 @@
 				});			
 			}
 
-		});
+		}); 
+
+		// lazyload support. all logic is here.
+		var lconf = $.tools.lazyload && conf.lazyload, loader, lazies;
+			 
+		if (lconf) {
+			lazies = lconf === true ? self.getItems() : root.find(lconf.select || lconf);
+			
+			if (typeof lconf != 'object') { lconf = {}; }
+			
+			$.extend(lconf, { growParent: root, api: true}, lconf); 
+			loader = lazies.lazyload(lconf);
+			
+			function load(ev, i) {
+				var els = self.getItems().slice(i, i + conf.size);
+				
+				els.each(function() {
+					els = els.add($(this).find(":unloaded"));
+				}); 
+				loader.load(els);						
+			} 
+			self.onBeforeSeek(load);  
+			load(null, 0);
+		}
 		
-		self.reload(); 
-		
+		self.reload();  
 	} 
 
 		
