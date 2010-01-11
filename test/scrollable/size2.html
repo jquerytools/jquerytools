@@ -1,45 +1,17 @@
 
 <script src="../jquery-1.3.2.js"></script>
 <script src="../../src/scrollable/scrollable.js"></script>
-<script src="../../src/scrollable/scrollable.circular.js"></script>
-<script src="../../src/scrollable/scrollable.navigator.js"></script>
-<script src="../../src/scrollable/scrollable.autoscroll.js"></script>
-
-<script src="../../src/util/util.history.js"></script>
-<script src="../../src/util/util.mousewheel.js"></script>
 
 <link rel="stylesheet" type="text/css" href="style.css"/>
 
-<style>
-div.cloned {
-       background-color:#ffc !important;
-}
-
-div.active {
-       background-color:#66d !important;
-}
-
-.disabled {
-       visibility:hidden;
-}
-</style>
-
 <script>
 $(function() {
-       var root = $("div.scrollable").scrollable({
-    size: 2,
-               mousewheel: true
-
-       }).navigator({idPrefix: 'a', history: true});
-
-
-       // setup api
-       window.api = root.scrollable();
+  var api = $("div.scrollable").scrollable({api: true, size: 2});
 
   // test http://flowplayer.org/forum/8/31650
   $("button:eq(0)").click(function () {
     try {
-      window.api.click(0);
+      api.click(0);
       $(this).text("success");
     } catch (err) {
       $(this).text("failed");
@@ -49,26 +21,16 @@ $(function() {
 </script>
 
 
-<div class="navi"></div>
-
-
-<a class="prev">prev</a>
-<a class="prevPage">prevPage</a>
-
 <div class="scrollable" style="width:260px">
-
-       <div class="items">
-               <div>0</div>  <div>1</div>  <div>2</div>  <div>3</div> <div>4</div>
-               <div>5</div>  <div>6</div>  <div>7</div>  <div>8</div>  <div>9</div>
-               <div>10</div> <div>11</div> <div>12</div> <div>13</div> <div>14</div>
-       </div>
-
+	
+	<div class="items">
+		<div>0</div>  
+		<div>1</div>  
+		<div>2</div>  
+    <div>3</div>
+	</div>
+	
 </div>
-
-<a class="next">next</a>
-<a class="nextPage">nextPage</a>
-
-<br clear="all" />
 
 <h4>Test 8/31650</h4>
 
