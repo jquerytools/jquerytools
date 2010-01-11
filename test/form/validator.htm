@@ -25,22 +25,18 @@ VALIDATION
 		# pattern
 		# required 
 		# maxlength (no need to)			
-		- disabled
-		- readonly    
-		- replace
-		
+		# disabled
+		# readonly    
+		# oninvalid
+		- replace  (next version perhaps)
 		
 		type
 			# number (good with max / maxlenght)
 			# email 
-			# url
+			# url 
+			# range (slider)
+			# date, datetime, month, time, week (datepicker)
 			
-			range
-			date
-			datetime			
-			month			
-			time			
-			week
 -->			
 
 <form action="#">
@@ -54,11 +50,12 @@ VALIDATION
 	
 	<p>
 		email <input type="email" id="emailfield" value="tipiirai@gmail.com"
-					data-validate="equalto(abc); requires(day, abc)" />
+					readonly="true"
+					data-validate="equalto(abc); requires(day, abc)" oninvalid="alert('jou')" />
 	</p>
 	
 	<p>
-		url <input type="url" value="tipiirai@gmail.com" />
+		url <input type="url" value="tipiirai@gmail.com" disabled />
 	</p>
 	
 	<p>

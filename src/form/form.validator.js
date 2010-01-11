@@ -11,20 +11,6 @@
  * Since: Mar 2010
  * Date: @DATE 
  */
- 
-/* --- TODO ---
-	proper test page
-	existing input replacement 
-	
-	Web Forms 2.0 compatibility
-		http://www.whatwg.org/specs/web-forms/current-work/#form-validation			
-		- checkValidity() DOM method for form
-		- oninvalid attribute && $.fn.invalid() callback for input, textarea, and select
-		- :invalid pseudo class 
-		- willValidate attribute (true, false)
-		- advanced: validity attribute
-			http://www.whatwg.org/specs/web-forms/current-work/#telling-the-user 
-*/
 (function($) {	
 
 	$.tools = $.tools || {};
@@ -44,22 +30,23 @@
 		version: '@VERSION', 
 		
 		conf: { 
-			singleField: false, 		// all inputs at once
-			singleError: false, 		// all errors per input at once			
-			errorClass: 'error',
-			messageClass: 'error',
-			messagePosition: 'after',			
-			lang: 'en',
-			effect: 'default',		
+			singleField: false, 			// validate all inputs at once
+			singleError: false, 			// show all error messages inside the same container element 
+			errorClass: 'error',			// input field class name in case of validation error
+			messageClass: 'error',		// error message element's class name
+			messagePosition: 'after',	// error message position related to the field		
+			lang: 'en',						// default language for error messages 
+			effect: 'default',			// show/hide effect for error message. only 'default' is build-in	
 			
+												// when to check for validity?
 			events: {
-				input: null,		// change || blur || keyup
-				error: 'keyup',	// change || blur || keyup
-				form:  'submit' 	// click || keypress || mouseover	
-			}
-			
+				form:  'submit', 			// form events 				(VALID: click || keypress || mouseover)
+				input: null,				// input field events 		(VALID: change || blur || keyup)
+				error: 'keyup'				// :invalid input field 	(VALID: change || blur || keyup) 
+			} 
 		},
 		
+		/* set/add error message for specified matcher */
 		setMessage: function(matcher, msg, lang) {			
 			var key = matcher.key || matcher,
 				 m = this.messages[key] || {};
@@ -68,10 +55,16 @@
 			this.messages[key] = m;   
 		},
 
+		/* default error messages */
 		messages: {
 			"*": {en: "Invalid value"}		
 		},
 		
+		/** 
+		 * Adds a new validator 
+		 *
+		 * @param isCustom defines functions inside "data-validate" attribute
+		 */
 		fn: function(matcher, msg, fn, isCustom) {
 			
 			if ($.isFunction(msg)) { fn = msg; }
@@ -90,6 +83,7 @@
 			
 		},
 
+		/* Add new show/hide effect */
 		addEffect: function(name, showFn, closeFn) {
 			effects[name] = [showFn, closeFn];
 		}
@@ -152,7 +146,8 @@
 	}
 	
 	
-	// build-in standard functions
+	/******* build-in HTML5 standard validators *********/
+	
 	v.fn(isType("email"), "Invalid email address", function(el, v) {
 		return !v || emailRe.test(v);
 	});
@@ -185,7 +180,7 @@
 	});
 
 	
-	/****   custom functions in "data-validate" attribute   ****/
+	/****   support for "data-validate" attribute   ****/
 	
 	// @returns [fx, fx2, ...]
 	v.fn("[data-validate]", function(el) {		
@@ -206,12 +201,16 @@
 	});
 
 	
+	/******* build-in custom validators *********/
+	
+	// equalto(fieldName)
 	v.fn("equalto", "Value must equal to $1 field", function(el, name) {
 		var f = this.getInputs().filter("[name=" + name + "]");
 		return f.val() === el.val() ? true : f.attr("title") || name;
 		
 	}, true);
 	
+	// requires(fieldName, fieldName2 ...)
 	v.fn("requires", "Required fields: $1", function(el, args) {
 		var inputs = this.getInputs(), ret = [];
 		
@@ -274,7 +273,11 @@
 			/* @returns boolean */
 			checkValidity: function(els, e) {
 				
-				els = els || inputs;
+				els = els || inputs;    
+				els = els.not(":hidden, :disabled, [readonly]");
+				if (!els.length) { return true; }
+				
+				console.info(els);
 				e = e || $.Event();
 
 				// onBeforeValidate
@@ -329,6 +332,9 @@
 										self.checkValidity(el);		
 									});							
 								}
+								
+								// trigger HTML5 ininvalid event
+								el.trigger("oninvalid", [msgs]);
 							}							
 						}
 					});
@@ -418,9 +424,18 @@
 			});	
 		}
 		
+		// oninvalid attribute 
+		inputs.filter("[oninvalid]").each(function() {
+			$(this).oninvalid(new Function($(this).attr("oninvalid")));
+		});
+		
 	}
 
+	$.fn.oninvalid = function( fn ){
+		return this[fn ? "bind" : "trigger"]("oninvalid", fn);
+	};
 
+	
 	// jQuery plugin initialization
 	$.fn.validator = function(conf) {   
 		
