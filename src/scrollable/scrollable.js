@@ -176,12 +176,12 @@
 					$self.trigger("onSeek", [i]);
 				}
 				
+				// perform the seek
 				if (horizontal) {
 					wrap.animate({left: -item.position().left}, time, conf.easing, callback);					
 				} else {
 					wrap.animate({top: -item.position().top}, time, conf.easing, callback);							
-				}
-				
+				} 
 				
 				current = self;
 				index = i;				
@@ -280,6 +280,7 @@
 					if (i === 0 || i == self.getSize() -1)  { 
 						forward = (forward === undefined) ? true : !forward;	 
 					}
+
 					return forward === false  ? self.prev() : self.next(); 
 				} 
 				
@@ -429,7 +430,8 @@
 		var lconf = $.tools.lazyload && conf.lazyload, loader, lazies;
 			 
 		if (lconf) {
-			lazies = lconf === true ? self.getItems() : root.find(lconf.select || lconf);
+			if (lconf === true) { lconf = "img, :backgroundImage"; }
+			lazies = root.find(lconf.select || lconf);
 			
 			if (typeof lconf != 'object') { lconf = {}; }
 			
@@ -437,13 +439,13 @@
 			loader = lazies.lazyload(lconf);
 			
 			function load(ev, i) {
-				var els = self.getItems().slice(i, i + conf.size);
-				
+				var els = self.getItems().slice(i, i + conf.size); 
 				els.each(function() {
 					els = els.add($(this).find(":unloaded"));
 				}); 
 				loader.load(els);						
-			} 
+			}  
+			
 			self.onBeforeSeek(load);  
 			load(null, 0);
 		}

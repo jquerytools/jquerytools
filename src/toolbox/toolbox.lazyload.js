@@ -141,11 +141,8 @@
 				if (p) { p.remove(); }
 				done.call();	
 				
-			}).error(function(error, b)  {
-				
-				// TODO, call with error
-				console.error(img.data("src"), error, b);
-				done.call();	
+			}).error(function(error, b)  { 
+				done.call(null, error);	
 				
 			}).attr("src", img.data("src"));
 		}	  
@@ -283,11 +280,9 @@
 							el.addClass(css.loading);										
 							
 							loader[1].call(self, el, function(error)  {
-									
-								// if (el.is(":loaded")) { return; } 
-								
+									  
 								// loading failed
-								if (error) { 
+								if (error) {
 									return $self.trigger("onError", [el, error]); 
 								}
 
@@ -332,10 +327,6 @@
 				return self;				
 			},			
 
-			getElements: function() {
-				return els;	
-			},
-			
 			getConf: function() {
 				return conf;	
 			},
@@ -413,7 +404,6 @@
 		// configuration 
 		conf = $.extend(true, {}, tool.conf, conf);		
 		
-		console.info(conf);
 		// construct loader									
 		el = new Loader(this, conf);
 		this.data("lazyload", el);

@@ -77,6 +77,11 @@
 				conf = {color: conf};	
 			}
 			
+			exposed = els;
+			
+			// use latest config
+			conf = conf || config;
+			
 			config = conf = $.extend($.extend({}, tool.conf), conf);
 			
 			// get the mask
@@ -102,8 +107,10 @@
 				zIndex: conf.zIndex 
 			});
 			
-			// background color
-			if (conf.color) {
+			// background color 
+			var bg = mask.css("backgroundColor");
+			
+			if (!bg || bg == 'transparent' || bg == 'rgba(0, 0, 0, 0)') {
 				mask.css("backgroundColor", conf.color);	
 			}			
 			
@@ -147,7 +154,7 @@
 				});
 			 
 				// make elements sit on top of the mask				
-				exposed = els.css({zIndex:Math.max(conf.zIndex + 1, overlayIndex == 'auto' ? 0 : overlayIndex)});			
+				els.css({zIndex:Math.max(conf.zIndex + 1, overlayIndex == 'auto' ? 0 : overlayIndex)});			
 			}	
 			
 			// reveal mask

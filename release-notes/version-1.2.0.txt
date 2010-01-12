@@ -21,11 +21,13 @@ tabs
 	
 	
 mask
+	- default maskId: 'exposeMask' --> 'mask'
 	- simple, straighforward, lightweight
 	- fit called when mask loaded
 	- all events are unbind upon close
 	- easy access: $.mask.load(), $.mask.close();
 	- configuration can be given upon load();
+	- latest configuration is remembered without argument to load()
 	- 2.6 kB
 	- conf.startOpacity
 	- conf.top

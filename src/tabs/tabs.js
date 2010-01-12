@@ -259,7 +259,8 @@
 		var lconf = $.tools.lazyload && conf.lazyload, loader, lazies;
 			 
 		if (lconf) {
-			lazies = lconf === true ? panes : root.find(lconf.select || lconf);
+			if (lconf === true) { lconf = "img, :backgroundImage"; }
+			lazies = root.find(lconf.select || lconf);
 			
 			if (typeof lconf != 'object') { lconf = {}; }
 			                                                        
