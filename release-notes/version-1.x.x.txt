@@ -220,7 +220,7 @@ Circular 1.0.1
 	- panes can be given as jQuery object: (http://flowplayer.org/tools/forum/25/26677)
 
 1.0.2
-	- new build-in effect: "ajax" 
+	- new built-in effect: "ajax" 
 	- a new configuration property <samp>fadeOutSpeed</samp> for the "fade" effect for performing "crossfades"
 	- new <samp>rotate</samp> configuration property for cycling trought the tabs in circular manner
 	- <samp>history</samp> option is now implemented as a plugin. Change it to <samp>$("..").tabs().history();</samp>
@@ -308,4 +308,4 @@ Circular 1.0.1
 	
 	- tooltip now closes when mouse leaves the tip while it's still being animated  http://flowplayer.org/forum/20/20635#post-20793
 	
-	- new build-in effect: "fade" with two configuration variables: fadeInSpeed, fadeOutSpeed
+	- new built-in effect: "fade" with two configuration variables: fadeInSpeed, fadeOutSpeed
