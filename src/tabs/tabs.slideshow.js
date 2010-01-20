@@ -29,155 +29,176 @@
 		}
 	};  
 	
+	function Slideshow(root, conf, len) {
+	
+		var self = this,
+			 fire = root.add(this),
+			 tabs = root.data("tabs"),
+			 timer, 
+			 hoverTimer, 
+			 startTimer, 
+			 stopped = false;
+		
+			 
+		// next / prev buttons
+		function find(query) {
+			return len == 1 ? $(query) : root.parent().find(query);	
+		}	
+		
+		var nextButton = find(conf.next).click(function() {
+			tabs.next();		
+		});
+		
+		var prevButton = find(conf.prev).click(function() {
+			tabs.prev();		
+		}); 
+		
+
+		// extend the Tabs API with slideshow methods			
+		$.extend(self, {
+				
+			// return tabs API
+			getTabs: function() {
+				return tabs;	
+			},
+				
+			play: function() {
+	
+				// do not start additional timer if already exists
+				if (timer) { return; }
+				
+				// onBeforePlay
+				var e = $.Event("onBeforePlay");
+				fire.trigger(e);
+				
+				if (e.isDefaultPrevented()) { return self; }				
+				
+				stopped = false;
+				
+				// construct new timer
+				timer = setInterval(tabs.next, conf.interval);
+
+				// onPlay
+				fire.trigger("onPlay");				
+				
+				tabs.next();
+			},
+		
+			pause: function() {
+				
+				if (!timer) { return self; }
+				
+				// onBeforePause
+				var e = $.Event("onBeforePause");
+				fire.trigger(e);					
+				if (e.isDefaultPrevented()) { return self; }		
+				
+				timer = clearInterval(timer);
+				startTimer = clearInterval(startTimer);
+				
+				// onPause
+				fire.trigger("onPause");		
+			},
+			
+			// when stopped - mouseover won't restart 
+			stop: function() {					
+				self.pause();
+				stopped = true;	
+			},
+			
+			bind: function(name, fn) {
+				$(self).bind(name, fn);
+				return self;	
+			},	
+
+			unbind: function(name) {
+				$(self).unbind(name);
+				return self;	
+			}
+			
+		});
+
+		// callbacks	
+		$.each("onBeforePlay,onPlay,onBeforePause,onPause".split(","), function(i, name) {
+				
+			// configuration
+			if ($.isFunction(conf[name]))  {
+				self.bind(name, conf[name]);	
+			}
+			
+			// API methods				
+			self[name] = function(fn) {
+				return self.bind(name, fn);
+			};
+		});	
+		
+	
+		/* when mouse enters, slideshow stops */
+		if (conf.autopause) {
+			var els = tabs.getTabs().add(nextButton).add(prevButton).add(tabs.getPanes());
+			
+			els.hover(function() {					
+				self.pause();					
+				hoverTimer = clearInterval(hoverTimer);
+				
+			}, function() {
+				if (!stopped) {						
+					hoverTimer = setTimeout(self.play, conf.interval);						
+				}
+			});
+		} 
+		
+		if (conf.autoplay) {
+			startTimer = setTimeout(self.play, conf.interval);				
+		} else {
+			self.stop();	
+		}
+		
+		if (conf.clickable) {
+			tabs.getPanes().click(function()  {
+				tabs.next();
+			});
+		} 
+		
+		// manage disabling of next/prev buttons
+		if (!tabs.getConf().rotate) {
+			
+			var cls = conf.disabledClass;
+			
+			if (!tabs.getIndex()) {
+				prevButton.addClass(cls);
+			}
+			tabs.onBeforeClick(function(e, i)  {
+				if (!i) {
+					prevButton.addClass(cls);
+				} else {
+					prevButton.removeClass(cls);	
+				
+					if (i == tabs.getTabs().length -1) {
+						nextButton.addClass(cls);
+					} else {
+						nextButton.removeClass(cls);	
+					}
+				}
+			});
+		}  
+	}
 	
 	// jQuery plugin implementation
 	$.fn.slideshow = function(conf) {
 	
-		var len = this.length, ret; 
+		// return existing instance
+		var el = this.data("slideshow"), len = this.length;
+		if (el) { return el; }
+ 
 		conf = $.extend({}, tool.conf, conf);		
 		
 		this.each(function() {
-			
-			var tabs = $(this), 
-				 api = tabs.data("tabs"), 
-				 $api = $(api);
-				 
-			if (api) { ret = api; }
-			 
-			function find(query) {
-				return len == 1 ? $(query) : tabs.parent().find(query);	
-			}	
-			
-			var nextButton = find(conf.next).click(function() {
-				api.next();		
-			});
-			
-			var prevButton = find(conf.prev).click(function() {
-				api.prev();		
-			});
-			
-			// interval stuff
-			var timer, hoverTimer, startTimer, stopped = false;
-	
-
-			// extend the Tabs API with slideshow methods			
-			$.extend(api, {
-					
-				play: function() {
+			el = new Slideshow($(this), conf, len);
+			$(this).data("slideshow", el); 			
+		});	
 		
-					// do not start additional timer if already exists
-					if (timer) { return; }
-					
-					// onBeforePlay
-					var e = $.Event("onBeforePlay");
-					$api.trigger(e);
-					
-					if (e.isDefaultPrevented()) { return api; }				
-					
-					stopped = false;
-					
-					// construct new timer
-					timer = setInterval(api.next, conf.interval);
-	
-					// onPlay
-					$api.trigger("onPlay");				
-					
-					api.next();
-				},
-			
-				pause: function() {
-					
-					if (!timer) { return api; }
-					
-					// onBeforePause
-					var e = $.Event("onBeforePause");
-					$api.trigger(e);					
-					if (e.isDefaultPrevented()) { return api; }		
-					
-					timer = clearInterval(timer);
-					startTimer = clearInterval(startTimer);
-					
-					// onPause
-					$api.trigger("onPause");		
-				},
-				
-				// when stopped - mouseover won't restart 
-				stop: function() {					
-					api.pause();
-					stopped = true;	
-				}
-				
-			});
-	
-			// callbacks	
-			$.each("onBeforePlay,onPlay,onBeforePause,onPause".split(","), function(i, name) {
-					
-				// configuration
-				if ($.isFunction(conf[name]))  {
-					self.bind(name, conf[name]);	
-				}
-				
-				// API methods				
-				api[name] = function(fn) {
-					return api.bind("onPause", fn);
-				};
-			});	
-			
-		
-			/* when mouse enters, slideshow stops */
-			if (conf.autopause) {
-				var els = api.getTabs().add(nextButton).add(prevButton).add(api.getPanes());
-				
-				els.hover(function() {					
-					api.pause();					
-					hoverTimer = clearInterval(hoverTimer);
-					
-				}, function() {
-					if (!stopped) {						
-						hoverTimer = setTimeout(api.play, conf.interval);						
-					}
-				});
-			} 
-			
-			if (conf.autoplay) {
-				startTimer = setTimeout(api.play, conf.interval);				
-			} else {
-				api.stop();	
-			}
-			
-			if (conf.clickable) {
-				api.getPanes().click(function()  {
-					api.next();
-				});
-			} 
-			
-			// manage disabling of next/prev buttons
-			if (!api.getConf().rotate) {
-				
-				var cls = conf.disabledClass;
-				
-				if (!api.getIndex()) {
-					prevButton.addClass(cls);
-				}
-				api.onBeforeClick(function(e, i)  {
-					if (!i) {
-						prevButton.addClass(cls);
-					} else {
-						prevButton.removeClass(cls);	
-					
-						if (i == api.getTabs().length -1) {
-							nextButton.addClass(cls);
-						} else {
-							nextButton.removeClass(cls);	
-						}
-					}
-				});
-			}
-			
-		});
-		
-		
-		return conf.api ? ret : this;
+		return conf.api ? el : this;
 	};
 	
 })(jQuery); 

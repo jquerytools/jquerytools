@@ -261,14 +261,14 @@
 		var lconf = $.tools.lazyload && conf.lazyload, loader;
 			 
 		if (lconf) {
-			
+	
 			// lazyload configuration
 			if (typeof lconf != 'object') { lconf = { select: lconf }; }
 			if (typeof lconf.select != 'string') { lconf.select = "img, :backgroundImage"; }			
-			$.extend(lconf, { growParent: root, api: true }, lconf);  
+			$.extend(lconf, { growParent: panes.parent(), api: true }, lconf);  
 			
 			// initialize lazyload
-			loader = root.find(lconf.select).lazyload(lconf);
+			loader = panes.parent().find(lconf.select).lazyload(lconf);
 			
 			self.onBeforeClick(function(e, i) {
 				loader.load(panes.eq(i).find(":unloaded").andSelf());			

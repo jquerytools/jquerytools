@@ -2,6 +2,7 @@
 <script src="../../jquery-1.3.2.js"></script>
 <script src="../../../src/toolbox/toolbox.lazyload.js"></script>
 <script src="../../../src/tabs/tabs.js"></script>
+<script src="../../../src/tabs/tabs.slideshow.js"></script>
 
 <style>
 #slideshow {
@@ -50,11 +51,10 @@ $(function() {
 		rotate: true,
 		effect: 'fade',
 		history: true,
-		api: true,
 		
 		// optional when grow, can be boolean and object too
 		lazyload: {
-			select: '.slide',
+			growParent: '#slideshow',
 			effect: 'grow'
 		},
 		
@@ -62,7 +62,17 @@ $(function() {
 			console.info("index", i);		
 		}
 		
-	});	  
+	}).slideshow({
+			
+		onPlay: function() {
+			console.info("API", this, arguments);	
+		}
+		
+	}).bind("onPause", function()  {
+		console.info("BIND", this, arguments);
+		
+	}).data("slideshow");
+	
 });
 </script>
 
