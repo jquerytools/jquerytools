@@ -12,12 +12,8 @@
  * Date: @DATE 
  */
 (function($) {
-		
-	/*		
-		sizing: padding / margins
-	*/
 	
-	$.tools = $.tools || {};
+	$.tools = $.tools || {version: '@VERSION'};
 	
 	var tool = $.tools.lazyload = {
 		
@@ -59,7 +55,7 @@
 				2. element to get dimensions from
 		*/
 		grow: function(el, done) {
-			
+
 			var self = this, 
 				 conf = self.getConf()
 				 root = conf.growParent.jquery ? conf.growParent : el.closest(conf.growParent),
@@ -218,7 +214,7 @@
 		
 		// private variables
 		var self = this, 
-			 $self = $(this), 
+			 trigger = els.add(this), 
 			 css = conf.css,
 			 progress;
 			 
@@ -271,7 +267,7 @@
 							
 							// match found
 							var e = new $.Event("onBeforeLoad");
-							$self.trigger(e, [el]);
+							trigger.trigger(e, [el]);
 
 							// loading cancelled by user
 							if (e.isDefaultPrevented()) {	return false; }						
@@ -283,7 +279,7 @@
 									  
 								// loading failed
 								if (error) {
-									return $self.trigger("onError", [el, error]); 
+									return trigger.trigger("onError", [el, error]); 
 								}
 
 								function setLoaded() {
@@ -296,7 +292,7 @@
 									if (css.after) { el.addClass(css.after); }  
 									
 									// onLoad callback
-									$self.trigger("onLoad", [el]);										
+									trigger.trigger("onLoad", [el]);										
 								}
 								
 								if (preload) {
@@ -314,15 +310,12 @@
 				});				
 				
 				// onLoadAll callback 
-				$self.bind("onLoad.tmp", function() {
+				self.bind("onLoad.tmp", function() {
 					if (!nodes.not(":loaded").length) {
-						$self.trigger("onLoadAll", [nodes], preload);	
-						$self.unbind("onLoad.tmp");
+						trigger.trigger("onLoadAll", [nodes], preload);	
+						self.unbind("onLoad.tmp");
 					}
-				});                  
-				
-				
-				
+				}); 
 				
 				return self;				
 			},			
@@ -336,17 +329,12 @@
 			},
 			
 			bind: function(name, fn) {
-				$self.bind(name, fn);
+				$(self).bind(name, fn);
 				return self;	
 			},
-
-			one: function(name, fn) {
-				$self.one(name, fn);
-				return self;	
-			},			
 			
 			unbind: function(name) {
-				$self.unbind(name);
+				$(self).unbind(name);
 				return self;	
 			}
 			

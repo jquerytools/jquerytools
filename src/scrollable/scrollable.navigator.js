@@ -14,10 +14,8 @@
 (function($) {
 		
 	var t = $.tools.scrollable; 
-	t.plugins = t.plugins || {};
 	
-	t.plugins.navigator = {
-		version: '@VERSION',
+	t.navigator = {
 		
 		conf: {
 			navi: '.navi',
@@ -35,14 +33,15 @@
 	// jQuery plugin implementation
 	$.fn.navigator = function(conf) {
 
-		var globals = $.extend({}, t.plugins.navigator.conf), ret;
-		if (typeof conf == 'string') { conf = {navi: conf}; }
+		// configuration
+		if (typeof conf == 'string') { conf = {navi: conf}; } 
+		conf = $.extend({}, t.navigator.conf, conf);
 		
-		conf = $.extend(globals, conf);
+		var ret;
 		
 		this.each(function() {
 			
-			var api = $(this).scrollable(),
+			var api = $(this).data("scrollable"),
 				 root = api.getRoot(), 
 				 navi = root.data("finder").call(null, conf.navi), 
 				 els = null, 

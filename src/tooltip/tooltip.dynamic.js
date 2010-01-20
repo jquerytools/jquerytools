@@ -15,11 +15,8 @@
 
 	// version number
 	var t = $.tools.tooltip;
-	t.plugins = t.plugins || {};
 	
-	t.plugins.dynamic = {
-		version: '@VERSION',
-	
+	t.dynamic = {
 		conf: {
 			api: false,
 			classNames: "top right bottom left"
@@ -67,9 +64,9 @@
 	// scrollable mousewheel implementation
 	$.fn.dynamic = function(conf) {
 		
-		var globals = $.extend({}, t.plugins.dynamic.conf), ret;
 		if (typeof conf == 'number') { conf = {speed: conf}; }
-		conf = $.extend(globals, conf);
+		
+		conf = $.extend({}, t.dynamic.conf, conf);
 		
 		var cls = conf.classNames.split(/\s/), orig;	
 			

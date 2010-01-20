@@ -15,8 +15,6 @@
 
 	// version number
 	var t = $.tools.tooltip;
-	t.effects = t.effects || {};
-	t.effects.slide = {version: '@VERSION'}; 
 		
 	// extend global configuragion with effect specific defaults
 	$.extend(t.conf, { 
@@ -37,7 +35,7 @@
 	};
 	
 	/* default effect: "slide"  */
-	$.tools.tooltip.addEffect("slide", 
+	t.addEffect("slide", 
 		
 		// show effect
 		function(done) { 

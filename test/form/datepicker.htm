@@ -132,7 +132,7 @@ input {
 <p>Here is the minimal setup for datepicker. Just an <samp>INPUT</samp> with the <samp>type</samp> attribute fixed</p>
 
 <!--  http://www.apple.com/iphone/iphone-3gs/more-features.html  -->
-<input type="date" class="date" />
+<input type="date" class="date" name="joku" />
 
 <h3>HTML coding</h3>
 
@@ -156,11 +156,12 @@ $(function() {
 		max: 365 * 2,
 
 		onPick: function(e, date) {
-			// console.info(date, "picked");		
-		}		
+			console.info(date, "picked");		
+		}
+		
+	}).one("onBeforePick", function()  {
+	 	console.info("binded event");			
 	});
-	
-	console.info(els.filter(":last").datepicker().show());
 	
 	
 });

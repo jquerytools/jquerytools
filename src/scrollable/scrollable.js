@@ -14,7 +14,7 @@
 (function($) { 
 		
 	// static constructs
-	$.tools = $.tools || {};
+	$.tools = $.tools || {version: '@VERSION'};
 	
 	$.tools.scrollable = {
 		
@@ -62,20 +62,16 @@
 	function Scrollable(root, conf) {   
 		
 		// current instance
-		var self = this, $self = $(this),
+		var self = this, 
+			 trigger = root.add(self),
 			 horizontal = !conf.vertical,
 			 wrap = root.children(),
 			 index = 0,
 			 forward;
 				
-		if (!current) { current = self; }
-		
-		// bind all callbacks from configuration
-		$.each(conf, function(name, fn) {
-			if ($.isFunction(fn)) { $self.bind(name, fn); }
-		});
-		
+		if (!current) { current = self; } 
 		if (wrap.length > 1) { wrap = $(conf.items, root); }
+		
 		
 		// navigational items can be anywhere when globalNav = true
 		function find(query) {
@@ -165,7 +161,7 @@
 				// onBeforeSeek
 				var e = $.Event("onBeforeSeek");
 
-				$self.trigger(e, [i]);				
+				trigger.trigger(e, [i]);				
 				if (e.isDefaultPrevented()) { return self; }				
 				
 				// get the (possibly altered) speed
@@ -173,7 +169,7 @@
 				
 				function callback() {
 					if (fn) { fn.call(self, i); }
-					$self.trigger("onSeek", [i]);
+					trigger.trigger("onSeek", [i]);
 				}
 				
 				// perform the seek
@@ -188,7 +184,7 @@
 				
 				// onStart
 				e = $.Event("onStart");
-				$self.trigger(e, [i]);				
+				trigger.trigger(e, [i]);				
 				if (e.isDefaultPrevented()) { return self; }				
 	
 				
@@ -251,17 +247,13 @@
 			},
 			
 			reload: function() {				
-				$self.trigger("onReload");
+				trigger.trigger("onReload");
 				return self;
 			},			
 			
 			focus: function() {
 				current = self;
 				return self;
-			},
-			
-			getLoader: function() {
-				return loader;	
 			},
 			
 			click: function(i) {
@@ -313,21 +305,27 @@
 			
 			// bind / unbind
 			bind: function(name, fn) {
-				$self.bind(name, fn);
+				$(self).bind(name, fn);
 				return self;	
 			},	
 			
 			unbind: function(name) {
-				$self.unbind(name);
+				$(self).unbind(name);
 				return self;	
 			}			
 			
 		});
 		
 		// callbacks	
-		$.each("onBeforeSeek,onStart,onSeek,onReload".split(","), function(i, ev) {
-			self[ev] = function(fn) {
-				return self.bind(ev, fn);	
+		$.each("onBeforeSeek,onStart,onSeek,onReload".split(","), function(i, name) {
+				
+			// configuration
+			if ($.isFunction(conf[name])) { 
+				root.bind(name, conf[name]); 
+			}
+			
+			self[name] = function(fn) {
+				return self.bind(name, fn);	
 			};
 		});  
 			
@@ -427,16 +425,17 @@
 		}); 
 
 		// lazyload support. all logic is here.
-		var lconf = $.tools.lazyload && conf.lazyload, loader, lazies;
+		var lconf = $.tools.lazyload && conf.lazyload, loader;
 			 
 		if (lconf) {
-			if (lconf === true) { lconf = "img, :backgroundImage"; }
-			lazies = root.find(lconf.select || lconf);
 			
-			if (typeof lconf != 'object') { lconf = {}; }
+			// lazyload configuration
+			if (typeof lconf != 'object') { lconf = { select: lconf }; }
+			if (typeof lconf.select != 'string') { lconf.select = "img, :backgroundImage"; }			
+			$.extend(lconf, { growParent: root, api: true }, lconf);  
 			
-			$.extend(lconf, { growParent: root, api: true}, lconf); 
-			loader = lazies.lazyload(lconf);
+			// initialize lazyload
+			loader = root.find(lconf.select).lazyload(lconf); 
 			
 			function load(ev, i) {
 				var els = self.getItems().slice(i, i + conf.size); 
@@ -458,12 +457,10 @@
 	$.fn.scrollable = function(conf) { 
 			
 		// already constructed --> return API
-		var el = this.eq(typeof conf == 'number' ? conf : 0).data("scrollable");
+		var el = this.data("scrollable");
 		if (el) { return el; }		 
- 
-		var globals = $.extend({}, $.tools.scrollable.conf);
-		conf = $.extend(globals, conf);
-		
+
+		conf = $.extend({}, $.tools.scrollable.conf, conf); 
 		conf.keyboardSteps = conf.keyboardSteps || conf.size;
 		
 		this.each(function() {			

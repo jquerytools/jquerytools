@@ -13,13 +13,8 @@
  */
 (function($) {
 	
-	$.tools = $.tools || {};
-	var t = $.tools.util = $.tools.util || {};
-	
-	var tool = t.history = { 
-		version: '@VERSION'
-	};
-		
+	$.tools = $.tools || {version: '@VERSION'}; 
+	$.tools.history = {}; 
 	var hash, iframe;		
 
 	function setIframe(h) {

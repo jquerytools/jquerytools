@@ -39,10 +39,9 @@ var options = {
 if (jQ) {
 		
 	// tools version number
-	jQuery.tools = jQuery.tools || {};
+	jQuery.tools = jQuery.tools || {version: '@VERSION'};
 	
-	jQuery.tools.flashembed = { 
-		version: '@VERSION', 
+	jQuery.tools.flashembed = {  
 		conf: options
 	};		
 }

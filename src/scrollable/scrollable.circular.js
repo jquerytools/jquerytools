@@ -15,10 +15,8 @@
 
 	// version number
 	var t = $.tools.scrollable; 
-	t.plugins = t.plugins || {};
 	
-	t.plugins.circular = {
-		version: '@VERSION', 
+	t.circular = {
 		conf: { 
 			api: false,
 			clonedClass: 'cloned'
@@ -28,8 +26,9 @@
 	
 	$.fn.circular = function(opts)  {
 	
-		var config = $.extend({}, t.plugins.circular.conf), ret;
-		$.extend(config, opts);
+		opts = $.extend({}, t.circular.conf, opts);
+		
+		var ret;
 		
 		this.each(function() {			
  
@@ -50,7 +49,7 @@
   				$(this).clone().appendTo(wrap).click(function()  {
 					api.click(items.length + i);
 					
-				}).addClass(config.clonedClass);			
+				}).addClass(opts.clonedClass);			
 			});			
 			
 			// clone last set of elements to the beginning in reversed order
@@ -60,7 +59,7 @@
 				$(this).clone().prependTo(wrap).click(function()  {
 					api.click(-i -1);			
 					
-				}).addClass(config.clonedClass);				
+				}).addClass(opts.clonedClass);				
 			});
 			
 			var allItems = wrap.children(conf.item);
@@ -175,7 +174,7 @@
 				
 		});
 		
-		return config.api ? ret : this;
+		return opts.api ? ret : this;
 		
 	};
 

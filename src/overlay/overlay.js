@@ -14,11 +14,9 @@
 (function($) { 
 
 	// static constructs
-	$.tools = $.tools || {};
+	$.tools = $.tools || {version: '@VERSION'};
 	
 	$.tools.overlay = {
-		
-		version: '@VERSION',
 		
 		addEffect: function(name, loadFn, closeFn) {
 			effects[name] = [loadFn, closeFn];	
@@ -41,7 +39,10 @@
 			
 			// target element to be overlayed. by default taken from [rel]
 			target: null,
-			api: false
+			api: false,
+			
+			// 1.2
+			lazyload: false
 		}
 	};
 
@@ -67,8 +68,8 @@
 	function Overlay(trigger, conf) {		
 		
 		// private variables
-		var self = this, 
-			 $self = $(this),
+		var self = this,
+			 fire = trigger.add(self),
 			 w = $(window), 
 			 closers,            
 			 overlay,
@@ -90,7 +91,7 @@
 		// overlay not found. cannot continue
 		if (!overlay.length) { throw "Could not find Overlay: " + jq; }
 		
-		// if trigger is given - assign it's click event
+		// trigger's click event
 		if (trigger && trigger.index(overlay) == -1) {
 			trigger.click(function(e) {				
 				self.load(e);
@@ -120,7 +121,7 @@
 				// onBeforeLoad
 				e = e || $.Event();
 				e.type = "onBeforeLoad";
-				$self.trigger(e);				
+				fire.trigger(e);				
 				if (e.isDefaultPrevented()) { return self; }				
 
 				// opened
@@ -129,13 +130,11 @@
 				// possible mask effect
 				if (maskConf) { $.mask.load(overlay, maskConf); }				
 				
-				// calculate end position 
-				var top = conf.top;					
-				var left = conf.left;
-
-				// get overlay dimensions
-				var oWidth = overlay.outerWidth({margin:true});
-				var oHeight = overlay.outerHeight({margin:true}); 
+				// position & dimensions 
+				var top = conf.top,					
+					 left = conf.left,
+					 oWidth = overlay.outerWidth({margin:true}),
+					 oHeight = overlay.outerHeight({margin:true}); 
 				
 				if (typeof top == 'string')  {
 					top = top == 'center' ? Math.max((w.height() - oHeight) / 2, 0) : 
@@ -154,13 +153,13 @@
 				
 				// onStart
 				e.type = "onStart";
-				$self.trigger(e); 
+				fire.trigger(e); 
 				
 		 		// load effect  		 		
 				eff[0].call(self, function() {					
 					if (opened) {
 						e.type = "onLoad";
-						$self.trigger(e);
+						fire.trigger(e);
 					}
 				}); 				
 
@@ -199,7 +198,7 @@
 				
 				e = e || $.Event();
 				e.type = "onBeforeClose";
-				$self.trigger(e);				
+				fire.trigger(e);				
 				if (e.isDefaultPrevented()) { return; }				
 				
 				opened = false;
@@ -207,7 +206,7 @@
 				// close effect
 				effects[conf.effect][1].call(self, function() {
 					e.type = "onClose";
-					$self.trigger(e); 
+					fire.trigger(e); 
 				});
 				
 				// unbind the keyboard / clicking actions
@@ -243,13 +242,13 @@
 
 			// bind
 			bind: function(name, fn) {
-				$self.bind(name, fn);
+				$(self).bind(name, fn);
 				return self;	
 			},		
 			
 			// unbind
 			unbind: function(name) {
-				$self.unbind(name);
+				$(self).unbind(name);
 				return self;	
 			}			
 			
@@ -260,7 +259,7 @@
 				
 			// configuration
 			if ($.isFunction(conf[name])) { 
-				$self.bind(name, conf[name]); 
+				self.bind(name, conf[name]); 
 			}
 
 			// API
@@ -280,21 +279,39 @@
 		closers.click(function(e) { 
 			self.close(e);  
 		});					
+		
+		
+		// lazyload support. all logic is here.
+		var lconf = $.tools.lazyload && conf.lazyload, loader;
+			 
+		if (lconf) {
+			
+			// lazyload configuration
+			if (typeof lconf != 'object') { lconf = { select: lconf }; }
+			if (typeof lconf.select != 'string') { lconf.select = "img, :backgroundImage"; }			
+			$.extend(lconf, { growParent: overlay, api: true }, lconf); 
+			
+			// initialize lazyload
+			loader = overlay.find(lconf.select).not(closers).lazyload(lconf);
+			
+			// perform lazyload right before overlay is opened
+			self.onBeforeLoad(loader.load);
+		}		
+		
 	}
 	
 	// jQuery plugin initialization
 	$.fn.overlay = function(conf) {   
 		
 		// already constructed --> return API
-		var el = this.eq(typeof conf == 'number' ? conf : 0).data("overlay");
+		var el = this.data("overlay");
 		if (el) { return el; }	  		 
 		
 		if ($.isFunction(conf)) {
 			conf = {onBeforeLoad: conf};	
 		}
-		
-		var globals = $.extend({}, $.tools.overlay.conf); 
-		conf = $.extend(true, globals, conf);
+
+		conf = $.extend(true, {}, $.tools.overlay.conf, conf);
 		
 		this.each(function() {		
 			el = new Overlay($(this), conf);

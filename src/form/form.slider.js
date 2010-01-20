@@ -21,10 +21,9 @@
 
 (function($) {
 	 
-	$.tools = $.tools || {};
+	$.tools = $.tools || {version: '@VERSION'};
 	 
 	var current, tool = $.tools.slider = {
-		version: '@VERSION',
 		
 		conf: {
 			min: 0,
@@ -59,63 +58,47 @@
 	}
 	
 	
-	function Slider(el, conf) {
-		
-		var root, input; 
-		
-		// construct slider from the range input
-		if (el.is("input")) {
-			
-			input = el;
-			root = $("<div><div/><a/></div>");
-			
-			root.addClass(conf.sliderClass).find("a").addClass(conf.handleClass);
-			
-			// progress is not required			
-			if (conf.progressClass)  {
-				root.find("div").addClass(conf.progressClass);
-			}				
-			
-			// get (HTML5) attributes
-			$.each("min,max,size,step,value".split(","), function(i, key) {
-				var val = input.attr(key);
-				conf[key] = parseFloat(val, 10);
-			});			
-						
-			input.before(root);			
-			
-			if (conf.hideInput) { 
-				input.hide();
-				
-			} else {
-				
-				/*
-					with JavaScript we don't want the HTML5 range element 
-					NOTE: input.attr("type", "text") throws exception by the browser
-				*/
-				var tmp = $('<input/>')
-					.attr("type", "text")
-					.addClass(input.attr("className"))
-					.attr("name", input.attr("name"))
-					.attr("disabled", input.attr("disabled"));					
-
-				input.replaceWith(tmp);
-				input = tmp;
-			}			
-		}
+	function Slider(input, conf) {
 		
 		// private variables
-		var self = this, 
-			 $self = $(this), 
-			 progress = root.find("." + conf.progressClass), 
-			 handle = root.find("." + conf.handleClass),	
+		var self = this,  
+			 root = $("<div><div/><a/></div>"),	
 			 range = conf.max - conf.min,
 			 value,
 			 callbacks,
 			 origo,
 			 len,
-			 pos;
+			 pos,
+			 progress,
+			 handle;		
 			 
+			 
+		input.before(root);	
+		handle = root.addClass(conf.sliderClass).find("a").addClass(conf.handleClass);
+		progress = root.find("div").addClass(conf.progressClass);  
+		
+		// get (HTML5) attributes
+		$.each("min,max,size,step,value".split(","), function(i, key) {
+			var val = input.attr(key);
+			conf[key] = parseFloat(val, 10);
+		});			   
+		
+		/*
+			with JavaScript we don't want the HTML5 range element 
+			NOTE: input.attr("type", "text") throws exception by the browser
+		*/
+		var tmp = $('<input/>')
+			.attr("type", "text")
+			.addClass(input.attr("className"))
+			.attr("name", input.attr("name"))
+			.attr("disabled", input.attr("disabled"));					
+
+		input.replaceWith(tmp);
+		input = tmp;
+		
+		if (conf.hideInput) { input.hide(); }
+			 
+		var fire = input.add(this);
 			 
 		function init() {
 			var o = handle.offset();
@@ -159,7 +142,7 @@
 				value = v;	
 				e = e || $.Event();
 				e.type = "onSlide";
-				$(self).trigger(e, [v]);
+				fire.trigger(e, [v]);
 			}
 			
 			// move handle & resize progress
@@ -242,12 +225,12 @@
 			
 			// callback functions
 			bind: function(name, fn) {
-				$self.bind(name, fn);
+				$(self).bind(name, fn);
 				return self;	
 			},	
 			
 			unbind: function(name) {
-				$self.unbind(name);
+				$(self).unbind(name);
 				return self;	
 			}	
 			
@@ -271,10 +254,10 @@
 		// dragging		
 		handle.bind("dragstart", function(e) {	
 				
-			if (input.is(":disabled")) { return false; }
-			
+			if (input.is(":disabled")) { return false; } 
 			e.type = "onBeforeSlide";
-			$self.trigger(e);
+			
+			fire.trigger(e);
 			if (e.isDefaultPrevented()) { return false; }			
 			init();	
 			
@@ -285,7 +268,7 @@
 			
 		}).bind("dragend", function(e) {
 			e.type = "onSlideEnd";
-			$self.trigger(e);			
+			fire.trigger(e);			
 			
 		}).click(function(e) {
 			return e.preventDefault();	
@@ -297,7 +280,7 @@
 			if (input.is(":disabled")) { return false; }	
 				
 			e.type = "onBeforeSlide";
-			$self.trigger(e);			
+			fire.trigger(e);			
 			if (e.isDefaultPrevented()) { return false; } 
 			init(); 
 			
@@ -306,20 +289,14 @@
 			seek(conf.vertical ? origo - e.pageY + fix : e.pageX - origo - fix, e);
 			
 			e.type = "onSlideEnd";
-			$self.trigger(e);			 			
+			fire.trigger(e);			 			
 		});
+
+		self.onSlide(function(e, val)  {
+			input.val(val);		
+		});   
 		
-		
-		if (input) {
-			self.onSlide(function(e, val)  {
-				input.val(val);		
-			});  
-		}
-		
-		if (conf.value) {
-			self.setValue(conf.value || conf.min);	
-		}		
-		
+		self.setValue(conf.value || conf.min);	 
 	}
 	
 	if (tool.conf.keyboard) {
@@ -366,7 +343,7 @@
 	$.fn.slider = function(conf) {
 
 		// return existing instance
-		var el = this.eq(typeof conf == 'number' ? conf : 0).data("slider");
+		var el = this.data("slider"), els;
 		if (el) { return el; }
 		
 		if (typeof conf == 'number') {
@@ -374,16 +351,15 @@
 		}
 		
 		// extend configuration with globals
-		var globals = $.extend({}, tool.conf);
-		conf = $.extend(globals, conf);		
+		conf = $.extend({}, tool.conf, conf);		
 		
 		this.each(function() {				
-			var root = $(this);
-			el = new Slider(root, $.extend({}, conf));			
-			root.add(el.getInput()).data("slider", el);
+			el = new Slider($(this), $.extend({}, conf));		 
+			var input = el.getInput().data("slider", el);
+			els = els ? els.add(input) : input;	
 		});		
 		
-		return conf.api ? el: this;		
+		return conf.api ? el : els;		
 	};	
 	
 	

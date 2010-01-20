@@ -13,12 +13,10 @@
  */
 (function($) { 
 	
-	$.tools = $.tools || {};	
-	$.tools.form = $.tools.form || {};
+	$.tools = $.tools || {version: '@VERSION'};
 	
-	var tool = $.tools.form.styleable = {
-		
-		version: '@VERSION', 
+	var tool = $.tools.styleable = {
+
 		conf: { 
 			inputClass: null,
 			checkedClass: 'checked',
@@ -112,24 +110,21 @@
 	$.fn.styleable = function(conf) {   
 		
 		// return existing instance
-		var el = this.eq(typeof conf == 'number' ? conf : 0).data("styleable"), els;
+		var el = this.data("styleable"), els;
 		if (el) { return el; } 
 		
 		// configuration
-		var globals = $.extend({}, tool.conf); 
-		conf = $.extend(globals, conf);				
-		
+		conf = $.extend({}, tool.conf), conf);				 
 				
 		if (this.is("form")) {
 			els = this.find(conf.filter);			
 			this.nextAll().each(function()  {
-				els.add($(this).find(conf.filter));
+				els = els.add($(this).find(conf.filter));
 			});
 				
 		} else {			
 			els = this.filter(conf.filter);	
-		}
-		
+		} 
 		
 		els.each(function() {									
 			el = new Styleable($(this), conf);				

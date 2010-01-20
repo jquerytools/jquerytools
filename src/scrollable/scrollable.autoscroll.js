@@ -14,10 +14,8 @@
 (function($) {		
 
 	var t = $.tools.scrollable; 
-	t.plugins = t.plugins || {};
 	
-	t.plugins.autoscroll = {
-		version: '@VERSION',
+	t.autoscroll = {
 		
 		conf: {
 			autoplay: true,
@@ -35,12 +33,11 @@
 			conf = {interval: conf};	
 		}
 		
-		var opts = $.extend({}, t.plugins.autoscroll.conf), ret;
-		$.extend(opts, conf);   	
+		var opts = $.extend({}, t.autoscroll.conf, conf), ret;
 		
 		this.each(function() {		
 				
-			var api = $(this).scrollable();			
+			var api = $(this).data("scrollable");			
 			if (api) { ret = api; }
 			
 			// interval stuff

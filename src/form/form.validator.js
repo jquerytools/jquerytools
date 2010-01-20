@@ -13,8 +13,7 @@
  */
 (function($) {	
 
-	$.tools = $.tools || {};
-	$.tools.form = $.tools.form || {};	
+	$.tools = $.tools || {version: '@VERSION'};
 	
 	// globals
 	var customRe = /(\w+)\(?([^)]*)\)?/, 
@@ -25,9 +24,7 @@
 		emailRe = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/i,
 		urlRe = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i;
 		 
-	var v = $.tools.form.validator = {
-		
-		version: '@VERSION', 
+	var v = $.tools.validator = {
 		
 		conf: { 
 			singleField: false, 			// validate all inputs at once
@@ -222,11 +219,14 @@
 	}, true);	
 
 	
-	function Validator(inputs, conf) {		
+	function Validator(form, conf) {		
 		
-		// strip out buttons
-		inputs = inputs.filter(":input").not(":button, :submit");
-		if (!inputs.length) { throw "Validator: no input fields on your selector"; }		
+		// private variables
+		var self = this, 
+			 fire = form.add(this),
+			 inputs = form.find(":input").not(":button, :submit") ;
+			 
+		if (!inputs.length) { throw "Validator: no input fields supplied"; }		
 
 		
 		// utility function
@@ -253,12 +253,6 @@
 			}
 		}
 		
-		
-		// private variables
-		var self = this, $self = $(this);
-		
-		inputs.data("validator", self);
-		
 		// API methods  
 		$.extend(self, {
 
@@ -276,13 +270,12 @@
 				els = els || inputs;    
 				els = els.not(":hidden, :disabled, [readonly]");
 				if (!els.length) { return true; }
-				
-				console.info(els);
+
 				e = e || $.Event();
 
 				// onBeforeValidate
 				e.type = "onBeforeValidate";
-				$self.trigger(e, [els]);				
+				fire.trigger(e, [els]);				
 				if (e.isDefaultPrevented()) { return e.result; }
 				
 					
@@ -307,7 +300,7 @@
 								
 								// onBeforeFail
 								e.type = "onBeforeFail";
-								$self.trigger(e, [el, match]);
+								fire.trigger(e, [el, match]);
 								if (e.isDefaultPrevented()) { return false; }
 								
 								// error message container for a field
@@ -352,7 +345,7 @@
 					
 					// onFail callback
 					e.type = "onFail";					
-					$self.trigger(e, [errs]); 
+					fire.trigger(e, [errs]); 
 					
 					// call the effect
 					if (!e.isDefaultPrevented()) {						
@@ -369,7 +362,7 @@
 					
 					// onSuccess callback
 					e.type = "onSuccess";					
-					$self.trigger(e);
+					fire.trigger(e);
 					
 					els.unbind(event);
 				}
@@ -378,12 +371,12 @@
 			},
 			
 			bind: function(name, fn) {
-				$self.bind(name, fn);
+				$(self).bind(name, fn);
 				return self;	
 			},	
 			
 			unbind: function(name) {
-				$self.unbind(name);
+				$(self).unbind(name);
 				return self;	
 			}
 			
@@ -404,18 +397,14 @@
 		});	
 		
 		// form validation
-		var form = inputs.eq(0).closest("form");
+		form.bind(conf.events.form, function(e) {
+			if (!self.checkValidity()) { 
+				return e.preventDefault(); 
+			}
+		});
 		
-		if (form.length) {
-			form.bind(conf.events.form, function(e) {
-				if (!self.checkValidity()) { 
-					return e.preventDefault(); 
-				}
-			});
-			
-			// Web Forms 2.0 compatibility
-			form[0].checkValidity = self.checkValidity;
-		}
+		// Web Forms 2.0 compatibility
+		form[0].checkValidity = self.checkValidity;
 		
 		// input validation
 		if (conf.events.input) {
@@ -440,26 +429,17 @@
 	$.fn.validator = function(conf) {   
 		
 		// return existing instance
-		var el = this.eq(typeof conf == 'number' ? conf : 0).data("validator");
+		var el = this.data("validator");
 		if (el) { return el; } 
 		
 		// configuration
-		var globals = $.extend({}, v.conf); 
-		conf = $.extend(true, globals, conf);		
+		conf = $.extend(true, {}, v.conf, conf);		
 		
 		// selector is a form		
-		if (this.is("form")) {
-			this.each(function() {					
-				var form = $(this);	
-				el = new Validator(form.find(":input"), conf);				
-				form.data("validator", el);
-			});
-			
-		// input fields given directly
-		} else {
-			el = new Validator(this, conf);	
-		}
-		
+		this.each(function() {			
+			el = new Validator($(this), conf);				
+			$(this).data("validator", el);
+		}); 
 		
 		return conf.api ? el: this;		
 	};   

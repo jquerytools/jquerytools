@@ -15,9 +15,7 @@
 (function($) { 
 
 	// version number
-	var t = $.tools.overlay;
-	t.effects = t.effects || {};
-	t.effects.apple = {version: '@VERSION'}; 
+	var t = $.tools.overlay; 
 		
 	// extend global configuragion with effect specific defaults
 	$.extend(t.conf, { 

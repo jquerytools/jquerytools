@@ -45,10 +45,17 @@
 <script>
 // images will be loaded only until they become visible (by scrolling)
 $(function() {
-	var api = $("#loadables > *").lazyload({api: true});
+	var api = $("#loadables > *").lazyload().bind("onLoadAll_", function()  {
+		console.info("BIND", this, arguments);
+		
+	}).data("lazyload");
 	
-	$("#loadButton").click(function() {
-		$(this).attr("disabled", true);
+	
+	api.onLoadAll(function() {
+		console.info("ALL", this, arguments);			
+	});
+	
+	$("#loadButton").one("click", function() {
 		api.load();		 
 	});
 });

@@ -14,7 +14,7 @@
 (function($) { 	
 
 	// static constructs
-	$.tools = $.tools || {};
+	$.tools = $.tools || {version: '@VERSION'};
 	
 	var tool = $.tools.mask = {
 		

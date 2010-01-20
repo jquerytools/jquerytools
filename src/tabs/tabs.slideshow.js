@@ -14,12 +14,9 @@
 (function($) {
 	
 	var t = $.tools.tabs; 
-	t.plugins = t.plugins || {};
 	
-	var tool = t.plugins.slideshow = { 
-		version: '@VERSION',
-		
-		// CALLBACKS: onBeforePlay, onPlay, onBeforePause, onPause,  
+	var tool = t.slideshow = { 
+
 		conf: {
 			next: '.forward',
 			prev: '.backward',
@@ -34,18 +31,15 @@
 	
 	
 	// jQuery plugin implementation
-	$.prototype.slideshow = function(conf) {
+	$.fn.slideshow = function(conf) {
 	
-		var globals = $.extend({}, tool.conf),
-			 len = this.length, 
-			 ret;
-			 
-		conf = $.extend(globals, conf);		
+		var len = this.length, ret; 
+		conf = $.extend({}, tool.conf, conf);		
 		
 		this.each(function() {
 			
 			var tabs = $(this), 
-				 api = tabs.tabs(), 
+				 api = tabs.data("tabs"), 
 				 $api = $(api);
 				 
 			if (api) { ret = api; }

@@ -71,7 +71,7 @@ VALIDATION
 
 <script>
 // Validator power! 1:st argument can also be function. type attributes are supported!
-$.tools.form.validator.fn("[type=range]", "$1 ei ole paska $2", function(el, val) {
+$.tools.validator.fn("[type=range]", "$1 ei ole paska $2", function(el, val) {
 		
 	// access to API		
 	var conf = this.getConf();
@@ -81,9 +81,12 @@ $.tools.form.validator.fn("[type=range]", "$1 ei ole paska $2", function(el, val
 	
 });
 
-var api = $("form").validator({api: true, events: {input: 'blur'}});
-// api.checkValidity();
+var api = $("form").validator().bind("onBeforeValidate", function()  {
+	console.info("BEFORE", this, arguments);
+	
+}).data("validator");
 
-
-document.forms[0]
+api.onFail(function() {
+	console.info("FAIL", this, arguments);		
+});
 </script>

@@ -26,21 +26,18 @@ div.active {
 
 <script>
 $(function() {
-	var root = $("div.scrollable").scrollable({
+	window.api = $("div.scrollable").scrollable({
 		mousewheel: true
 		
-	}).navigator({idPrefix: 'a', history: true});
+	}).navigator({idPrefix: 'a', history: true}).bind("onSeek", function() {
+		console.info("BIND", this, arguments);	
+		
+	}).data("scrollable"); 
 	
 	
-	// setup api
-	window.api = root.scrollable();
-	
-/* 	
 	api.onBeforeSeek(function (e, i) { 
-		var c = this.getIndex(); // also tried this.getPageIndex(); 
-		this.getConf().speed = (Math.max(c, i) - Math.min(c, i)) * 100; 
-		// console.log(this.getConf().speed); 
-	});  */
+		console.info("API", this, arguments); 
+	});  
 	
 });
 </script>

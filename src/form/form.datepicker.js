@@ -18,12 +18,9 @@
 */ 
 (function($) {	
 
-	$.tools = $.tools || {};
-	$.tools.form = $.tools.form || {};
+	$.tools = $.tools || {version: '@VERSION'};
 	
-	var instances = [], tool = $.tools.form.datepicker = {
-		
-		version: '@VERSION',  
+	var instances = [], tool = $.tools.datepicker = {
 		
 		conf: { 
 			format: 'mm/dd/yy',
@@ -143,8 +140,7 @@
 	function Datepicker(input, conf)  { 
 
 		// variables
-		var self = this,
-			 $self = $(this).add(input),			  
+		var self = this,  
 			 css = conf.css,
 			 labels = LABELS[conf.lang],
 			 root = $("#" + css.root),
@@ -164,6 +160,8 @@
 			
 		input.replaceWith(tmp);
 		input = tmp;
+		
+		var fire = input.add(this);
 		
 		// default value
 		if (value) {			
@@ -224,7 +222,7 @@
 			
 			// onBeforePick
 			e.type = "onBeforePick"; 
-			$self.trigger(e, [date]); 
+			fire.trigger(e, [date]); 
 			if (e.isDefaultPrevented()) { return; }
 			
 			// formatting			
@@ -232,7 +230,7 @@
 			
 			// onPick
 			e.type = "onPick";
-			$self.trigger(e, [date]);
+			fire.trigger(e, [date]);
 			
 			// store date
 			input.data("date", date);
@@ -499,12 +497,12 @@
 			},
 			
 			bind: function(name, fn) {
-				$self.bind(name, fn);
+				$(self).bind(name, fn);
 				return self;	
 			},	
 			
 			unbind: function(name) {
-				$self.unbind(name);
+				$(self).unbind(name);
 				return self;	
 			}, 
 			
@@ -534,28 +532,26 @@
 				return self.bind(name, fn);	
 			};
 		});		
-	}
-	
-
+	} 
 	
 	
 	$.fn.datepicker = function(conf) {   
 		
 		// return existing instance
-		var el = this.eq(typeof conf == 'number' ? conf : 0).data("datepicker");
+		var el = this.data("datepicker"), els;
 		if (el) { return el; } 
 		
 		// configuration
-		var globals = $.extend({}, tool.conf); 
-		conf = $.extend(globals, conf);		
+		conf = $.extend({}, tool.conf, conf);		
 		
 		this.each(function() {									
 			el = new Datepicker($(this), conf);
 			instances.push(el);
-			$(this).add(el.getInput()).data("datepicker", el);
+			var input = el.getInput().data("datepicker", el);
+			els = els ? els.add(input) : input;	
 		});		
-		
-		return conf.api ? el: this;		
+	
+		return conf.api ? el : els;		
 	}; 
 	
 	

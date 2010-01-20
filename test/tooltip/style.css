@@ -5,7 +5,7 @@ body {
 }
 
 .tip {
-	background:transparent url(../../../../www/trunk/web/tools/img/tooltip/black.png) 0 0 no-repeat;
+	background:#000 url(../../../../www/trunk/web/tools/img/tooltip/black.png) 0 0 no-repeat;
 	display:none;
 	width:165px;
 	height:63px;

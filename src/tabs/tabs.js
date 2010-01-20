@@ -14,10 +14,9 @@
 (function($) {
 		
 	// static constructs
-	$.tools = $.tools || {};
+	$.tools = $.tools || {version: '@VERSION'};
 	
 	$.tools.tabs = {
-		version: '@VERSION',
 		
 		conf: {
 			tabs: 'a',
@@ -75,7 +74,7 @@
 		/**
 		 * AJAX effect
 		 * 
-		 * @deprecated use util.loader instead
+		 * @deprecated use lazyload instead
 		 */
 		ajax: function(i, done)  {			
 			this.getPanes().eq(0).load(this.getTabs().eq(i).attr("href"), done);	
@@ -106,12 +105,19 @@
 	});	
 
 	
-	function Tabs(tabs, panes, conf) { 
+	function Tabs(root, paneSelector, conf) {
 		
 		var self = this, 
-			 $self = $(this),
-			 root = panes.parent(),			 
+			 trigger = root.add(this),
+			 tabs = root.find(conf.tabs),
+			 panes = paneSelector.jquery ? paneSelector : root.children(paneSelector),			 
 			 current;
+			 
+		
+		// make sure tabs and panes are found
+		if (!tabs.length)  { tabs = root.children(); }
+		if (!panes.length) { panes = root.parent().find(paneSelector); }
+		if (!panes.length) { panes = $(paneSelector); }
 		
 		
 		// public methods
@@ -132,7 +138,7 @@
 					if (i > last) { return self.click(0, e); }						
 				}
 				
-				if (!tab.length) { 
+				if (!tab.length) {
 					if (current >= 0) { return self; }
 					i = conf.initialIndex;
 					tab = tabs.eq(i);
@@ -144,7 +150,7 @@
 				// possibility to cancel click action				
 				e = e || $.Event();
 				e.type = "onBeforeClick";
-				$self.trigger(e, [i]);				
+				trigger.trigger(e, [i]);				
 				if (e.isDefaultPrevented()) { return; }
 
 				// call the effect
@@ -152,7 +158,7 @@
 
 					// onClick callback
 					e.type = "onClick";
-					$self.trigger(e, [i]);					
+					trigger.trigger(e, [i]);					
 				});			
 				
 				// default behaviour
@@ -183,10 +189,6 @@
 				return tabs.eq(current);	
 			},
 			
-			getLoader: function() {
-				return loader;	
-			},
-			
 			getIndex: function() {
 				return current;	
 			}, 
@@ -197,40 +199,40 @@
 			
 			prev: function() {
 				return self.click(current - 1);	
-			}, 
-			
+			},  
 			
 			bind: function(name, fn) {
-				$self.bind(name, fn);
+				$(self).bind(name, fn);
 				return self;	
 			},	
-			
-			onBeforeClick: function(fn) {
-				return this.bind("onBeforeClick", fn);
-			},
-			
-			onClick: function(fn) {
-				return this.bind("onClick", fn);
-			},
-			
+
 			unbind: function(name) {
-				$self.unbind(name);
+				$(self).unbind(name);
 				return self;	
 			}			
 		
 		});
 
-		// bind all callbacks from configuration
-		$.each(conf, function(name, fn) {
-			if ($.isFunction(fn)) { $self.bind(name, fn); }
-		});		
+		// callbacks	
+		$.each("onBeforeClick,onClick".split(","), function(i, name) {
+				
+			// configuration
+			if ($.isFunction(conf[name])) {
+				self.bind(name, conf[name]); 
+			}
+
+			// API
+			self[name] = function(fn) {
+				return self.bind(name, fn);	
+			};
+		});
 		
 		
 		// setup click actions for each tab
 		tabs.each(function(i) { 
 			$(this).bind(conf.event, function(e) {
 				self.click(i, e);
-				return false;
+				return e.preventDefault();
 			});			
 		});
 		
@@ -256,16 +258,17 @@
 		}  
 			 
 		// lazyload support. all logic is here.
-		var lconf = $.tools.lazyload && conf.lazyload, loader, lazies;
+		var lconf = $.tools.lazyload && conf.lazyload, loader;
 			 
 		if (lconf) {
-			if (lconf === true) { lconf = "img, :backgroundImage"; }
-			lazies = root.find(lconf.select || lconf);
 			
-			if (typeof lconf != 'object') { lconf = {}; }
-			                                                        
-			$.extend(lconf, { growParent: root, api: true}, lconf); 
-			loader = lazies.lazyload(lconf);
+			// lazyload configuration
+			if (typeof lconf != 'object') { lconf = { select: lconf }; }
+			if (typeof lconf.select != 'string') { lconf.select = "img, :backgroundImage"; }			
+			$.extend(lconf, { growParent: root, api: true }, lconf);  
+			
+			// initialize lazyload
+			loader = root.find(lconf.select).lazyload(lconf);
 			
 			self.onBeforeClick(function(e, i) {
 				loader.load(panes.eq(i).find(":unloaded").andSelf());			
@@ -285,42 +288,22 @@
 	
 	
 	// jQuery plugin implementation
-	$.fn.tabs = function(query, conf) {
+	$.fn.tabs = function(paneSelector, conf) {
 		
 		// return existing instance
-		var el = this.eq(typeof conf == 'number' ? conf : 0).data("tabs");
+		var el = this.data("tabs");
 		if (el) { return el; }
 
 		if ($.isFunction(conf)) {
 			conf = {onBeforeClick: conf};
 		}
 		
-		// setup options
-		var globals = $.extend({}, $.tools.tabs.conf), len = this.length;
-		conf = $.extend(globals, conf);		
-
+		// setup conf
+		conf = $.extend({}, $.tools.tabs.conf, conf);		
 		
-		// install tabs for each items in jQuery		
 		this.each(function(i) {				
-			var root = $(this); 
-			
-			// find tabs
-			var els = root.find(conf.tabs);
-			
-			if (!els.length) {
-				els = root.children();	
-			}
-			
-			// find panes
-			var panes = query.jquery ? query : root.children(query);
-			
-			if (!panes.length) {
-				panes = len == 1 ? $(query) : root.parent().find(query);
-			}			
-			
-			el = new Tabs(els, panes, conf);
-			root.data("tabs", el);
-			
+			el = new Tabs($(this), paneSelector, conf);
+			$(this).data("tabs", el); 
 		});		
 		
 		return conf.api ? el: this;		

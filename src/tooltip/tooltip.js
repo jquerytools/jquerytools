@@ -16,10 +16,9 @@
 	var instances = [];
 	
 	// static constructs
-	$.tools = $.tools || {};
+	$.tools = $.tools || {version: '@VERSION'};
 	
 	$.tools.tooltip = {
-		version: '@VERSION',
 		
 		conf: { 
 			
@@ -49,7 +48,10 @@
 				tooltip:		"mouseenter,mouseleave"
 			},			
 			
-			api: false
+			api: false,
+			
+			// 1.2
+			lazyload: false
 		},
 		
 		addEffect: function(name, loadFn, hideFn) {
@@ -81,12 +83,11 @@
 
 	function Tooltip(trigger, conf) {
 
-		var self = this, $self = $(this);
+		var self = this, 
+			 fire = trigger.add(this),
+			 tip = trigger.next();
 		
-		trigger.data("tooltip", self);
-		
-		// find the tip
-		var tip = trigger.next();
+		trigger.data("tooltip", self); 
 		
 		if (conf.tip) {
 			
@@ -214,7 +215,7 @@
 					// onBeforeShow
 					e = e || $.Event();
 					e.type = "onBeforeShow";
-					$self.trigger(e, [pos]);				
+					fire.trigger(e, [pos]);				
 					if (e.isDefaultPrevented()) { return self; }
 			
 					
@@ -230,7 +231,7 @@
 					
 					eff[0].call(self, function() {
 						e.type = "onShow";
-						$self.trigger(e);			
+						fire.trigger(e);			
 					});					
 					
 				}
@@ -258,12 +259,12 @@
 					// onBeforeHide
 					e = e || $.Event();
 					e.type = "onBeforeHide";
-					$self.trigger(e);				
+					fire.trigger(e);				
 					if (e.isDefaultPrevented()) { return; }
 					
 					effects[conf.effect][1].call(self, function() {
 						e.type = "onHide";
-						$self.trigger(e);		
+						fire.trigger(e);		
 					});
 				}
 				 
@@ -295,51 +296,60 @@
 			
 			// callback functions			
 			bind: function(name, fn) {
-				$self.bind(name, fn);
+				$(self).bind(name, fn);
 				return self;	
-			},
-			
-			onHide: function(fn) {
-				return this.bind("onHide", fn);
-			},
-
-			onBeforeShow: function(fn) {
-				return this.bind("onBeforeShow", fn);
-			},
-			
-			onShow: function(fn) {
-				return this.bind("onShow", fn);
-			},
-			
-			onBeforeHide: function(fn) {
-				return this.bind("onBeforeHide", fn);
 			},
 
 			unbind: function(name) {
-				$self.unbind(name);
+				$(self).unbind(name);
 				return self;	
 			}			
 
 		});		
 
-		// bind all callbacks from configuration
-		$.each(conf, function(name, fn) {
-			if ($.isFunction(fn)) { self.bind(name, fn); }
-		}); 		
+		// callbacks	
+		$.each("onHide,onBeforeShow,onShow,onBeforeHide".split(","), function(i, name) {
+				
+			// configuration
+			if ($.isFunction(conf[name])) { 
+				self.bind(name, conf[name]); 
+			}
+
+			// API
+			self[name] = function(fn) {
+				return self.bind(name, fn);	
+			};
+		});
+
+		
+		// lazyload support. all logic is here.
+		var lconf = $.tools.lazyload && conf.lazyload, loader;
+			 
+		if (lconf) {
+			
+			// lazyload configuration
+			if (typeof lconf != 'object') { lconf = { select: lconf }; }
+			if (typeof lconf.select != 'string') { lconf.select = "img, :backgroundImage"; }			
+			$.extend(lconf, { growParent: tip, api: true }, lconf); 
+			
+			// initialize lazyload
+			loader = tip.find(lconf.select).lazyload(lconf);
+			
+			// perform lazyload right before overlay is opened
+			self.onBeforeShow(loader.load);
+		}
 		
 	}
 		
 	
 	// jQuery plugin implementation
-	$.prototype.tooltip = function(conf) {
+	$.fn.tooltip = function(conf) {
 		
 		// return existing instance
-		var api = this.eq(typeof conf == 'number' ? conf : 0).data("tooltip");
+		var api = this.data("tooltip");
 		if (api) { return api; }
 		
-		// setup options
-		var globals = $.extend(true, {}, $.tools.tooltip.conf);		
-		
+		// configuration		
 		if ($.isFunction(conf)) {
 			conf = {onBeforeShow: conf};
 			
@@ -347,7 +357,7 @@
 			conf = {tip: conf};	
 		}
 
-		conf = $.extend(true, globals, conf);
+		conf = $.extend(true, {}, $.tools.tooltip.conf, conf);
 		
 		// can also be given as string
 		if (typeof conf.position == 'string') {
@@ -372,8 +382,7 @@
 			});
 		} 
 
-		return conf.api ? api: this;		
-		
+		return conf.api ? api: this;		 
 	};
 		
 }) (jQuery);

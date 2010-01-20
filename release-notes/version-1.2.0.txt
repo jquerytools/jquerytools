@@ -12,7 +12,15 @@ Fundamental changes
 
 all tools
 	- support for lazyloading
-	
+	- new event model
+		- tabs(number) support is removed
+		- api: property is deprecated. use data("tabs") instead --> was a bit forced to do this
+		- tabs() is deprecated. use data("tabs") instead  
+		- jQuery bind, unbind and one methods can be used (with namespacing + multiple instances at once)
+	- new versioning scheme
+	- new global configuration structure
+		
+		
 tabs
 	- history as configuration option
 	- lazyload flag
@@ -37,7 +45,9 @@ mask
 overlay
 	- removed deprecated getContent method
 	- removed the gallery plugin
+	- onStart event is now deprecated. use onBeforeLoad instead
 	
-	
+scrollable
+	- onStart is deprecated
 
 

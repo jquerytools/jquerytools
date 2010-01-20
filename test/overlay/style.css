@@ -1,6 +1,6 @@
 /* automatically absolutely positioned */
 div.overlay {
-	width:500px;
+	width:400px;
 	display:none;
 	color:#fff;
 	padding:10px;
@@ -17,7 +17,7 @@ div.overlay div.close {
 }
 
 #overlay {
-	height:400px;		
+	height:200px;		
 	background-color:#666;
 	-moz-border-radius:15px;		
 }

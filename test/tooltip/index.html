@@ -1,7 +1,9 @@
 
-<script src="../../../jquery-1.3.2.js"></script>
-<script src="../tools.tooltip.js"></script>
-<script src="../tools.tooltip.slide.js"></script>
+<script src="../jquery-1.3.2.js"></script>
+<script src="../../src/toolbox/toolbox.lazyload.js"></script>
+<script src="../../src/tooltip/tooltip.js"></script>
+<script src="../../src/tooltip/tooltip.slide.js"></script>
+
 <link rel="stylesheet" type="text/css" href="style.css"/>
 
 <script>
@@ -13,6 +15,9 @@ $(function() {
 		position: "bottom center",
 		effect: 'slide',
 		cursor: true,
+		lazyload:  {
+			effect: 'grow'	
+		},
 		
 		onBeforeShow: function(e) {
 			console.info(this.getTrigger(), e.pageX);		
@@ -22,13 +27,18 @@ $(function() {
 			console.info(this.getTrigger(), e.pageX);		
 		}
 		
-	}); // .dynamic({api: true});
+	}).bind("onBeforeShow", function() {
+		console.info("BIND", this, arguments);	
+			
+	});
 	
 }); 
 </script>
 
-<a href="#" title="jotain tippiä #1" class="trigger">jtoainv</a>
-<a href="#" title="jotain tippiä #2" class="trigger">kakkonen</a>
+<a href="#" class="trigger">jtoainv</a>
+<a href="#" class="trigger">kakkonen</a>
 
-<div id="tip" class="tip"></div>
+<div id="tip" class="tip">
+	<img src="../img/3942153630_38e1a62b2d.jpg" alt="" />
+</div>
 

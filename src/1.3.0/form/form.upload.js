@@ -12,11 +12,9 @@
  */
 (function() {
 
-	$.tools = $.tools || {};
+	$.tools = $.tools || {version: '@VERSION'};
 	
 	var tool = $.tools.upload = {
-		
-		version: '@VERSION',
 		
 		conf: {
 			pagepath: '/setup/upload/',

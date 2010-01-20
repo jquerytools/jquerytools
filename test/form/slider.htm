@@ -23,7 +23,10 @@ body 							{ padding: 100px; }
 <script>
 $(function() {
 		
-	window.slider = $("[step]").slider({api: true, hideInput: false});
+	window.slider = $("[step]").slider({hideInput: false}).bind("onBeforeSlide", function()  {
+		console.info("BIND", arguments);
+		
+	}).filter(":last").data("slider");
 
 	slider.onSlide(function(e, value) {
 		console.info("input: " + value);		
