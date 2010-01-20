@@ -33,7 +33,7 @@
 			messageClass: 'error',		// error message element's class name
 			messagePosition: 'after',	// error message position related to the field		
 			lang: 'en',						// default language for error messages 
-			effect: 'default',			// show/hide effect for error message. only 'default' is build-in	
+			effect: 'default',			// show/hide effect for error message. only 'default' is built-in	
 			
 												// when to check for validity?
 			events: {
@@ -143,7 +143,7 @@
 	}
 	
 	
-	/******* build-in HTML5 standard validators *********/
+	/******* built-in HTML5 standard validators *********/
 	
 	v.fn(isType("email"), "Invalid email address", function(el, v) {
 		return !v || emailRe.test(v);
@@ -198,7 +198,7 @@
 	});
 
 	
-	/******* build-in custom validators *********/
+	/******* built-in custom validators *********/
 	
 	// equalto(fieldName)
 	v.fn("equalto", "Value must equal to $1 field", function(el, name) {

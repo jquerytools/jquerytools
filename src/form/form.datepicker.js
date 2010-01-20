@@ -152,7 +152,7 @@
 			 max = rfc3339(input.attr("max")) || roll(value, conf.max);
 			 
 			 
-		// Replace build-in date input: NOTE: input.attr("type", "text") throws exception by the browser
+		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		var tmp = $('<input/>')
 			.attr("type", "text")
 			.attr("name", input.attr("name"))
