@@ -123,6 +123,12 @@ input {
 	font-family:"verdana";
 }
 
+.trigger {
+	width:30px;
+	height:30px;
+	border:1px solid blue;
+}
+
 /*}}}*/
 
 </style>
@@ -141,16 +147,17 @@ The demo only uses the following <samp>INPUT</samp> element for datepicker.
 <h3>Another one</h3>
 
 <input type="date" class="date" data-value="2004-03-20" min="2004-02-20"/>
+<div class="trigger"></div>
 
 <script>
 $(function() {
 	var els = $(".date").datepicker({
 		format: 'dddd dd mmmm yyyy',
 		selectors: true,
-		offset: [10, 10],
+		// offset: [10, 10],
 		yearRange: [-3, 3],
 		easing: 'linear',
-		speed: 100,
+		speed: 0,
 		firstDay: 0,
 		min: 365 * 1,
 		max: 365 * 2,

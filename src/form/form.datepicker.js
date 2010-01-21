@@ -11,11 +11,6 @@
  * Since: Mar 2010
  * Date: @DATE 
  */
-
-/* --- TODO ---
-	event management
-	trigger from icon
-*/ 
 (function($) {	
 
 	$.tools = $.tools || {version: '@VERSION'};
@@ -29,7 +24,6 @@
 			lang: 'en',
 			offset: [0, 0],
 			speed: 100,
-			easing: null,
 			firstDay: 0, // The first day of the week, Sun = 0, Mon = 1, ...
 			min: 0,
 			max: 0,
@@ -47,6 +41,7 @@
 				days: 'days',
 				weeks: 'weeks',
 				today: 'today',				
+				trigger: 'trigger',
 				
 				// classnames
 				week: 'week', 
@@ -144,6 +139,7 @@
 			 css = conf.css,
 			 labels = LABELS[conf.lang],
 			 root = $("#" + css.root),
+			 trigger = input.next("." + css.trigger),
 			 title = root.find("#" + css.title),
 			 pm, nm, 
 			 currYear, currMonth, currDay,
@@ -207,17 +203,7 @@
 			 yearSelector = root.find("#" + css.yearSelector),
 			 monthSelector = root.find("#" + css.monthSelector);
 			 
-
-		input.focus(function() { 
-			$.each(instances, function() {
-				this.hide();	
-			});
-			self.show();  
-			
-		}).keydown(function(e) {
-			input.blur();	
-		});
-		
+			 
 		function pick(date, conf, e) { 
 			
 			// onBeforePick
@@ -237,11 +223,80 @@
 			
 			self.hide(); 
 		}
+
+		function setupKeyboard() {
+			
+			// keyboard actions
+			$(document).bind("keydown.dp", function(e) {
+					
+				var key = e.keyCode;				
+				
+				// esc key
+				if (key == 27) { return self.hide(); }						
+										
+				// h=72, j=74, k=75, l=76, down=40, left=37, up=38, right=39			
+				if ($([75, 76, 38, 39, 74, 72, 40, 37]).index(key) != -1) {
 		
+					var days = $("#" + css.weeks + " a"), 
+						 el = $("." + css.focus),
+						 index = days.index(el);
+					 
+					el.removeClass(css.focus);
+					
+					if (key == 74 || key == 40) { index += 7; }
+					else if (key == 75 || key == 38) { index -= 7; }							
+					else if (key == 76 || key == 39) { index += 1; }
+					else if (key == 72 || key == 37) { index -= 1; }
+					
+					
+					if (index == -1) {
+						self.prev();
+						el = $("#" + css.weeks + " a:last");
+						
+					} else if (index == 35) {
+						self.next();
+						el = $("#" + css.weeks + " a:first");								
+					} else {
+						el = days.eq(index);
+					}
+					
+					el.addClass(css.focus);
+					return false;
+				}
+			 
+				// pageUp / pageDown
+				if (key == 34) { return self.next(); }						
+				if (key == 33) { return self.prev(); }
+				
+				// home
+				if (key == 36) { return self.setDate(); }
+				
+				
+				// enter
+				if (key == 13) {
+					if (!$(e.target).is("select")) {
+						pick($("." + css.focus).data("date"), conf, e);
+					}
+				}
+				
+			});
+			
+			// click outside datepicker
+			$(window).bind("click.dp", function(e) {
+				var el = e.target;
+				if (!$(el).parents("#" + css.root).length && el != input[0] && el != trigger[0]) { 
+					self.hide(); 
+				}
+			});					 
+		}		
 		
 		$.extend(self, {
 			
 			show: function() {
+				
+				$.each(instances, function() {
+					this.hide();	
+				});
 				
 				// month selector
 				monthSelector.unbind("change").change(function() {
@@ -266,90 +321,27 @@
 						self.next();
 					}
 					return false;
-				});	
-				
+				});	 
 				
 				// set date
-				self.setDate();				
+				self.setDate();				 
+				
 				
 				// show datepickerer
-				var pos = input.offset(), h = root.height(), w = root.width();
+				var pos = input.offset();
 
-				root.css({
-						 
+				root.css({ 
 					top: pos.top + input.outerHeight({margins: true}) + conf.offset[0], 
-					left: pos.left + conf.offset[1],
-					width: 0,
-					height: 0,
-					opacity: 0
-					
-				}).animate({height: h, width: w, opacity: 1}, conf.speed, conf.easing, function()  {
-					
-					// keyboard actions
-					$(document).bind("keydown.dp", function(e) {
-							
-						var key = e.keyCode;				
-						
-						// esc key
-						if (key == 27) { return self.hide(); }						
-												
-						// h=72, j=74, k=75, l=76, down=40, left=37, up=38, right=39			
-						if ($([75, 76, 38, 39, 74, 72, 40, 37]).index(key) != -1) {
-
-							var days = $("#" + css.weeks + " a"), 
-								 el = $("." + css.focus),
-								 index = days.index(el);
-							 
-							el.removeClass(css.focus);
-							
-							if (key == 74 || key == 40) { index += 7; }
-							else if (key == 75 || key == 38) { index -= 7; }							
-							else if (key == 76 || key == 39) { index += 1; }
-							else if (key == 72 || key == 37) { index -= 1; }
-							
-							
-							if (index == -1) {
-								self.prev();
-								el = $("#" + css.weeks + " a:last");
-								
-							} else if (index == 35) {
-								self.next();
-								el = $("#" + css.weeks + " a:first");								
-							} else {
-								el = days.eq(index);
-							}
-							
-							el.addClass(css.focus);
-							return false;
-						}
-					 
-						// pageUp / pageDown
-						if (key == 34) { return self.next(); }						
-						if (key == 33) { return self.prev(); }
-						
-						// home
-						if (key == 36) { return self.setDate(); }
-						
-						
-						// enter
-						if (key == 13) {
-							if (!$(e.target).is("select")) {
-								pick($("." + css.focus).data("date"), conf, e);
-							}
-						}
-						
-					});
-					
-					// click outside datepicker
-					$(window).bind("click.dp", function(e) {
-						var el = $(e.target);
-						if (!el.parents("#" + css.root).length && el.index(input) !== 0) { 
-							self.hide(); 
-						}
-					});					
-					
-				});				
-			
+					left: pos.left + conf.offset[1] 
+				});
+				
+				if (conf.speed) {
+					root.show(conf.speed, setupKeyboard);	
+				} else {
+					root.show();
+					setupKeyboard();
+				}
+				
 				return self;
 			},
 				
@@ -532,6 +524,15 @@
 				return self.bind(name, fn);	
 			};
 		});		
+		
+
+		input.focus(self.show).keydown(function(e) {
+			var key = e.keyCode;
+			return key == 9 || key == 27;	
+		});
+		
+		// trigger icon
+		trigger.click(self.show);		
 	} 
 	
 	
