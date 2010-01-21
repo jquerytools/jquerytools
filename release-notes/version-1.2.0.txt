@@ -27,6 +27,9 @@ tabs
 	- deprecated "ajax" effect in favor of lazyloading plugin
 	- deprecated "horizontal" effect. separate accordion plugin will be released later
 	
+	slideshow
+		- play/pause/stop/event bindings to slideshow plugin itself
+		- this object and code restructure
 	
 mask
 	- default maskId: 'exposeMask' --> 'mask'

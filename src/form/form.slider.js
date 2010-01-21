@@ -276,20 +276,25 @@
 		
 		// clicking
 		root.click(function(e) {
-				
+			
 			if (input.is(":disabled")) { return false; }	
-				
-			e.type = "onBeforeSlide";
-			fire.trigger(e);			
-			if (e.isDefaultPrevented()) { return false; } 
-			init(); 
+			var fireEvent = e.target != handle[0];
 			
-			var fix = handle.width() / 2;
+			if (fireEvent) {
+				e.type = "onBeforeSlide";
+				fire.trigger(e);			
+				if (e.isDefaultPrevented()) { return false; } 
+			}
 			
+			init();  
+			var fix = handle.width() / 2; 
 			seek(conf.vertical ? origo - e.pageY + fix : e.pageX - origo - fix, e);
 			
-			e.type = "onSlideEnd";
-			fire.trigger(e);			 			
+			if (fireEvent) {
+				e.type = "onSlideEnd";
+				fire.trigger(e);
+			}
+			
 		});
 
 		self.onSlide(function(e, val)  {
@@ -303,21 +308,35 @@
 		
 		$(document).keydown(function(e) {
 
-			var el = $(e.target), slider = el.data("slider") || current;
+			var el = $(e.target), 
+				 slider = el.data("slider") || current,
+				 key = e.keyCode,
+				 up = $([75, 76, 38, 33, 39]).index(e.keyCode) != -1,
+				 down = $([74, 72, 40, 34, 37]).index(e.keyCode) != -1;
 			
-			if (slider) {
+			if ((up || down) && !(e.shiftKey || e.altKey) && slider) {
 				
+				var fire = slider.getInput().add(slider);
+				e.type = "onBeforeSlide"; 
+			
 				// UP: 	k=75, l=76, up=38, pageup=33, right=39			
-				if ($([75, 76, 38, 33, 39]).index(e.keyCode) != -1) {
-					slider.step(e.ctrlKey || e.keyCode == 33 ? 3 : 1, e);
+				if (up) {
+					fire.trigger(e);
+					if (e.isDefaultPrevented()) { return false; }	
+					slider.step(e.ctrlKey || key == 33 ? 3 : 1, e);
 					return false;
 				}
 				
 				// DOWN:	j=74, h=72, down=40, pagedown=34, left=37
-				if ($([74, 72, 40, 34, 37]).index(e.keyCode) != -1) {
-					slider.step(e.ctrlKey || e.keyCode == 34 ? -3 : -1, e);
+				if (down) {
+					fire.trigger(e);	
+					if (e.isDefaultPrevented()) { return false; }	
+					slider.step(e.ctrlKey || key == 34 ? -3 : -1, e);
 					return false;
 				}
+			}
+			
+			if (slider) {
 				
 				setTimeout(function() {
 					var val = /[\d\.]+/.exec(el.val());
@@ -326,10 +345,10 @@
 					} else {
 						el.val(slider.getValue());	
 					}
-				}, 300);
-				
+				}, 400); 
 				current = slider;
-			}		
+			}
+			
 		});
 		
 		$(document).click(function(e) {

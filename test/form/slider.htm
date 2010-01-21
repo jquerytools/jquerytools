@@ -12,6 +12,11 @@ body 							{ padding: 100px; }
 .range						{ font-size:10px; border:0; background:none; float:left; width: 30px; margin-top:-5px; cursor:pointer; }
 .range:focus				{ background-color:#fff; -moz-border-radius:2px; -webkit-border-radius:2px; }
 .lbl							{ clear:both; padding:2px; font-size:10px; }
+
+.progress {
+		color:red;
+		height:30px;
+	}
 </style>
 
 
@@ -24,7 +29,14 @@ body 							{ padding: 100px; }
 $(function() {
 		
 	window.slider = $("[step]").slider({hideInput: false}).bind("onBeforeSlide", function()  {
-		console.info("BIND", arguments);
+		console.info("onBeforeSlide", this, arguments);
+		
+	}).bind("onSlideEnd", function() {
+		console.info("onSlideEnd", this, arguments);	
+		
+	}).bind("onSlide", function() {
+		console.info("onSlide", this, arguments);	
+		
 		
 	}).filter(":last").data("slider");
 
