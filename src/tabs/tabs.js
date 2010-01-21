@@ -38,7 +38,9 @@
 			effects[name] = fn;
 		}
 		
-	}, effects = {
+	};
+	
+	var effects = {
 		
 		// simple "toggle" effect
 		'default': function(i, done) { 

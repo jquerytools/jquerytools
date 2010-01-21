@@ -11,6 +11,7 @@
  * Since: Mar 2010
  * Date: @DATE 
  */
+/*jslint evil: true */ 
 (function($) {	
 
 	$.tools = $.tools || {version: '@VERSION'};
@@ -18,13 +19,14 @@
 	// globals
 	var customRe = /(\w+)\(?([^)]*)\)?/, 
 		typeRe = /\[type=([a-z]+)\]/, 
-		numRe = /^\d*$/
+		numRe = /^\d*$/,
 		
 		// http://net.tutsplus.com/tutorials/other/8-regular-expressions-you-should-know/
 		emailRe = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/i,
-		urlRe = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i;
+		urlRe = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i,
+		v;
 		 
-	var v = $.tools.validator = {
+	v = $.tools.validator = {
 		
 		conf: { 
 			singleField: false, 			// validate all inputs at once
@@ -64,8 +66,11 @@
 		 */
 		fn: function(matcher, msg, fn, isCustom) {
 			
-			if ($.isFunction(msg)) { fn = msg; }
-			else v.setMessage(matcher, msg);		 
+			if ($.isFunction(msg)) { 
+				fn = msg; 
+			} else {
+				v.setMessage(matcher, msg);		 
+			}
 			
 			if (isCustom) {				
 				fnx[matcher] = fn;
@@ -86,7 +91,9 @@
 		}
 		
 		
-	}, fns = [], fnx = {}, effects = {
+	};
+	
+	var fns = [], fnx = {}, effects = {
 		
 		'default' : [
 			
@@ -204,16 +211,19 @@
 	v.fn("equalto", "Value must equal to $1 field", function(el, name) {
 		var f = this.getInputs().filter("[name=" + name + "]");
 		return f.val() === el.val() ? true : f.attr("title") || name;
-		
+		                                                             
 	}, true);
-	
+	                                   
 	// requires(fieldName, fieldName2 ...)
 	v.fn("requires", "Required fields: $1", function(el, args) {
 		var inputs = this.getInputs(), ret = [];
 		
 		$.each(args, function() {
-			if (!inputs.filter("[name=" + this + "]").val()) { ret.push(this); };		
+			if (!inputs.filter("[name=" + this + "]").val()) { 
+				ret.push(this); 
+			}		
 		});
+		
 		return ret.length ? ret.join(", ") : true;
 		
 	}, true);	

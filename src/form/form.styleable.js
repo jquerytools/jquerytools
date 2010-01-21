@@ -15,7 +15,9 @@
 	
 	$.tools = $.tools || {version: '@VERSION'};
 	
-	var tool = $.tools.styleable = {
+	var tool;
+	
+	tool = $.tools.styleable = {
 
 		conf: { 
 			inputClass: null,
@@ -114,7 +116,7 @@
 		if (el) { return el; } 
 		
 		// configuration
-		conf = $.extend({}, tool.conf), conf);				 
+		conf = $.extend({}, tool.conf, conf);				 
 				
 		if (this.is("form")) {
 			els = this.find(conf.filter);			

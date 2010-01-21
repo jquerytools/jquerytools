@@ -15,7 +15,9 @@
 	
 	$.tools = $.tools || {version: '@VERSION'};
 	
-	var tool = $.tools.lazyload = {
+	var tool;
+	
+	tool = $.tools.lazyload = {
 		
 		conf: {
 			css: {
@@ -43,7 +45,9 @@
 			effects[name] = fn;	
 		}
 		
-	}, effects = {		
+	};
+	
+	var effects = {		
 
 		show: function(el, done) {
 			el.hide().css({visibility: 'visible'}).fadeIn(this.getConf().fadeInSpeed, done);
@@ -57,18 +61,19 @@
 		grow: function(el, done) {
 
 			var self = this, 
-				 conf = self.getConf()
+				 conf = self.getConf(),
 				 root = conf.growParent.jquery ? conf.growParent : el.closest(conf.growParent),
-				 css = null;				 
+				 css = null,
+				 img;				 
 			 
-				 if (!root.length) { root = el.parent(); }
+			if (!root.length) { root = el.parent(); }
 				 
 			if (el.is("img")) { 
-				var img = el[0];
+				img = el[0];
 				css = {width: img.width, height: img.height};				
 				
 			} else if (el.is(":backgroundImage")) {
-				var img = el.data("image")[0];
+				img = el.data("image")[0];
 				css = {width: img.width, height: img.height};
 				el.css(css);
 				

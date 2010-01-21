@@ -3,6 +3,7 @@
 	<taskdef resource="net/sf/antcontrib/antlib.xml"/> 
 	<property file="build.properties" prefix="v"/>
 	<property name="build" value="build/${v.tools}"/>
+	<property name="file" value="none"/>
 	
 	<!-- replace @VERSION and @DATE tags -->
 	<target name="sources">
@@ -72,22 +73,38 @@
 		
 	</target>
 	
-	<!-- lint (http://www.jslint.com/lint.html)  --> 
-   <target name="lint">		
-		<for param="file"> 
-			<path>
-				<fileset dir="src" includes="**/*.js"/>
-			</path>
-				
-			<sequential>
+	<!--  lint (http://www.jslint.com/lint.html) -->
+   <target name="lint">		 
+		<if>
+			<equals arg1="${file}" arg2="none" />
+			
+			<!-- loop trough all files -->
+			<then>
+				<for param="file"> 
+					<path>
+						<fileset dir="src" includes="**/*.js"/>
+					</path>
+						
+					<sequential>
+						<java jar="lib/rhino.jar" fork="true">
+							<arg value="lib/jslint.js" />
+							<arg value="@{file}" />
+						</java>	
+					</sequential>
+				</for>
+			</then>
+			
+			<!-- ant lint -Dfile=form/form.validator.js -->
+			<else>
 				<java jar="lib/rhino.jar" fork="true">
 					<arg value="lib/jslint.js" />
-					<arg value="@{file}" />
+					<arg value="src/${file}" />
 				</java>	
-			</sequential>
-		</for>
-	</target>
-	
+			</else>
+			
+		</if>
+		
+	</target> 
 	
 </project>
 

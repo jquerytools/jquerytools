@@ -15,7 +15,9 @@
 
 	$.tools = $.tools || {version: '@VERSION'};
 	
-	var instances = [], tool = $.tools.datepicker = {
+	var instances = [], tool;
+	
+	tool = $.tools.datepicker = {
 		
 		conf: { 
 			format: 'mm/dd/yy',
@@ -74,14 +76,14 @@
 	function zeropad(val, len) {
 		val = '' + val;
 		len = len || 2;
-		while (val.length < len) val = "0" + val;
+		while (val.length < len) { val = "0" + val; }
 		return val;
 	}
 		
 	var Re = /d{1,4}|m{1,4}|yy(?:yy)?|"[^"]*"|'[^']*'/g;
 
 	// thanks: http://stevenlevithan.com/assets/misc/date.format.js 
-	function format(date, format, lang) {
+	function format(date, fmt, lang) {
 		
 	  var d = date.getDate(),
 			D = date.getDay(),
@@ -101,7 +103,7 @@
 				yyyy: y
 			};
 
-		return format.replace(Re, function ($0) {
+		return fmt.replace(Re, function ($0) {
 			return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
 		});
 		
@@ -199,9 +201,9 @@
 		}	
 		
 		// layout elements
-		var weeks = root.find("#" + css.weeks),
-			 yearSelector = root.find("#" + css.yearSelector),
-			 monthSelector = root.find("#" + css.monthSelector);
+		var weeks = root.find("#" + css.weeks);
+		yearSelector = root.find("#" + css.yearSelector);
+		monthSelector = root.find("#" + css.monthSelector);
 			 
 			 
 		function pick(date, conf, e) { 
@@ -408,27 +410,27 @@
 				weeks.empty();				
 				pm.add(nm).removeClass(css.disabled);
 				
-				for (var i = 0, a, num; i < 35; i++) { 
+				for (var j = 0, a, num; j < 35; j++) { 
 					
 					a = $("<a/>");
 					
-					if (i % 7 == 0) {
+					if (j % 7 === 0) {
 						week = $("<div/>").addClass(css.week);
 						weeks.append(week);			
 					}					
 					
-					if (i < begin)  { 
+					if (j < begin)  { 
 						a.addClass(css.offmonth); 
-						num = prevDays - begin + i + 1;
+						num = prevDays - begin + j + 1;
 						date = new Date(year, month-1, num);
 						
-					} else if (i >= begin + days)  {
+					} else if (j >= begin + days)  {
 						a.addClass(css.offmonth);	
-						num = i - days - begin + 1;
+						num = j - days - begin + 1;
 						date = new Date(year, month+1, num);
 						
 					} else  { 
-						num = i - begin + 1;
+						num = j - begin + 1;
 						date = new Date(year, month, num);
 						if (num === day) {
 							a.attr("id", css.today).addClass(css.focus);

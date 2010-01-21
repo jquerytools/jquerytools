@@ -12,7 +12,7 @@
  * Since: Mar 2010
  * Date: @DATE 
  */
-;(function($){ // secure $ jQuery alias
+(function($) { // secure $ jQuery alias
 /*******************************************************************************************/
 // Created: 2008-06-04 | Updated: 2010-03-24
 /*******************************************************************************************/
@@ -28,7 +28,7 @@ $.fn.drag = function( fn1, fn2, fn3 ){
 	};
 
 // local refs
-var $event = $.event, $special = $event.special,
+var $event = $.event, $special = $event.special, drag;
 
 // special event configuration
 drag = $special.drag = {
@@ -42,7 +42,7 @@ drag = $special.drag = {
 			which: drag.which, 
 			not: drag.not
 			}, data || {});
-		data.distance = squared( data.distance ); //  x² + y² = distance²
+		data.distance = squared( data.distance ); //  x2 + y2 = distance2
 		$event.add( this, "mousedown", handler, data );
 		if ( this.attachEvent ) this.attachEvent("ondragstart", dontStart ); // prevent image dragging in IE...
 		},
@@ -88,7 +88,7 @@ function handler ( event ){
 		// mousemove, check distance, start dragging
 		case !drag.dragging && 'mousemove': 
 			if ( squared( event.pageX-data.pageX ) 
-				+ squared( event.pageY-data.pageY ) //  x² + y² = distance²
+				+ squared( event.pageY-data.pageY ) //  x2 + y2 = distance2
 				< data.distance ) break; // distance tolerance not reached
 			event.target = data.target; // force target from "mousedown" event (fix distance issue)
 			returned = hijack( event, "dragstart", elem ); // trigger "dragstart", return proxy element
@@ -101,7 +101,7 @@ function handler ( event ){
 			if ( drag.dragging ){
 				returned = hijack( event, "drag", elem ); // trigger "drag"		
 				if ( $special.drop ){ // manage drop events
-					$special.drop.allowed = ( returned !== false ); // prevent drop
+					$special.drop.allowed = returned !== false; // prevent drop
 					$special.drop.handler( event ); // "dropstart", "dropend"
 					}
 				if ( returned !== false ) break; // "drag" not rejected, stop		
@@ -119,20 +119,20 @@ function handler ( event ){
 			break;
 		} 
 	return true;
-	};
+	}
 
 // set event type to custom value, and handle it
 function hijack ( event, type, elem ){
 	event.type = type; // force the event type
 	var result = $.event.handle.call( elem, event );
 	return result===false ? false : result || event.result;
-	};
+	}
 	
 // return the value squared	
-function squared ( value ){ return Math.pow( value, 2 ); };
+function squared ( value ){ return Math.pow( value, 2 ); }
 
 // suppress default dragstart IE events...
-function dontStart(){ return ( drag.dragging === false ); };	
+function dontStart(){ return ( drag.dragging === false ); }
 
 // toggles text selection attributes	
 function selectable ( elem, bool ){ 
@@ -141,7 +141,7 @@ function selectable ( elem, bool ){
 	elem.onselectstart = function(){ return bool; }; // IE
 	//if ( document.selection && document.selection.empty ) document.selection.empty(); // IE
 	if ( elem.style ) elem.style.MozUserSelect = bool ? "" : "none"; // FF
-	};	
+	}
 	
 /*******************************************************************************************/
 })( jQuery ); // confine scope

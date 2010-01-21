@@ -16,7 +16,9 @@
 	// static constructs
 	$.tools = $.tools || {version: '@VERSION'};
 	
-	var tool = $.tools.mask = {
+	var tool;
+	
+	tool = $.tools.mask = {
 		
 		conf: {	
 			maskId: 'mask',

@@ -425,7 +425,16 @@
 		}); 
 
 		// lazyload support. all logic is here.
-		var lconf = $.tools.lazyload && conf.lazyload, loader;
+		var lconf = $.tools.lazyload && conf.lazyload, 
+			 loader,
+			 
+			 doLoad = function(ev, i)  {
+				var els = self.getItems().slice(i, i + conf.size); 
+				els.each(function() {
+					els = els.add($(this).find(":unloaded"));
+				}); 
+				loader.load(els);					 		 
+			 };
 			 
 		if (lconf) {
 			
@@ -436,17 +445,8 @@
 			
 			// initialize lazyload
 			loader = root.find(lconf.select).lazyload(lconf); 
-			
-			function load(ev, i) {
-				var els = self.getItems().slice(i, i + conf.size); 
-				els.each(function() {
-					els = els.add($(this).find(":unloaded"));
-				}); 
-				loader.load(els);						
-			}  
-			
-			self.onBeforeSeek(load);  
-			load(null, 0);
+			self.onBeforeSeek(doLoad);  
+			doLoad(null, 0);
 		}
 		
 		self.reload();  

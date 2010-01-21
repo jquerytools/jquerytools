@@ -23,13 +23,15 @@
 	 
 	$.tools = $.tools || {version: '@VERSION'};
 	 
-	var current, tool = $.tools.slider = {
+	var current, tool;
+	
+	tool = $.tools.slider = {
 		
 		conf: {
 			min: 0,
 			max: 100,
 			size: 0, 	// The number of options meant to be shown by the control (fixed points in scrubber)
-			step: 0, 	// Specifies the value granularity of the element’s value (onSlide callbacks)
+			step: 0, 	// Specifies the value granularity of the element's value (onSlide callbacks)
 			value: 0,			
 			decimals: 2,
 			vertical: false,
@@ -212,7 +214,7 @@
 			step: function(am, e) {
 				init();
 				var x = Math.max(len / conf.step || conf.size || 10, 2);
-				return seek(pos + x * am, e)
+				return seek(pos + x * am, e);
 			},
 			
 			next: function() {

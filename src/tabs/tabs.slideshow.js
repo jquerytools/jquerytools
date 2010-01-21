@@ -13,9 +13,9 @@
  */
 (function($) {
 	
-	var t = $.tools.tabs; 
+	var tool;
 	
-	var tool = t.slideshow = { 
+	tool = $.tools.tabs.slideshow = { 
 
 		conf: {
 			next: '.forward',
