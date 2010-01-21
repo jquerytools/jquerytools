@@ -72,6 +72,23 @@
 		
 	</target>
 	
+	<!-- lint (http://www.jslint.com/lint.html)  --> 
+   <target name="lint">		
+		<for param="file"> 
+			<path>
+				<fileset dir="src" includes="**/*.js"/>
+			</path>
+				
+			<sequential>
+				<java jar="lib/rhino.jar" fork="true">
+					<arg value="lib/jslint.js" />
+					<arg value="@{file}" />
+				</java>	
+			</sequential>
+		</for>
+	</target>
+	
+	
 </project>
 
 
