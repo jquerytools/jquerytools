@@ -489,17 +489,7 @@
 			prevYear: function(year, day) {
 				return this.setDate(currYear - 1, currMonth, day);	
 			},
-			
-			bind: function(name, fn) {
-				$(self).bind(name, fn);
-				return self;	
-			},	
-			
-			unbind: function(name) {
-				$(self).unbind(name);
-				return self;	
-			}, 
-			
+						
 			hide: function() {				
 				$(window).unbind("click.dp");
 				$(document).unbind("keydown.dp");	
@@ -518,12 +508,13 @@
 				
 			// configuration
 			if ($.isFunction(conf[name]))  {
-				self.bind(name, conf[name]);	
+				$(self).bind(name, conf[name]);	
 			}
 			
 			// API methods
 			self[name] = function(fn) {
-				return self.bind(name, fn);	
+				$(self).bind(name, fn);
+				return self;
 			};
 		});		
 		

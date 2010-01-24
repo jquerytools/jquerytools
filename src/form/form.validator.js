@@ -378,16 +378,6 @@
 				}
 				
 				return true;				
-			},
-			
-			bind: function(name, fn) {
-				$(self).bind(name, fn);
-				return self;	
-			},	
-			
-			unbind: function(name) {
-				$(self).unbind(name);
-				return self;	
 			}
 			
 		});
@@ -397,12 +387,13 @@
 				
 			// configuration
 			if ($.isFunction(conf[name]))  {
-				self.bind(name, conf[name]);	
+				$(self).bind(name, conf[name]);	
 			}
 			
 			// API methods				
 			self[name] = function(fn) {
-				return self.bind(name, fn);	
+				$(self).bind(name, fn);
+				return self;
 			};
 		});	
 		

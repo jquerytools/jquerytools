@@ -119,7 +119,7 @@
 		}
 		
 		// flesh and bone of this tool 
-		function seek(x, e) { 
+		function seek(x, e, skipEvent) { 
 			init(); 
 			
 			// fit inside the slider		
@@ -144,7 +144,7 @@
 				value = v;	
 				e = e || $.Event();
 				e.type = "onSlide";
-				fire.trigger(e, [v]);
+				if (!skipEvent) { fire.trigger(e, [v]); }
 			}
 			
 			// move handle & resize progress
@@ -167,7 +167,7 @@
 		
 		$.extend(self, {
 				
-			setValue: function(v, e) {
+			setValue: function(v, e, skipEvent) {
 				if (v == value) { return self; }
 				init();
 				
@@ -177,14 +177,14 @@
 					return self;
 				}				
 				var x = (v - conf.min) * (len / range);				
-				return seek(x, e);
+				return seek(x, e, skipEvent);
 			}, 
 			
 			// if widget is hidden
 			draw: function(e) {
 				var v = value;
 				value = 0;
-				self.setValue(v, e);
+				self.setValue(v, e, true);
 			},
 			
 			getName: function() {
@@ -223,17 +223,6 @@
 			
 			prev: function() {
 				return this.step(-1);	
-			},			
-			
-			// callback functions
-			bind: function(name, fn) {
-				$(self).bind(name, fn);
-				return self;	
-			},	
-			
-			unbind: function(name) {
-				$(self).unbind(name);
-				return self;	
 			}	
 			
 		});
@@ -243,12 +232,13 @@
 				
 			// from configuration
 			if ($.isFunction(conf[name]))  {
-				self.bind(name, conf[name]);	
+				$(self).bind(name, conf[name]);	
 			}
 			
 			// API methods
 			self[name] = function(fn) {
-				return self.bind(name, fn);	
+				$(self).bind(name, fn);
+				return self;	
 			};
 		}); 
 			
