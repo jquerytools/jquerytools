@@ -1,6 +1,6 @@
 /**
  * @license 
- * jQuery Tools @VERSION Slider - A HTML5 slider component
+ * jQuery Tools @VERSION Slider - HTML5 <input type="range" /> for humans
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/form/slider/
@@ -13,12 +13,6 @@
  * Since: Mar 2010
  * Date: @DATE 
  */
- 
-/* --- TODO ---
-	browser testing, bug hunting, demos
-	http://developer.yahoo.com/yui/examples/button/btn_example14.html 
-*/
-
 (function($) {
 	 
 	$.tools = $.tools || {version: '@VERSION'};
@@ -30,21 +24,19 @@
 		conf: {
 			min: 0,
 			max: 100,
-			size: 0, 	// The number of options meant to be shown by the control (fixed points in scrubber)
 			step: 0, 	// Specifies the value granularity of the element's value (onSlide callbacks)
 			value: 0,			
 			decimals: 2,
 			vertical: false,
 			keyboard: true,
 			
-			hideInput: true,
-			sliderClass: 'slider',
+			hideInput: false, 
 			speed: 200,
 			
 			// set to null if not needed
+			sliderClass: 'slider',
 			progressClass: 'progress',
-			handleClass: 'handle',			
-			api: false
+			handleClass: 'handle'
 		}
 		
 	};
@@ -59,136 +51,110 @@
 		return Math.round(value * n) / n;
 	}
 	
+	function dim(el, key) {
+		return parseInt(el.css(key), 10);	
+	}
 	
 	function Slider(input, conf) {
 		
 		// private variables
 		var self = this,  
-			 root = $("<div><div/><a/></div>"),	
-			 range = conf.max - conf.min,
-			 value,
-			 callbacks,
-			 origo,
-			 len,
-			 pos,
-			 progress,
-			 handle;		
+			 root = $("<div><div/><a/></div>").data("slider", self),	 
+			 value,			// current value
+			 origo,			// handle's start point
+			 len,				// length of the slider
+			 pos,				// current position of the handle
+			 progress,		// progress "bar"
+			 handle;			// drag handle 
 			 
-			 
+		// create slider	 
 		input.before(root);	
 		handle = root.addClass(conf.sliderClass).find("a").addClass(conf.handleClass);
-		progress = root.find("div").addClass(conf.progressClass);  
+		progress = root.find("div").addClass(conf.progressClass);  		   
 		
-		// get (HTML5) attributes
-		$.each("min,max,size,step,value".split(","), function(i, key) {
+		// get (HTML5) attributes into configuration
+		$.each("min,max,step,value".split(","), function(i, key) {
 			var val = input.attr(key);
 			conf[key] = parseFloat(val, 10);
 		});			   
 		
-		/*
-			with JavaScript we don't want the HTML5 range element 
-			NOTE: input.attr("type", "text") throws exception by the browser
-		*/
-		var tmp = $('<input/>')
-			.attr("type", "text")
-			.addClass(input.attr("className"))
-			.attr("name", input.attr("name"))
-			.attr("disabled", input.attr("disabled"));					
-
-		input.replaceWith(tmp);
-		input = tmp;
+		var range = conf.max - conf.min;
 		
-		if (conf.hideInput) { input.hide(); }
+		/* replace build-in range element for cross browser consistency
+			NOTE: input.attr("type", "text") throws exception by the browser */
+			
+		if (input[0].getAttribute("type") == 'range') {
+			var tmp = $('<input/>')
+				.attr("type", "text")
+				.addClass(input.attr("className"))
+				.attr("name", input.attr("name"))
+				.attr("disabled", input.attr("disabled")).val(input.val());					
+	
+			input.replaceWith(tmp);
+			input = tmp;
+		}
+
+		if (conf.hideInput) { input.hide(); }  
 			 
 		var fire = input.add(this);
-			 
-		function init() {
-			var o = handle.offset();
-			
-			// recalculate when value = 0 (a recovery mechanism)
-			if (!len || !value) {
-				if (conf.vertical) {
-					len = root.height() - handle.outerWidth(true);
-					origo = o.top + len; 
-					
-				} else {
-					len = root.width() - handle.outerWidth(true);
-					origo = o.left;	  
-				}
-			} 				
-		}
+		
 		
 		// flesh and bone of this tool 
-		function seek(x, e, skipEvent) { 
-			init(); 
+		function seek(x, e) {  
 			
 			// fit inside the slider		
 			x = Math.min(Math.max(0, x), len);			 
 			
 			// increment in steps
-			if (conf.size) {
-				x = toSteps(x, conf.size, len);	
+			if (conf.step) {
+				x = toSteps(x, conf.step, len);	
 			}
 			
 			// calculate value			
-			var v = x / len * range + conf.min;
+			var v = round(x / len * range + conf.min, conf.decimals);		
 
-			if (conf.step) {
-				v = toSteps(v, conf.step, conf.max);	
-			}						
-
-			// rounding
-			v = round(v, conf.decimals);			
+			// onSlide
+			e = e || $.Event();
+			e.type = "onSlide";
+			fire.trigger(e, [v]); 
+			if (e.isDefaultPrevented()) { return self; }  
 			
-			if (v != value)  {
-				value = v;	
-				e = e || $.Event();
-				e.type = "onSlide";
-				if (!skipEvent) { fire.trigger(e, [v]); }
-			}
 			
-			// move handle & resize progress
-			var orig = e && e.originalEvent, 
-				 speed = orig && orig.type == "click" ? conf.speed : 0;
-			
-			if (conf.vertical) {
-				handle.animate({top: -(x - len)}, speed);
-				progress.animate({height: x}, speed);						
+			if (v != value)  { 
 				
-			} else {
-				handle.animate({left: x}, speed);
-				progress.animate({width: x}, speed);	
-			}
-
-			pos = x;			
+				// move handle & resize progress
+				var isClick = e && e.originalEvent && e.originalEvent.type == "click",
+					 speed = isClick ? conf.speed : 0,
+					 callback = isClick ? function()  {
+					 	e.type = "change";
+					 	fire.trigger(e, [v]); 
+					 } : null;
+				
+				if (conf.vertical) {
+					handle.animate({top: -(x - len)}, speed, callback);
+					progress.animate({height: x}, speed);						
+					
+				} else {
+					handle.animate({left: x}, speed, callback);
+					progress.animate({width: x}, speed);	
+				}
+				
+				value = v; 
+				pos = x;			
+				input.val(v);
+			}  
 			
 			return self;
 		}
 		
-		$.extend(self, {
-				
-			setValue: function(v, e, skipEvent) {
-				if (v == value) { return self; }
-				init();
-				
-				// widget is hidden. cannot determine wrapper dimension
-				if (!len) {
-					value = v;
-					return self;
-				}				
-				var x = (v - conf.min) * (len / range);				
-				return seek(x, e, skipEvent);
-			}, 
+		$.extend(self, {  
 			
-			// if widget is hidden
-			draw: function(e) {
-				var v = value;
-				value = 0;
-				self.setValue(v, e, true);
-			},
-			
-			getName: function() {
-				return input.attr("name");	
+			setValue: function(val, e) {
+				val = parseFloat(val);
+				if (!val || val == value) { return self; }
+				
+				var x = (val - conf.min) * (len / range);	
+				return seek(x, e);	 
 			},
 			
 			getValue: function() {
@@ -209,10 +175,9 @@
 			
 			getInput: function() {
 				return input;	
-			},
-			
+			}, 
+				
 			step: function(am, e) {
-				init();
 				var x = Math.max(len / conf.step || conf.size || 10, 2);
 				return seek(pos + x * am, e);
 			},
@@ -228,7 +193,7 @@
 		});
 		
 		// callbacks
-		$.each("onBeforeSlide,onSlide,onSlideEnd".split(","), function(i, name) {
+		$.each("onSlide,change".split(","), function(i, name) {
 				
 			// from configuration
 			if ($.isFunction(conf[name]))  {
@@ -243,63 +208,55 @@
 		}); 
 			
 
-		// dragging		
-		handle.bind("dragstart", function(e) {	
-				
+		// dragging		                                  
+		handle.bind("drag", function(e) {
 			if (input.is(":disabled")) { return false; } 
-			e.type = "onBeforeSlide";
-			
-			fire.trigger(e);
-			if (e.isDefaultPrevented()) { return false; }			
-			init();	
-			
-		}).bind("drag", function(e) {			
-			if (input.is(":disabled")) { return false; } 
-			
-			seek(conf.vertical ? origo - e.offsetY  : e.offsetX - origo, e);
+			if (!origo) { init(); } 
+			seek(conf.vertical ? origo - e.offsetY  : e.offsetX - origo, e); 
 			
 		}).bind("dragend", function(e) {
-			e.type = "onSlideEnd";
-			fire.trigger(e);			
+			if (!e.isDefaultPrevented()) {
+				e.type = "change";
+				fire.trigger(e, [value]);			
+			}
 			
 		}).click(function(e) {
-			return e.preventDefault();	
+			return e.preventDefault();	 
 		});		
 		
 		// clicking
-		root.click(function(e) {
-			
-			if (input.is(":disabled")) { return false; }	
-			var fireEvent = e.target != handle[0];
-			
-			if (fireEvent) {
-				e.type = "onBeforeSlide";
-				fire.trigger(e);			
-				if (e.isDefaultPrevented()) { return false; } 
-			}
-			
-			init();  
+		root.click(function(e) { 
+			if (input.is(":disabled")) { return false; }				  
 			var fix = handle.width() / 2; 
-			seek(conf.vertical ? origo - e.pageY + fix : e.pageX - origo - fix, e);
-			
-			if (fireEvent) {
-				e.type = "onSlideEnd";
-				fire.trigger(e);
-			}
-			
+			if (!origo) { init(); }
+			seek(conf.vertical ? origo - e.pageY + fix : e.pageX - origo - fix, e); 
 		});
 
-		self.onSlide(function(e, val)  {
-			input.val(val);		
-		});   
 		
-		self.setValue(conf.value || conf.min);	 
+		input.blur(function(e) {			
+			self.setValue($(this).val(), e); 
+		});    
+		
+		function init() {
+			if (conf.vertical) {
+				len = dim(root, "height") - dim(handle, "height");
+				origo = root.offset().top + len; 
+				
+			} else {
+				len = dim(root, "width") - dim(handle, "width");
+				origo = root.offset().left;	  
+			} 	  
+		}
+		
+		init();
+		
+		self.setValue(input.val() || conf.min);
 	}
-	
+		
 	if (tool.conf.keyboard) {
 		
 		$(document).keydown(function(e) {
-
+	
 			var el = $(e.target), 
 				 slider = el.data("slider") || current,
 				 key = e.keyCode,
@@ -307,46 +264,23 @@
 				 down = $([74, 72, 40, 34, 37]).index(e.keyCode) != -1;
 			
 			if ((up || down) && !(e.shiftKey || e.altKey) && slider) {
-				
-				var fire = slider.getInput().add(slider);
-				e.type = "onBeforeSlide"; 
 			
 				// UP: 	k=75, l=76, up=38, pageup=33, right=39			
 				if (up) {
-					fire.trigger(e);
-					if (e.isDefaultPrevented()) { return false; }	
-					slider.step(e.ctrlKey || key == 33 ? 3 : 1, e);
-					return false;
-				}
-				
+					slider.step(e.ctrlKey || key == 33 ? 5 : 1, e);
+					
 				// DOWN:	j=74, h=72, down=40, pagedown=34, left=37
-				if (down) {
-					fire.trigger(e);	
-					if (e.isDefaultPrevented()) { return false; }	
-					slider.step(e.ctrlKey || key == 34 ? -3 : -1, e);
-					return false;
-				}
-			}
-			
-			if (slider) {
-				
-				setTimeout(function() {
-					var val = /[\d\.]+/.exec(el.val());
-					if (val && parseFloat(val)) {
-						slider.setValue(parseFloat(val), e);		
-					} else {
-						el.val(slider.getValue());	
-					}
-				}, 400); 
-				current = slider;
-			}
-			
+				} else if (down) {
+					slider.step(e.ctrlKey || key == 34 ? -5 : -1, e); 
+				} 
+				return e.preventDefault();
+			} 
 		});
 		
 		$(document).click(function(e) {
 			var el = $(e.target);	
 			current = el.data("slider") || el.parent().data("slider");
-		});
+		}); 
 	}
 	
 		
@@ -357,9 +291,6 @@
 		var el = this.data("slider"), els;
 		if (el) { return el; }
 		
-		if (typeof conf == 'number') {
-			conf = {max: conf};
-		}
 		
 		// extend configuration with globals
 		conf = $.extend({}, tool.conf, conf);		
@@ -370,7 +301,7 @@
 			els = els ? els.add(input) : input;	
 		});		
 		
-		return conf.api ? el : els;		
+		return els; 
 	};	
 	
 	
