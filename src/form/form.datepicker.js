@@ -1,6 +1,6 @@
 /**
  * @license                                     
- * jQuery Tools @VERSION Datepicker - Compact HTML5 date picking.
+ * jQuery Tools @VERSION Datepicker - HTML5 <input type="date" /> for humans
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/form/datepicker/
@@ -151,13 +151,15 @@
 			 
 			 
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
-		var tmp = $('<input/>')
-			.attr("type", "text")
-			.attr("name", input.attr("name"))
-			.addClass(input.attr("className"));					
-			
-		input.replaceWith(tmp);
-		input = tmp;
+		if (input[0].getAttribute("type") == 'date') {
+			var tmp = $('<input/>')
+				.attr("type", "text")
+				.attr("name", input.attr("name"))
+				.addClass(input.attr("className"));					
+				
+			input.replaceWith(tmp);
+			input = tmp;
+		}
 		
 		var fire = input.add(this);
 		
@@ -206,19 +208,15 @@
 		monthSelector = root.find("#" + css.monthSelector);
 			 
 			 
-		function pick(date, conf, e) { 
+		function pick(date, conf, e) {  
 			
-			// onBeforePick
-			e.type = "onBeforePick"; 
-			fire.trigger(e, [date]); 
+			// onPick
+			e.type = "change";
+			fire.trigger(e, [date]);
 			if (e.isDefaultPrevented()) { return; }
 			
 			// formatting			
 			input.val(format(date, conf.format, conf.lang));
-			
-			// onPick
-			e.type = "onPick";
-			fire.trigger(e, [date]);
 			
 			// store date
 			input.data("date", date);
@@ -499,25 +497,19 @@
 			
 			getInput: function() {
 				return input;	
+			},
+			
+			change: function(fn) {
+				$(self).bind("change", fn);
+				return self;	
 			}
 			
 		}); 
 		
-		// callbacks
-		$.each("onBeforePick,onPick".split(","), function(i, name) {
-				
-			// configuration
-			if ($.isFunction(conf[name]))  {
-				$(self).bind(name, conf[name]);	
-			}
-			
-			// API methods
-			self[name] = function(fn) {
-				$(self).bind(name, fn);
-				return self;
-			};
-		});		
-		
+		// configuration
+		if ($.isFunction(conf.change))  {
+			self.change(conf.change);	
+		} 
 
 		input.focus(self.show).keydown(function(e) {
 			var key = e.keyCode;
@@ -545,7 +537,7 @@
 			els = els ? els.add(input) : input;	
 		});		
 	
-		return conf.api ? el : els;		
+		return els;		
 	}; 
 	
 	
