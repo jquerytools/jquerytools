@@ -15,6 +15,8 @@
 	
 	$.tools = $.tools || {version: '@VERSION'}; 
 	$.tools.history = {}; 
+	
+	
 	var hash, iframe;		
 
 	function setIframe(h) {

@@ -294,7 +294,7 @@
 		// setup conf
 		conf = $.extend({}, $.tools.tabs.conf, conf);		
 		
-		this.each(function(i) {				
+		this.each(function() {				
 			el = new Tabs($(this), paneSelector, conf);
 			$(this).data("tabs", el); 
 		});		

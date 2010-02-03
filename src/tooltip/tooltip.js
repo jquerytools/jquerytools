@@ -1,6 +1,6 @@
 /**
  * @license 
- * jQuery Tools @VERSION Tooltip - Basics of UI design
+ * jQuery Tools @VERSION Tooltip - The basics of UI design
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/tooltip/

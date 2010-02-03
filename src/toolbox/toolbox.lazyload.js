@@ -31,7 +31,7 @@
 			fadeInSpeed: 0,			
 			growSpeed: 'slow',
 			growParent: '.grow',	// jquery || closest(growParent) || parent		
-			progress: 'Loading',
+			progress: 'Loading &hellip;',
 			loadOnScroll: false,
 			placeholder: 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
 		},
@@ -315,10 +315,10 @@
 				});				
 				
 				// onLoadAll callback 
-				self.bind("onLoad.tmp", function() {
+				$(self).bind("onLoad.tmp", function() {
 					if (!nodes.not(":loaded").length) {
 						trigger.trigger("onLoadAll", [nodes], preload);	
-						self.unbind("onLoad.tmp");
+						$(self).unbind("onLoad.tmp");
 					}
 				}); 
 				

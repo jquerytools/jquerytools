@@ -75,7 +75,9 @@
 		// get (HTML5) attributes into configuration
 		$.each("min,max,step,value".split(","), function(i, key) {
 			var val = input.attr(key);
-			conf[key] = parseFloat(val, 10);
+			if (val || val === 0) {;
+				conf[key] = parseFloat(val, 10);
+			}
 		});			   
 		
 		var range = conf.max - conf.min;
@@ -110,32 +112,33 @@
 				x = toSteps(x, conf.step, len);	
 			}
 			
-			// calculate value			
-			var v = round(x / len * range + conf.min, conf.decimals);		
+			// calculate value	
+			var isClick = e && e.originalEvent && e.originalEvent.type == "click",
+				 v = round(x / len * range + conf.min, conf.decimals);
 
 			// onSlide
-			e = e || $.Event();
-			e.type = "onSlide";
-			fire.trigger(e, [v]); 
-			if (e.isDefaultPrevented()) { return self; }  
-			
+			if (value !== undefined && !isClick) {
+				e = e || $.Event();
+				e.type = "onSlide";           
+				fire.trigger(e, [v]); 
+				if (e.isDefaultPrevented()) { return self; }  
+			}
 			
 			if (v != value)  { 
 				
 				// move handle & resize progress
-				var isClick = e && e.originalEvent && e.originalEvent.type == "click",
-					 speed = isClick ? conf.speed : 0,
-					 callback = isClick ? function()  {
+				var speed = isClick ? conf.speed : 0,
+					 fn = isClick ? function()  {
 					 	e.type = "change";
-					 	fire.trigger(e, [v]); 
+					 	fire.trigger(e, [v]);
 					 } : null;
-				
+
 				if (conf.vertical) {
-					handle.animate({top: -(x - len)}, speed, callback);
+					handle.animate({top: -(x - len)}, speed, fn);
 					progress.animate({height: x}, speed);						
 					
 				} else {
-					handle.animate({left: x}, speed, callback);
+					handle.animate({left: x}, speed, fn);
 					progress.animate({width: x}, speed);	
 				}
 				
@@ -151,8 +154,7 @@
 			
 			setValue: function(val, e) {
 				val = parseFloat(val);
-				if (!val || val == value) { return self; }
-				
+				if (val === NaN || val == value) { return self; } 
 				var x = (val - conf.min) * (len / range);	
 				return seek(x, e);	 
 			},
@@ -250,7 +252,7 @@
 		
 		init();
 		
-		self.setValue(input.val() || conf.min);
+		self.setValue(input.val() || conf.value || conf.min);
 	}
 		
 	if (tool.conf.keyboard) {
@@ -262,7 +264,8 @@
 				 key = e.keyCode,
 				 up = $([75, 76, 38, 33, 39]).index(e.keyCode) != -1,
 				 down = $([74, 72, 40, 34, 37]).index(e.keyCode) != -1;
-			
+
+				 
 			if ((up || down) && !(e.shiftKey || e.altKey) && slider) {
 			
 				// UP: 	k=75, l=76, up=38, pageup=33, right=39			

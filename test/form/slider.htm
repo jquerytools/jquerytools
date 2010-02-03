@@ -1,6 +1,6 @@
 
 <!-- /* :wrap=200: */ -->
-<script src="../jquery-1.3.2.js"></script>
+<script src="../js/jquery-1.4.1.js"></script>
 <script src="../../src/toolbox/toolbox.drag.js"></script>
 <script src="../../src/form/form.slider.js"></script>
 
@@ -19,30 +19,25 @@ body 							{ padding: 100px; }
 	}
 </style>
 
-
-<input class="range" type="range" min="0" max="10" size="10" step="10" value="5" />
-<input class="range" type="range" min="0" max="1" size="10" step="10" value="0.2" />
-<input class="range" type="range" min="0" max="1000" size="20" step="50" value="522" />
-
+<div style="display:none" id="foo">
+	<input class="range" type="range" min="0" max="10" size="10" step="10" value="5" />
+	<input class="range" type="range" min="0" max="1" size="10" step="10" value="0.2" />
+	<input class="range" type="range" min="0" max="1000" size="20" step="50" value="522" />
+</div>
 
 <script>
-$(function() {
+$(window).load(function() {
 		
-	window.slider = $("[step]").slider({hideInput: false}).bind("onBeforeSlide", function()  {
-		console.info("onBeforeSlide", this, arguments);
+	window.slider = $("[step]").slider().bind("change", function()  {
+		console.info("change", this, arguments); 
 		
-	}).bind("onSlideEnd", function() {
-		console.info("onSlideEnd", this, arguments);	
-		
-	}).bind("onSlide", function() {
-		console.info("onSlide", this, arguments);	
-		
-		
-	}).filter(":last").data("slider");
+	}).filter(":last").data("slider");   
 
 	slider.onSlide(function(e, value) {
-		console.info("input: " + value);		
+		console.info("input: " + value);	
 	});
+	
+	$("#foo").show();
 	
 });
 </script>

@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<script src="../jquery-1.3.2.js"></script>
+<script src="../js/jquery-1.3.2.js"></script>
 <script src="../../src/form/form.datepicker.js"></script>
 
 <style>
@@ -162,11 +162,11 @@ $(function() {
 		min: 365 * 1,
 		max: 365 * 2,
 
-		onPick: function(e, date) {
+		change: function(e, date) {
 			console.info(date, "picked");		
 		}
 		
-	}).one("onBeforePick", function()  {
+	}).one("change", function()  {
 	 	console.info("binded event");			
 	});
 	
