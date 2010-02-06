@@ -20,22 +20,24 @@ body 							{ padding: 100px; }
 </style>
 
 <div style="display:none" id="foo">
-	<input class="range" type="range" min="0" max="10" size="10" step="10" value="5" />
-	<input class="range" type="range" min="0" max="1" size="10" step="10" value="0.2" />
-	<input class="range" type="range" min="0" max="1000" size="20" step="50" value="522" />
+	<input class="range" type="range" min="0" max="10" size="10" 	step="0" value="5" />
+	<input class="range" type="range" min="0" max="1" size="10" 	step="0" value="0.2" />
+	<input class="range" type="range" min="0" max="1000" size="20" step="0" value="522" />
 </div>
 
 <script>
 $(window).load(function() {
 		
-	window.slider = $("[step]").slider().bind("change", function()  {
+	window.slider = $(":range").slider({decimals: 1 }).bind("change", function()  {
 		console.info("change", this, arguments); 
 		
 	}).filter(":last").data("slider");   
 
-	slider.onSlide(function(e, value) {
-		console.info("input: " + value);	
-	});
+	if (slider) {
+		slider.onSlide(function(e, value) {
+			console.info("input: " + value);	
+		});
+	}
 	
 	$("#foo").show();
 	

@@ -4,150 +4,32 @@
 <script src="../js/jquery-1.3.2.js"></script>
 <script src="../../src/form/form.datepicker.js"></script>
 
+
 <style>
-/*{{{ style */
-#picker {
-	width:198px;
-	padding:2px;
-	background-color:#ddd;
-	border:1px solid #ccc;
-	-moz-border-radius:3px;
-	position:relative;
-	font-family:"Lucida Grande","bitstream vera sans";
-	font-size:11px;
-	overflow:hidden;
+body {
+	font-family:"lucida grande","verdana","sans serif";	
+	padding:50px 100px;
 }
 
-#head {
-	background:#789;		
-	padding:2px;
-	height:22px;
-}
-
-#pickertitle {
-	font-size:12px;
-	color:#fff;	
-	float:left;
-	text-align:center;
-	width:150px;
-	line-height:2px;
-}
-
-#pm, #nm {
-	display:block;
-	width:20px;
-	height:20px;
-	border:1px solid #ccc;
-	float:left;
-}
-
-#nm {
-	float:right;
-}
-
-#days {
-	height:14px;
-	background-color:#456;
-	color:#fff;
-}
-
-#days span {
-	display:block;
-	float:left;
-	width:28px;
-	text-align:center;
-}
-
-#weeks {
-	background-color:#fff;
-	margin-top:4px;
-}
-
-.week {
-	clear:left;
-	height:24px;
-}
-
-.week:hover {
-	background-color:#efefef;		
-}
-.week a {
-	display:block;
-	float:left;
-	width:25px;
-	height:20px;
-	text-decoration:none;
-	font-size:11px;
-	border:1px solid #ddd;
-	margin-left:1px;
-	text-align:center;
-	line-height:20px;
-} 
-
-.week a:hover, .focus {
-	background-color:#789;
-	color:#fff;
-}
-
-.sun {
-	color:red;		
-}
-
-.off {
-	color:#666;		
-}
-
-.disabled {
-	background-color:#efefef !important;
-	color:#ccc	!important;
-	cursor:default;
-}
-
-.week a.off:hover {
-	background-color:#ddd;		
-}
-
-#pickertitle select {
-	font-size:10px;	
-}
-
-#today {
-	background-color:blue;
-	color:#fff;
-}
-
-/* other stuff */
-input {
-	width:200px;
-	font-size:11px;
-	font-family:"verdana";
-}
-
-.trigger {
+.picktrigger {
 	width:30px;
 	height:30px;
 	border:1px solid blue;
 }
-
-/*}}}*/
-
 </style>
 
-<h2>Minimal setup</h2>
+<link rel="stylesheet" type="text/css" href="picker.css"/>
 
-<p>Here is the minimal setup for datepicker. Just an <samp>INPUT</samp> with the <samp>type</samp> attribute fixed</p>
+
+<h2>Datepicker test page</h2>
+
 
 <!--  http://www.apple.com/iphone/iphone-3gs/more-features.html  -->
 <input type="date" class="date" name="joku" />
 
-<h3>HTML coding</h3>
 
-The demo only uses the following <samp>INPUT</samp> element for datepicker.
-
-<h3>Another one</h3>
-
-<input type="date" class="date" data-value="2004-03-20" min="2004-02-20"/>
-<div class="trigger"></div>
+<input type="date" class="date" data-value="2004-03-20" min="2004-02-20" readonly="true" />
+<div class="picktrigger"></div>
 
 <script>
 $(function() {
@@ -156,21 +38,34 @@ $(function() {
 		selectors: true,
 		// offset: [10, 10],
 		yearRange: [-3, 3],
-		easing: 'linear',
 		speed: 0,
 		firstDay: 0,
 		min: 365 * 1,
 		max: 365 * 2,
 
 		change: function(e, date) {
-			console.info(date, "picked");		
+			console.info(date, "picked", this.getDate("yy-mm-dd"));		
+		},
+		
+		onShow: function(e) {
+			console.info("onShow", this, e);
+		},
+		
+		onHide: function(e) {
+			console.info("onHide", this.getDate(), e, this);	
 		}
 		
 	}).one("change", function()  {
-	 	console.info("binded event");			
+	 	console.info("binded event");		
+	 	
+	}).one("onBeforeShow", function(e)  {
+		console.info("before show", e);
+		return true;
 	});
 	
-	
+	$(":date:first").change(function() {
+		console.info("JOOOOOOOOOOOO", this, arguments);		
+	});
 });
 </script>
 

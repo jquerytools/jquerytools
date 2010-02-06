@@ -26,7 +26,7 @@
 			max: 100,
 			step: 0, 	// Specifies the value granularity of the element's value (onSlide callbacks)
 			value: 0,			
-			decimals: 2,
+			accuracy: 2,
 			vertical: false,
 			keyboard: true,
 			
@@ -46,8 +46,8 @@
 		return Math.round(value / step) * step;		
 	}
 	
-	function round(value, decimals) {
-		var n = Math.pow(10, decimals);
+	function round(value, accuracy) {
+		var n = Math.pow(10, accuracy);
 		return Math.round(value * n) / n;
 	}
 	
@@ -75,23 +75,16 @@
 		// get (HTML5) attributes into configuration
 		$.each("min,max,step,value".split(","), function(i, key) {
 			var val = input.attr(key);
-			if (val || val === 0) {;
+			if (val || val === 0) {
 				conf[key] = parseFloat(val, 10);
 			}
 		});			   
 		
 		var range = conf.max - conf.min;
 		
-		/* replace build-in range element for cross browser consistency
-			NOTE: input.attr("type", "text") throws exception by the browser */
-			
+		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input[0].getAttribute("type") == 'range') {
-			var tmp = $('<input/>')
-				.attr("type", "text")
-				.addClass(input.attr("className"))
-				.attr("name", input.attr("name"))
-				.attr("disabled", input.attr("disabled")).val(input.val());					
-	
+			var tmp = input.clone().attr("type", "text");
 			input.replaceWith(tmp);
 			input = tmp;
 		}
@@ -106,7 +99,7 @@
 			
 			// fit inside the slider		
 			x = Math.min(Math.max(0, x), len);			 
-			
+
 			// increment in steps
 			if (conf.step) {
 				x = toSteps(x, conf.step, len);	
@@ -114,7 +107,7 @@
 			
 			// calculate value	
 			var isClick = e && e.originalEvent && e.originalEvent.type == "click",
-				 v = round(x / len * range + conf.min, conf.decimals);
+				 v = round(x / len * range + conf.min, conf.accuracy);
 
 			// onSlide
 			if (value !== undefined && !isClick) {
@@ -154,7 +147,7 @@
 			
 			setValue: function(val, e) {
 				val = parseFloat(val);
-				if (val === NaN || val == value) { return self; } 
+				if (isNaN(val) || val == value) { return self; } 
 				var x = (val - conf.min) * (len / range);	
 				return seek(x, e);	 
 			},
@@ -180,8 +173,8 @@
 			}, 
 				
 			step: function(am, e) {
-				var x = Math.max(len / conf.step || conf.size || 10, 2);
-				return seek(pos + x * am, e);
+				if (conf.max <= 1) { am /= 10; } 
+				return self.setValue(value + am);
 			},
 			
 			next: function() {
@@ -270,11 +263,11 @@
 			
 				// UP: 	k=75, l=76, up=38, pageup=33, right=39			
 				if (up) {
-					slider.step(e.ctrlKey || key == 33 ? 5 : 1, e);
+					slider.step(e.ctrlKey || key == 33 ? 10 : 1, e);
 					
 				// DOWN:	j=74, h=72, down=40, pagedown=34, left=37
 				} else if (down) {
-					slider.step(e.ctrlKey || key == 34 ? -5 : -1, e); 
+					slider.step(e.ctrlKey || key == 34 ? -10 : -1, e); 
 				} 
 				return e.preventDefault();
 			} 
@@ -286,7 +279,12 @@
 		}); 
 	}
 	
-		
+	$.expr[':'].range = function(el) {
+		var type = el.getAttribute("type");
+		return type && type == 'range' || !!$(el).filter("input").data("slider");
+	};
+	
+	
 	// jQuery plugin implementation
 	$.fn.slider = function(conf) {
 
@@ -304,7 +302,7 @@
 			els = els ? els.add(input) : input;	
 		});		
 		
-		return els; 
+		return els ? els : this; 
 	};	
 	
 	

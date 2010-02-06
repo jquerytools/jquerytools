@@ -12,10 +12,14 @@
  * Date: @DATE 
  */
 (function($) {	
-
+		
+	/* TODO: 
+		 preserve today highlighted
+	*/
+	
 	$.tools = $.tools || {version: '@VERSION'};
 	
-	var instances = [], tool;
+	var instances = [], tool, LABELS = {};
 	
 	tool = $.tools.datepicker = {
 		
@@ -32,38 +36,46 @@
 			
 			css: {
 				
+				prefix: 'pick',
+				
 				// ids
-				root: 'picker'	,
-				head: 'head',
-				title: 'pickertitle', 
-				previousMonth: 'pm',
-				nextMonth: 'nm',
-				monthSelector: 'monthSelector',
-				yearSelector: 'yearSelector', 
-				days: 'days',
-				weeks: 'weeks',
-				today: 'today',				
-				trigger: 'trigger',
+				root: 0,
+				head: 0,
+				title: 0, 
+				prev: 0,
+				next: 0,
+				month: 0,
+				year: 0, 
+				days: 0,
+				weeks: 0,
+				today: 0,				 
 				
 				// classnames
-				week: 'week', 
-				offmonth: 'off',
-				sunday: 'sun',
-				focus: 'focus',
-				disabled: 'disabled'
+				week: 0, 
+				off: 0,
+				sunday: 0,
+				focus: 0,
+				disabled: 0,
+				trigger: 0
 			}  
-		} 
+		},
+		
+		localize: function(language, labels) {
+			$.each(labels, function(key, val) {
+				labels[key] = val.split(/,\\s*/);		
+			});
+			LABELS[language] = labels;	
+		}
+		
 	};
 	
-	var LABELS = {
-		en:  {
-			months: 		 ['January','February','March','April','May','June',
-	  					 		'July','August','September','October','November','December'], 
-			shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],  
-			days: 		 ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], 
-			shortDays: 	 ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']	  
-		}
-	};
+	tool.localize("en", {
+		months: 		 'January,February,March,April,May,June,July,August,September,October,November,December', 
+		shortMonths: 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec',  
+		days: 		 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday', 
+		shortDays: 	 'Sun,Mon,Tue,Wed,Thu,Fri,Sat'	  
+	});
+
 	
 //{{{ private functions
 		
@@ -78,11 +90,11 @@
 		len = len || 2;
 		while (val.length < len) { val = "0" + val; }
 		return val;
-	}
-		
-	var Re = /d{1,4}|m{1,4}|yy(?:yy)?|"[^"]*"|'[^']*'/g;
+	}  
 
 	// thanks: http://stevenlevithan.com/assets/misc/date.format.js 
+	var Re = /d{1,4}|m{1,4}|yy(?:yy)?|"[^"]*"|'[^']*'/g;
+	
 	function format(date, fmt, lang) {
 		
 	  var d = date.getDate(),
@@ -145,18 +157,13 @@
 			 title = root.find("#" + css.title),
 			 pm, nm, 
 			 currYear, currMonth, currDay,
-			 value = rfc3339(input.attr("data-value") || input.val()),
+			 value = rfc3339(input.attr("data-value") || conf.value || input.val()),
 			 min = rfc3339(input.attr("min")) || roll(value, conf.min), 
 			 max = rfc3339(input.attr("max")) || roll(value, conf.max);
 			 
-			 
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input[0].getAttribute("type") == 'date') {
-			var tmp = $('<input/>')
-				.attr("type", "text")
-				.attr("name", input.attr("name"))
-				.addClass(input.attr("className"));					
-				
+			var tmp = input.clone().attr("type", "text");
 			input.replaceWith(tmp);
 			input = tmp;
 		}
@@ -173,22 +180,23 @@
 		if (!root.length) {
 			
 			// root
-			root = $('<div><div><a/><div/><a/></div><div/><div/></div>').hide().css({position: 'absolute'}).attr("id", css.root);			
+			root = $('<div><div><a/><div/><a/></div><div/><div/></div>')
+				.hide().css({position: 'absolute'}).attr("id", css.root);			
 						
 			// elements
 			root.children()
 				.eq(0).attr("id", css.head).end()
 				.eq(1).attr("id", css.days).end()
 				.eq(2).attr("id", css.weeks).end()
-				.find("a").eq(0).attr("id", css.previousMonth).end().eq(1).attr("id", css.nextMonth);		 				  
+				.find("a").eq(0).attr("id", css.prev).end().eq(1).attr("id", css.next);		 				  
 			
 			// title
 			title = root.find("#" + css.head).find("div").attr("id", css.title);
 			
 			// year & month selectors
 			if (conf.selectors) {				
-				var monthSelector = $("<select/>").attr("id", css.monthSelector),
-					 yearSelector = $("<select/>").attr("id", css.yearSelector);				
+				var monthSelector = $("<select/>").attr("id", css.month),
+					 yearSelector = $("<select/>").attr("id", css.year);				
 				title.append(monthSelector.add(yearSelector));
 			}						
 			
@@ -204,11 +212,17 @@
 		
 		// layout elements
 		var weeks = root.find("#" + css.weeks);
-		yearSelector = root.find("#" + css.yearSelector);
-		monthSelector = root.find("#" + css.monthSelector);
+		yearSelector = root.find("#" + css.year);
+		monthSelector = root.find("#" + css.month);
 			 
 			 
 		function pick(date, conf, e) {  
+
+			if (input.is("[readonly]")) { return; }
+				
+			// store date
+			value = date;
+			input.data("date", date);
 			
 			// onPick
 			e.type = "change";
@@ -217,26 +231,30 @@
 			
 			// formatting			
 			input.val(format(date, conf.format, conf.lang));
-			
-			// store date
-			input.data("date", date);
-			
-			self.hide(); 
+
+			self.hide(e); 
 		}
 
-		function setupKeyboard() {
+		function onShow(ev) {
 			
-			// keyboard actions
-			$(document).bind("keydown.dp", function(e) {
-					
-				var key = e.keyCode;				
+			ev.type = "onShow";
+			fire.trigger(ev);  
+			
+			$(document).bind("keydown.dp", function(e) { 
+				
+				var key = e.keyCode;			 
 				
 				// esc key
-				if (key == 27) { return self.hide(); }						
-										
+				if (key == 27) { return self.hide(e); }						
+									
 				// h=72, j=74, k=75, l=76, down=40, left=37, up=38, right=39			
-				if ($([75, 76, 38, 39, 74, 72, 40, 37]).index(key) != -1) {
-		
+				if ($([75, 76, 38, 39, 74, 72, 40, 37]).index(key) >= 0) {
+					
+					if (root.is(":hidden")) { 
+						self.show(e); 
+						return e.preventDefault();
+					} 
+					
 					var days = $("#" + css.weeks + " a"), 
 						 el = $("." + css.focus),
 						 index = days.index(el);
@@ -261,7 +279,8 @@
 					}
 					
 					el.addClass(css.focus);
-					return false;
+					return e.preventDefault();
+					
 				}
 			 
 				// pageUp / pageDown
@@ -269,31 +288,39 @@
 				if (key == 33) { return self.prev(); }
 				
 				// home
-				if (key == 36) { return self.setDate(); }
-				
+				if (key == 36) { return self.today(); } 
 				
 				// enter
 				if (key == 13) {
 					if (!$(e.target).is("select")) {
-						pick($("." + css.focus).data("date"), conf, e);
-					}
+						pick($("." + css.focus).data("date"), conf, e); 
+					} 
 				}
 				
+				return $([16, 17, 18, 9]).index(key) >= 0;  				
 			});
+			
 			
 			// click outside datepicker
 			$(window).bind("click.dp", function(e) {
 				var el = e.target;
 				if (!$(el).parents("#" + css.root).length && el != input[0] && el != trigger[0]) { 
-					self.hide(); 
+					self.hide(e); 
 				}
-			});					 
-		}		
+			}); 
+		}
+		
 		
 		$.extend(self, {
 			
-			show: function() {
+			show: function(e) {
 				
+				// onBeforeShow
+				e = e || $.Event();
+				e.type = "onBeforeShow";
+				fire.trigger(e);
+				if (e.isDefaultPrevented()) { return; }
+			
 				$.each(instances, function() {
 					this.hide();	
 				});
@@ -309,14 +336,14 @@
 				});
 				
 				// prev / next month
-				pm = root.find("#" + css.previousMonth).unbind("click").click(function(e) {
+				pm = root.find("#" + css.prev).unbind("click").click(function(e) {
 					if (!pm.hasClass(css.disabled)) {	
 						self.prev();
 					}
 					return false;
 				});
 				
-				nm = root.find("#" + css.nextMonth).unbind("click").click(function(e) {
+				nm = root.find("#" + css.next).unbind("click").click(function(e) {
 					if (!nm.hasClass(css.disabled)) {
 						self.next();
 					}
@@ -324,7 +351,7 @@
 				});	 
 				
 				// set date
-				self.setDate();				 
+				self.today();				 
 				
 				
 				// show datepickerer
@@ -336,10 +363,12 @@
 				});
 				
 				if (conf.speed) {
-					root.show(conf.speed, setupKeyboard);	
+					root.show(conf.speed, function() {
+						onShow(e);			
+					});	
 				} else {
 					root.show();
-					setupKeyboard();
+					onShow(e);
 				}
 				
 				return self;
@@ -418,12 +447,12 @@
 					}					
 					
 					if (j < begin)  { 
-						a.addClass(css.offmonth); 
+						a.addClass(css.off); 
 						num = prevDays - begin + j + 1;
 						date = new Date(year, month-1, num);
 						
 					} else if (j >= begin + days)  {
-						a.addClass(css.offmonth);	
+						a.addClass(css.off);	
 						num = j - days - begin + 1;
 						date = new Date(year, month+1, num);
 						
@@ -472,6 +501,10 @@
 				return self;
 			}, 
 	
+			today: function() {
+				return self.setDate();	
+			},
+			
 			next: function(day) {
 				return this.setDate(currYear, currMonth + 1, day);	
 			},
@@ -488,37 +521,81 @@
 				return this.setDate(currYear - 1, currMonth, day);	
 			},
 						
-			hide: function() {				
-				$(window).unbind("click.dp");
-				$(document).unbind("keydown.dp");	
-				root.hide();	
+			hide: function(e) {				
+				
+				if (root.is(":visible")) {
+					root.hide();
+					$(window).unbind("click.dp"); 
+					$(document).unbind("keydown.dp");
+					
+					// onHide
+					e = e || $.Event();
+					e.type = "onHide";
+					fire.trigger(e);
+				}
+				
 				return self;
+			},
+			
+			getConf: function() {
+				return conf;	
 			},
 			
 			getInput: function() {
 				return input;	
 			},
 			
-			change: function(fn) {
-				$(self).bind("change", fn);
-				return self;	
+			getPicker: function() {
+				return root;	
+			},
+			
+			getDate: function(dateFormat) {
+				return dateFormat ? format(value, dateFormat, conf.lang) : value;	
 			}
 			
 		}); 
 		
-		// configuration
-		if ($.isFunction(conf.change))  {
-			self.change(conf.change);	
-		} 
-
-		input.focus(self.show).keydown(function(e) {
-			var key = e.keyCode;
-			return key == 9 || key == 27;	
+		// callbacks	
+		$.each("onBeforeShow,onShow,change,onHide".split(","), function(i, name) {
+				
+			// configuration
+			if ($.isFunction(conf[name]))  {
+				$(self).bind(name, conf[name]);	
+			}
+			
+			// API methods				
+			self[name] = function(fn) {
+				$(self).bind(name, fn);
+				return self;
+			};
 		});
+
+		
+		// show datepicker & assign keyboard shortcuts
+		input.focus(self.show).keydown(function(e) {
+
+			var key = e.keyCode;
+			
+			// open datepicker with navigation keyw
+			if (root.is(":hidden") &&  $([75, 76, 38, 39, 74, 72, 40, 37]).index(key) >= 0) {
+				self.show(e);
+				return e.preventDefault();
+			} 
+			
+			// allow tab
+			return e.shiftKey || e.ctrlKey || e.altKey || key == 9 ? true : e.preventDefault();   
+			
+		}); 
 		
 		// trigger icon
 		trigger.click(self.show);		
+		
 	} 
+	
+	$.expr[':'].date = function(el) {
+		var type = el.getAttribute("type");
+		return type && type == 'date' || !!$(el).data("datepicker");
+	};
 	
 	
 	$.fn.datepicker = function(conf) {   
@@ -530,6 +607,13 @@
 		// configuration
 		conf = $.extend({}, tool.conf, conf);		
 		
+		// CSS prefix
+		$.each(conf.css, function(key, val) {
+			if (!val && key != 'prefix') { 
+				conf.css[key] = (conf.css.prefix || '') + (val || key);
+			}
+		});		
+	
 		this.each(function() {									
 			el = new Datepicker($(this), conf);
 			instances.push(el);
@@ -537,7 +621,7 @@
 			els = els ? els.add(input) : input;	
 		});		
 	
-		return els;		
+		return els ? els : this;		
 	}; 
 	
 	
