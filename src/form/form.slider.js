@@ -34,9 +34,12 @@
 			speed: 200,
 			
 			// set to null if not needed
-			sliderClass: 'slider',
-			progressClass: 'progress',
-			handleClass: 'handle'
+			css: {
+				slider: 		'slider',
+				progress: 	'progress',
+				handle: 		'handle'					
+			}
+
 		}
 		
 	};
@@ -64,13 +67,13 @@
 			 origo,			// handle's start point
 			 len,				// length of the slider
 			 pos,				// current position of the handle
-			 progress,		// progress "bar"
+			 progress,		// progressbar
 			 handle;			// drag handle 
 			 
 		// create slider	 
 		input.before(root);	
-		handle = root.addClass(conf.sliderClass).find("a").addClass(conf.handleClass);
-		progress = root.find("div").addClass(conf.progressClass);  		   
+		handle = root.addClass(conf.css.slider).find("a").addClass(conf.css.handle);
+		progress = root.find("div").addClass(conf.css.progress);  		   
 		
 		// get (HTML5) attributes into configuration
 		$.each("min,max,step,value".split(","), function(i, key) {
@@ -128,11 +131,11 @@
 
 				if (conf.vertical) {
 					handle.animate({top: -(x - len)}, speed, fn);
-					progress.animate({height: x}, speed);						
+					if (conf.css.progress) { progress.animate({height: x}, speed);	}				
 					
 				} else {
 					handle.animate({left: x}, speed, fn);
-					progress.animate({width: x}, speed);	
+					if (conf.css.progress) { progress.animate({width: x}, speed); }
 				}
 				
 				value = v; 
@@ -294,10 +297,10 @@
 		
 		
 		// extend configuration with globals
-		conf = $.extend({}, tool.conf, conf);		
+		conf = $.extend(true, {}, tool.conf, conf);		
 		
 		this.each(function() {				
-			el = new Slider($(this), $.extend({}, conf));		 
+			el = new Slider($(this), $.extend(true, {}, conf));		 
 			var input = el.getInput().data("slider", el);
 			els = els ? els.add(input) : input;	
 		});		

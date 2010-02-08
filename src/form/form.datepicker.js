@@ -62,7 +62,7 @@
 		
 		localize: function(language, labels) {
 			$.each(labels, function(key, val) {
-				labels[key] = val.split(/,\\s*/);		
+				labels[key] = val.split(",");		
 			});
 			LABELS[language] = labels;	
 		}
@@ -93,7 +93,7 @@
 	}  
 
 	// thanks: http://stevenlevithan.com/assets/misc/date.format.js 
-	var Re = /d{1,4}|m{1,4}|yy(?:yy)?|"[^"]*"|'[^']*'/g;
+	var Re = /d{1,4}|m{1,4}|yy(?:yy)?|"[^"]*"|'[^']*'/g, tmpTag = $("<a/>");
 	
 	function format(date, fmt, lang) {
 		
@@ -115,9 +115,12 @@
 				yyyy: y
 			};
 
-		return fmt.replace(Re, function ($0) {
+		var ret = fmt.replace(Re, function ($0) {
 			return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
 		});
+		
+		// a small trick to handle special characters
+		return tmpTag.html(ret).html();
 		
 	}
 	
@@ -127,14 +130,14 @@
 	
 	function rfc3339(val) {
 		if (val) {
-			val = val.split("-");		
+			val = val.toString().split("-");		
 			if (val.length == 3) {
 				return new Date(integer(val[0]), integer(val[1]) -1, integer(val[2]));
 			}
 		}
 	}
 	
-	function roll(date, am) {
+	function roll(date, am) { 
 		if (date && am) {
 			var ret = new Date(date);
 			ret.setDate(ret.getDate() + am);
@@ -158,8 +161,13 @@
 			 pm, nm, 
 			 currYear, currMonth, currDay,
 			 value = rfc3339(input.attr("data-value") || conf.value || input.val()),
-			 min = rfc3339(input.attr("min")) || roll(value, conf.min), 
-			 max = rfc3339(input.attr("max")) || roll(value, conf.max);
+			 
+			 min = rfc3339(input.attr("min")) || rfc3339(conf.min) || 
+			 			roll(value, -Math.abs(conf.min) || conf.yearRange[0] * 365), 
+			 			
+			 max = rfc3339(input.attr("max")) || rfc3339(conf.max) || 
+			 			roll(value, conf.max || conf.yearRange[1] * 365);
+
 			 
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input[0].getAttribute("type") == 'date') {
@@ -405,22 +413,22 @@
 					 days = dayAm(year, month),
 					 prevDays = dayAm(year, month - 1),
 					 week;	 
-					 
+				
 				// selectors
 				if (conf.selectors) { 
 					
 					// month selector
 					monthSelector.empty();
 					$.each(labels.months, function(i, m) {					
-						if ((!min || min < new Date(year, i + 1, -1)) && (!max || max > new Date(year, i, 0))) {
-							monthSelector.append($("<option/>").text(m).attr("value", i));
+						if (min < new Date(year, i + 1, -1) && max > new Date(year, i, 0)) {
+							monthSelector.append($("<option/>").html(m).attr("value", i));
 						}
 					});
 					
 					// year selector
 					yearSelector.empty();					
 					for (var i = year + conf.yearRange[0];  i < year + conf.yearRange[1]; i++) {
-						if ((!min || min < new Date(i + 1, -1, 0)) && (!max || max > new Date(i, 0, 0))) {
+						if (min < new Date(i + 1, -1, 0) && max > new Date(i, 0, 0)) {
 							yearSelector.append($("<option/>").text(i));
 						}
 					}		

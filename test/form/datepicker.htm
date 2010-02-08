@@ -25,13 +25,22 @@ body {
 
 
 <!--  http://www.apple.com/iphone/iphone-3gs/more-features.html  -->
-<input type="date" class="date" name="joku" />
+<input type="date" class="date" name="joku" data-value="2004-02-20"  />
 
 
-<input type="date" class="date" data-value="2004-03-20" min="2004-02-20" readonly="true" />
+<input type="date" class="date" data-value="2004-02-20" min="2004-02-20"  />
+
+<input type="date" class="date" data-value="2004-02-20" min="2004-02-20"  />
 <div class="picktrigger"></div>
 
 <script>
+$.tools.datepicker.localize("fr",  {
+	months: 			'Janvier,F&eacute;vrier,Mars,Avril,Mai,Juin,Juillet,Ao&ucirc;t,Septembre,Octobre,Novembre,D&eacute;cembre', 
+	shortMonths: 	'Jan,F&eacute;v,Mar,Avr,Mai,Jun,Jul,Ao&ucirc;,Sep,Oct,Nov,D&eacute;c',
+	days: 			'Dimanche,Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi',
+	shortDays: 		'Dim,Lun,Mar,Mer,Jeu,Ven,Sam'	
+});
+
 $(function() {
 	var els = $(".date").datepicker({
 		format: 'dddd dd mmmm yyyy',
@@ -42,29 +51,30 @@ $(function() {
 		firstDay: 0,
 		min: 365 * 1,
 		max: 365 * 2,
+		lang: 'fr',
 
 		change: function(e, date) {
-			console.info(date, "picked", this.getDate("yy-mm-dd"));		
+			//console.info(date, "picked", this.getDate("yy-mm-dd"));		
 		},
 		
 		onShow: function(e) {
-			console.info("onShow", this, e);
+			//console.info("onShow", this, e);
 		},
 		
 		onHide: function(e) {
-			console.info("onHide", this.getDate(), e, this);	
+			//console.info("onHide", this.getDate(), e, this);	
 		}
 		
 	}).one("change", function()  {
-	 	console.info("binded event");		
+	 	//console.info("binded event");		
 	 	
 	}).one("onBeforeShow", function(e)  {
-		console.info("before show", e);
+		//console.info("before show", e);
 		return true;
 	});
 	
 	$(":date:first").change(function() {
-		console.info("JOOOOOOOOOOOO", this, arguments);		
+		//console.info("JOOOOOOOOOOOO", this, arguments);		
 	});
 });
 </script>
