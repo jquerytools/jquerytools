@@ -2,12 +2,12 @@
 <!-- /* :wrap=200: */ -->
 <script src="../js/jquery-1.4.1.js"></script>
 <script src="../../src/toolbox/toolbox.drag.js"></script>
-<script src="../../src/form/form.slider.js"></script>
+<script src="../../src/form/form.range.js"></script>
 
 
 <style>
 body 							{ padding: 100px; }
-.slider 						{ background:url(img/widgets.png) no-repeat -17px -8px; width:94px; height:5px; position:relative; cursor:pointer; float:left; }
+.range 						{ background:url(img/widgets.png) no-repeat -17px -8px; width:94px; height:5px; position:relative; cursor:pointer; float:left; }
 .handle 						{ background:transparent url(img/widgets.png) no-repeat scroll -112px -3px; height:16px; position:absolute; top:-5px; width:16px; }
 .range						{ font-size:10px; border:0; background:none; float:left; width: 30px; margin-top:-5px; cursor:pointer; }
 .range:focus				{ background-color:#fff; -moz-border-radius:2px; -webkit-border-radius:2px; }
@@ -28,13 +28,13 @@ body 							{ padding: 100px; }
 <script>
 $(window).load(function() {
 		
-	window.slider = $(":range").slider({decimals: 1 }).bind("change", function()  {
+	window.range = $(":range").range({decimals: 1 }).bind("change", function()  {
 		console.info("change", this, arguments); 
 		
-	}).filter(":last").data("slider");   
+	}).filter(":last").data("range");   
 
-	if (slider) {
-		slider.onSlide(function(e, value) {
+	if (range) {
+		range.onSlide(function(e, value) {
 			console.info("input: " + value);	
 		});
 	}

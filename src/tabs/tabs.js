@@ -26,7 +26,6 @@
 			effect: 'default',
 			initialIndex: 0,			
 			event: 'click',
-			api: false,
 			rotate: false,
 			
 			// 1.2
@@ -126,8 +125,9 @@
 		$.extend(this, {				
 			click: function(i, e) {
 				
-				var pane = self.getCurrentPane(),
-					 tab = tabs.eq(i);												 
+				if (panes.eq(i).is(":visible")) { return self; }
+				
+				var tab = tabs.eq(i);												 
 				
 				if (typeof i == 'string' && i.replace("#", "")) {
 					tab = tabs.filter("[href*=" + i.replace("#", "") + "]");

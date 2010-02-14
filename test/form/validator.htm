@@ -1,14 +1,23 @@
 
 <!DOCTYPE html>        
-<script src="../jquery-1.3.2.js"></script>
+<script src="../js/jquery-1.4.1.min.js"></script>
 <script src="../../src/form/form.validator.js"></script>
 
 <style>
+body {
+	padding:100px;		
+	font:11px sans-serif;
+}
+
 input.error {
 	border:1px solid red;		
 }
+
 div.error {
 	display:none;		
+	border:1px solid #667;
+	background:#eee;
+	padding:0 5px;
 }
 </style>
 
@@ -34,8 +43,8 @@ VALIDATION
 			# number (good with max / maxlenght)
 			# email 
 			# url 
-			# range (slider)
-			# date, datetime, month, time, week (datepicker)
+			# range (range)
+			# date, datetime, month, time, week (dateinput)
 			
 -->			
 

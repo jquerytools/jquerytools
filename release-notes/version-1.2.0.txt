@@ -5,7 +5,7 @@ Fundamental changes
 	- expose is now toolbox/mask
 	- flashembed is now under toolbox
 	- tabs.history and scrollable.mousewheel are now under toolbox as a standalone utilities
-	- toolbox.drag is used by the slider. a generic drag utility by threedubmedia. fast and compact
+	- toolbox.drag is used by the range. a generic drag utility by threedubmedia. fast and compact
 	- accordion tool is custom work by Dean Edwards. will not be used in 1.2
 	- overlay.gallery is removed in favor to tabs.slideshow. the grow effect is supplied by lazyload plugin
 	          
@@ -29,6 +29,7 @@ tabs
 	- lazyload flag
 	- deprecated "ajax" effect in favor of lazyloading plugin
 	- deprecated "horizontal" effect. separate accordion plugin will be released later
+	- if a pane is already visible it is not "clicked" in vain. prevents redundant fadeIn effects when effect is set to "fade"
 	
 	slideshow
 		- play/pause/stop/event bindings to slideshow plugin itself

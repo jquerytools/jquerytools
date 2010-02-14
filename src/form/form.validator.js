@@ -15,7 +15,7 @@
 (function($) {	
 
 	$.tools = $.tools || {version: '@VERSION'};
-	
+		
 	// globals
 	var customRe = /(\w+)\(?([^)]*)\)?/, 
 		typeRe = /\[type=([a-z]+)\]/, 
@@ -30,14 +30,20 @@
 		
 		conf: { 
 			singleField: false, 			// validate all inputs at once
-			singleError: false, 			// show all error messages inside the same container element 
-			errorClass: 'error',			// input field class name in case of validation error
-			messageClass: 'error',		// error message element's class name
-			messagePosition: 'after',	// error message position related to the field		
-			lang: 'en',						// default language for error messages 
-			effect: 'default',			// show/hide effect for error message. only 'default' is built-in	
+			allErrors: false, 			// show all error messages at once inside the container 
+			speed: 'normal',				// message's fade-in speed
 			
-												// when to check for validity?
+			message: '<div><span/></div>',
+			position: 'top center',
+			offset: [-10, 0], 
+			relative: false,				// advanced position flag. rarely needed
+			messageClass: 'error',		// error message element's class name
+			errorClass: 'invalid',		// input field class name in case of validation error			
+			
+			lang: 'en',						// default language for error messages 
+			effect: 'default',			// show/hide effect for error message. only 'default' is built-in
+			
+			// when to check for validity?
 			events: {
 				form:  'submit', 			// form events 				(VALID: click || keypress || mouseover)
 				input: null,				// input field events 		(VALID: change || blur || keyup)
@@ -93,6 +99,33 @@
 		
 	};
 	
+	/* calculate tip position relative to the trigger */  	
+	function getPosition(trigger, el, conf) {	
+		
+		// get origin top/left position 
+		var top = conf.relative ? trigger.position().top : trigger.offset().top, 
+			 left = conf.relative ? trigger.position().left : trigger.offset().left,	 
+			 pos = conf.position.split(/,?\s+/),
+			 y = pos[0],
+			 x = pos[1];
+
+		top  -= el.outerHeight() - conf.offset[0];
+		left += trigger.outerWidth() + conf.offset[1];
+		
+		// adjust Y		
+		var height = el.outerHeight() + trigger.outerHeight();
+		if (y == 'center') 	{ top += height / 2; }
+		if (y == 'bottom') 	{ top += height; }
+		
+		// adjust X
+		var width = el.outerWidth() + trigger.outerWidth();
+		if (x == 'center') 	{ left -= width / 2; }
+		if (x == 'left')   	{ left -= width; }	 
+		
+		return {top: top, left: left};
+	}	
+	
+	
 	var fns = [], fnx = {}, effects = {
 		
 		'default' : [
@@ -109,33 +142,43 @@
 					var input = err.input;					
 					input.addClass(conf.errorClass);
 					
-					// get handle to existing error container
-					var msg = input.next("." + conf.messageClass); 
+					// get handle to the error container
+					var msg = input.data("msg.el"); 
 					
 					// create it if not present
-					if (!msg.length) {
-						msg = $("<div/>").addClass(conf.messageClass).fadeIn();
-						
-						if (conf.messagePosition == 'after') {
-							input.after(msg);		
-						} else {
-							input.before(msg);	
-						}						
-					}
+					if (!msg) { 
+						msg = $(conf.message).addClass(conf.messageClass).appendTo(document.body);
+						input.data("msg.el", msg);
+					}  
 					
-					// populate errors into the container
-					msg.empty();					
-					$.each(err.messages, function() {
+					// clear the container 
+					msg.find("p").remove().css({visibility: 'hidden'});
+					
+					// populate messages
+					$.each(err.messages, function() {                   
 						msg.append("<p>" + this + "</p>");			
 					});
 					
+					// make sure the width is sane (not the body's width)
+					if (msg.outerWidth() == msg.parent().width()) {
+						msg.add(msg.find("p")).css({display: 'inline'});		
+					}
+					
+					// insert into correct position (relative to the field)
+					var pos = getPosition(input, msg, conf); 
+					 
+					msg.css({ visibility: 'visible', position: 'absolute', top: pos.top, left: pos.left })
+						.fadeIn(conf.speed);    
+				
 				});
+						
 				
 			// hide errors function
 			}, function(inputs, done) {
 				var conf = this.getConf();				
-				inputs.removeClass(conf.errorClass);
-				inputs.siblings("." + conf.messageClass).remove();
+				inputs.removeClass(conf.errorClass).each(function() {
+					$(this).data("msg.el").css({visibility: 'hidden'});		
+				});
 			}
 		]  
 	};	
@@ -160,7 +203,7 @@
 		return !v || urlRe.test(v);
 	});
 	
-	v.fn(isType("number"), "Numeric value required", function(el, v) {
+	v.fn(isType("number"), "Please supply a numeric value.", function(el, v) {
 		return numRe.test(v);			
 	});
 	
@@ -174,7 +217,7 @@
 		return parseFloat(v) >= parseFloat(min) ? true : min;
 	});
 	
-	v.fn("[required]", "Value is required", function(el, v) {
+	v.fn("[required]", "Please complete this mandatory field.", function(el, v) {
 		return !!v; 			
 	});
 	
@@ -245,7 +288,7 @@
 			var key = matcher.key || matcher,
 				 msg = v.messages[key] || v.messages["*"];
 			
-			if (!conf.singleError || !to.length) {
+			if (conf.allErrors || !to.length) {
 				
 				// localization
 				msg = msg[conf.lang];
@@ -286,14 +329,17 @@
 				// onBeforeValidate
 				e.type = "onBeforeValidate";
 				fire.trigger(e, [els]);				
-				if (e.isDefaultPrevented()) { return e.result; }
-				
+				if (e.isDefaultPrevented()) { return e.result; }				
 					
-				var errs = [], event = conf.events.error + ".v";
+				var errs = [], 
+					 event = conf.events.error + ".v";
 				
 				// loop trough the inputs
 				els.each(function() {
-					var el = $(this).unbind(event).data("messages", []);					
+						
+					// field and it's error message container						
+					var msgs = [], 
+						 el = $(this).unbind(event).data("messages", msgs);					
 					
 					// loop all validator functions
 					$.each(fns, function() {
@@ -311,10 +357,7 @@
 								// onBeforeFail
 								e.type = "onBeforeFail";
 								fire.trigger(e, [el, match]);
-								if (e.isDefaultPrevented()) { return false; }
-								
-								// error message container for a field
-								var msgs = el.data("messages");
+								if (e.isDefaultPrevented()) { return false; } 
 								
 								// custom validator return value
 								if ($.isArray(ret) && typeof ret[0] == 'object') { 
@@ -326,25 +369,30 @@
 								} else {
 									pushMessage(msgs, match, ret);	
 								}
-								
-								errs.push({input: el, messages: msgs});  
-								
-								// begin validating upon error event type (such as keyup) 
-								if (conf.events.error) {
-									el.bind(event, function() {
-										self.checkValidity(el);		
-									});							
-								}
-								
-								// trigger HTML5 ininvalid event
-								el.trigger("oninvalid", [msgs]);
 							}							
 						}
 					});
 					
+					if (msgs.length) {
+					
+						
+						errs.push({input: el, messages: msgs});  
+						
+						// trigger HTML5 ininvalid event
+						el.trigger("oninvalid", [msgs]);
+						
+						// begin validating upon error event type (such as keyup) 
+						if (conf.events.error) {
+							el.bind(event, function() {
+								self.checkValidity(el);		
+							});							
+						} 					
+					}
+					
 					if (conf.singleField && errs.length) { return false; }
 					
 				});
+				
 				
 				// validation done. now check that we have a proper effect at hand
 				var eff = effects[conf.effect];

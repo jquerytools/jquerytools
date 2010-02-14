@@ -1,9 +1,9 @@
 /**
  * @license                                     
- * jQuery Tools @VERSION Datepicker - HTML5 <input type="date" /> for humans
+ * jQuery Tools @VERSION Dateinput - <input type="date" /> for humans
  * 
  * Copyright (c) 2010 Tero Piirainen
- * http://flowplayer.org/tools/form/datepicker/
+ * http://flowplayer.org/tools/form/dateinput/
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
@@ -21,7 +21,7 @@
 	
 	var instances = [], tool, LABELS = {};
 	
-	tool = $.tools.datepicker = {
+	tool = $.tools.dateinput = {
 		
 		conf: { 
 			format: 'mm/dd/yy',
@@ -29,14 +29,16 @@
 			yearRange: [-5, 5],
 			lang: 'en',
 			offset: [0, 0],
-			speed: 100,
+			speed: 0,
 			firstDay: 0, // The first day of the week, Sun = 0, Mon = 1, ...
 			min: 0,
 			max: 0,
+			trigger: false,
 			
 			css: {
 				
-				prefix: 'pick',
+				prefix: 'cal',
+				input: 'date',
 				
 				// ids
 				root: 0,
@@ -149,15 +151,15 @@
 		
 	
 	
-	function Datepicker(input, conf)  { 
+	function Dateinput(input, conf)  { 
 
 		// variables
 		var self = this,  
 			 css = conf.css,
 			 labels = LABELS[conf.lang],
 			 root = $("#" + css.root),
-			 trigger = input.next("." + css.trigger),
 			 title = root.find("#" + css.title),
+			 trigger,
 			 pm, nm, 
 			 currYear, currMonth, currDay,
 			 value = rfc3339(input.attr("data-value") || conf.value || input.val()),
@@ -171,7 +173,7 @@
 			 
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input[0].getAttribute("type") == 'date') {
-			var tmp = input.clone().attr("type", "text");
+			var tmp = input.clone().attr("type", "text").addClass(css.input);
 			input.replaceWith(tmp);
 			input = tmp;
 		}
@@ -217,6 +219,16 @@
 			
 			$("body").append(root);
 		}	
+		
+				
+		// trigger icon
+		if (conf.trigger) {
+			trigger = $("<a/>").attr("href", "#").addClass(css.trigger).click(function(e)  {
+				self.show();
+				return e.preventDefault();
+			}).insertAfter(input);	
+		}
+		
 		
 		// layout elements
 		var weeks = root.find("#" + css.weeks);
@@ -309,7 +321,7 @@
 			});
 			
 			
-			// click outside datepicker
+			// click outside dateinput
 			$(window).bind("click.dp", function(e) {
 				var el = e.target;
 				if (!$(el).parents("#" + css.root).length && el != input[0] && el != trigger[0]) { 
@@ -362,7 +374,7 @@
 				self.today();				 
 				
 				
-				// show datepickerer
+				// show dateinputer
 				var pos = input.offset();
 
 				root.css({ 
@@ -579,12 +591,12 @@
 		});
 
 		
-		// show datepicker & assign keyboard shortcuts
+		// show dateinput & assign keyboard shortcuts
 		input.focus(self.show).keydown(function(e) {
 
 			var key = e.keyCode;
 			
-			// open datepicker with navigation keyw
+			// open dateinput with navigation keyw
 			if (root.is(":hidden") &&  $([75, 76, 38, 39, 74, 72, 40, 37]).index(key) >= 0) {
 				self.show(e);
 				return e.preventDefault();
@@ -595,21 +607,18 @@
 			
 		}); 
 		
-		// trigger icon
-		trigger.click(self.show);		
-		
 	} 
 	
 	$.expr[':'].date = function(el) {
 		var type = el.getAttribute("type");
-		return type && type == 'date' || !!$(el).data("datepicker");
+		return type && type == 'date' || !!$(el).data("dateinput");
 	};
 	
 	
-	$.fn.datepicker = function(conf) {   
+	$.fn.dateinput = function(conf) {   
 		
 		// return existing instance
-		var el = this.data("datepicker"), els;
+		var el = this.data("dateinput"), els;
 		if (el) { return el; } 
 		
 		// configuration
@@ -623,9 +632,9 @@
 		});		
 	
 		this.each(function() {									
-			el = new Datepicker($(this), conf);
+			el = new Dateinput($(this), conf);
 			instances.push(el);
-			var input = el.getInput().data("datepicker", el);
+			var input = el.getInput().data("dateinput", el);
 			els = els ? els.add(input) : input;	
 		});		
 	

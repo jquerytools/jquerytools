@@ -105,7 +105,7 @@ function asString(obj) {
 			obj = obj.replace(new RegExp('(["\\\\])', 'g'), '\\$1');
 			
 			// flash does not handle %- characters well. transforms "50%" to "50pct" (a dirty hack, I admit)
-			obj = obj.replace(/^\s?(\d+)%/, "$1pct");
+			obj = obj.replace(/^\s?(\d+\.?\d+)%/, "$1pct");
 			return '"' +obj+ '"';
 			
 		case 'array':

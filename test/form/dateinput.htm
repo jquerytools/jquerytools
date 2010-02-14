@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 <script src="../js/jquery-1.3.2.js"></script>
-<script src="../../src/form/form.datepicker.js"></script>
+<script src="../../src/form/form.dateinput.js"></script>
 
 
 <style>
@@ -21,7 +21,7 @@ body {
 <link rel="stylesheet" type="text/css" href="picker.css"/>
 
 
-<h2>Datepicker test page</h2>
+<h2>Dateinput test page</h2>
 
 
 <!--  http://www.apple.com/iphone/iphone-3gs/more-features.html  -->
@@ -34,7 +34,7 @@ body {
 <div class="picktrigger"></div>
 
 <script>
-$.tools.datepicker.localize("fr",  {
+$.tools.dateinput.localize("fr",  {
 	months: 			'Janvier,F&eacute;vrier,Mars,Avril,Mai,Juin,Juillet,Ao&ucirc;t,Septembre,Octobre,Novembre,D&eacute;cembre', 
 	shortMonths: 	'Jan,F&eacute;v,Mar,Avr,Mai,Jun,Jul,Ao&ucirc;,Sep,Oct,Nov,D&eacute;c',
 	days: 			'Dimanche,Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi',
@@ -42,7 +42,7 @@ $.tools.datepicker.localize("fr",  {
 });
 
 $(function() {
-	var els = $(".date").datepicker({
+	var els = $(".date").dateinput({
 		format: 'dddd dd mmmm yyyy',
 		selectors: true,
 		// offset: [10, 10],

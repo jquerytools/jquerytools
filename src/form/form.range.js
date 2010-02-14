@@ -1,14 +1,12 @@
 /**
  * @license 
- * jQuery Tools @VERSION Slider - HTML5 <input type="range" /> for humans
+ * jQuery Tools @VERSION Range - HTML5 <input type="range" /> for humans
  * 
  * Copyright (c) 2010 Tero Piirainen
- * http://flowplayer.org/tools/form/slider/
+ * http://flowplayer.org/tools/form/range/
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
- * 
- * Requires toolbox.drag.js
  *
  * Since: Mar 2010
  * Date: @DATE 
@@ -17,33 +15,97 @@
 	 
 	$.tools = $.tools || {version: '@VERSION'};
 	 
-	var current, tool;
+	var tool;
 	
-	tool = $.tools.slider = {
+	tool = $.tools.range = {
 		
 		conf: {
 			min: 0,
 			max: 100,
 			step: 0, 	// Specifies the value granularity of the element's value (onSlide callbacks)
 			value: 0,			
-			accuracy: 2,
+			accuracy: 0,
 			vertical: false,
 			keyboard: true,
+			progress: false,
+			
 			
 			hideInput: false, 
 			speed: 200,
 			
 			// set to null if not needed
 			css: {
+				input:		'range',
 				slider: 		'slider',
 				progress: 	'progress',
 				handle: 		'handle'					
 			}
 
-		}
-		
+		} 
 	};
 	
+//{{{ fn.drag
+		
+	/* 
+		Full featured drag and drop implementation in 35 lines (0.4 kb minified). 
+		Who told that drag and drop is rocket science? Find your way. Example:
+		
+		$(".myelement").drag({y: false}).bind("drag", function(event, x, y) {
+			// do your custom thing
+		});
+		 
+		Configuration: x (enable horizontal), y (enable vertical), drag (perform drag) 
+		Tree events: dragStart, drag, dragEnd. 
+	*/
+	$.fn.drag = function(conf) {
+		
+		conf = $.extend({x: true, y: true, drag: true}, conf);
+	
+		var draggable, doc = doc || $(document).bind("mousedown mouseup", function(e) {
+				
+			var el = $(e.target); 
+			
+			// start 
+			if (e.type == "mousedown" && el.data("drag")) {
+				
+				var offset = el.position(),
+					 x0 = e.pageX - offset.left, 
+					 y0 = e.pageY - offset.top,
+					 start = true;    
+				
+				doc.bind("mousemove.drag", function(e) {  
+					var x = e.pageX -x0, 
+						 y = e.pageY -y0,
+						 props = {};
+					
+					if (conf.x) { props.left = x; }
+					if (conf.y) { props.top = y; } 
+					
+					if (start) {
+						el.trigger("dragStart");
+						start = false;
+					}
+					if (conf.drag) { el.css(props); }
+					el.trigger("drag", [y, x]);
+					draggable = el;
+				}); 
+				
+				e.preventDefault();
+				
+			} else {
+				if (draggable) { draggable.trigger("dragEnd"); }
+				doc.unbind("mousemove.drag");
+				draggable = null; 
+			} 
+							
+		});
+		
+		return this.data("drag", true); 
+	};	
+
+//}}}
+	
+
 	function toSteps(value, size, max) {
 		var step = max / size;
 		return Math.round(value / step) * step;		
@@ -58,22 +120,24 @@
 		return parseInt(el.css(key), 10);	
 	}
 	
-	function Slider(input, conf) {
+	function Range(input, conf) {
 		
 		// private variables
 		var self = this,  
-			 root = $("<div><div/><a/></div>").data("slider", self),	 
+			 css = conf.css,
+			 
+			 root = $("<div><div/><a href='#'/></div>").data("range", self),	 
 			 value,			// current value
 			 origo,			// handle's start point
-			 len,				// length of the slider
+			 len,				// length of the range
 			 pos,				// current position of the handle
 			 progress,		// progressbar
 			 handle;			// drag handle 
 			 
-		// create slider	 
+		// create range	 
 		input.before(root);	
-		handle = root.addClass(conf.css.slider).find("a").addClass(conf.css.handle);
-		progress = root.find("div").addClass(conf.css.progress);  		   
+		handle = root.addClass(css.slider).find("a").addClass(css.handle);
+		progress = root.find("div").addClass(css.progress);  		   
 		
 		// get (HTML5) attributes into configuration
 		$.each("min,max,step,value".split(","), function(i, key) {
@@ -87,7 +151,7 @@
 		
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input[0].getAttribute("type") == 'range') {
-			var tmp = input.clone().attr("type", "text");
+			var tmp = input.clone().attr("type", "text").addClass(css.input);
 			input.replaceWith(tmp);
 			input = tmp;
 		}
@@ -95,14 +159,16 @@
 		if (conf.hideInput) { input.hide(); }  
 			 
 		var fire = input.add(this);
-		
+
 		
 		// flesh and bone of this tool 
 		function seek(x, e) {  
 			
-			// fit inside the slider		
+			var v = 0, isClick = false;
+			
+			// fit inside the range		
 			x = Math.min(Math.max(0, x), len);			 
-
+ 
 			// increment in steps
 			if (conf.step) {
 				x = toSteps(x, conf.step, len);	
@@ -110,16 +176,20 @@
 			
 			// calculate value	
 			var isClick = e && e.originalEvent && e.originalEvent.type == "click",
-				 v = round(x / len * range + conf.min, conf.accuracy);
-
+				 v = round(x / len * range + conf.min, conf.accuracy),
+				 doFire = fire.data("events");
+				 
+			// a performance optimization to avoid redundant event triggering (= heavy stuff)
+			doFire = doFire.onSlide != null;
+				 
 			// onSlide
-			if (value !== undefined && !isClick) {
+			if (doFire && value !== undefined && !isClick) {
 				e = e || $.Event();
 				e.type = "onSlide";           
 				fire.trigger(e, [v]); 
 				if (e.isDefaultPrevented()) { return self; }  
 			}
-			
+
 			if (v != value)  { 
 				
 				// move handle & resize progress
@@ -131,11 +201,11 @@
 
 				if (conf.vertical) {
 					handle.animate({top: -(x - len)}, speed, fn);
-					if (conf.css.progress) { progress.animate({height: x}, speed);	}				
+					if (conf.progress) { progress.animate({height: x}, speed);	}				
 					
 				} else {
 					handle.animate({left: x}, speed, fn);
-					if (conf.css.progress) { progress.animate({width: x}, speed); }
+					if (conf.progress) { progress.animate({width: x}, speed); }
 				}
 				
 				value = v; 
@@ -176,16 +246,15 @@
 			}, 
 				
 			step: function(am, e) {
-				if (conf.max <= 1) { am /= 10; } 
+				if (conf.max <= 1)  { am /= 10; } 
+				
+				// step size should
+				var step = conf.step && range / conf.step;
+				if (step && Math.abs(am) < step) {
+					am = am < 0 ? -step : step;	
+				}
+				
 				return self.setValue(value + am);
-			},
-			
-			next: function() {
-				return this.step(1);	
-			},
-			
-			prev: function() {
-				return this.step(-1);	
 			}	
 			
 		});
@@ -207,12 +276,12 @@
 			
 
 		// dragging		                                  
-		handle.bind("drag", function(e) {
+		handle.drag({drag: false}).bind("drag", function(e, y, x) {        
+				
 			if (input.is(":disabled")) { return false; } 
-			if (!origo) { init(); } 
-			seek(conf.vertical ? origo - e.offsetY  : e.offsetX - origo, e); 
+			seek(conf.vertical ? y : x, e); 
 			
-		}).bind("dragend", function(e) {
+		}).bind("dragEnd", function(e) {
 			if (!e.isDefaultPrevented()) {
 				e.type = "change";
 				fire.trigger(e, [value]);			
@@ -227,7 +296,7 @@
 			if (input.is(":disabled")) { return false; }				  
 			var fix = handle.width() / 2; 
 			if (!origo) { init(); }
-			seek(conf.vertical ? origo - e.pageY + fix : e.pageX - origo - fix, e); 
+			seek(conf.vertical ? e.pageY + fix : e.pageX - origo - fix, e); 
 		});
 
 		
@@ -256,43 +325,37 @@
 		$(document).keydown(function(e) {
 	
 			var el = $(e.target), 
-				 slider = el.data("slider") || current,
+				 range = el.data("range"),
 				 key = e.keyCode,
 				 up = $([75, 76, 38, 33, 39]).index(e.keyCode) != -1,
 				 down = $([74, 72, 40, 34, 37]).index(e.keyCode) != -1;
-
 				 
-			if ((up || down) && !(e.shiftKey || e.altKey) && slider) {
+			if ((up || down) && !(e.shiftKey || e.altKey || e.ctrlKey) && range) {
 			
 				// UP: 	k=75, l=76, up=38, pageup=33, right=39			
 				if (up) {
-					slider.step(e.ctrlKey || key == 33 ? 10 : 1, e);
+					range.step(key == 33 ? 10 : 1, e);
 					
 				// DOWN:	j=74, h=72, down=40, pagedown=34, left=37
 				} else if (down) {
-					slider.step(e.ctrlKey || key == 34 ? -10 : -1, e); 
+					range.step(key == 34 ? -10 : -1, e); 
 				} 
 				return e.preventDefault();
 			} 
 		});
-		
-		$(document).click(function(e) {
-			var el = $(e.target);	
-			current = el.data("slider") || el.parent().data("slider");
-		}); 
 	}
 	
 	$.expr[':'].range = function(el) {
 		var type = el.getAttribute("type");
-		return type && type == 'range' || !!$(el).filter("input").data("slider");
+		return type && type == 'range' || !!$(el).filter("input").data("range");
 	};
 	
 	
 	// jQuery plugin implementation
-	$.fn.slider = function(conf) {
+	$.fn.range = function(conf) {
 
 		// return existing instance
-		var el = this.data("slider"), els;
+		var el = this.data("range"), els;
 		if (el) { return el; }
 		
 		
@@ -300,8 +363,8 @@
 		conf = $.extend(true, {}, tool.conf, conf);		
 		
 		this.each(function() {				
-			el = new Slider($(this), $.extend(true, {}, conf));		 
-			var input = el.getInput().data("slider", el);
+			el = new Range($(this), $.extend(true, {}, conf));		 
+			var input = el.getInput().data("range", el);
 			els = els ? els.add(input) : input;	
 		});		
 		
