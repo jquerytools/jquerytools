@@ -22,30 +22,23 @@ div.error {
 </style>
 
 <!--
-FORM
-	input:focus, IE8 supports the :focus only with !DOCTYPE
-	attributes: action, data (html5), replace (html5) 
-		
-
-VALIDATION
-	input attributes in HTML5
-		# min
-		# max
-		# pattern
-		# required 
-		# maxlength (no need to)			
-		# disabled
-		# readonly    
-		# oninvalid
-		- replace  (next version perhaps)
-		
-		type
-			# number (good with max / maxlenght)
-			# email 
-			# url 
-			# range (range)
-			# date, datetime, month, time, week (dateinput)
-			
+input attributes in HTML5
+	# min
+	# max
+	# pattern
+	# required 
+	# maxlength (no need to)			
+	# disabled
+	# readonly    
+	# oninvalid
+	- replace  (next version perhaps)
+	
+	type
+		# number (good with max / maxlenght)
+		# email 
+		# url 
+		# range (range)
+		# date, datetime, month, time, week (dateinput)		
 -->			
 
 <form action="#">
@@ -59,8 +52,10 @@ VALIDATION
 	
 	<p>
 		email <input type="email" id="emailfield" value="tipiirai@gmail.com"
-					readonly="true"
-					data-validate="equalto(abc); requires(day, abc)" oninvalid="alert('jou')" />
+		
+					data-equals="abc"
+					data-requires="day, abc" 
+					oninvalid="console.info('jou')" />
 	</p>
 	
 	<p>

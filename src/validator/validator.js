@@ -17,8 +17,7 @@
 	$.tools = $.tools || {version: '@VERSION'};
 		
 	// globals
-	var customRe = /(\w+)\(?([^)]*)\)?/, 
-		typeRe = /\[type=([a-z]+)\]/, 
+	var typeRe = /\[type=([a-z]+)\]/, 
 		numRe = /^\d*$/,
 		
 		// http://net.tutsplus.com/tutorials/other/8-regular-expressions-you-should-know/
@@ -67,39 +66,28 @@
 		
 		/** 
 		 * Adds a new validator 
-		 *
-		 * @param isCustom defines functions inside "data-validate" attribute
 		 */
-		fn: function(matcher, msg, fn, isCustom) {
+		fn: function(matcher, msg, fn) {
 			
 			if ($.isFunction(msg)) { 
 				fn = msg; 
 			} else {
 				v.setMessage(matcher, msg);		 
 			}
-			
-			if (isCustom) {				
-				fnx[matcher] = fn;
 				
-			} else {
-				
-				// check for "[type=xxx]" (not supported by jQuery 1.3 and below)
-				var test = typeRe(matcher);
-				if (test) { matcher = isType(test[1]); }				
-				fns.push([matcher, fn]);		
-			}
-			
+			// check for "[type=xxx]" (not supported by jQuery)
+			var test = typeRe(matcher);
+			if (test) { matcher = isType(test[1]); }				
+			fns.push([matcher, fn]);		 
 		},
 
 		/* Add new show/hide effect */
 		addEffect: function(name, showFn, closeFn) {
 			effects[name] = [showFn, closeFn];
-		}
-		
-		
+		}  
 	};
 	
-	/* calculate tip position relative to the trigger */  	
+	/* calculate error message position relative to the input */  	
 	function getPosition(trigger, el, conf) {	
 		
 		// get origin top/left position 
@@ -126,7 +114,7 @@
 	}	
 	
 	
-	var fns = [], fnx = {}, effects = {
+	var fns = [], effects = {
 		
 		'default' : [
 			
@@ -184,6 +172,7 @@
 	};	
 	
 	
+	/* [type=email] filter (or any other special type) simply does not work with jQuery. damn.  */
 	function isType(type) { 
 		function fn() {
 			return this.getAttribute("type") == type;  	
@@ -227,49 +216,27 @@
 	});
 
 	
-	/****   support for "data-validate" attribute   ****/
-	
-	// @returns [fx, fx2, ...]
-	v.fn("[data-validate]", function(el) {		
-		var calls = el.attr("data-validate").split(/;\s*/), fails = [];
-
-		$.each(calls, function(i, call) {
-			var els = customRe.exec(call), fxname = els[1], fn = fnx[fxname];			
-			if (!fn) { throw "Nonexistent custom validator: " + fxname; }
-			var args = els[2] ? els[2].indexOf(",") != -1 ? els[2].split(",") : els[2] : null;
-
-			var ret = fn.call(el.validator(), el, args); 
-			if (ret !== true) {
-				fails.push({match: fxname, substitutions: ret});
-			}
-		});
-		
-		return fails.length ? fails : true;
+	/******* built-in custom validators *********/
+	v.fn("[data-equals]", "Value must equal to $1 field", function(el, v) {
+		var name = el.attr("data-equals"),
+			 f = this.getInputs().filter("[name=" + name + "]");
+			 
+		return f.val() === v ? true : f.attr("title") || name; 
 	});
 
-	
-	/******* built-in custom validators *********/
-	
-	// equalto(fieldName)
-	v.fn("equalto", "Value must equal to $1 field", function(el, name) {
-		var f = this.getInputs().filter("[name=" + name + "]");
-		return f.val() === el.val() ? true : f.attr("title") || name;
-		                                                             
-	}, true);
-	                                   
-	// requires(fieldName, fieldName2 ...)
-	v.fn("requires", "Required fields: $1", function(el, args) {
-		var inputs = this.getInputs(), ret = [];
+	v.fn("[data-requires]", "Required fields: $1", function(el, v) {
 		
-		$.each(args, function() {
-			if (!inputs.filter("[name=" + this + "]").val()) { 
-				ret.push(this); 
+		var names = el.attr("data-requires").split(/,\s*/);
+			 inputs = this.getInputs(), 
+			 ret = [];
+		
+		$.each(names, function(i, name) {
+			if (!inputs.filter("[name=" + name + "]").val()) { 
+				ret.push(name); 
 			}		
-		});
-		
-		return ret.length ? ret.join(", ") : true;
-		
-	}, true);	
+		}); 
+		return ret.length ? ret.join(", ") : true; 
+	});	
 
 	
 	function Validator(form, conf) {		
@@ -315,8 +282,10 @@
 			
 			getInputs: function() {
 				return inputs;	
-			},			
+			},		
 			
+//{{{  checkValidity() - flesh and bone of this tool
+						
 			/* @returns boolean */
 			checkValidity: function(els, e) {
 				
@@ -343,8 +312,8 @@
 					
 					// loop all validator functions
 					$.each(fns, function() {
-						var fn = this, match = fn[0];
-
+						var fn = this, match = fn[0]; 
+					
 						// match found
 						if (el.filter(match).length)  {  
 							
@@ -357,24 +326,14 @@
 								// onBeforeFail
 								e.type = "onBeforeFail";
 								fire.trigger(e, [el, match]);
-								if (e.isDefaultPrevented()) { return false; } 
+								if (e.isDefaultPrevented()) { return false; }
 								
-								// custom validator return value
-								if ($.isArray(ret) && typeof ret[0] == 'object') { 
-									$.each(ret, function() {
-										pushMessage(msgs, this.match, this.substitutions);		
-									});  
-									
-								// normal return value: array, string or nothing (substitutions)
-								} else {
-									pushMessage(msgs, match, ret);	
-								}
+								pushMessage(msgs, match, ret);	
 							}							
 						}
 					});
 					
-					if (msgs.length) {
-					
+					if (msgs.length) { 
 						
 						errs.push({input: el, messages: msgs});  
 						
@@ -427,6 +386,7 @@
 				
 				return true;				
 			}
+//}}} 
 			
 		});
 		
@@ -462,13 +422,14 @@
 			});	
 		}
 		
-		// oninvalid attribute 
+		// oninvalid attribute. yea, yea. eval is evil. what can I do?
 		inputs.filter("[oninvalid]").each(function() {
 			$(this).oninvalid(new Function($(this).attr("oninvalid")));
 		});
 		
 	}
 
+	// $("input:eq(2)").oninvalid(function() { ... });
 	$.fn.oninvalid = function( fn ){
 		return this[fn ? "bind" : "trigger"]("oninvalid", fn);
 	};
@@ -485,12 +446,11 @@
 		conf = $.extend(true, {}, v.conf, conf);		
 		
 		// selector is a form		
-		this.each(function() {			
+		return this.each(function() {			
 			el = new Validator($(this), conf);				
 			$(this).data("validator", el);
 		}); 
 		
-		return conf.api ? el: this;		
 	};   
 		
 })(jQuery);
