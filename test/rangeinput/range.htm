@@ -1,0 +1,28 @@
+
+<!-- /* :wrap=200: */ -->
+<script src="../js/jquery-1.4.1.js"></script>
+<script src="../../src/rangeinput/rangeinput.js"></script>
+
+
+<style>
+#rangewrap 					{ margin: 150px; }
+.ranger						{ margin:20px 0; }
+.slider 						{ background:url(img/widgets.png) no-repeat -17px -8px; width:94px; height:5px; cursor:pointer; position: relative; }
+.handle 						{ background:transparent url(img/widgets.png) no-repeat scroll -112px -3px; height:16px; position:absolute; top:-5px; width:16px; cursor:move; }
+.range						{ font-size:10px; border:0; background:none; width: 30px; margin-top:5px; }
+.range:focus				{ background-color:#fff; -moz-border-radius:2px; -webkit-border-radius:2px; }
+.lbl							{ clear:both; padding:2px; font-size:10px; }
+</style>
+
+<div id="rangewrap">
+	<div class="ranger"><input class="range" type="range" min="0" max="10" 	 step="50" value="5" /></div>
+	<div class="ranger"><input class="range" type="range" min="0" max="1" 	 step="10" value="0.2" /></div>
+	<div class="ranger"><input class="range" type="range" min="0" max="1000" step="50" value="522" /></div>
+</div>
+
+<script>		
+$(":range").rangeinput({accuracy: 1, onSlide: function()  {
+		console.info("onSlide", this, arguments);  
+	}
+})
+</script>

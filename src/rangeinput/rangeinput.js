@@ -1,9 +1,9 @@
 /**
  * @license 
- * jQuery Tools @VERSION Range - HTML5 <input type="range" /> for humans
+ * jQuery Tools @VERSION Rangeinput - HTML5 <input type="range" /> for humans
  * 
  * Copyright (c) 2010 Tero Piirainen
- * http://flowplayer.org/tools/form/range/
+ * http://flowplayer.org/tools/rangeinput/
  *
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
@@ -17,7 +17,7 @@
 	 
 	var tool;
 	
-	tool = $.tools.range = {
+	tool = $.tools.rangeinput = {
 		
 		conf: {
 			min: 0,
@@ -57,11 +57,13 @@
 		Configuration: x (enable horizontal), y (enable vertical), drag (perform drag) 
 		Tree events: dragStart, drag, dragEnd. 
 	*/
+	var doc, draggable;
+	
 	$.fn.drag = function(conf) {
 		
 		conf = $.extend({x: true, y: true, drag: true}, conf);
 	
-		var draggable, doc = doc || $(document).bind("mousedown mouseup", function(e) {
+		doc = doc || $(document).bind("mousedown mouseup", function(e) {
 				
 			var el = $(e.target); 
 			
@@ -93,7 +95,9 @@
 				e.preventDefault();
 				
 			} else {
-				if (draggable) { draggable.trigger("dragEnd"); }
+				if (draggable) {  
+					draggable.trigger("dragEnd");  
+				}
 				doc.unbind("mousemove.drag");
 				draggable = null; 
 			} 
@@ -120,13 +124,18 @@
 		return parseInt(el.css(key), 10);	
 	}
 	
+	function hasEvent(el) {
+		var e = el.data("events");
+		return e && e.onSlide;
+	}
+	
 	function Range(input, conf) {
 		
 		// private variables
 		var self = this,  
 			 css = conf.css,
 			 
-			 root = $("<div><div/><a href='#'/></div>").data("range", self),	 
+			 root = $("<div><div/><a href='#'/></div>").data("rangeinput", self),	 
 			 value,			// current value
 			 origo,			// handle's start point
 			 len,				// length of the range
@@ -158,7 +167,7 @@
 
 		if (conf.hideInput) { input.hide(); }  
 			 
-		var fire = input.add(this);
+		var fire = $(self).add(input), fireOnSlide;
 
 		
 		// flesh and bone of this tool 
@@ -176,21 +185,17 @@
 			
 			// calculate value	
 			var isClick = e && e.originalEvent && e.originalEvent.type == "click",
-				 v = round(x / len * range + conf.min, conf.accuracy),
-				 doFire = fire.data("events");
-				 
-			// a performance optimization to avoid redundant event triggering (= heavy stuff)
-			doFire = doFire.onSlide != null;
-				 
-			// onSlide
-			if (doFire && value !== undefined && !isClick) {
-				e = e || $.Event();
-				e.type = "onSlide";           
-				fire.trigger(e, [v]); 
-				if (e.isDefaultPrevented()) { return self; }  
-			}
+				 v = round(x / len * range + conf.min, conf.accuracy);
 
 			if (v != value)  { 
+		
+				// onSlide
+				if (fireOnSlide && value !== undefined && !isClick) {
+					e = e || $.Event();
+					e.type = "onSlide";           
+					fire.trigger(e, [v]); 
+					if (e.isDefaultPrevented()) { return self; }  
+				}				
 				
 				// move handle & resize progress
 				var speed = isClick ? conf.speed : 0,
@@ -276,7 +281,15 @@
 			
 
 		// dragging		                                  
-		handle.drag({drag: false}).bind("drag", function(e, y, x) {        
+		handle.drag({drag: false}).bind("dragStart", function() {
+		
+			/* do some pre- calculations for seek() function. improves performance */
+			
+			// avoid redundant event triggering (= heavy stuff)
+			fireOnSlide = hasEvent($(self)) || hasEvent(input);
+
+				
+		}).bind("drag", function(e, y, x) {        
 				
 			if (input.is(":disabled")) { return false; } 
 			seek(conf.vertical ? y : x, e); 
@@ -325,7 +338,7 @@
 		$(document).keydown(function(e) {
 	
 			var el = $(e.target), 
-				 range = el.data("range"),
+				 range = el.data("rangeinput"),
 				 key = e.keyCode,
 				 up = $([75, 76, 38, 33, 39]).index(e.keyCode) != -1,
 				 down = $([74, 72, 40, 34, 37]).index(e.keyCode) != -1;
@@ -347,15 +360,15 @@
 	
 	$.expr[':'].range = function(el) {
 		var type = el.getAttribute("type");
-		return type && type == 'range' || !!$(el).filter("input").data("range");
+		return type && type == 'range' || !!$(el).filter("input").data("rangeinput");
 	};
 	
 	
 	// jQuery plugin implementation
-	$.fn.range = function(conf) {
+	$.fn.rangeinput = function(conf) {
 
 		// return existing instance
-		var el = this.data("range"), els;
+		var el = this.data("rangeinput"), els;
 		if (el) { return el; }
 		
 		
@@ -364,7 +377,7 @@
 		
 		this.each(function() {				
 			el = new Range($(this), $.extend(true, {}, conf));		 
-			var input = el.getInput().data("range", el);
+			var input = el.getInput().data("rangeinput", el);
 			els = els ? els.add(input) : input;	
 		});		
 		

@@ -1,6 +1,6 @@
 /**
  * @license 
- * form.validator @VERSION - HTML5 is here. Now use it.
+ * jQuery Tools Validator @VERSION - HTML5 is here. Now use it.
  * 
  * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/form/validator/
@@ -18,50 +18,46 @@
 		
 	// globals
 	var typeRe = /\[type=([a-z]+)\]/, 
-		numRe = /^\d*$/,
+		numRe = /^-?[0-9]*(\.[0-9]+)?$/,
 		
 		// http://net.tutsplus.com/tutorials/other/8-regular-expressions-you-should-know/
-		emailRe = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/i,
-		urlRe = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i,
+		emailRe = /^([a-z0-9_\.\-]+)@([\da-z\.\-]+)\.([a-z\.]{2,6})$/i,
+		urlRe = /^(https?:\/\/)?([\da-z\.\-]+)\.([a-z\.]{2,6})([\/\w \.\-]*)*\/?$/i,
 		v;
 		 
 	v = $.tools.validator = {
 		
-		conf: { 
-			singleField: false, 			// validate all inputs at once
-			allErrors: false, 			// show all error messages at once inside the container 
-			speed: 'normal',				// message's fade-in speed
-			
-			message: '<div><span/></div>',
-			position: 'top center',
-			offset: [-10, 0], 
-			relative: false,				// advanced position flag. rarely needed
-			messageClass: 'error',		// error message element's class name
-			errorClass: 'invalid',		// input field class name in case of validation error			
-			
-			lang: 'en',						// default language for error messages 
+		conf: {   
+			grouped: false, 				// show all error messages at once inside the container 
 			effect: 'default',			// show/hide effect for error message. only 'default' is built-in
+			errorClass: 'invalid',		// input field class name in case of validation error		
 			
 			// when to check for validity?
-			events: {
-				form:  'submit', 			// form events 				(VALID: click || keypress || mouseover)
-				input: null,				// input field events 		(VALID: change || blur || keyup)
-				error: 'keyup'				// :invalid input field 	(VALID: change || blur || keyup) 
-			} 
-		},
-		
-		/* set/add error message for specified matcher */
-		setMessage: function(matcher, msg, lang) {			
-			var key = matcher.key || matcher,
-				 m = this.messages[key] || {};
-				 
-			m[lang || 'en'] = msg;			
-			this.messages[key] = m;   
+			inputEvent: null,				// change, blur, keyup, null 
+			errorInputEvent: 'keyup',  // change, blur, keyup, null
+			formEvent: 'submit',       // submit, null
+
+			lang: 'en',						// default language for error messages 
+			message: '<div><span/></div>',
+			messageAttr: 'data-message', // name of the attribute for overridden error message
+			messageClass: 'error',		// error message element's class name
+			offset: [-10, 0], 
+			position: 'top center',
+			relative: false,				// advanced position flag. rarely needed
+			singleError: false, 			// validate all inputs at once
+			speed: 'normal'				// message's fade-in speed			
 		},
 
-		/* default error messages */
+
+		/* The Error Messages */
 		messages: {
-			"*": {en: "Invalid value"}		
+			"*": { en: "Please correct this value" }		
+		},
+		
+		localize: function(lang, messages) {
+			$.each(messages, function(key, msg)  {
+				v.messages[key][lang] = msg;		
+			});
 		},
 		
 		/** 
@@ -69,22 +65,29 @@
 		 */
 		fn: function(matcher, msg, fn) {
 			
+			// no message supplied
 			if ($.isFunction(msg)) { 
 				fn = msg; 
+				
+			// message(s) on second argument
 			} else {
-				v.setMessage(matcher, msg);		 
+				if (typeof msg == 'string') { msg = {en: msg}; }
+				this.messages[matcher.key || matcher] = msg;
 			}
 				
 			// check for "[type=xxx]" (not supported by jQuery)
 			var test = typeRe(matcher);
 			if (test) { matcher = isType(test[1]); }				
+			
+			// add validator to the arsenal
 			fns.push([matcher, fn]);		 
 		},
 
 		/* Add new show/hide effect */
 		addEffect: function(name, showFn, closeFn) {
 			effects[name] = [showFn, closeFn];
-		}  
+		}
+		
 	};
 	
 	/* calculate error message position relative to the input */  	
@@ -113,13 +116,24 @@
 		return {top: top, left: left};
 	}	
 	
+
+	
+	// $.is("[type=xxx]") or $.filter("[type=xxx]") not working in jQuery 1.3.2 or 1.4.1
+	function isType(type) { 
+		function fn() {
+			return this.getAttribute("type") == type;  	
+		} 
+		fn.key = "[type=" + type + "]";
+		return fn;
+	}	
+
 	
 	var fns = [], effects = {
 		
 		'default' : [
 			
 			// show errors function
-			function(errs, done) {
+			function(errs) {
 				
 				var conf = this.getConf();
 				
@@ -162,48 +176,55 @@
 						
 				
 			// hide errors function
-			}, function(inputs, done) {
+			}, function(inputs) {
 				var conf = this.getConf();				
 				inputs.removeClass(conf.errorClass).each(function() {
 					$(this).data("msg.el").css({visibility: 'hidden'});		
 				});
 			}
 		]  
-	};	
+	};
+
 	
+	/* sperial selectors */
+	$.each("email,url,number".split(","), function(i, key) {
+		$.expr[':'][key] = function(el) {
+			return el.getAttribute("type") === key;
+		};
+	});
 	
-	/* [type=email] filter (or any other special type) simply does not work with jQuery. damn.  */
-	function isType(type) { 
-		function fn() {
-			return this.getAttribute("type") == type;  	
-		} 
-		fn.key = "[type=" + type + "]";
-		return fn;
-	}
+
+	/* 
+		oninvalid() jQuery plugin. 
+		Usage: $("input:eq(2)").oninvalid(function() { ... });
+	*/
+	$.fn.oninvalid = function( fn ){
+		return this[fn ? "bind" : "trigger"]("oninvalid", fn);
+	};
 	
 	
 	/******* built-in HTML5 standard validators *********/
 	
-	v.fn(isType("email"), "Invalid email address", function(el, v) {
+	v.fn(":email", "Plase enter a valid email address", function(el, v) {
 		return !v || emailRe.test(v);
 	});
 	
-	v.fn(isType("url"), "Invalid URL", function(el, v) {
+	v.fn(":url", "Please enter a valid URL", function(el, v) {
 		return !v || urlRe.test(v);
 	});
 	
-	v.fn(isType("number"), "Please supply a numeric value.", function(el, v) {
+	v.fn(":number", "Please enter a numeric value.", function(el, v) {
 		return numRe.test(v);			
 	});
 	
-	v.fn("[max]", "Maximum value is $1", function(el, v) {
+	v.fn("[max]", "Please enter a value smaller than $1", function(el, v) {
 		var max = el.attr("max");
-		return parseFloat(v) <= parseFloat(max) ? true : max;
+		return parseFloat(v) <= parseFloat(max) ? true : [max];
 	});
 	
-	v.fn("[min]", "Minimum value is $1", function(el, v) {
+	v.fn("[min]", "Please enter a value larger than $1", function(el, v) {
 		var min = el.attr("min");
-		return parseFloat(v) >= parseFloat(min) ? true : min;
+		return parseFloat(v) >= parseFloat(min) ? true : [min];
 	});
 	
 	v.fn("[required]", "Please complete this mandatory field.", function(el, v) {
@@ -216,68 +237,65 @@
 	});
 
 	
-	/******* built-in custom validators *********/
-	v.fn("[data-equals]", "Value must equal to $1 field", function(el, v) {
-		var name = el.attr("data-equals"),
-			 f = this.getInputs().filter("[name=" + name + "]");
-			 
-		return f.val() === v ? true : f.attr("title") || name; 
-	});
-
-	v.fn("[data-requires]", "Required fields: $1", function(el, v) {
-		
-		var names = el.attr("data-requires").split(/,\s*/);
-			 inputs = this.getInputs(), 
-			 ret = [];
-		
-		$.each(names, function(i, name) {
-			if (!inputs.filter("[name=" + name + "]").val()) { 
-				ret.push(name); 
-			}		
-		}); 
-		return ret.length ? ret.join(", ") : true; 
-	});	
-
-	
 	function Validator(form, conf) {		
 		
 		// private variables
 		var self = this, 
 			 fire = form.add(this),
-			 inputs = form.find(":input").not(":button, :submit") ;
+			 inputs = form.find(":input");
+			 
+		// inputs are given directly
+		if (!inputs.length) {
+			inputs = form.filter(":input").data("validator", self);	
+			form = inputs.eq(0).closest("form");
+		}
+			 
+		inputs = inputs.not(":button, :image, :reset, :submit, :hidden");
 			 
 		if (!inputs.length) { throw "Validator: no input fields supplied"; }		
 
 		
 		// utility function
-		function pushMessage(to, matcher, subs) {
+		function pushMessage(to, matcher, returnValue) {
 			
-			var key = matcher.key || matcher,
-				 msg = v.messages[key] || v.messages["*"];
+			// only one message allowed
+			if (!conf.grouped && to.length) { return; }
 			
-			if (conf.allErrors || !to.length) {
-				
-				// localization
+			// the error message
+			var msg;
+			
+			// substitutions are returned
+			if ($.isArray(returnValue)) {
+				msg = v.messages[matcher.key || matcher] || v.messages["*"];
 				msg = msg[conf.lang];
-								
+				
 				// substitution
-				if (typeof subs == 'string') { subs = [subs]; }
 				var matches = msg.match(/\$\d/g);
 				
-				if (matches) {
+				if (matches && $.isArray(returnValue)) {
 					$.each(matches, function(i) {
-						msg = msg.replace(this, subs[i]);
+						msg = msg.replace(this, returnValue[i]);
 					});
-				} 
-				to.push(msg);
+				} 					 
+				
+			// error message is returned directly
+			} else {
+				msg = returnValue[conf.lang] || returnValue;
 			}
+			
+			to.push(msg);
 		}
+		
 		
 		// API methods  
 		$.extend(self, {
 
 			getConf: function() {
 				return conf;	
+			},
+			
+			getForm: function() {
+				return form;		
 			},
 			
 			getInputs: function() {
@@ -290,7 +308,7 @@
 			checkValidity: function(els, e) {
 				
 				els = els || inputs;    
-				els = els.not(":hidden, :disabled, [readonly]");
+				els = els.not(":disabled");
 				if (!els.length) { return true; }
 
 				e = e || $.Event();
@@ -301,7 +319,7 @@
 				if (e.isDefaultPrevented()) { return e.result; }				
 					
 				var errs = [], 
-					 event = conf.events.error + ".v";
+					 event = conf.errorInputEvent + ".v";
 				
 				// loop trough the inputs
 				els.each(function() {
@@ -328,7 +346,14 @@
 								fire.trigger(e, [el, match]);
 								if (e.isDefaultPrevented()) { return false; }
 								
-								pushMessage(msgs, match, ret);	
+								// overridden custom message
+								var msg = el.attr(conf.messageAttr);
+								if (msg) { 
+									msgs = [msg];
+									return false;
+								} else {
+									pushMessage(msgs, match, ret);
+								}
 							}							
 						}
 					});
@@ -341,14 +366,14 @@
 						el.trigger("oninvalid", [msgs]);
 						
 						// begin validating upon error event type (such as keyup) 
-						if (conf.events.error) {
+						if (conf.errorInputEvent) {
 							el.bind(event, function() {
 								self.checkValidity(el);		
 							});							
 						} 					
 					}
 					
-					if (conf.singleField && errs.length) { return false; }
+					if (conf.singleError && errs.length) { return false; }
 					
 				});
 				
@@ -406,48 +431,46 @@
 		});	
 		
 		// form validation
-		form.bind(conf.events.form, function(e) {
-			if (!self.checkValidity()) { 
-				return e.preventDefault(); 
-			}
-		});
+		if (conf.formEvent) {
+			form.bind(conf.formEvent, function(e) {
+				if (!self.checkValidity()) { 
+					return e.preventDefault(); 
+				}
+			});
+		}
 		
 		// Web Forms 2.0 compatibility
 		form[0].checkValidity = self.checkValidity;
 		
 		// input validation
-		if (conf.events.input) {
-			inputs.bind(conf.events.input, function(e) {
+		if (conf.inputEvent) {
+			inputs.bind(conf.inputEvent, function(e) {
 				self.checkValidity($(this));
 			});	
 		}
 		
-		// oninvalid attribute. yea, yea. eval is evil. what can I do?
+		// oninvalid attribute (not using eval())
 		inputs.filter("[oninvalid]").each(function() {
-			$(this).oninvalid(new Function($(this).attr("oninvalid")));
-		});
+			$(this).oninvalid(function()  {
+				$.globalEval($(this).attr("oninvalid"));			
+			});
+		});		  
 		
 	}
-
-	// $("input:eq(2)").oninvalid(function() { ... });
-	$.fn.oninvalid = function( fn ){
-		return this[fn ? "bind" : "trigger"]("oninvalid", fn);
-	};
 
 	
 	// jQuery plugin initialization
 	$.fn.validator = function(conf) {   
 		
 		// return existing instance
-		var el = this.data("validator");
-		if (el) { return el; } 
+		if (this.data("validator")) { return this; } 
 		
 		// configuration
 		conf = $.extend(true, {}, v.conf, conf);		
 		
 		// selector is a form		
 		return this.each(function() {			
-			el = new Validator($(this), conf);				
+			var el = new Validator($(this), conf);				
 			$(this).data("validator", el);
 		}); 
 		
