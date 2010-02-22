@@ -18,13 +18,14 @@
 	var tool;
 	
 	tool = $.tools.rangeinput = {
-		
+		                            
 		conf: {
 			min: 0,
-			max: 100,
-			step: 0, 	// Specifies the value granularity of the element's value (onSlide callbacks)
+			max: 100,		// as defined in the standard
+			step: 'any', 	// granularity of the value. a non-zero float or int (or "any")
+			steps: 0,
 			value: 0,			
-			accuracy: 0,
+			precision: undefined,
 			vertical: false,
 			keyboard: true,
 			progress: false,
@@ -110,13 +111,9 @@
 //}}}
 	
 
-	function toSteps(value, size, max) {
-		var step = max / size;
-		return Math.round(value / step) * step;		
-	}
 	
-	function round(value, accuracy) {
-		var n = Math.pow(10, accuracy);
+	function round(value, precision) {
+		var n = Math.pow(10, precision);
 		return Math.round(value * n) / n;
 	}
 	
@@ -129,7 +126,7 @@
 		return e && e.onSlide;
 	}
 	
-	function Range(input, conf) {
+	function RangeInput(input, conf) {
 		
 		// private variables
 		var self = this,  
@@ -141,7 +138,7 @@
 			 len,				// length of the range
 			 pos,				// current position of the handle
 			 progress,		// progressbar
-			 handle;			// drag handle 
+			 handle;			// drag handle
 			 
 		// create range	 
 		input.before(root);	
@@ -156,9 +153,19 @@
 			}
 		});			   
 		
-		var range = conf.max - conf.min;
+		var range = conf.max - conf.min, 
+			 step = conf.step == 'any' ? 0 : conf.step,
+			 precision = conf.precision;
+			 
+		if (precision === undefined) {
+			try {
+				precision = step.toString().split(".")[1].length;
+			} catch (err) {
+				precision = 0;	
+			}
+		}  
 		
-		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
+		// Replace built-in range input (type attribute cannot be changed)
 		if (input[0].getAttribute("type") == 'range') {
 			var tmp = input.clone().attr("type", "text").addClass(css.input);
 			input.replaceWith(tmp);
@@ -170,69 +177,78 @@
 		var fire = $(self).add(input), fireOnSlide;
 
 		
-		// flesh and bone of this tool 
-		function seek(x, e) {  
-			
-			var v = 0, isClick = false;
-			
-			// fit inside the range		
-			x = Math.min(Math.max(0, x), len);			 
- 
-			// increment in steps
-			if (conf.step) {
-				x = toSteps(x, conf.step, len);	
+		/*** the flesh and bone of this tool ***/
+		function slide(evt, x, val, isClick) { 
+		  	
+			// calculate value based on slide position
+			if (val == undefined) {
+				val = x / len * range;  
 			}
 			
-			// calculate value	
-			var isClick = e && e.originalEvent && e.originalEvent.type == "click",
-				 v = round(x / len * range + conf.min, conf.accuracy);
+			// increment in steps
+			if (step) {
+				val = Math.round(val / step) * step;
+			}
+			
+			// precision
+			val = round(val, precision);
 
-			if (v != value)  { 
-		
-				// onSlide
-				if (fireOnSlide && value !== undefined && !isClick) {
-					e = e || $.Event();
-					e.type = "onSlide";           
-					fire.trigger(e, [v]); 
-					if (e.isDefaultPrevented()) { return self; }  
-				}				
-				
-				// move handle & resize progress
-				var speed = isClick ? conf.speed : 0,
-					 fn = isClick ? function()  {
-					 	e.type = "change";
-					 	fire.trigger(e, [v]);
-					 } : null;
+			// count x based on value or tweak x if stepping is done
+			if (x == undefined || step) {
+				x = val * len / range;	
+			}
+			
+			// nothing changes or out of range --> return
+			if (isNaN(val) || val == value || x > len || x < 0) { return self; }       
+			
+			val += conf.min;
+			
+			// onSlide
+			if (fireOnSlide && value !== undefined && !isClick) {
+				evt.type = "onSlide";           
+				fire.trigger(evt, [val]); 
+				if (evt.isDefaultPrevented()) { return self; }  
+			}				
+			
+			// speed & callback
+			var speed = isClick ? conf.speed : 0,
+				 callback = isClick ? function()  {
+					evt.type = "change";
+					fire.trigger(evt, [val]);
+				 } : null;
 
-				if (conf.vertical) {
-					handle.animate({top: -(x - len)}, speed, fn);
-					if (conf.progress) { progress.animate({height: x}, speed);	}				
-					
-				} else {
-					handle.animate({left: x}, speed, fn);
-					if (conf.progress) { progress.animate({width: x}, speed); }
-				}
+			if (conf.vertical) {
+				handle.animate({top: -(x - len)}, speed, callback);
+				if (conf.progress) { progress.animate({height: x}, speed);	}				
 				
-				value = v; 
-				pos = x;			
-				input.val(v);
-			}  
+			} else {
+				handle.animate({left: x}, speed, callback);
+				if (conf.progress) { progress.animate({width: x}, speed); }
+			}
+			
+			// store current value
+			value = val; 
+			pos = x;			 
+			
+			// se input field's value
+			input.val(val);
+
+			// HTML5 attribute
+			input[0].valueAsNumber = val;
 			
 			return self;
-		}
+		} 
+		
 		
 		$.extend(self, {  
-			
-			setValue: function(val, e) {
-				val = parseFloat(val);
-				if (isNaN(val) || val == value) { return self; } 
-				var x = (val - conf.min) * (len / range);	
-				return seek(x, e);	 
-			},
 			
 			getValue: function() {
 				return value;	
 			},
+			
+			setValue: function(val, e) {
+				return slide(e || $.Event(), undefined, val - conf.min); 
+			}, 			  
 			
 			getConf: function() {
 				return conf;	
@@ -251,16 +267,19 @@
 			}, 
 				
 			step: function(am, e) {
-				if (conf.max <= 1)  { am /= 10; } 
-				
-				// step size should
-				var step = conf.step && range / conf.step;
-				if (step && Math.abs(am) < step) {
-					am = am < 0 ? -step : step;	
-				}
-				
-				return self.setValue(value + am);
-			}	
+				e = e || $.Event();
+				self.setValue(value + conf.step * (am || 1), e);	
+			},
+			
+			// HTML5 compatible name
+			stepUp: function(am) { 
+				return self.step(am || 1)
+			},
+			
+			// HTML5 compatible name
+			stepDown: function(am) { 
+				return self.step(-am || -1)
+			}
 			
 		});
 		
@@ -292,7 +311,7 @@
 		}).bind("drag", function(e, y, x) {        
 				
 			if (input.is(":disabled")) { return false; } 
-			seek(conf.vertical ? y : x, e); 
+			slide(e, conf.vertical ? y : x); 
 			
 		}).bind("dragEnd", function(e) {
 			if (!e.isDefaultPrevented()) {
@@ -306,16 +325,27 @@
 		
 		// clicking
 		root.click(function(e) { 
-			if (input.is(":disabled")) { return false; }				  
+			if (input.is(":disabled") || e.target == handle[0]) { 
+				return e.preventDefault(); 
+			}				  
+			
+			if (!origo) { init(); } 
+			
 			var fix = handle.width() / 2; 
-			if (!origo) { init(); }
-			seek(conf.vertical ? e.pageY + fix : e.pageX - origo - fix, e); 
+			
+			slide(e, conf.vertical ? e.pageY + fix : e.pageX - origo - fix, undefined, true); 
+			
 		});
 
 		
 		input.blur(function(e) {			
 			self.setValue($(this).val(), e); 
 		});    
+		
+		
+		// HTML5 DOM methods
+		$.extend(input[0], { stepUp: self.stepUp, stepDown: self.stepDown});
+		
 		
 		function init() {
 			if (conf.vertical) {
@@ -367,16 +397,16 @@
 	// jQuery plugin implementation
 	$.fn.rangeinput = function(conf) {
 
-		// return existing instance
-		var el = this.data("rangeinput"), els;
-		if (el) { return el; }
-		
+		// already installed
+		if (this.data("rangeinput")) { return this; } 
 		
 		// extend configuration with globals
 		conf = $.extend(true, {}, tool.conf, conf);		
 		
+		var els;
+		
 		this.each(function() {				
-			el = new Range($(this), $.extend(true, {}, conf));		 
+			var el = new RangeInput($(this), $.extend(true, {}, conf));		 
 			var input = el.getInput().data("rangeinput", el);
 			els = els ? els.add(input) : input;	
 		});		

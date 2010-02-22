@@ -617,9 +617,8 @@
 	
 	$.fn.dateinput = function(conf) {   
 		
-		// return existing instance
-		var el = this.data("dateinput"), els;
-		if (el) { return el; } 
+		// already instantiated
+		if (this.data("dateinput")) { return this; } 
 		
 		// configuration
 		conf = $.extend({}, tool.conf, conf);		
@@ -631,8 +630,10 @@
 			}
 		});		
 	
+		var els;
+		
 		this.each(function() {									
-			el = new Dateinput($(this), conf);
+			var el = new Dateinput($(this), conf);
 			instances.push(el);
 			var input = el.getInput().data("dateinput", el);
 			els = els ? els.add(input) : input;	

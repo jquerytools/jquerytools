@@ -38,11 +38,11 @@
 			formEvent: 'submit',       // submit, null
 
 			lang: 'en',						// default language for error messages 
-			message: '<div><span/></div>',
+			message: '<div/>',
 			messageAttr: 'data-message', // name of the attribute for overridden error message
 			messageClass: 'error',		// error message element's class name
-			offset: [-10, 0], 
-			position: 'top center',
+			offset: [0, 0], 
+			position: 'top left',
 			relative: false,				// advanced position flag. rarely needed
 			singleError: false, 			// validate all inputs at once
 			speed: 'normal'				// message's fade-in speed			
@@ -109,9 +109,9 @@
 		if (y == 'bottom') 	{ top += height; }
 		
 		// adjust X
-		var width = el.outerWidth() + trigger.outerWidth();
-		if (x == 'center') 	{ left -= width / 2; }
-		if (x == 'left')   	{ left -= width; }	 
+		var width = trigger.outerWidth();
+		if (x == 'center') 	{ left -= (width  + el.outerWidth()) / 2; }
+		if (x == 'left')  	{ left -= width; }	 
 		
 		return {top: top, left: left};
 	}	
@@ -154,11 +154,11 @@
 					}  
 					
 					// clear the container 
-					msg.find("p").remove().css({visibility: 'hidden'});
+					msg.find("span").remove().css({visibility: 'hidden'});
 					
 					// populate messages
-					$.each(err.messages, function() {                   
-						msg.append("<p>" + this + "</p>");			
+					$.each(err.messages, function(i, m) { 
+						$("<span/>").html(m).appendTo(msg);			
 					});
 					
 					// make sure the width is sane (not the body's width)
@@ -265,7 +265,7 @@
 			var msg;
 			
 			// substitutions are returned
-			if ($.isArray(returnValue)) {
+			if (returnValue === false || $.isArray(returnValue)) {
 				msg = v.messages[matcher.key || matcher] || v.messages["*"];
 				msg = msg[conf.lang];
 				
@@ -336,10 +336,10 @@
 						if (el.filter(match).length)  {  
 							
 							// execute a validator function
-							var ret = fn[1].call(self, el, el.val());
+							var returnValue = fn[1].call(self, el, el.val());
 							
 							// validation failed. multiple substitutions can be returned with an array
-							if (ret !== true) {								
+							if (returnValue !== true) {								
 								
 								// onBeforeFail
 								e.type = "onBeforeFail";
@@ -352,7 +352,7 @@
 									msgs = [msg];
 									return false;
 								} else {
-									pushMessage(msgs, match, ret);
+									pushMessage(msgs, match, returnValue);
 								}
 							}							
 						}
