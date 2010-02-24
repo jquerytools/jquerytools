@@ -22,11 +22,11 @@
 			naviItem: null,		
 			activeClass: 'active',
 			indexed: false,
-			api: false,
 			idPrefix: null,
 			
 			// 1.2
-			history: false
+			history: false,
+			keyboard: false
 		}
 	};		
 		
@@ -42,97 +42,64 @@
 		this.each(function() {
 			
 			var api = $(this).data("scrollable"),
-				 root = api.getRoot(), 
-				 navi = root.data("finder").call(null, conf.navi), 
-				 els = null, 
-				 buttons = api.getNaviButtons();
+				 navi = api.getRoot().parent().find(conf.navi), 
+				 buttons = api.getNaviButtons(),
+				 cls = conf.activeClass,
+				 history = conf.history && $.fn.history;
 			
+			// @deprecated stuff
 			if (api) { ret = api; }
 			
 			api.getNaviButtons = function() {
 				return buttons.add(navi);	
 			}; 
+			
+			
+			function addItem(i) {  
 				
-			// generate new entries
-			function reload() {
-				
-				if (!navi.children().length || navi.data("navi") == api) {
-					
-					navi.empty();
-					navi.data("navi", api);
-					
-					for (var i = 0; i < api.getPageAmount(); i++) {		
-						navi.append($("<" + (conf.naviItem || 'a') + "/>"));
+				var item = $("<" + (conf.naviItem || 'a') + "/>").attr("href", "#" + i).click(function(e) {
+					api.seekTo(i);				
+					if (history) {
+						location.hash = $(this).attr("href").replace("#", "");	
+					} else  {
+						return e.preventDefault();			
 					}
-					
-					els = navi.children().each(function(i) {
-						var el = $(this).attr("href", "#" + i);
-						
-						el.click(function(e) {
-							api.setPage(i);				
-							if (!conf.history) {
-								return e.preventDefault();		
-							}							
-						});
-						
-						// possible index number
-						if (conf.indexed)  { el.text(i); }
-						if (conf.idPrefix) { el.attr("id", conf.idPrefix + i); }
-					});
-					
-					
-				// assign onClick events to existing entries
-				} else {
-					
-					// find a entries first -> syntaxically correct
-					els = conf.naviItem ? navi.find(conf.naviItem) : navi.children();
-					
-					els.each(function(i)  {
-						var el = $(this);
-						
-						el.click(function(evt) {
-							api.setPage(i);
-							return evt.preventDefault();						
-						});
-						
-					});
-				}
+				}).appendTo(navi);
 				
-				// activate first entry
-				els.eq(0).addClass(conf.activeClass); 
+				// index number / id attribute
+				if (i === 0) {  item.addClass(cls); }
+				if (conf.indexed)  { item.text(i + 1); }
+				if (conf.idPrefix) { item.attr("id", conf.idPrefix + i); } 
 				
+				return item;
 			}
+
+			
+			// generate navigator
+			$.each(api.getItems(), function(i) {
+				addItem(i); 
+			});
 			
 			// activate correct entry
-			api.onStart(function(e, index) {
-				var cls = conf.activeClass;				
-				els.removeClass(cls).eq(api.getPageIndex()).addClass(cls);
-			});
-			
-			api.onReload(function() {
-				reload();		
-			});
-			
-			reload();			
-			
-			// look for correct navi item from location.hash
-			var el = els.filter("[href=" + location.hash + "]");	
-			if (el.length) { api.move(els.index(el)); }			
-			
-			
-			// history support
-			if (conf.history && $.fn.history) {
-
-				// enable history support
-				els.history(function(evt, hash) {
-					els.eq(hash.replace("#", "")).click();		
-				});	  
+			api.onBeforeSeek(function(e, index) {
+				var els = navi.children();
 				
-				// tab clicks perform their original action
-				els.click(function(e) {
-					location.hash = $(this).attr("href").replace("#", "");	
-				});		 
+				if (!e.isDefaultPrevented()) {			
+					els.removeClass(cls).eq(index).addClass(cls);
+				}
+			}); 
+			
+			function doHistory(evt, hash) {
+				navi.children().eq(hash.replace("#", "")).click();		
 			}
+			
+			// new item being added
+			api.onAddItem(function(e, item) {
+				var item = addItem(api.getItems().index(item)); 
+				if (history)  { item.history(doHistory); }
+			});
+			
+			if (history) { navi.children().history(doHistory); }
 			
 		});		
 		

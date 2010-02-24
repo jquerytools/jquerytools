@@ -20,9 +20,7 @@
 		conf: {
 			autoplay: true,
 			interval: 3000,
-			autopause: true,
-			steps: 1,
-			api: false
+			autopause: true
 		}
 	};	
 	
@@ -52,10 +50,10 @@
 				
 				// construct new timer
 				timer = setInterval(function() { 
-					api.move(opts.steps);				
+					api.next();				
 				}, opts.interval);
 				
-				api.move(opts.steps);
+				api.next();
 			};	
 
 			api.pause = function() {
