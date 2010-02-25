@@ -75,7 +75,7 @@
 			 overlay,
 			 opened,
 			 maskConf = $.tools.mask && (conf.mask || conf.expose),
-			 uid = Math.random().toString().substring(10);		
+			 uid = Math.random().toString().slice(10);		
 		
 			 
 		// mask configuration
