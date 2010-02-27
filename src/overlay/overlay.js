@@ -39,10 +39,9 @@
 			
 			// target element to be overlayed. by default taken from [rel]
 			target: null,
-			api: false,
 			
 			// 1.2
-			lazyload: false
+			fixed: true
 		}
 	};
 
@@ -149,11 +148,8 @@
 				} 
 				
 				// position overlay
-				overlay.css({top: top, left: left, position: 'absolute'}); 
-				
-				// onStart
-				e.type = "onStart";
-				fire.trigger(e); 
+				overlay.css({position: conf.fixed ? 'fixed' : 'absolute'}).css({top: top, left: left}); 
+
 				
 		 		// load effect  		 		
 				eff[0].call(self, function() {					
@@ -267,25 +263,7 @@
 		
 		closers.click(function(e) { 
 			self.close(e);  
-		});					
-		
-		
-		// lazyload support. all logic is here.
-		var lconf = $.tools.lazyload && conf.lazyload, loader;
-			 
-		if (lconf) {
-			
-			// lazyload configuration
-			if (typeof lconf != 'object') { lconf = { select: lconf }; }
-			if (typeof lconf.select != 'string') { lconf.select = "img, :backgroundImage"; }			
-			$.extend(lconf, { growParent: overlay, api: true }, lconf); 
-			
-			// initialize lazyload
-			loader = overlay.find(lconf.select).not(closers).lazyload(lconf);
-			
-			// perform lazyload right before overlay is opened
-			self.onBeforeLoad(loader.load);
-		}		
+		});	
 		
 	}
 	

@@ -52,9 +52,24 @@ mask
 overlay
 	- removed deprecated getContent method
 	- removed the gallery plugin
-	- onStart event is now deprecated. use onBeforeLoad instead
+	- removed onStart event. use onBeforeLoad instead
+	- fixed configuration variable (is now default). not supported by IE6.
+	
 	
 scrollable
 	- onStart is deprecated
-
+		ADDED
+			- freedom in "page design"
+			- no reloading
+			- variable size pages, items
+			- circular no longer in beta!
+			- history in navigator
+			- live adding of new items
+			- addItem() for circulared instances, onAddItem event
+			- you've got all these new goodies in 40% less file size!
+			- dynamic altering of configuration (clickable, mousewheel, circular)
+			
+		REMOVED: 
+			size, item, hoverClass, keyboardSteps, nextPage, prevPage 
+			getClickIndex(), getPageXXX() 
 

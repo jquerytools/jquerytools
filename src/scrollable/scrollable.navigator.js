@@ -46,7 +46,7 @@
 				 buttons = api.getNaviButtons(),
 				 cls = conf.activeClass,
 				 history = conf.history && $.fn.history;
-			
+
 			// @deprecated stuff
 			if (api) { ret = api; }
 			
@@ -55,42 +55,63 @@
 			}; 
 			
 			
+			function doClick(el, i, e) {
+				api.seekTo(i);				
+				if (history) {
+					location.hash = el.attr("href").replace("#", "");	
+				} else  {
+					return e.preventDefault();			
+				}
+			}
+			
+			function els() {
+				return navi.find(conf.naviItem || '> *');	
+			}
+			
 			function addItem(i) {  
 				
-				var item = $("<" + (conf.naviItem || 'a') + "/>").attr("href", "#" + i).click(function(e) {
-					api.seekTo(i);				
-					if (history) {
-						location.hash = $(this).attr("href").replace("#", "");	
-					} else  {
-						return e.preventDefault();			
-					}
-				}).appendTo(navi);
+				var item = $("<" + (conf.naviItem || 'a') + "/>").click(function(e)  {
+					doClick($(this), i, e);
+					
+				}).attr("href", "#" + i);
 				
 				// index number / id attribute
 				if (i === 0) {  item.addClass(cls); }
 				if (conf.indexed)  { item.text(i + 1); }
 				if (conf.idPrefix) { item.attr("id", conf.idPrefix + i); } 
 				
-				return item;
+				return item.appendTo(navi);
 			}
 
 			
 			// generate navigator
-			$.each(api.getItems(), function(i) {
-				addItem(i); 
-			});
+			if (els().length) {
+				els().each(function(i) { 
+					$(this).click(function(e)  {
+						doClick($(this), i, e);		
+					});
+				});
+				
+			} else {
+				$.each(api.getItems(), function(i) {
+					addItem(i); 
+				});
+			}   
 			
 			// activate correct entry
 			api.onBeforeSeek(function(e, index) {
-				var els = navi.children();
-				
-				if (!e.isDefaultPrevented()) {			
-					els.removeClass(cls).eq(index).addClass(cls);
+				var el = els().eq(index);
+				if (!e.isDefaultPrevented() && el.length) {			
+					els().removeClass(cls).eq(index).addClass(cls);
 				}
 			}); 
 			
 			function doHistory(evt, hash) {
-				navi.children().eq(hash.replace("#", "")).click();		
+				var el = els().eq(hash.replace("#", ""));
+				if (!el.length) {
+					el = els().filter("[href=" + hash + "]");	
+				}
+				el.click();		
 			}
 			
 			// new item being added
@@ -99,7 +120,7 @@
 				if (history)  { item.history(doHistory); }
 			});
 			
-			if (history) { navi.children().history(doHistory); }
+			if (history) { els().history(doHistory); }
 			
 		});		
 		

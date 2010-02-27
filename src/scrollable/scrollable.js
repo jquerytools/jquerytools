@@ -12,39 +12,24 @@
  * Date: @DATE 
  */
 (function($) { 
-		
-	/* 
-		ADDED
-			- freedom in "page design"
-			- no reloading
-			- variable size pages, items
-			- circular no longer in beta!
-			- history in navigator
-			- live adding of new items
-			- addItem() for circulared instances, onAddItem event
-			- you've got all these new goodies in 40% less file size!
-			- dynamic altering of configuration (clickable, mousewheel, circular)
-			
-		REMOVED: 
-			size, item, hoverClass, keyboardSteps, nextPage, prevPage 
-			getClickIndex(), getPageXXX() 
-	*/
-	
+
 	// static constructs
 	$.tools = $.tools || {version: '@VERSION'};
 	
 	$.tools.scrollable = {
 		
 		conf: {	
-			activeClass: 'active', 
+			activeClass: 'active',
+			circular: false,
+			clickable: true,
 			clonedClass: 'cloned',
 			disabledClass: 'disabled',
 			easing: 'swing',
+			initialIndex: 0,
 			item: null,
 			items: '.items',
-			keyboard: false,
+			keyboard: true,
 			lazyload: false,
-			circular: false,
 			mousewheel: false,
 			next: '.next',   
 			prev: '.prev', 
@@ -65,7 +50,7 @@
 			 itemWrap = root.children(),
 			 index = 0,
 			 forward,
-			 vertical;
+			 vertical = conf.vertical;
 				
 		if (!current) { current = self; } 
 		if (itemWrap.length > 1) { itemWrap = $(conf.items, root); }
@@ -128,20 +113,24 @@
 			
 			addItem: function(item) {
 				item = $(item);
+				
 				if (!conf.circular)  {
 					itemWrap.append(item);
-					return self;
-				} 
-				
-				$(".cloned:last").before(item);
-				$(".cloned:first").replaceWith(item.clone().addClass(conf.clonedClass)); 
+				} else {
+					$(".cloned:last").before(item);
+					$(".cloned:first").replaceWith(item.clone().addClass(conf.clonedClass)); 						
+				}
 				
 				fire.trigger("onAddItem", [item]);
+				return self;
 			},
 			
 			
 			/* all seeking functions depend on this */		
 			seekTo: function(i, time, fn) {				
+				
+				// check that index is sane
+				if (!conf.circular && i < 0 || i > self.getSize()) { return self; }
 				
 				var item = i;
 				
@@ -149,7 +138,7 @@
 					i = self.getItems().index(i);	
 				} else {
 					item = self.getItems().eq(i);
-				}
+				}  
 				
 				// onBeforeSeek
 				var e = $.Event("onBeforeSeek"); 
@@ -158,9 +147,9 @@
 					if (e.isDefaultPrevented() || !item.length) { return self; }			
 				}  
 	
-				var props = vertical ? {top: -item.position().top} : {left: -item.position().left}; 
+				var props = vertical ? {top: -item.position().top} : {left: -item.position().left};  
 				
-				itemWrap.animate(props, time, conf.easing, fn || function() {
+				itemWrap.animate(props, time, conf.easing, fn || function() { 
 					fire.trigger("onSeek", [i]);		
 				});	
 				
@@ -194,8 +183,8 @@
 				
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			
-			self.seekTo(0, 0, true).onBeforeSeek(function(e, i, time) { 
-				
+			self.onBeforeSeek(function(e, i, time) { 
+
 				if (e.isDefaultPrevented()) { return; }
 				
 				/*
@@ -205,7 +194,8 @@
 				if (i == -1) {
 					self.seekTo(cloned1, time, function()  {
 						self.end(0);		
-					});                        
+					});          
+					return e.preventDefault();
 					
 				} else if (i == self.getSize()) {
 					self.seekTo(cloned2, time, function()  {
@@ -220,9 +210,13 @@
 		var prev = root.parent().find(conf.prev).click(function() { self.prev(); }),
 			 next = root.parent().find(conf.next).click(function() { self.next(); });	
 		
-		prev.toggleClass(conf.disabledClass, !conf.circular);
-		next.toggleClass(conf.disabledClass, self.getSize() < 2);
-			 
+		if (!conf.circular && self.getSize() > 2) {
+			
+			self.onBeforeSeek(function(e, i) {
+				prev.toggleClass(conf.disabledClass, i <= 0);
+				next.toggleClass(conf.disabledClass, i >= self.getSize() -1);
+			}); 
+		}
 			
 		// mousewheel support
 		if (conf.mousewheel && $.fn.mousewheel) {
@@ -256,20 +250,24 @@
 			
 				if (vertical && (key == 38 || key == 40)) {
 					self.move(key == 38 ? -1 : 1);
+					return evt.preventDefault();
 				}
 				
 				if (!vertical && (key == 37 || key == 39)) {					
 					self.move(key == 37 ? -1 : 1);
+					return evt.preventDefault();
 				}	  
-				
-				if (key > 36 && key < 41) { return evt.preventDefault(); }
 				
 			}); 
 			
 		}
 		
 		// lazyload support. all logic is here.
-		var lconf = $.tools.lazyload && conf.lazyload, loader;
+		var lconf = $.tools.lazyload && conf.lazyload, 
+			 loader,
+			 doLoad = function (ev, i) {
+				loader.load(self.getItems().eq(i).find(":unloaded").andSelf());
+			 };
 		
 		if (lconf) {
 		
@@ -278,16 +276,13 @@
 			if (typeof lconf.select != 'string') { lconf.select = "img, :backgroundImage"; }
 			
 			// initialize lazyload
-			loader = root.find(lconf.select).lazyload(lconf).data("lazyload");
-			
-			function doLoad(ev, i)  {
-				loader.load(self.getItems().eq(i).find(":unloaded").andSelf());
-			}
-			
+			loader = itemWrap.find(lconf.select).lazyload(lconf).data("lazyload");
 			self.onBeforeSeek(doLoad);
-			doLoad(null, 0);
 		}		
 		
+		// initial index
+		$(self).trigger("onBeforeSeek", [conf.initialIndex]);
+		self.seekTo(conf.initialIndex, 0, true);
 	} 
 
 		

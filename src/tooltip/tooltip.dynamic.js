@@ -61,7 +61,7 @@
 		return true;
 	}
 	
-	// scrollable mousewheel implementation
+	// dynamic plugin
 	$.fn.dynamic = function(conf) {
 		
 		if (typeof conf == 'number') { conf = {speed: conf}; }
@@ -71,10 +71,6 @@
 		var cls = conf.classNames.split(/\s/), orig;	
 			
 		this.each(function() {		
-				
-			if ($(this).tooltip().jquery)  {
-				throw "Lazy feature not supported by dynamic plugin. set lazy: false for tooltip";	
-			}
 				
 			var api = $(this).tooltip().onBeforeShow(function(e, pos) {				
 

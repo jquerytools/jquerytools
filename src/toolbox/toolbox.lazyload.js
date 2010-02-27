@@ -271,7 +271,7 @@
 						if (el.is(matcher) && $.isFunction(loader[1]))  {
 							
 							// match found
-							var e = new $.Event("onBeforeLoad");
+							var e = $.Event("onBeforeLoad");
 							trigger.trigger(e, [el]);
 
 							// loading cancelled by user
@@ -317,7 +317,7 @@
 				// onLoadAll callback 
 				$(self).bind("onLoad.tmp", function() {
 					if (!nodes.not(":loaded").length) {
-						trigger.trigger("onLoadAll", [nodes], preload);	
+						trigger.trigger("onLoadAll", [nodes], preload);	 
 						$(self).unbind("onLoad.tmp");
 					}
 				}); 

@@ -170,10 +170,9 @@
 			 max = rfc3339(input.attr("max")) || rfc3339(conf.max) || 
 			 			roll(value, conf.max || conf.yearRange[1] * 365);
 
-			 
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
-		if (input[0].getAttribute("type") == 'date') {
-			var tmp = input.clone().attr("type", "text").addClass(css.input);
+		if (input.attr("type") == 'date') {
+			var tmp = $("<input/>").addClass(css.input).attr("name", input.attr("name"));
 			input.replaceWith(tmp);
 			input = tmp;
 		}
@@ -240,9 +239,8 @@
 
 			if (input.is("[readonly]")) { return; }
 				
-			// store date
+			// current value
 			value = date;
-			input.data("date", date);
 			
 			// onPick
 			e.type = "change";
@@ -252,6 +250,13 @@
 			// formatting			
 			input.val(format(date, conf.format, conf.lang));
 
+			
+			// store value into input
+			input.data("date", date);
+			
+			// HTML5 DOM property
+			input[0].valueAsDate = date;
+			
 			self.hide(e); 
 		}
 

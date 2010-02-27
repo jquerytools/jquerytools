@@ -29,10 +29,7 @@
 			vertical: false,
 			keyboard: true,
 			progress: false,
-			
-			
-			hideInput: false, 
-			speed: 200,
+			speed: 100,
 			
 			// set to null if not needed
 			css: {
@@ -48,25 +45,32 @@
 //{{{ fn.drag
 		
 	/* 
-		Full featured drag and drop implementation in 35 lines (0.4 kb minified). 
-		Who told that drag and drop is rocket science? Find your way. Example:
+		FULL featured drag and drop. 0.7 kb minified, 0.3 gzipped. done.
+		Who told d'n'd is rocket science? Usage:
 		
 		$(".myelement").drag({y: false}).bind("drag", function(event, x, y) {
 			// do your custom thing
 		});
 		 
-		Configuration: x (enable horizontal), y (enable vertical), drag (perform drag) 
-		Tree events: dragStart, drag, dragEnd. 
+		Configuration: 
+			x: true, 		// enable horizontal drag
+			y: true, 		// enable vertical drag 
+			drag: true 		// true = perform drag, false = only fire events 
+			
+		Events: dragStart, drag, dragEnd. 
 	*/
 	var doc, draggable;
 	
 	$.fn.drag = function(conf) {
 		
+		// disable IE specialities
+		document.ondragstart = function () { return false; };
+		
 		conf = $.extend({x: true, y: true, drag: true}, conf);
 	
 		doc = doc || $(document).bind("mousedown mouseup", function(e) {
 				
-			var el = $(e.target); 
+			var el = $(e.target);  
 			
 			// start 
 			if (e.type == "mousedown" && el.data("drag")) {
@@ -96,11 +100,15 @@
 				e.preventDefault();
 				
 			} else {
-				if (draggable) {  
-					draggable.trigger("dragEnd");  
+				
+				try {
+					if (draggable) {  
+						draggable.trigger("dragEnd");  
+					}
+				} finally { 
+					doc.unbind("mousemove.drag");
+					draggable = null; 
 				}
-				doc.unbind("mousemove.drag");
-				draggable = null; 
 			} 
 							
 		});
@@ -117,8 +125,12 @@
 		return Math.round(value * n) / n;
 	}
 	
+	// get hidden element's width
 	function dim(el, key) {
-		return parseInt(el.css(key), 10);	
+		var v = parseInt(el.css(key), 10);
+		if (v) { return v; }
+		var s = el[0].currentStyle; 
+		return s && s.width && parseInt(s.width, 10);	
 	}
 	
 	function hasEvent(el) {
@@ -139,7 +151,7 @@
 			 pos,				// current position of the handle
 			 progress,		// progressbar
 			 handle;			// drag handle
-			 
+		 
 		// create range	 
 		input.before(root);	
 		handle = root.addClass(css.slider).find("a").addClass(css.handle);
@@ -166,15 +178,15 @@
 		}  
 		
 		// Replace built-in range input (type attribute cannot be changed)
-		if (input[0].getAttribute("type") == 'range') {
-			var tmp = input.clone().attr("type", "text").addClass(css.input);
+		if (input.attr("type") == 'range') {
+			var tmp = $("<input/>").attr("name", input.attr("name"));
 			input.replaceWith(tmp);
 			input = tmp;
 		}
-
-		if (conf.hideInput) { input.hide(); }  
+		
+		input.addClass(css.input);
 			 
-		var fire = $(self).add(input), fireOnSlide;
+		var fire = $(self).add(input), fireOnSlide = true;
 
 		
 		/*** the flesh and bone of this tool ***/
@@ -189,9 +201,6 @@
 			if (step) {
 				val = Math.round(val / step) * step;
 			}
-			
-			// precision
-			val = round(val, precision);
 
 			// count x based on value or tweak x if stepping is done
 			if (x == undefined || step) {
@@ -199,14 +208,22 @@
 			}
 			
 			// nothing changes or out of range --> return
-			if (isNaN(val) || val == value || x > len || x < 0) { return self; }       
+			if (isNaN(val) || val == value) { return self; }       
+			
+			// stay within range
+			x = Math.max(0, Math.min(x, len)); 
 			
 			val += conf.min;
+			val = x / len * range;  
+			
+			// precision
+			val = round(val, precision);
+			
 			
 			// onSlide
 			if (fireOnSlide && value !== undefined && !isClick) {
 				evt.type = "onSlide";           
-				fire.trigger(evt, [val]); 
+				fire.trigger(evt, [val, x]); 
 				if (evt.isDefaultPrevented()) { return self; }  
 			}				
 			
@@ -218,7 +235,7 @@
 				 } : null;
 
 			if (conf.vertical) {
-				handle.animate({top: -(x - len)}, speed, callback);
+				handle.animate({top: x}, speed, callback);
 				if (conf.progress) { progress.animate({height: x}, speed);	}				
 				
 			} else {
@@ -235,7 +252,7 @@
 
 			// HTML5 attribute
 			input[0].valueAsNumber = val;
-			
+
 			return self;
 		} 
 		
@@ -316,7 +333,7 @@
 		}).bind("dragEnd", function(e) {
 			if (!e.isDefaultPrevented()) {
 				e.type = "change";
-				fire.trigger(e, [value]);			
+				fire.trigger(e, [value]);	 
 			}
 			
 		}).click(function(e) {
@@ -337,6 +354,30 @@
 			
 		});
 
+		if (conf.keyboard) {
+			
+			input.keydown(function(e) {
+		
+				var key = e.keyCode,
+					 up = $([75, 76, 38, 33, 39]).index(key) != -1,
+					 down = $([74, 72, 40, 34, 37]).index(key) != -1;
+					 
+					 
+				if ((up || down) && !(e.shiftKey || e.altKey || e.ctrlKey)) {
+				
+					// UP: 	k=75, l=76, up=38, pageup=33, right=39			
+					if (up) {
+						self.step(key == 33 ? 10 : 1, e);
+						
+					// DOWN:	j=74, h=72, down=40, pagedown=34, left=37
+					} else if (down) {
+						self.step(key == 34 ? -10 : -1, e); 
+					} 
+					return e.preventDefault();
+				} 
+			});
+		}
+		
 		
 		input.blur(function(e) {			
 			self.setValue($(this).val(), e); 
@@ -361,31 +402,6 @@
 		init();
 		
 		self.setValue(input.val() || conf.value || conf.min);
-	}
-		
-	if (tool.conf.keyboard) {
-		
-		$(document).keydown(function(e) {
-	
-			var el = $(e.target), 
-				 range = el.data("rangeinput"),
-				 key = e.keyCode,
-				 up = $([75, 76, 38, 33, 39]).index(e.keyCode) != -1,
-				 down = $([74, 72, 40, 34, 37]).index(e.keyCode) != -1;
-				 
-			if ((up || down) && !(e.shiftKey || e.altKey || e.ctrlKey) && range) {
-			
-				// UP: 	k=75, l=76, up=38, pageup=33, right=39			
-				if (up) {
-					range.step(key == 33 ? 10 : 1, e);
-					
-				// DOWN:	j=74, h=72, down=40, pagedown=34, left=37
-				} else if (down) {
-					range.step(key == 34 ? -10 : -1, e); 
-				} 
-				return e.preventDefault();
-			} 
-		});
 	}
 	
 	$.expr[':'].range = function(el) {
