@@ -165,7 +165,7 @@ function getHTML(p, c) {
 	
 	// force id for IE or Flash API cannot be returned
 	if (ie && !e.id) {
-		e.id = "_" + ("" + Math.random()).substring(9);
+		e.id = "_" + ("" + Math.random()).slice(9);
 	}
 	
 	if (e.id) {	
@@ -207,7 +207,7 @@ function getHTML(p, c) {
 				vars += key +'='+ (typeof c[key] == 'object' ? asString(c[key]) : c[key]) + '&';
 			}
 		}
-		vars = vars.substring(0, vars.length -1);
+		vars = vars.slice(0, -1);
 		html += '<param name="flashvars" value=\'' + vars + '\' />';
 	}
 	

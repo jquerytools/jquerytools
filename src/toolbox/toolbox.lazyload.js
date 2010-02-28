@@ -194,7 +194,7 @@
 			
 			// url("bg.jpg") --> bg.jpg
 			var bg = el.data("bg"), p = this.getProgress();
-			bg = bg.substring(bg.indexOf("(") + 1, bg.indexOf(")")).replace(/\"/g, "");			
+			bg = bg.slice(bg.indexOf("(") + 1, bg.indexOf(")")).replace(/\"/g, "");			
 			
 			// progress indicator
 			if (p) { el.prepend(p); }

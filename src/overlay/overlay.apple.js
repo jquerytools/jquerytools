@@ -56,7 +56,7 @@
 			}
 			
 			// url("bg.jpg") --> bg.jpg
-			bg = bg.substring(bg.indexOf("(") + 1, bg.indexOf(")")).replace(/\"/g, "");
+			bg = bg.slice(bg.indexOf("(") + 1, bg.indexOf(")")).replace(/\"/g, "");
 			overlay.css("backgroundImage", "none");
 			
 			img = $('<img src="' + bg + '"/>');
