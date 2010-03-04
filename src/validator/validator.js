@@ -54,10 +54,15 @@
 			"*": { en: "Please correct this value" }		
 		},
 		
-		localize: function(lang, messages) {
+		localize: function(lang, messages) { 
 			$.each(messages, function(key, msg)  {
 				v.messages[key][lang] = msg;		
 			});
+		},
+		
+		localizeFn: function(key, messages) {
+			v.messages[key] = v.messages[key] || {};
+			$.extend(v.messages[key], messages);
 		},
 		
 		/** 
@@ -118,7 +123,7 @@
 	
 
 	
-	// $.is("[type=xxx]") or $.filter("[type=xxx]") not working in jQuery 1.3.2 or 1.4.1
+	// $.is("[type=xxx]") or $.filter("[type=xxx]") not working in jQuery 1.3.2 or 1.4.2
 	function isType(type) { 
 		function fn() {
 			return this.getAttribute("type") == type;  	
@@ -179,7 +184,8 @@
 			}, function(inputs) {
 				var conf = this.getConf();				
 				inputs.removeClass(conf.errorClass).each(function() {
-					$(this).data("msg.el").css({visibility: 'hidden'});		
+					var msg = $(this).data("msg.el");
+					if (msg) { msg.css({visibility: 'hidden'}); }
 				});
 			}
 		]  
@@ -241,7 +247,7 @@
 		
 		// private variables
 		var self = this, 
-			 fire = form.add(this),
+			 fire = form.add(self),
 			 inputs = form.find(":input");
 			 
 		// inputs are given directly
@@ -267,8 +273,8 @@
 			// substitutions are returned
 			if (returnValue === false || $.isArray(returnValue)) {
 				msg = v.messages[matcher.key || matcher] || v.messages["*"];
-				msg = msg[conf.lang];
-				
+				msg = msg[conf.lang] || v.messages["*"].en;
+
 				// substitution
 				var matches = msg.match(/\$\d/g);
 				
@@ -301,6 +307,39 @@
 			getInputs: function() {
 				return inputs;	
 			},		
+			
+			/* @param e - for internal use only */
+			invalidate: function(errs, e) {
+				
+				// errors are given manually: { fieldName1: 'message1', fieldName2: 'message2' }
+				if (!e) {
+					var errors = [];
+					$.each(errs, function(key, val) {
+						var input = inputs.filter("[name=" + key + "]");
+						if (input.length) {
+							
+							// trigger HTML5 ininvalid event
+							input.trigger("oninvalid", [val]);
+							
+							errors.push({ input: input, messages: [val]});				
+						}
+					});
+
+				  	errs = errors; 
+					e = $.Event();
+				}
+				
+				// onFail callback
+				e.type = "onFail";					
+				fire.trigger(e, [errs]); 
+				
+				// call the effect
+				if (!e.isDefaultPrevented()) {						
+					effects[conf.effect][0].call(self, errs, e);													
+				}
+				
+				return self;
+			},
 			
 //{{{  checkValidity() - flesh and bone of this tool
 						
@@ -367,8 +406,8 @@
 						
 						// begin validating upon error event type (such as keyup) 
 						if (conf.errorInputEvent) {
-							el.bind(event, function() {
-								self.checkValidity(el);		
+							el.bind(event, function(e) {
+								self.checkValidity(el, e);		
 							});							
 						} 					
 					}
@@ -383,28 +422,19 @@
 				if (!eff) { throw "Validator: cannot find effect \"" + conf.effect + "\""; }
 				
 				// errors found
-				if (errs.length) {					
-					
-					// onFail callback
-					e.type = "onFail";					
-					fire.trigger(e, [errs]); 
-					
-					// call the effect
-					if (!e.isDefaultPrevented()) {						
-						eff[0].call(self, errs);													
-					}  
-					
+				if (errs.length) {					 
+					self.invalidate(errs, e); 
 					return false;
 					
 				// no errors
 				} else {		
 					
 					// call the effect
-					eff[1].call(self, els);
+					eff[1].call(self, els, e);
 					
 					// onSuccess callback
 					e.type = "onSuccess";					
-					fire.trigger(e);
+					fire.trigger(e, [els]);
 					
 					els.unbind(event);
 				}
@@ -433,7 +463,7 @@
 		// form validation
 		if (conf.formEvent) {
 			form.bind(conf.formEvent, function(e) {
-				if (!self.checkValidity()) { 
+				if (!self.checkValidity(null, e)) { 
 					return e.preventDefault(); 
 				}
 			});
@@ -445,7 +475,7 @@
 		// input validation
 		if (conf.inputEvent) {
 			inputs.bind(conf.inputEvent, function(e) {
-				self.checkValidity($(this));
+				self.checkValidity($(this), e);
 			});	
 		}
 		

@@ -26,7 +26,7 @@
 			steps: 0,
 			value: 0,			
 			precision: undefined,
-			vertical: false,
+			vertical: 0,
 			keyboard: true,
 			progress: false,
 			speed: 100,
@@ -142,20 +142,19 @@
 		
 		// private variables
 		var self = this,  
-			 css = conf.css,
-			 
+			 css = conf.css, 
 			 root = $("<div><div/><a href='#'/></div>").data("rangeinput", self),	 
 			 value,			// current value
 			 origo,			// handle's start point
 			 len,				// length of the range
-			 pos,				// current position of the handle
-			 progress,		// progressbar
-			 handle;			// drag handle
+			 pos;				// current position of the handle		
 		 
 		// create range	 
 		input.before(root);	
-		handle = root.addClass(css.slider).find("a").addClass(css.handle);
-		progress = root.find("div").addClass(css.progress);  		   
+		
+		var handle = root.addClass(css.slider).find("a").addClass(css.handle), 	
+			 progress = root.find("div").addClass(css.progress),						
+			 vertical = conf.vertical || dim(root, "height") > dim(root, "width");
 		
 		// get (HTML5) attributes into configuration
 		$.each("min,max,step,value".split(","), function(i, key) {
@@ -189,12 +188,23 @@
 		var fire = $(self).add(input), fireOnSlide = true;
 
 		
-		/*** the flesh and bone of this tool ***/
-		function slide(evt, x, val, isClick) { 
-		  	
+		/**
+		 	The flesh and bone of this tool. All sliding is routed trough this.
+			
+			@param evt types include: click, keydown, blur and api (setValue call)
+			@param isSetValue when called trough setValue() call (keydown, blur, api)
+			
+			vertical configuration gives additional complexity. 
+		 */
+		function slide(evt, x, val, isSetValue) { 
+			
 			// calculate value based on slide position
 			if (val == undefined) {
 				val = x / len * range;  
+				
+			// x is calculated based on val. we need to strip off min during calculation	
+			} else if (isSetValue) {
+				val -= conf.min;	
 			}
 			
 			// increment in steps
@@ -205,22 +215,33 @@
 			// count x based on value or tweak x if stepping is done
 			if (x == undefined || step) {
 				x = val * len / range;	
-			}
+			}  
 			
 			// nothing changes or out of range --> return
 			if (isNaN(val) || val == value) { return self; }       
 			
 			// stay within range
-			x = Math.max(0, Math.min(x, len)); 
+			x = Math.max(0, Math.min(x, len));  
+			val = x / len * range;   
+
+			if (isSetValue || !vertical) {
+				val += conf.min;
+			}
 			
-			val += conf.min;
-			val = x / len * range;  
+			// in vertical ranges value rises upwards
+			if (vertical) {
+				if (isSetValue) {
+					x = len -x;
+				} else {
+					val = conf.max - val;	
+				}
+			}	
 			
 			// precision
-			val = round(val, precision);
-			
+			val = round(val, precision); 
 			
 			// onSlide
+			var isClick = evt.type == "click";
 			if (fireOnSlide && value !== undefined && !isClick) {
 				evt.type = "onSlide";           
 				fire.trigger(evt, [val, x]); 
@@ -234,13 +255,17 @@
 					fire.trigger(evt, [val]);
 				 } : null;
 
-			if (conf.vertical) {
+			if (vertical) {
 				handle.animate({top: x}, speed, callback);
-				if (conf.progress) { progress.animate({height: x}, speed);	}				
+				if (conf.progress) { 
+					progress.animate({height: len - x + handle.width() / 2}, speed);	
+				}				
 				
 			} else {
 				handle.animate({left: x}, speed, callback);
-				if (conf.progress) { progress.animate({width: x}, speed); }
+				if (conf.progress) { 
+					progress.animate({width: x + handle.width() / 2}, speed); 
+				}
 			}
 			
 			// store current value
@@ -264,7 +289,7 @@
 			},
 			
 			setValue: function(val, e) {
-				return slide(e || $.Event(), undefined, val - conf.min); 
+				return slide(e || $.Event("api"), undefined, val, true); 
 			}, 			  
 			
 			getConf: function() {
@@ -285,7 +310,8 @@
 				
 			step: function(am, e) {
 				e = e || $.Event();
-				self.setValue(value + conf.step * (am || 1), e);	
+				var step = conf.step == 'any' ? 1 : conf.step;
+				self.setValue(value + step * (am || 1), e);	
 			},
 			
 			// HTML5 compatible name
@@ -328,7 +354,7 @@
 		}).bind("drag", function(e, y, x) {        
 				
 			if (input.is(":disabled")) { return false; } 
-			slide(e, conf.vertical ? y : x); 
+			slide(e, vertical ? y : x); 
 			
 		}).bind("dragEnd", function(e) {
 			if (!e.isDefaultPrevented()) {
@@ -348,16 +374,17 @@
 			
 			if (!origo) { init(); } 
 			
-			var fix = handle.width() / 2; 
+			var fix = handle.width() / 2;   
 			
-			slide(e, conf.vertical ? e.pageY + fix : e.pageX - origo - fix, undefined, true); 
-			
+			slide(e, vertical ? -(origo -e.pageY +fix) + len : e.pageX -origo -fix);  
 		});
 
 		if (conf.keyboard) {
 			
 			input.keydown(function(e) {
 		
+				if (input.attr("readonly")) { return; }
+				
 				var key = e.keyCode,
 					 up = $([75, 76, 38, 33, 39]).index(key) != -1,
 					 down = $([74, 72, 40, 34, 37]).index(key) != -1;
@@ -379,8 +406,11 @@
 		}
 		
 		
-		input.blur(function(e) {			
-			self.setValue($(this).val(), e); 
+		input.blur(function(e) {	
+			var val = $(this).val();
+			if (val !== value) {
+				self.setValue(val, e);
+			}
 		});    
 		
 		
@@ -389,7 +419,7 @@
 		
 		
 		function init() {
-			if (conf.vertical) {
+			if (vertical) {
 				len = dim(root, "height") - dim(handle, "height");
 				origo = root.offset().top + len; 
 				

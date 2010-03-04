@@ -49,6 +49,8 @@
 				month: 0,
 				year: 0, 
 				days: 0,
+				
+				body: 0,
 				weeks: 0,
 				today: 0,				 
 				
@@ -162,20 +164,26 @@
 			 trigger,
 			 pm, nm, 
 			 currYear, currMonth, currDay,
-			 value = rfc3339(input.attr("data-value") || conf.value || input.val()),
+			 value = rfc3339(input.attr("data-value") || conf.value || input.val()) || new Date(), 
+			 min = input.attr("min") || conf.min,  
+			 max = input.attr("max") || conf.max;
 			 
-			 min = rfc3339(input.attr("min")) || rfc3339(conf.min) || 
-			 			roll(value, -Math.abs(conf.min) || conf.yearRange[0] * 365), 
-			 			
-			 max = rfc3339(input.attr("max")) || rfc3339(conf.max) || 
-			 			roll(value, conf.max || conf.yearRange[1] * 365);
-
+			 
+		// make sure min / max has values		
+		min = rfc3339(min) || roll(value, -Math.abs(min) || conf.yearRange[0] * 365);
+		max = rfc3339(max) || roll(value, Math.abs(max) || conf.yearRange[1] * 365);
+		
+		
+		// check that language exists
+		if (!labels) { throw "Datepicker: invalid language: " + conf.lang; }
+		
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input.attr("type") == 'date') {
-			var tmp = $("<input/>").addClass(css.input).attr("name", input.attr("name"));
+			var tmp = $("<input/>").attr("name", input.attr("name"));
 			input.replaceWith(tmp);
 			input = tmp;
 		}
+		input.addClass(css.input);
 		
 		var fire = input.add(this);
 		
@@ -189,14 +197,15 @@
 		if (!root.length) {
 			
 			// root
-			root = $('<div><div><a/><div/><a/></div><div/><div/></div>')
+			root = $('<div><div><a/><div/><a/></div><div><div/><div/></div></div>')
 				.hide().css({position: 'absolute'}).attr("id", css.root);			
 						
 			// elements
 			root.children()
-				.eq(0).attr("id", css.head).end()
-				.eq(1).attr("id", css.days).end()
-				.eq(2).attr("id", css.weeks).end()
+				.eq(0).attr("id", css.head).end() 
+				.eq(1).attr("id", css.body).children()
+					.eq(0).attr("id", css.days).end()
+					.eq(1).attr("id", css.weeks).end().end()
 				.find("a").eq(0).attr("id", css.prev).end().eq(1).attr("id", css.next);		 				  
 			
 			// title
@@ -211,10 +220,11 @@
 			
 			// day titles
 			var days = root.find("#" + css.days);
-
-			$.each(labels.shortDays, function(i, el) {
-				days.append($("<span>/").text(el)); 		
-			}); 
+			
+			// days of the week
+			for (var d = 0; d < 7; d++) { 
+				days.append($("<span>/").text(labels.shortDays[(d + conf.firstDay) % 7]));
+			}
 			
 			$("body").append(root);
 		}	
@@ -265,7 +275,7 @@
 			ev.type = "onShow";
 			fire.trigger(ev);  
 			
-			$(document).bind("keydown.dp", function(e) { 
+			$(document).bind("keydown.d", function(e) { 
 				
 				var key = e.keyCode;			 
 				
@@ -327,9 +337,9 @@
 			
 			
 			// click outside dateinput
-			$(window).bind("click.dp", function(e) {
+			$(window).bind("click.d", function(e) {
 				var el = e.target;
-				if (!$(el).parents("#" + css.root).length && el != input[0] && el != trigger[0]) { 
+				if (!$(el).parents("#" + css.root).length && el != input[0] && (!trigger || el != trigger[0])) { 
 					self.hide(e); 
 				}
 			}); 
@@ -510,10 +520,10 @@
 						return false;
 					});
 				}
-				
+
 				// sunday
 				if (css.sunday) {
-					weeks.find(".week").each(function() {
+					weeks.find(css.week).each(function() {
 						var beg = conf.firstDay ? 7 - conf.firstDay : 0;
 						$(this).children().slice(beg, beg + 1).addClass(css.sunday);		
 					});	
@@ -550,8 +560,8 @@
 				
 				if (root.is(":visible")) {
 					root.hide();
-					$(window).unbind("click.dp"); 
-					$(document).unbind("keydown.dp");
+					$(window).unbind("click.d"); 
+					$(document).unbind("keydown.d");
 					
 					// onHide
 					e = e || $.Event();
@@ -597,7 +607,7 @@
 
 		
 		// show dateinput & assign keyboard shortcuts
-		input.focus(self.show).keydown(function(e) {
+		input.bind("focus click", self.show).keydown(function(e) {
 
 			var key = e.keyCode;
 			
