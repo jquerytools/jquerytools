@@ -105,6 +105,7 @@
 			 y = pos[0],
 			 x = pos[1];
 
+		
 		top  -= el.outerHeight() - conf.offset[0];
 		left += trigger.outerWidth() + conf.offset[1];
 		
@@ -159,7 +160,7 @@
 					}  
 					
 					// clear the container 
-					msg.find("span").remove().css({visibility: 'hidden'});
+					msg.css({visibility: 'hidden'}).find("span").remove();
 					
 					// populate messages
 					$.each(err.messages, function(i, m) { 
@@ -238,7 +239,7 @@
 	});
 	
 	v.fn("[pattern]", function(el) {
-		var p = new RegExp(el.attr("pattern"));  
+		var p = new RegExp("^" + el.attr("pattern") + "$");  
 		return p.test(el.val()); 			
 	});
 

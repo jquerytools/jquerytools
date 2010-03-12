@@ -106,3 +106,22 @@ body {
 	</script>
 	
 </div>
+
+
+<div id="bare" class="test">
+
+	<h3>No styling</h3>
+	
+	<a class="trigger" title="This is the title">trigger 1</a>
+	<a class="trigger" title="This is the title">trigger 2</a>
+	<a class="trigger" title="This is the title">trigger 3</a>
+	
+	<div id="sametip" class="tooltip">
+		The same tooltip for multiple triggers
+	</div>
+
+	<script>
+		$("#bare a").tooltip({ tipClass: 'fool' });
+	</script>
+	
+</div>

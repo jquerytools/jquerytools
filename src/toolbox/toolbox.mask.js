@@ -1,12 +1,10 @@
 /**
  * @license 
- * jQuery Tools @VERSION / Toolbox:Mask - Dim the lights.
+ * jQuery Tools @VERSION Mask "Dim the lights"
  * 
- * Copyright (c) 2010 Tero Piirainen
  * http://flowplayer.org/tools/toolbox/mask.html
  * 
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
+ * Copyright is for losers (thanks bansky)
  *
  * Since: Mar 2010
  * Date: @DATE 
@@ -69,7 +67,7 @@
 	
 	$.mask = {
 		
-		load: function(els, conf) {
+		load: function(conf, els) {
 			
 			// already loaded ?
 			if (loaded) { return this; }			
@@ -79,13 +77,11 @@
 				conf = {color: conf};	
 			}
 			
-			exposed = els;
-			
 			// use latest config
 			conf = conf || config;
 			
 			config = conf = $.extend($.extend({}, tool.conf), conf);
-			
+
 			// get the mask
 			mask = $("#" + conf.maskId);
 				
@@ -156,7 +152,7 @@
 				});
 			 
 				// make elements sit on top of the mask				
-				els.css({zIndex:Math.max(conf.zIndex + 1, overlayIndex == 'auto' ? 0 : overlayIndex)});			
+				exposed = els.css({zIndex:Math.max(conf.zIndex + 1, overlayIndex == 'auto' ? 0 : overlayIndex)});			
 			}	
 			
 			// reveal mask
@@ -217,11 +213,15 @@
 		}		
 	};
 	
-	// @deprecated
-	$.fn.mask = $.fn.expose = function(conf) {
-		$.mask.load(this, conf);
+	$.fn.mask = function(conf) {
+		$.mask.load(conf);
 		return this;		
 	};			
+	
+	$.fn.expose = function(conf) {
+		$.mask.load(conf, this);
+		return this;			
+	}
 
 
 })(jQuery);

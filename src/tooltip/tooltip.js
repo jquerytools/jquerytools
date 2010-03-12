@@ -16,7 +16,7 @@
 	/* 
 		removed: oneInstance, lazy, 
 		tip must next to the trigger 
-		isShown(fully), layout, tipClass
+		isShown(fully), layout, tipClass, layout
 	*/
 	
 	// static constructs
@@ -29,10 +29,10 @@
 			// default effect variables
 			effect: 'toggle',			
 			fadeOutSpeed: "fast",
-			tip: 0, 
 			predelay: 0,
 			delay: 30,
 			opacity: 1,			
+			tip: 0,
 			
 			// 'top', 'bottom', 'right', 'left', 'center'
 			position: ['top', 'center'], 
@@ -170,15 +170,19 @@
 				if (!tip) {
 					
 					// find a "manual" tooltip
-					if (conf.tip) { 
-						tip = $(conf.tip); 
-						if (tip.length > 1) { tip = trigger.next(conf.tip); } 
-					}
-					
-					// create it
-					if (!tip || !tip.length) {
+					if (title) { 
 						tip = $(conf.layout).addClass(conf.tipClass).appendTo(document.body);
+					} else { 
+						tip = trigger.next();  
+						if (!tip.length) { tip = trigger.parent().next(); } 	
+						if (!tip.length) { tip = $(conf.tip).eq(0); } 	
 					}
+				}
+				
+				if (tip.length) {
+					tip.hide()	
+				} else {
+					throw "Cannot find tooltip for " + trigger;	
 				}
 			 	
 			 	if (self.isShown()) { return self; }  
@@ -298,14 +302,6 @@
 		// return existing instance
 		var api = this.data("tooltip");
 		if (api) { return api; }
-		
-		// configuration		
-		if ($.isFunction(conf)) {
-			conf = {onBeforeShow: conf};
-			
-		} else if (typeof conf == 'string') {
-			conf = {tip: conf};	
-		}
 
 		conf = $.extend(true, {}, $.tools.tooltip.conf, conf);
 		

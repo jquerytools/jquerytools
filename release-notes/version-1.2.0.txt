@@ -54,8 +54,15 @@ overlay
 	- removed the gallery plugin
 	- removed onStart event. use onBeforeLoad instead
 	- fixed configuration variable (is now default). not supported by IE6.
-	
-	
+
+tooltip
+	- for title tags the tooltip is created automatically with class name "tooltip"
+	- tip- option is only used when a single tooltip is used
+	- tip and onBeforeShow cannot be given directly on the configuration
+	- removed: oneInstance, lazy,
+	- tip must next to the trigger 
+	- isShown(fully), layout, tipClass, layout
+
 scrollable
 	- onStart is deprecated
 		ADDED

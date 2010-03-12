@@ -1,11 +1,12 @@
 /**
  * @license 
- * jQuery Tools @VERSION / Toolbox:Mousewheel - Mousewheel is an event.
+ * jQuery Tools @VERSION Mousewheel
+ * 
+ * http://flowplayer.org/tools/toolbox/mousewheel.html
  * 
  * based on jquery.event.wheel.js ~ rev 1 ~ 
  * Copyright (c) 2008, Three Dub Media
- * http://threedubmedia.com
- * http://flowplayer.org/tools/toolbox/mousewheel.html
+ * http://threedubmedia.com 
  * 
  * Dual licensed under MIT and GPL 2+ licenses
  * http://www.opensource.org/licenses
@@ -16,12 +17,12 @@
 (function($) { 
 	
 	$.fn.mousewheel = function( fn ){
-		return this[ fn ? "bind" : "trigger" ]( "wheel", fn );
+		return this[ fn ? "bind" : "trigger" ]( "mousewheel", fn );
 	};
 
 	// special event config
 	$.event.special.wheel = {
-		setup: function(){
+		setup: function() {
 			$.event.add( this, wheelEvents, wheelHandler, {} );
 		},
 		teardown: function(){
@@ -57,7 +58,7 @@
 				break;
 		}
 		
-		event.type = "wheel"; // hijack the event	
+		event.type = "mousewheel"; // hijack the event	
 		return $.event.handle.call( this, event, event.delta );
 	}
 	

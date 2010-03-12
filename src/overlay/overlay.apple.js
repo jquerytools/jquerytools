@@ -60,7 +60,7 @@
 			overlay.css("backgroundImage", "none");
 			
 			img = $('<img src="' + bg + '"/>');
-			img.css({border:0,position:'absolute',display:'none'}).width(oWidth);			
+			img.css({border:0, position: opts.fixed ? 'fixed' : 'absolute', display:'none'}).width(oWidth);			
 			$('body').append(img); 
 			overlay.data("img", img);
 		}
@@ -76,7 +76,7 @@
 			ileft = p[1];
 		} 
 		
-		// adjust positioning relative toverlay scrolling position
+		// adjust positioning relative to overlay scrolling position
 		if (!opts.start.absolute) {
 			itop += w.scrollTop();
 			ileft += w.scrollLeft();

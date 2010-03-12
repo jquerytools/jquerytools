@@ -29,7 +29,6 @@
 			rotate: false,
 			
 			// 1.2
-			lazyload: false,
 			history: false
 		},
 		
@@ -75,7 +74,7 @@
 		/**
 		 * AJAX effect
 		 * 
-		 * @deprecated use lazyload instead
+		 * @deprecated will be replaced by lazyloading framework
 		 */
 		ajax: function(i, done)  {			
 			this.getPanes().eq(0).load(this.getTabs().eq(i).attr("href"), done);	
@@ -249,24 +248,6 @@
 				location.hash = $(this).attr("href").replace("#", "");	
 			});		 
 		}  
-			 
-		// lazyload support. all logic is here.
-		var lconf = $.tools.lazyload && conf.lazyload, loader;
-			 
-		if (lconf) {
-	
-			// lazyload configuration
-			if (typeof lconf != 'object') { lconf = { select: lconf }; }
-			if (typeof lconf.select != 'string') { lconf.select = "img, :backgroundImage"; }			
-			$.extend(lconf, { growParent: panes.parent(), api: true }, lconf);  
-			
-			// initialize lazyload
-			loader = panes.parent().find(lconf.select).lazyload(lconf);
-			
-			self.onBeforeClick(function(e, i) {
-				loader.load(panes.eq(i).find(":unloaded").andSelf());			
-			});  
-		}
 		
 		// open initial tab
 		if (location.hash) {

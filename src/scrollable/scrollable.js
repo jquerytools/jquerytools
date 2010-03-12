@@ -29,7 +29,6 @@
 			item: null,
 			items: '.items',
 			keyboard: true,
-			lazyload: false,
 			mousewheel: false,
 			next: '.next',   
 			prev: '.prev', 
@@ -258,27 +257,8 @@
 					return evt.preventDefault();
 				}	  
 				
-			}); 
-			
+			});  
 		}
-		
-		// lazyload support. all logic is here.
-		var lconf = $.tools.lazyload && conf.lazyload, 
-			 loader,
-			 doLoad = function (ev, i) {
-				loader.load(self.getItems().eq(i).find(":unloaded").andSelf());
-			 };
-		
-		if (lconf) {
-		
-			// lazyload configuration
-			if (typeof lconf != 'object') { lconf = { select: lconf }; }
-			if (typeof lconf.select != 'string') { lconf.select = "img, :backgroundImage"; }
-			
-			// initialize lazyload
-			loader = itemWrap.find(lconf.select).lazyload(lconf).data("lazyload");
-			self.onBeforeSeek(doLoad);
-		}		
 		
 		// initial index
 		$(self).trigger("onBeforeSeek", [conf.initialIndex]);
