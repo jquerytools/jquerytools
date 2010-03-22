@@ -21,7 +21,7 @@
 	};
 
 	// special event config
-	$.event.special.wheel = {
+	$.event.special.mousewheel = {
 		setup: function() {
 			$.event.add( this, wheelEvents, wheelHandler, {} );
 		},

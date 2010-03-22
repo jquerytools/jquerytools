@@ -125,7 +125,7 @@
 		return Math.round(value * n) / n;
 	}
 	
-	// get hidden element's width
+	// get hidden element's width or height even though it's hidden
 	function dim(el, key) {
 		var v = parseInt(el.css(key), 10);
 		if (v) { return v; }
@@ -197,9 +197,9 @@
 			vertical configuration gives additional complexity. 
 		 */
 		function slide(evt, x, val, isSetValue) { 
-			
+
 			// calculate value based on slide position
-			if (val == undefined) {
+			if (val === undefined) {
 				val = x / len * range;  
 				
 			// x is calculated based on val. we need to strip off min during calculation	
@@ -217,8 +217,8 @@
 				x = val * len / range;	
 			}  
 			
-			// nothing changes or out of range --> return
-			if (isNaN(val) || val == value) { return self; }       
+			// crazy value?
+			if (isNaN(val)) { return self; }       
 			
 			// stay within range
 			x = Math.max(0, Math.min(x, len));  

@@ -151,8 +151,8 @@
 					}					
 				});
 			 
-				// make elements sit on top of the mask				
-				exposed = els.css({zIndex:Math.max(conf.zIndex + 1, overlayIndex == 'auto' ? 0 : overlayIndex)});			
+				// make elements sit on top of the mask
+				exposed = els.css({ zIndex: Math.max(conf.zIndex + 1, overlayIndex == 'auto' ? 0 : overlayIndex)});			
 			}	
 			
 			// reveal mask

@@ -15,12 +15,12 @@
 (function($) { 
 
 	// version number
-	var t = $.tools.overlay; 
+	var t = $.tools.overlay,
+		 w = $(window); 
 		
 	// extend global configuragion with effect specific defaults
 	$.extend(t.conf, { 
 		start: { 
-			absolute: true,
 			top: null,
 			left: null
 		},
@@ -32,15 +32,18 @@
 	// utility function
 	function getPosition(el) {
 		var p = el.offset();
-		return [p.top + el.height() / 2, p.left + el.width() / 2]; 
+		return {
+			top: p.top + el.height() / 2, 
+			left: p.left + el.width() / 2
+		}; 
 	}
 	
 //{{{ load 
 
-	var loadEffect = function(onLoad) {
+	var loadEffect = function(pos, onLoad) {
 		
 		var overlay = this.getOverlay(),
-			 opts = this.getConf(),
+			 conf = this.getConf(),
 			 trigger = this.getTrigger(),
 			 self = this,
 			 oWidth = overlay.outerWidth({margin:true}),
@@ -60,45 +63,53 @@
 			overlay.css("backgroundImage", "none");
 			
 			img = $('<img src="' + bg + '"/>');
-			img.css({border:0, position: opts.fixed ? 'fixed' : 'absolute', display:'none'}).width(oWidth);			
+			img.css({border:0, display:'none'}).width(oWidth);			
 			$('body').append(img); 
 			overlay.data("img", img);
 		}
 		
 		// initial top & left
-		var w = $(window),
-			 itop = opts.start.top || Math.round(w.height() / 2), 
-			 ileft = opts.start.left || Math.round(w.width() / 2);
+		var itop = conf.start.top || Math.round(w.height() / 2), 
+			 ileft = conf.start.left || Math.round(w.width() / 2);
 		
 		if (trigger) {
 			var p = getPosition(trigger);
-			itop = p[0];
-			ileft = p[1];
+			itop = p.top;
+			ileft = p.left;
 		} 
-		
-		// adjust positioning relative to overlay scrolling position
-		if (!opts.start.absolute) {
-			itop += w.scrollTop();
-			ileft += w.scrollLeft();
-		}
-		
+			
 		// initialize background image and make it visible
 		img.css({
+			position: 'absolute',
 			top: itop, 
 			left: ileft,
 			width: 0,
-			zIndex: opts.zIndex
+			zIndex: conf.zIndex
 		}).show();
+
+		
+		// put overlay into final position
+		pos.top += w.scrollTop();
+		pos.left += w.scrollLeft();		
+		pos.position = 'absolute';
+		overlay.css(pos);
 		
 		// begin growing
 		img.animate({
 			top: overlay.css("top"), 
 			left: overlay.css("left"), 
-			width: oWidth}, opts.speed, function() { 
+			width: oWidth}, conf.speed, function() { 
 
+			if (conf.fixed) {
+				pos.top -= w.scrollTop();
+				pos.left -= w.scrollLeft();
+				pos.position = 'fixed';
+				img.add(overlay).css(pos);
+			}
+			
 			// set close button and content over the image
-			overlay.css("zIndex", opts.zIndex + 1).fadeIn(opts.fadeInSpeed, function()  { 
-				
+			overlay.css("zIndex", conf.zIndex + 1).fadeIn(conf.fadeInSpeed, function()  { 
+					
 				if (self.isOpened() && !$(this).index(overlay)) {	
 					onLoad.call(); 
 				} else {
@@ -114,25 +125,29 @@
 	var closeEffect = function(onClose) {
 
 		// variables
-		var overlay = this.getOverlay(), 
-			 opts = this.getConf(),
+		var overlay = this.getOverlay().hide(), 
+			 conf = this.getConf(),
 			 trigger = this.getTrigger(),
-			 top = opts.start.top,
-			 left = opts.start.left;
-		
-		
-		// hide overlay & closers
-		overlay.hide();
+			 img = overlay.data("img"),
+			 
+			 css = { 
+			 	top: conf.start.top, 
+			 	left: conf.start.left, 
+			 	width: 0 
+			 };
 		
 		// trigger position
-		if (trigger) {
-			var p = getPosition(trigger);
-			top = p[0];
-			left = p[1];
-		} 
+		if (trigger) { $.extend(css, getPosition(trigger)); }
 		
+		
+		// change from fixed to absolute position
+		if (conf.fixed) {
+			img.css({position: 'absolute'})
+				.animate({ top: "+=" + w.scrollTop(), left: "+=" + w.scrollLeft()}, 0);
+		}
+		 
 		// shrink image		
-		overlay.data("img").animate({top: top, left: left, width:0}, opts.closeSpeed, onClose);	
+		img.animate(css, conf.closeSpeed, onClose);	
 	};
 	
 	

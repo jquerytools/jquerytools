@@ -21,7 +21,6 @@
 		conf: {	
 			activeClass: 'active',
 			circular: false,
-			clickable: true,
 			clonedClass: 'cloned',
 			disabledClass: 'disabled',
 			easing: 'swing',
@@ -37,7 +36,20 @@
 			wheelSpeed: 0
 		} 
 	};
-				
+					
+	// get hidden element's width or height even though it's hidden
+	function dim(el, key) {
+		var v = parseInt(el.css(key), 10);
+		if (v) { return v; }
+		var s = el[0].currentStyle; 
+		return s && s.width && parseInt(s.width, 10);	
+	}
+
+	function find(root, query) {
+		var el = $(query);
+		return el.length < 2 ? el : root.parent().find(query);
+	}
+	
 	var current;		
 	
 	// constructor
@@ -49,7 +61,7 @@
 			 itemWrap = root.children(),
 			 index = 0,
 			 forward,
-			 vertical = conf.vertical;
+			 vertical = conf.vertical || dim(root, "height") > dim(root, "width");
 				
 		if (!current) { current = self; } 
 		if (itemWrap.length > 1) { itemWrap = $(conf.items, root); }
@@ -206,8 +218,8 @@
 		}  
 		
 		// next/prev buttons
-		var prev = root.parent().find(conf.prev).click(function() { self.prev(); }),
-			 next = root.parent().find(conf.next).click(function() { self.next(); });	
+		var prev = find(root, conf.prev).click(function() { self.prev(); }),
+			 next = find(root, conf.next).click(function() { self.next(); });	
 		
 		if (!conf.circular && self.getSize() > 2) {
 			
@@ -225,14 +237,6 @@
 					return false;
 				}
 			});			
-		}
-		
-		if (conf.clickable) {
-			root.click(function()  {
-				if (conf.clickable) {
-					self.next();		
-				}
-			});
 		}
 		
 		if (conf.keyboard)  {

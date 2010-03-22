@@ -5,10 +5,8 @@ Fundamental changes
 	- expose is now toolbox/mask
 	- flashembed is now under toolbox
 	- tabs.history and scrollable.mousewheel are now under toolbox as a standalone utilities
-	- toolbox.drag is used by the range. a generic drag utility by threedubmedia. fast and compact
-	- accordion tool is custom work by Dean Edwards. will not be used in 1.2
-	- overlay.gallery is removed in favor to tabs.slideshow. the grow effect is supplied by lazyload plugin
-	          
+	- overlay.gallery is removed in favor to tabs.slideshow. 
+	
 
 all tools
 	- support for lazyloading
@@ -26,8 +24,6 @@ all tools
 		
 tabs
 	- history as configuration option
-	- lazyload flag
-	- deprecated "ajax" effect in favor of lazyloading plugin
 	- deprecated "horizontal" effect. separate accordion plugin will be released later
 	- if a pane is already visible it is not "clicked" in vain. prevents redundant fadeIn effects when effect is set to "fade"
 	
@@ -54,7 +50,10 @@ overlay
 	- removed the gallery plugin
 	- removed onStart event. use onBeforeLoad instead
 	- fixed configuration variable (is now default). not supported by IE6.
-
+	- effect's load function receives position as the first argument
+	- removed samp>absolute</samp> configuration option
+	- <samp>load</samp> configuration option to load the overlay immediately after the initialization
+	
 tooltip
 	- for title tags the tooltip is created automatically with class name "tooltip"
 	- tip- option is only used when a single tooltip is used
@@ -64,19 +63,21 @@ tooltip
 	- isShown(fully), layout, tipClass, layout
 
 scrollable
-	- onStart is deprecated
-		ADDED
-			- freedom in "page design"
-			- no reloading
-			- variable size pages, items
-			- circular no longer in beta!
-			- history in navigator
-			- live adding of new items
-			- addItem() for circulared instances, onAddItem event
-			- you've got all these new goodies in 40% less file size!
-			- dynamic altering of configuration (clickable, mousewheel, circular)
-			
-		REMOVED: 
-			size, item, hoverClass, keyboardSteps, nextPage, prevPage 
-			getClickIndex(), getPageXXX() 
-
+	ADDED
+		- vertical is autodetermined
+		- freedom in "page design"
+		- no reloading
+		- variable size pages, items
+		- circular no longer in beta!
+		- history in navigator
+		- live adding of new items
+		- addItem() for circulared instances, onAddItem event
+		- you've got all these new goodies in 40% less file size!
+		- dynamic altering of configuration (mousewheel, circular)
+		
+	REMOVED: 
+		size, item, activeClass, globalNav, hoverClass, keyboardSteps, nextPage, prevPage 
+		getClickIndex(), getPageXXX() 
+		clickable
+		onStart
+		

@@ -257,7 +257,7 @@
 			form = inputs.eq(0).closest("form");
 		}
 			 
-		inputs = inputs.not(":button, :image, :reset, :submit, :hidden");
+		inputs = inputs.not(":button, :image, :reset, :submit");
 			 
 		if (!inputs.length) { throw "Validator: no input fields supplied"; }		
 

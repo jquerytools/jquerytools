@@ -25,8 +25,7 @@
 			idPrefix: null,
 			
 			// 1.2
-			history: false,
-			keyboard: false
+			history: false
 		}
 	};		
 		

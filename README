@@ -6,17 +6,3 @@ This is a private repository until 1.2 is released.
 
 Changes to 1.1 are listed in release-notes/version-1.2.0.txt 
 
-
-Jacques Crocker
-	Range Demos
-		- minimal setup for horizontal range
-		- minimal setup for vertical range
-		- a custom scrollbar for a DIV
-
-		
-Stefan Penner
-	Validator Demos
-		- minimal setup for validator
-		- localization
-		- using custom validators
-		- displaying all errors inside single DIV

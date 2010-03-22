@@ -23,25 +23,19 @@
 		},
 	
 		conf: {  
-			top: '10%', 
-			left: 'center',
-			absolute: false,
-			
-			speed: 'normal',
-			closeSpeed: 'fast',
-			effect: 'default',
-			
 			close: null,	
-			oneInstance: true,
 			closeOnClick: true,
 			closeOnEsc: true,			
-			mask: null,
-			
-			// target element to be overlayed. by default taken from [rel]
-			target: null,
-			
-			// 1.2
-			fixed: true
+			closeSpeed: 'fast',
+			effect: 'default',
+			fixed: true, // 1.2
+			left: 'center',		
+			load: false, // 1.2
+			mask: null,  
+			oneInstance: true,
+			speed: 'normal',
+			target: null, // target element to be overlayed. by default taken from [rel]  
+			top: '10%'
 		}
 	};
 
@@ -55,8 +49,18 @@
 			onLoad/onClose functions must be called otherwise none of the 
 			user supplied callback methods won't be called
 		*/
-		function(onLoad) { 
-			this.getOverlay().fadeIn(this.getConf().speed, onLoad); 
+		function(pos, onLoad) {
+			
+			var conf = this.getConf(),
+				 w = $(window);				 
+				
+			if (!conf.fixed)  {
+				pos.top += w.scrollTop();
+				pos.left += w.scrollLeft();
+			} 
+				
+			pos.position = conf.fixed ? 'fixed' : 'absolute';
+			this.getOverlay().css(pos).fadeIn(conf.speed, onLoad); 
 			
 		}, function(onClose) {
 			this.getOverlay().fadeOut(this.getConf().closeSpeed, onClose); 			
@@ -127,7 +131,7 @@
 				opened = true;
 				
 				// possible mask effect
-				if (maskConf) { $.mask.load(overlay, maskConf); }				
+				if (maskConf) { $(overlay).expose(maskConf); }				
 				
 				// position & dimensions 
 				var top = conf.top,					
@@ -141,18 +145,10 @@
 				}				
 				
 				if (left == 'center') { left = Math.max((w.width() - oWidth) / 2, 0); }
-				
-				if (!conf.absolute)  {
-					top += w.scrollTop();
-					left += w.scrollLeft();
-				} 
-				
-				// position overlay
-				overlay.css({position: conf.fixed ? 'fixed' : 'absolute'}).css({top: top, left: left}); 
 
 				
 		 		// load effect  		 		
-				eff[0].call(self, function() {					
+				eff[0].call(self, {top: top, left: left}, function() {					
 					if (opened) {
 						e.type = "onLoad";
 						fire.trigger(e);
@@ -160,7 +156,7 @@
 				}); 				
 
 				// mask.click closes overlay
-				if (maskConf) {
+				if (maskConf && conf.closeOnClick) {
 					$.mask.getMask().one("click", self.close); 
 				}
 				
@@ -264,6 +260,9 @@
 		closers.click(function(e) { 
 			self.close(e);  
 		});	
+		
+		// autoload
+		if (conf.load) { self.load(); }
 		
 	}
 	

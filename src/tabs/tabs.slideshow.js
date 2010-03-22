@@ -62,7 +62,7 @@
 				return tabs;	
 			},
 				
-			play: function() {
+			play: function() {http://www.webappers.com/
 	
 				// do not start additional timer if already exists
 				if (timer) { return; }
@@ -104,16 +104,6 @@
 			stop: function() {					
 				self.pause();
 				stopped = true;	
-			},
-			
-			bind: function(name, fn) {
-				$(self).bind(name, fn);
-				return self;	
-			},	
-
-			unbind: function(name) {
-				$(self).unbind(name);
-				return self;	
 			}
 			
 		});
