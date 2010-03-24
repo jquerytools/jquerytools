@@ -1,10 +1,10 @@
 /**
  * @license 
- * jQuery Tools @VERSION Mask "Dim the lights"
+ * jQuery Tools @VERSION / Mask - Dim the lights
+ * 
+ * COPRYRIGHT IS FOR LOSERS (do whatever you want)
  * 
  * http://flowplayer.org/tools/toolbox/mask.html
- * 
- * Copyright is for losers (thanks bansky)
  *
  * Since: Mar 2010
  * Date: @DATE 
@@ -19,7 +19,7 @@
 	tool = $.tools.mask = {
 		
 		conf: {	
-			maskId: 'mask',
+			maskId: 'exposeMask',
 			loadSpeed: 'slow',
 			closeSpeed: 'fast',
 			closeOnClick: true,

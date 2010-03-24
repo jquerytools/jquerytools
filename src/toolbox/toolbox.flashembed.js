@@ -1,15 +1,13 @@
 /**
  * @license 
- * jQuery Tools @VERSION / Toolbox:Flashembed - The future of Flash embedding.
+ * jQuery Tools @VERSION / Flashembed - New wave Flash embedding
  * 
- * Copyright (c) 2010 Tero Piirainen
- * http://flowplayer.org/tools/flash-embed.html
+ * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * 
+ * http://flowplayer.org/tools/toolbox/flashembed.html
  *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
- *
- * Since  : March 2008
- * Date: @DATE 
+ * Since : March 2008
+ * Date  : @DATE 
  */ 
 (function() {  
 		

@@ -2,10 +2,10 @@
  * @license 
  * jQuery Tools @VERSION History "Back button for AJAX apps"
  * 
+ * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * 
  * http://flowplayer.org/tools/toolbox/history.html
  * 
- * COPRYRIGHT IS FOR LOSERS (do whatever you want)
- *  
  * Since: Mar 2010
  * Date: @DATE 
  */

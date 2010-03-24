@@ -2,11 +2,9 @@
  * @license 
  * jQuery Tools @VERSION / Scrollable Navigator
  * 
- * Copyright (c) 2010 Tero Piirainen
- * http://flowplayer.org/tools/scrollable/navigator.html
+ * COPRYRIGHT IS FOR LOSERS (do whatever you want)
  *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
+ * http://flowplayer.org/tools/scrollable/navigator.html
  *
  * Since: September 2009
  * Date: @DATE 
@@ -57,7 +55,9 @@
 			function doClick(el, i, e) {
 				api.seekTo(i);				
 				if (history) {
-					location.hash = el.attr("href").replace("#", "");	
+					if (location.hash) {
+						location.hash = el.attr("href").replace("#", "");	
+					}
 				} else  {
 					return e.preventDefault();			
 				}

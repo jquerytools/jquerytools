@@ -2,11 +2,9 @@
  * @license 
  * jQuery Tools @VERSION Tooltip - UI essentials
  * 
- * Copyright (c) 2010 Tero Piirainen
+ * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * 
  * http://flowplayer.org/tools/tooltip/
- *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
  *
  * Since: November 2008
  * Date: @DATE 

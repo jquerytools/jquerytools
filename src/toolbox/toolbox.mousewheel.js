@@ -2,14 +2,13 @@
  * @license 
  * jQuery Tools @VERSION Mousewheel
  * 
+ * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * 
  * http://flowplayer.org/tools/toolbox/mousewheel.html
  * 
  * based on jquery.event.wheel.js ~ rev 1 ~ 
  * Copyright (c) 2008, Three Dub Media
  * http://threedubmedia.com 
- * 
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
  *
  * Since: Mar 2010
  * Date: @DATE 

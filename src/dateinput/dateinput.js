@@ -2,11 +2,9 @@
  * @license                                     
  * jQuery Tools @VERSION Dateinput - <input type="date" /> for humans
  * 
- * Copyright (c) 2010 Tero Piirainen
+ * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * 
  * http://flowplayer.org/tools/form/dateinput/
- *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
  *
  * Since: Mar 2010
  * Date: @DATE 

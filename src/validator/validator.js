@@ -2,11 +2,9 @@
  * @license 
  * jQuery Tools Validator @VERSION - HTML5 is here. Now use it.
  * 
- * Copyright (c) 2010 Tero Piirainen
+ * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * 
  * http://flowplayer.org/tools/form/validator/
- *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
  * 
  * Since: Mar 2010
  * Date: @DATE 

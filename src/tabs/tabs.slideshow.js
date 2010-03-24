@@ -2,11 +2,9 @@
  * @license 
  * jQuery Tools @VERSION Slideshow - Extend it.
  * 
- * Copyright (c) 2010 Tero Piirainen
+ * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * 
  * http://flowplayer.org/tools/tabs/slideshow.html
- *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
  *
  * Since: September 2009
  * Date: @DATE 
@@ -60,6 +58,10 @@
 			// return tabs API
 			getTabs: function() {
 				return tabs;	
+			},
+			
+			getConf: function() {
+				return conf;	
 			},
 				
 			play: function() {http://www.webappers.com/

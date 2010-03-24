@@ -1,13 +1,10 @@
 /**
  * @license 
  * jQuery Tools @VERSION / Overlay Apple effect. 
- * Commercial bling bling for all of us
  * 
- * Copyright (c) 2010 Tero Piirainen
+ * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * 
  * http://flowplayer.org/tools/overlay/apple.html
- *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
  *
  * Since: July 2009
  * Date: @DATE 
