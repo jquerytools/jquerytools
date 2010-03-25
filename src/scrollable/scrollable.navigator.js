@@ -115,7 +115,7 @@
 			
 			// new item being added
 			api.onAddItem(function(e, item) {
-				var item = addItem(api.getItems().index(item)); 
+				item = addItem(api.getItems().index(item)); 
 				if (history)  { item.history(doHistory); }
 			});
 			

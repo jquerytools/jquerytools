@@ -221,7 +221,7 @@
 	$.fn.expose = function(conf) {
 		$.mask.load(conf, this);
 		return this;			
-	}
+	};
 
 
 })(jQuery);

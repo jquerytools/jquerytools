@@ -64,7 +64,7 @@
 				return conf;	
 			},
 				
-			play: function() {http://www.webappers.com/
+			play: function() {
 	
 				// do not start additional timer if already exists
 				if (timer) { return; }

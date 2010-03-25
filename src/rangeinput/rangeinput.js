@@ -141,7 +141,8 @@
 		// private variables
 		var self = this,  
 			 css = conf.css, 
-			 root = $("<div><div/><a href='#'/></div>").data("rangeinput", self),	 
+			 root = $("<div><div/><a href='#'/></div>").data("rangeinput", self),	
+			 vertical,		
 			 value,			// current value
 			 origo,			// handle's start point
 			 len,				// length of the range
@@ -151,8 +152,7 @@
 		input.before(root);	
 		
 		var handle = root.addClass(css.slider).find("a").addClass(css.handle), 	
-			 progress = root.find("div").addClass(css.progress),						
-			 vertical = conf.vertical || dim(root, "height") > dim(root, "width");
+			 progress = root.find("div").addClass(css.progress);
 		
 		// get (HTML5) attributes into configuration
 		$.each("min,max,step,value".split(","), function(i, key) {
@@ -215,7 +215,7 @@
 			}
 
 			// count x based on value or tweak x if stepping is done
-			if (x == undefined || step) {
+			if (x === undefined || step) {
 				x = val * len / range;	
 			}  
 			
@@ -318,12 +318,12 @@
 			
 			// HTML5 compatible name
 			stepUp: function(am) { 
-				return self.step(am || 1)
+				return self.step(am || 1);
 			},
 			
 			// HTML5 compatible name
 			stepDown: function(am) { 
-				return self.step(-am || -1)
+				return self.step(-am || -1);
 			}
 			
 		});
@@ -417,7 +417,10 @@
 		$.extend(input[0], { stepUp: self.stepUp, stepDown: self.stepDown});
 		
 		
-		function init() {
+		// calculate all dimension related stuff
+		function init() { 
+		 	vertical = conf.vertical || dim(root, "height") > dim(root, "width");
+		 
 			if (vertical) {
 				len = dim(root, "height") - dim(handle, "height");
 				origo = root.offset().top + len; 
@@ -435,7 +438,7 @@
 		begin();
 		
 		// some browsers cannot get dimensions upon initialization
-		if (!len) {
+		if (!len) {  
 			$(window).load(begin);
 		}
 	}
