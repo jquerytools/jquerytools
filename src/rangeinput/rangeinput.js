@@ -157,7 +157,7 @@
 		// get (HTML5) attributes into configuration
 		$.each("min,max,step,value".split(","), function(i, key) {
 			var val = input.attr(key);
-			if (val || val === 0) {
+			if (parseFloat(val)) {
 				conf[key] = parseFloat(val, 10);
 			}
 		});			   
@@ -176,7 +176,11 @@
 		
 		// Replace built-in range input (type attribute cannot be changed)
 		if (input.attr("type") == 'range') {
-			var tmp = $("<input/>").attr("name", input.attr("name"));
+			var tmp = $("<input/>");
+			$.each("name,readonly,disabled".split(","), function(i, attr)  {
+				tmp.attr(attr, input.attr(attr));		
+			});
+			tmp.val(conf.value);
 			input.replaceWith(tmp);
 			input = tmp;
 		}
@@ -252,7 +256,7 @@
 					evt.type = "change";
 					fire.trigger(evt, [val]);
 				 } : null;
-
+			
 			if (vertical) {
 				handle.animate({top: x}, speed, callback);
 				if (conf.progress) { 
@@ -350,7 +354,7 @@
 
 				
 		}).bind("drag", function(e, y, x) {        
-				
+			
 			if (input.is(":disabled")) { return false; } 
 			slide(e, vertical ? y : x); 
 			
@@ -370,11 +374,9 @@
 				return e.preventDefault(); 
 			}				  
 			
-			if (!origo) { init(); } 
-			
+			init();  
 			var fix = handle.width() / 2;   
-			
-			slide(e, vertical ? -(origo -e.pageY +fix) + len : e.pageX -origo -fix);  
+			slide(e, vertical ? len-origo-fix + e.pageY  : e.pageX -origo -fix);  
 		});
 
 		if (conf.keyboard) {
@@ -385,8 +387,7 @@
 				
 				var key = e.keyCode,
 					 up = $([75, 76, 38, 33, 39]).index(key) != -1,
-					 down = $([74, 72, 40, 34, 37]).index(key) != -1;
-					 
+					 down = $([74, 72, 40, 34, 37]).index(key) != -1;					 
 					 
 				if ((up || down) && !(e.shiftKey || e.altKey || e.ctrlKey)) {
 				
@@ -427,9 +428,16 @@
 			} 	  
 		}
 		
-		init();
+		function begin() {
+			init();	
+			self.setValue(conf.value || conf.min);
+		} 
+		begin();
 		
-		self.setValue(input.val() || conf.value || conf.min);
+		// some browsers cannot get dimensions upon initialization
+		if (!len) {
+			$(window).load(begin);
+		}
 	}
 	
 	$.expr[':'].range = function(el) {

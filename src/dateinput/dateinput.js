@@ -17,7 +17,12 @@
 	
 	$.tools = $.tools || {version: '@VERSION'};
 	
-	var instances = [], tool, LABELS = {};
+	var instances = [], 
+		 tool, 
+		 
+		 // h=72, j=74, k=75, l=76, down=40, left=37, up=38, right=39
+		 KEYS = [75, 76, 38, 39, 74, 72, 40, 37],
+		 LABELS = {};
 	
 	tool = $.tools.dateinput = {
 		
@@ -177,7 +182,10 @@
 		
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input.attr("type") == 'date') {
-			var tmp = $("<input/>").attr("name", input.attr("name"));
+			var tmp = $("<input/>");
+			$.each("name,readonly,disabled,value".split(","), function(i, attr)  {
+				tmp.attr(attr, input.attr(attr));		
+			});			
 			input.replaceWith(tmp);
 			input = tmp;
 		}
@@ -203,7 +211,7 @@
 				.eq(0).attr("id", css.head).end() 
 				.eq(1).attr("id", css.body).children()
 					.eq(0).attr("id", css.days).end()
-					.eq(1).attr("id", css.weeks).end().end()
+					.eq(1).attr("id", css.weeks).end().end().end()
 				.find("a").eq(0).attr("id", css.prev).end().eq(1).attr("id", css.next);		 				  
 			
 			// title
@@ -279,9 +287,8 @@
 				
 				// esc key
 				if (key == 27) { return self.hide(e); }						
-									
-				// h=72, j=74, k=75, l=76, down=40, left=37, up=38, right=39			
-				if ($([75, 76, 38, 39, 74, 72, 40, 37]).index(key) >= 0) {
+					
+				if ($(KEYS).index(key) >= 0) {
 					
 					if (root.is(":hidden")) { 
 						self.show(e); 
@@ -605,12 +612,12 @@
 
 		
 		// show dateinput & assign keyboard shortcuts
-		input.bind("focus click", self.show).keydown(function(e) {
+		input.bind("focus click", self.show).keypress(function(e) {
 
 			var key = e.keyCode;
 			
 			// open dateinput with navigation keyw
-			if (root.is(":hidden") &&  $([75, 76, 38, 39, 74, 72, 40, 37]).index(key) >= 0) {
+			if (root.is(":hidden") &&  $(KEYS).index(key) >= 0) {
 				self.show(e);
 				return e.preventDefault();
 			} 

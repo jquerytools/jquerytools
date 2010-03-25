@@ -49,11 +49,14 @@
 				- fadeOutSpeed (positive value does "crossfading")
 				- fadeInSpeed
 		*/
-		fade: function(i, done) {
+		fade: function(i, done) {		
+			
 			var conf = this.getConf(), 
 				 speed = conf.fadeOutSpeed,
 				 panes = this.getPanes();
 	 
+			if (panes.eq(i).is(":visible")) { return; }
+			
 			if (speed) {
 				panes.fadeOut(speed);	
 			} else {
@@ -121,8 +124,6 @@
 		// public methods
 		$.extend(this, {				
 			click: function(i, e) {
-				
-				if (panes.eq(i).is(":visible")) { return self; }
 				
 				var tab = tabs.eq(i);												 
 				
