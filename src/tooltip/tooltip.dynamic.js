@@ -16,7 +16,6 @@
 	
 	t.dynamic = {
 		conf: {
-			api: false,
 			classNames: "top right bottom left"
 		}
 	};
@@ -95,13 +94,12 @@
 				$.extend(tipConf, orig[4]);
 				tipConf.position = [orig[0], orig[1]];
 				tipConf.offset = [orig[2], orig[3]];
-				
+
 				tip.css({
 					visibility: 'hidden',
 					position: 'absolute',
 					top: pos.top,
-					left: pos.left
-					
+					left: pos.left 
 				}).show(); 
 				
 				// now let's see for hidden edges
@@ -127,11 +125,13 @@
 		
 			});
 			
-			// restore positioning
-			api.onShow(function() {
-				var c = this.getConf(), tip = this.getTip();				
-				c.position = [orig[0], orig[1]];
-				c.offset = [orig[2], orig[3]];				
+			// restore positioning as soon as possible
+			api.onBeforeShow(function() {
+				var c = this.getConf(), tip = this.getTip();		 
+				setTimeout(function() { 
+					c.position = [orig[0], orig[1]];
+					c.offset = [orig[2], orig[3]];
+				}, 1);
 			});
 			
 			// remove custom class names and restore original effect

@@ -81,6 +81,7 @@
 		
 	/* calculate tip position relative to the trigger */  	
 	function getPosition(trigger, tip, conf) {	
+
 		
 		// get origin top/left position 
 		var top = conf.relative ? trigger.position().top : trigger.offset().top, 
@@ -163,33 +164,32 @@
 		$.extend(self, {
 				
 			show: function(e) { 
-				
+
 				// tip not initialized yet
 				if (!tip) {
 					
 					// find a "manual" tooltip
 					if (title) { 
-						tip = $(conf.layout).addClass(conf.tipClass).appendTo(document.body);
-					} else { 
+						tip = $(conf.layout).addClass(conf.tipClass).appendTo(document.body).hide();
+					} else if (conf.tip) { 
+						tip = $(conf.tip).eq(0);
+						
+					} else {	
 						tip = trigger.next();  
-						if (!tip.length) { tip = trigger.parent().next(); } 	
-						if (!tip.length) { tip = $(conf.tip).eq(0); } 	
+						if (!tip.length) { tip = trigger.parent().next(); } 	 
 					}
-				}
-				
-				if (tip.length) {
-					tip.hide()	
-				} else {
-					throw "Cannot find tooltip for " + trigger;	
-				}
+					
+					if (!tip.length) { throw "Cannot find tooltip for " + trigger;	}
+				} 
 			 	
 			 	if (self.isShown()) { return self; }  
 				
 			 	// stop previous animation
 			 	tip.stop(true, true); 
 			 	
+			 	
 				// get position
-				var pos = getPosition(trigger, tip, conf);					
+				var pos = getPosition(trigger, tip, conf);			
 				
 				// title attribute
 				if (title) { tip.html(title); } 				
@@ -251,8 +251,9 @@
 				shown = false;
 				
 				effects[conf.effect][1].call(self, function() {
-					e.type = "onHide"; 
-					fire.trigger(e);		
+					e.type = "onHide";
+					shown = false;
+					fire.trigger(e);		 
 				});
 				
 				return self;
