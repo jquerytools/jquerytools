@@ -16,7 +16,7 @@
 	
 	var tool;
 	
-	tool = $.tools.mask = {
+	tool = $.tools.expose = {
 		
 		conf: {	
 			maskId: 'exposeMask',

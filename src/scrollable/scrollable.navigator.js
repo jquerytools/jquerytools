@@ -26,7 +26,12 @@
 			history: false
 		}
 	};		
-		
+	
+	function find(root, query) {
+		var el = $(query);
+		return el.length < 2 ? el : root.parent().find(query);
+	}
+	
 	// jQuery plugin implementation
 	$.fn.navigator = function(conf) {
 
@@ -37,9 +42,9 @@
 		var ret;
 		
 		this.each(function() {
-			
+				
 			var api = $(this).data("scrollable"),
-				 navi = api.getRoot().parent().find(conf.navi), 
+				 navi = find(api.getRoot(), conf.navi), 
 				 buttons = api.getNaviButtons(),
 				 cls = conf.activeClass,
 				 history = conf.history && $.fn.history;

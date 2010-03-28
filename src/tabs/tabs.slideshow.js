@@ -27,7 +27,7 @@
 		}
 	};  
 	
-	function Slideshow(root, conf, len) {
+	function Slideshow(root, conf) {
 	
 		var self = this,
 			 fire = root.add(this),
@@ -40,7 +40,8 @@
 			 
 		// next / prev buttons
 		function find(query) {
-			return len == 1 ? $(query) : root.parent().find(query);	
+			var el = $(query);
+			return el.length < 2 ? el : root.parent().find(query);	
 		}	
 		
 		var nextButton = find(conf.next).click(function() {
@@ -180,13 +181,13 @@
 	$.fn.slideshow = function(conf) {
 	
 		// return existing instance
-		var el = this.data("slideshow"), len = this.length;
+		var el = this.data("slideshow");
 		if (el) { return el; }
  
 		conf = $.extend({}, tool.conf, conf);		
 		
 		this.each(function() {
-			el = new Slideshow($(this), conf, len);
+			el = new Slideshow($(this), conf);
 			$(this).data("slideshow", el); 			
 		});	
 		

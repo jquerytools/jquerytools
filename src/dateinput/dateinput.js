@@ -144,8 +144,8 @@
 
 	function parseDate(val) {
 		
-		if (!val) { return; }
-		if (val.constructor == Date) { return val; } 
+		if (!val) { return; }
+		if (val.constructor == Date) { return val; } 
 		
 		if (typeof val == 'string') {
 			
