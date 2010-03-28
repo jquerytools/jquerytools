@@ -26,7 +26,10 @@
 			closeOnEsc: true,			
 			closeSpeed: 'fast',
 			effect: 'default',
-			fixed: true, // 1.2
+			
+			// since 1.2. fixed positioning not supported by IE6
+			fixed: !$.browser.msie || $.browser.version > 6, 
+			
 			left: 'center',		
 			load: false, // 1.2
 			mask: null,  

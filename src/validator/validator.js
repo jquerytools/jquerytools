@@ -40,7 +40,7 @@
 			messageAttr: 'data-message', // name of the attribute for overridden error message
 			messageClass: 'error',		// error message element's class name
 			offset: [0, 0], 
-			position: 'top left',
+			position: 'center right',
 			relative: false,				// advanced position flag. rarely needed
 			singleError: false, 			// validate all inputs at once
 			speed: 'normal'				// message's fade-in speed			
@@ -77,9 +77,9 @@
 				if (typeof msg == 'string') { msg = {en: msg}; }
 				this.messages[matcher.key || matcher] = msg;
 			}
-				
+
 			// check for "[type=xxx]" (not supported by jQuery)
-			var test = typeRe(matcher);
+			var test = typeRe.exec(matcher);
 			if (test) { matcher = isType(test[1]); }				
 			
 			// add validator to the arsenal

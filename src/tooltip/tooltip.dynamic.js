@@ -131,7 +131,7 @@
 				setTimeout(function() { 
 					c.position = [orig[0], orig[1]];
 					c.offset = [orig[2], orig[3]];
-				}, 1);
+				}, 0);
 			});
 			
 			// remove custom class names and restore original effect

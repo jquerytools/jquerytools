@@ -16,11 +16,11 @@
 (function($) { 
 	
 	$.fn.mousewheel = function( fn ){
-		return this[ fn ? "bind" : "trigger" ]( "mousewheel", fn );
+		return this[ fn ? "bind" : "trigger" ]( "wheel", fn );
 	};
 
 	// special event config
-	$.event.special.mousewheel = {
+	$.event.special.wheel = {
 		setup: function() {
 			$.event.add( this, wheelEvents, wheelHandler, {} );
 		},
@@ -57,7 +57,7 @@
 				break;
 		}
 		
-		event.type = "mousewheel"; // hijack the event	
+		event.type = "wheel"; // hijack the event	
 		return $.event.handle.call( this, event, event.delta );
 	}
 	

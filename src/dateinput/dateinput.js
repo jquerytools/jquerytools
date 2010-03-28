@@ -55,7 +55,8 @@
 				
 				body: 0,
 				weeks: 0,
-				today: 0,				 
+				today: 0,		
+				current: 0,
 				
 				// classnames
 				week: 0, 
@@ -98,7 +99,7 @@
 		while (val.length < len) { val = "0" + val; }
 		return val;
 	}  
-
+	
 	// thanks: http://stevenlevithan.com/assets/misc/date.format.js 
 	var Re = /d{1,4}|m{1,4}|yy(?:yy)?|"[^"]*"|'[^']*'/g, tmpTag = $("<a/>");
 	
@@ -133,33 +134,47 @@
 	
 	function integer(val) {
 		return parseInt(val, 10);	
+	} 
+
+	function isSameDay(d1, d2)  {
+		return d1.getYear() === d2.getYear() && 
+			d1.getMonth() == d2.getMonth() &&
+			d1.getDate() == d2.getDate(); 
 	}
-	
-	function rfc3339(val) {
-		if (val) {
-			val = val.toString().split("-");		
-			if (val.length == 3) {
-				return new Date(integer(val[0]), integer(val[1]) -1, integer(val[2]));
-			}
+
+	function parseDate(val) {
+		
+		if (!val) { return; }
+		if (val.constructor == Date) { return val; } 
+		
+		if (typeof val == 'string') {
+			
+			// rfc3339?
+			var els = val.split("-");		
+			if (els.length == 3) {
+				return new Date(integer(els[0]), integer(els[1]) -1, integer(els[2]));
+			}	
+			
+			// invalid offset
+			if (!/^\d+$/.test(val)) { return; }
+			
+			// convert to integer
+			val = integer(val);
 		}
-	}
-	
-	function roll(date, am) { 
-		if (date && am) {
-			var ret = new Date(date);
-			ret.setDate(ret.getDate() + am);
-			return ret;
-		}
+		
+		var date = new Date();
+		date.setDate(date.getDate() + val);
+		return date; 
 	}
 	
 //}}}
-		
-	
+		 
 	
 	function Dateinput(input, conf)  { 
 
 		// variables
 		var self = this,  
+			 now = new Date(),
 			 css = conf.css,
 			 labels = LABELS[conf.lang],
 			 root = $("#" + css.root),
@@ -167,18 +182,18 @@
 			 trigger,
 			 pm, nm, 
 			 currYear, currMonth, currDay,
-			 value = rfc3339(input.attr("data-value") || conf.value || input.val()) || new Date(), 
+			 value = input.attr("data-value") || conf.value || input.val(), 
 			 min = input.attr("min") || conf.min,  
-			 max = input.attr("max") || conf.max;
-			 
-			 
-		// make sure min / max has values		
-		min = rfc3339(min) || roll(value, -Math.abs(min) || conf.yearRange[0] * 365);
-		max = rfc3339(max) || roll(value, Math.abs(max) || conf.yearRange[1] * 365);
-		
-		
+			 max = input.attr("max") || conf.max,
+			 opened;
+
+		// make sure value, min & max has values		
+		value = parseDate(value) || now;
+		min   = parseDate(min || conf.yearRange[0] * 365);
+		max   = parseDate(max || conf.yearRange[1] * 365);
+
 		// check that language exists
-		if (!labels) { throw "Datepicker: invalid language: " + conf.lang; }
+		if (!labels) { throw "Dateinput: invalid language: " + conf.lang; }
 		
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input.attr("type") == 'date') {
@@ -192,12 +207,6 @@
 		input.addClass(css.input);
 		
 		var fire = input.add(this);
-		
-		// default value
-		if (value) {			
-			input.data("date", value);			
-			input.val(format(value, conf.format, conf.lang));
-		}		
 			 
 		// construct layout
 		if (!root.length) {
@@ -225,14 +234,14 @@
 			}						
 			
 			// day titles
-			var days = root.find("#" + css.days);
+			var days = root.find("#" + css.days); 
 			
 			// days of the week
 			for (var d = 0; d < 7; d++) { 
-				days.append($("<span>/").text(labels.shortDays[(d + conf.firstDay) % 7]));
+				days.append($("<span/>").text(labels.shortDays[(d + conf.firstDay) % 7]));
 			}
 			
-			$("body").append(root);
+			input.after(root);
 		}	
 		
 				
@@ -250,22 +259,25 @@
 		yearSelector = root.find("#" + css.year);
 		monthSelector = root.find("#" + css.month);
 			 
-			 
-		function pick(date, conf, e) {  
-
-			if (input.is("[readonly]")) { return; }
-				
-			// current value
-			value = date;
+		
+//{{{ pick
+			 			 
+		function select(date, conf, e) {  
 			
-			// onPick
+			// current value
+			value 	 = date;
+			currYear  = date.getFullYear();
+			currMonth = date.getMonth();
+			currDay	 = date.getDate();				
+			
+			// change
+			e = e || $.Event("api");
 			e.type = "change";
 			fire.trigger(e, [date]);
 			if (e.isDefaultPrevented()) { return; }
 			
 			// formatting			
 			input.val(format(date, conf.format, conf.lang));
-
 			
 			// store value into input
 			input.data("date", date);
@@ -275,14 +287,18 @@
 			
 			self.hide(e); 
 		}
+//}}}
+		
+		
+//{{{ onShow
 
 		function onShow(ev) {
 			
 			ev.type = "onShow";
-			fire.trigger(ev);  
+			fire.trigger(ev);
 			
-			$(document).bind("keydown.d", function(e) { 
-				
+			$(document).bind("keydown.d", function(e) {
+					
 				var key = e.keyCode;			 
 				
 				// esc key
@@ -308,11 +324,11 @@
 					
 					
 					if (index == -1) {
-						self.prev();
+						self.addMonth(-1);
 						el = $("#" + css.weeks + " a:last");
 						
 					} else if (index == 35) {
-						self.next();
+						self.addMonth();
 						el = $("#" + css.weeks + " a:first");								
 					} else {
 						el = days.eq(index);
@@ -324,8 +340,8 @@
 				}
 			 
 				// pageUp / pageDown
-				if (key == 34) { return self.next(); }						
-				if (key == 33) { return self.prev(); }
+				if (key == 34) { return self.addMonth(); }						
+				if (key == 33) { return self.addMonth(-1); }
 				
 				// home
 				if (key == 36) { return self.today(); } 
@@ -333,7 +349,7 @@
 				// enter
 				if (key == 13) {
 					if (!$(e.target).is("select")) {
-						pick($("." + css.focus).data("date"), conf, e); 
+						select($("." + css.focus).data("date"), conf, e); 
 					} 
 				}
 				
@@ -342,18 +358,23 @@
 			
 			
 			// click outside dateinput
-			$(window).bind("click.d", function(e) {
+			$(document).bind("click.d", function(e) {
 				var el = e.target;
 				if (!$(el).parents("#" + css.root).length && el != input[0] && (!trigger || el != trigger[0])) { 
 					self.hide(e); 
 				}
 			}); 
 		}
+//}}}
 		
 		
 		$.extend(self, {
-			
+
+//{{{  show
+								
 			show: function(e) {
+				
+				if (input.is("[readonly]")) { return; }
 				
 				// onBeforeShow
 				e = e || $.Event();
@@ -365,36 +386,37 @@
 					this.hide();	
 				});
 				
+				opened = true;
+				
 				// month selector
 				monthSelector.unbind("change").change(function() {
-					self.setDate(yearSelector.val(), $(this).val());		
+					self.setValue(yearSelector.val(), $(this).val());		
 				});
 				
 				// year selector
 				yearSelector.unbind("change").change(function() {
-					self.setDate($(this).val(), monthSelector.val());		
+					self.setValue($(this).val(), monthSelector.val());		
 				});
 				
 				// prev / next month
 				pm = root.find("#" + css.prev).unbind("click").click(function(e) {
 					if (!pm.hasClass(css.disabled)) {	
-						self.prev();
+						self.addMonth(-1);
 					}
 					return false;
 				});
 				
 				nm = root.find("#" + css.next).unbind("click").click(function(e) {
 					if (!nm.hasClass(css.disabled)) {
-						self.next();
+						self.addMonth();
 					}
 					return false;
 				});	 
 				
 				// set date
-				self.today();				 
+				self.setValue(value);				 
 				
-				
-				// show dateinputer
+				// show calendar
 				var pos = input.offset();
 
 				root.css({ 
@@ -412,24 +434,29 @@
 				}
 				
 				return self;
-			},
+			}, 
+//}}}
+
+
+//{{{  setValue
+
+			setValue: function(year, month, day)  {						
 				
-			setDate: function(year, month, day)  {						
+				var date;
 				
-				var date = new Date(year, month, day);
-				
-				// current year / month
-				if (!year) {
-					date = input.data("date") || new Date();					
+				if (month) {
+					// strings to numbers
+					year = integer(year);
+					month = integer(month);
+					day = integer(day);					
+					date = new Date(year, month, day);
+					
+				} else {
+					date = year || value;	
 					year = date.getYear() % 100 + 2000;
 					month = date.getMonth();
-					day = date.getDate();
-				}
-				
-				// strings to numbers
-				year = integer(year);
-				month = integer(month);
-				day = integer(day);
+					day = date.getDate();					
+				} 
 				
 				// roll year & month
 				if (month == -1) {
@@ -440,6 +467,14 @@
 					year++;
 				} 
 				
+				if (!opened) { 
+					select(date, conf);
+					return self; 
+				} 				
+				
+				currMonth = month;
+				currYear = year;
+
 				// variables
 				var tmp = new Date(year, month, 1 - conf.firstDay), begin = tmp.getDay(),
 					 days = dayAm(year, month),
@@ -498,10 +533,16 @@
 						
 					} else  { 
 						num = j - begin + 1;
-						date = new Date(year, month, num);
-						if (num === day) {
-							a.attr("id", css.today).addClass(css.focus);
-						}						
+						date = new Date(year, month, num);  
+						
+						// current date
+						if (isSameDay(value, date)) {
+							a.attr("id", css.current).addClass(css.focus);
+							
+						// today
+						} else if (isSameDay(now, date)) {
+							a.attr("id", css.today);
+						}	 
 					}
 					
 					// disabled
@@ -520,7 +561,7 @@
 					// date picking					
 					a.click(function(e) {
 						if (!$(this).hasClass(css.disabled)) {
-							pick($(this).data("date"), conf, e);
+							select($(this).data("date"), conf, e);
 						}
 						return false;
 					});
@@ -534,41 +575,46 @@
 					});	
 				} 
 				
-				currMonth = month;
-				currYear = year;				
-				currDay = day;
-				
 				return self;
 			}, 
+	//}}}
 	
+			setMin: function(val, fit) {
+				min = parseDate(val);
+				if (fit && value < min) { self.setValue(min); }
+				return self;
+			},
+		
+			setMax: function(val, fit) {
+				max = parseDate(val);
+				if (fit && value > max) { self.setValue(max); }
+				return self;
+			}, 
+			
 			today: function() {
-				return self.setDate();	
+				return self.setValue(now);	
 			},
 			
-			next: function(day) {
-				return this.setDate(currYear, currMonth + 1, day);	
-			},
-	
-			prev: function(day) {
-				return this.setDate(currYear, currMonth - 1, day);	
+			addDay: function(amount) {
+				return this.setValue(currYear, currMonth, currDay + (amount || 1));		
 			},
 			
-			nextYear: function(year, day) {
-				return this.setDate(currYear + 1, currMonth, day);	
+			addMonth: function(amount) {
+				return this.setValue(currYear, currMonth + (amount || 1), currDay);	
 			},
 			
-			prevYear: function(year, day) {
-				return this.setDate(currYear - 1, currMonth, day);	
+			addYear: function(amount) {
+				return this.setValue(currYear + (amount || 1), currMonth, currDay);	
 			},
 						
-			hide: function(e) {				
+			hide: function(e) {				 
 				
-				if (root.is(":visible")) {
+				if (opened) {
 					root.hide();
-					$(window).unbind("click.d"); 
-					$(document).unbind("keydown.d");
+					$(document).unbind("click.d").unbind("keydown.d"); 
 					
 					// onHide
+					opened = false;
 					e = e || $.Event();
 					e.type = "onHide";
 					fire.trigger(e);
@@ -585,12 +631,16 @@
 				return input;	
 			},
 			
-			getPicker: function() {
+			getCalendar: function() {
 				return root;	
 			},
 			
-			getDate: function(dateFormat) {
+			getValue: function(dateFormat) {
 				return dateFormat ? format(value, dateFormat, conf.lang) : value;	
+			},
+			
+			isOpen: function() {
+				return opened;	
 			}
 			
 		}); 
@@ -612,7 +662,7 @@
 
 		
 		// show dateinput & assign keyboard shortcuts
-		input.bind("focus click", self.show).keypress(function(e) {
+		input.focus(self.show).keypress(function(e) {
 
 			var key = e.keyCode;
 			
@@ -627,6 +677,8 @@
 			
 		}); 
 		
+		// pick current value
+		select(value, conf);
 	} 
 	
 	$.expr[':'].date = function(el) {
