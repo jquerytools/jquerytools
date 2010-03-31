@@ -156,7 +156,7 @@
 			}	
 			
 			// invalid offset
-			if (!/^\d+$/.test(val)) { return; }
+			if (!/^-?\d+$/.test(val)) { return; }
 			
 			// convert to integer
 			val = integer(val);
@@ -306,7 +306,7 @@
 					
 				if ($(KEYS).index(key) >= 0) {
 					
-					if (root.is(":hidden")) { 
+					if (!opened) { 
 						self.show(e); 
 						return e.preventDefault();
 					} 
@@ -374,7 +374,7 @@
 								
 			show: function(e) {
 				
-				if (input.is("[readonly]")) { return; }
+				if (input.is("[readonly]") || opened) { return; }
 				
 				// onBeforeShow
 				e = e || $.Event();
@@ -443,8 +443,8 @@
 			setValue: function(year, month, day)  {						
 				
 				var date;
-				
-				if (month) {
+
+				if (typeof month == 'number') {
 					// strings to numbers
 					year = integer(year);
 					month = integer(month);
@@ -452,6 +452,7 @@
 					date = new Date(year, month, day);
 					
 				} else {
+					
 					date = year || value;	
 					year = date.getYear() % 100 + 2000;
 					month = date.getMonth();
@@ -646,7 +647,7 @@
 		}); 
 		
 		// callbacks	
-		$.each("onBeforeShow,onShow,change,onHide".split(","), function(i, name) {
+		$.each(['onBeforeShow','onShow','change','onHide'], function(i, name) {
 				
 			// configuration
 			if ($.isFunction(conf[name]))  {
@@ -662,12 +663,12 @@
 
 		
 		// show dateinput & assign keyboard shortcuts
-		input.focus(self.show).keypress(function(e) {
+		input.bind("focus click", self.show).keydown(function(e) {
 
 			var key = e.keyCode;
-			
+	
 			// open dateinput with navigation keyw
-			if (root.is(":hidden") &&  $(KEYS).index(key) >= 0) {
+			if (!opened &&  $(KEYS).index(key) >= 0) {
 				self.show(e);
 				return e.preventDefault();
 			} 

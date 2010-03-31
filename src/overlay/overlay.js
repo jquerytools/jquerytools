@@ -78,7 +78,7 @@
 			 closers,            
 			 overlay,
 			 opened,
-			 maskConf = $.tools.mask && (conf.mask || conf.expose),
+			 maskConf = $.tools.expose && (conf.mask || conf.expose),
 			 uid = Math.random().toString().slice(10);		
 		
 			 

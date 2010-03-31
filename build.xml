@@ -94,7 +94,7 @@
 				</for>
 			</then>
 			
-			<!-- ant lint -Dfile=form/form.validator.js -->
+			<!-- ant lint -Dfile=validator/validator.js -->
 			<else>
 				<java jar="lib/rhino.jar" fork="true">
 					<arg value="lib/jslint.js" />

@@ -43,7 +43,7 @@
 		return s && s.width && parseInt(s.width, 10);	
 	}
 
-	function find(root, query) {
+	function find(root, query) { 
 		var el = $(query);
 		return el.length < 2 ? el : root.parent().find(query);
 	}
@@ -59,7 +59,7 @@
 			 itemWrap = root.children(),
 			 index = 0,
 			 forward,
-			 vertical = conf.vertical || dim(root, "height") > dim(root, "width");
+			 vertical = conf.vertical;
 				
 		if (!current) { current = self; } 
 		if (itemWrap.length > 1) { itemWrap = $(conf.items, root); }
@@ -142,7 +142,7 @@
 				if (!conf.circular && i < 0 || i > self.getSize()) { return self; }
 				
 				var item = i;
-				
+			
 				if (i.jquery) {
 					i = self.getItems().index(i);	
 				} else {
@@ -171,7 +171,7 @@
 		});
 				
 		// callbacks	
-		$.each("onBeforeSeek,onSeek,onAddItem".split(","), function(i, name) {
+		$.each(['onBeforeSeek', 'onSeek', 'onAddItem'], function(i, name) {
 				
 			// configuration
 			if ($.isFunction(conf[name])) { 
@@ -264,7 +264,6 @@
 		
 		// initial index
 		$(self).trigger("onBeforeSeek", [conf.initialIndex]);
-		self.seekTo(conf.initialIndex, 0, true);
 	} 
 
 		
