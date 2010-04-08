@@ -2,7 +2,7 @@
  * @license 
  * jQuery Tools @VERSION / Tooltip Slide Effect
  * 
- * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
  * 
  * http://flowplayer.org/tools/tooltip/slide.html
  *

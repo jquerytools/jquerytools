@@ -2,7 +2,7 @@
  * @license 
  * jQuery Tools @VERSION / Overlay Apple effect. 
  * 
- * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
  * 
  * http://flowplayer.org/tools/overlay/apple.html
  *

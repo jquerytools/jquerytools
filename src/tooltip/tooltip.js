@@ -2,7 +2,7 @@
  * @license 
  * jQuery Tools @VERSION Tooltip - UI essentials
  * 
- * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
  * 
  * http://flowplayer.org/tools/tooltip/
  *
@@ -219,7 +219,7 @@
 	 	
 				// tooltip events       
 				var event = conf.events.tooltip.split(/,\s*/);
-				
+
 				tip.bind(event[0], function() { 
 					clearTimeout(timer);
 					clearTimeout(pretimer);
@@ -227,10 +227,10 @@
 				
 				if (event[1]) { 					
 					tip.bind(event[1], function(e) {
-							
+
 						// being moved to the trigger element
 						if (e.relatedTarget != trigger[0]) {
-							trigger.trigger(evt[1]);
+							trigger.trigger(evt[1].split(" ")[0]);
 						}
 					}); 
 				} 

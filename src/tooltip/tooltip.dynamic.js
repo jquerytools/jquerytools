@@ -2,7 +2,7 @@
  * @license 
  * jQuery Tools @VERSION / Tooltip Dynamic Positioning
  * 
- * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
  * 
  * http://flowplayer.org/tools/tooltip/dynamic.html
  *

@@ -2,7 +2,7 @@
  * @license 
  * jQuery Tools Validator @VERSION - HTML5 is here. Now use it.
  * 
- * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
  * 
  * http://flowplayer.org/tools/form/validator/
  * 

@@ -2,7 +2,7 @@
  * @license 
  * jQuery Tools @VERSION Rangeinput - HTML5 <input type="range" /> for humans
  * 
- * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
  * 
  * http://flowplayer.org/tools/rangeinput/
  *

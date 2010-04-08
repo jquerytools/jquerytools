@@ -2,7 +2,7 @@
  * @license 
  * jQuery Tools @VERSION / Flashembed - New wave Flash embedding
  * 
- * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
  * 
  * http://flowplayer.org/tools/toolbox/flashembed.html
  *

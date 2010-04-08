@@ -2,7 +2,7 @@
  * @license 
  * jQuery Tools @VERSION Tabs- The basics of UI design.
  * 
- * COPRYRIGHT IS FOR LOSERS (do whatever you want)
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
  * 
  * http://flowplayer.org/tools/tabs/
  *
@@ -74,8 +74,6 @@
 
 		/**
 		 * AJAX effect
-		 * 
-		 * @deprecated will be replaced by lazyloading framework
 		 */
 		ajax: function(i, done)  {			
 			this.getPanes().eq(0).load(this.getTabs().eq(i).attr("href"), done);	
@@ -217,10 +215,15 @@
 				return self;	
 			};
 		});
+	
 		
+		if (conf.history && $.fn.history) {
+			$.tools.history.init(tabs);
+			conf.event = 'history';
+		}	
 		
 		// setup click actions for each tab
-		tabs.each(function(i) { 
+		tabs.each(function(i) { 				
 			$(this).bind(conf.event, function(e) {
 				self.click(i, e);
 				return e.preventDefault();
@@ -231,22 +234,6 @@
 		panes.find("a[href^=#]").click(function(e) {
 			self.click($(this).attr("href"), e);		
 		}); 
-
-
-		// history support
-		if (conf.history && $.fn.history) {
-			
-			// enable history support
-			tabs.history(function(evt, hash) {
-				if (!hash || hash == '#') { hash = conf.initialIndex; }
-				self.click(hash);		
-			});	  
- 			
-			// tab clicks perform their original action
-			tabs.click(function(e) {
-				location.hash = $(this).attr("href").replace("#", "");	
-			});		 
-		}  
 		
 		// open initial tab
 		if (location.hash) {
