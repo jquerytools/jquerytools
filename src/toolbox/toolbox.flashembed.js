@@ -97,8 +97,9 @@ function extend(to, from) {
 
 // JSON.asString() function
 function asString(obj) {
-	 
-	switch (typeOf(obj)){
+	
+	switch (typeOf(obj)){  
+		
 		case 'string':
 			obj = obj.replace(new RegExp('(["\\\\])', 'g'), '\\$1');
 			
@@ -201,8 +202,9 @@ function getHTML(p, c) {
 	
 	if (c) {
 		for (var key in c) {
-			if (c[key] !== null) {
-				vars += key +'='+ (typeof c[key] == 'object' ? asString(c[key]) : c[key]) + '&';
+			var val = c[key];
+			if (val !== null) {
+				vars += key +'='+ (typeof val == 'object' || typeof val == 'function' ? asString(val) : val) + '&';
 			}
 		}
 		vars = vars.slice(0, -1);
