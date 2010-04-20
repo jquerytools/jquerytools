@@ -417,7 +417,7 @@
 				self.setValue(value);				 
 				
 				// show calendar
-				var pos = input.offset();
+				var pos = input.position();
 
 				root.css({ 
 					top: pos.top + input.outerHeight({margins: true}) + conf.offset[0], 
