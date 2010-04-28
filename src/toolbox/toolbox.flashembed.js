@@ -108,7 +108,7 @@
 		
 		asString: function(obj) { 
 
-			if (obj === null || obj === undefined) { return ""; }
+			if (obj === null || obj === undefined) { return null; }
 			var type = typeof obj;
 			if (type == 'object' && obj.push) { type = 'array'; }
 			
