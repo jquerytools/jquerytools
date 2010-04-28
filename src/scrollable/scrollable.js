@@ -192,7 +192,7 @@
 				
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			
-			self.onBeforeSeek(function(e, i, time) { 
+			self.onBeforeSeek(function(e, i, time) {
 
 				if (e.isDefaultPrevented()) { return; }
 				
@@ -213,7 +213,10 @@
 				}
 				
 			});
-		}  
+			
+			// seek over the cloned item
+			self.seekTo(0, 0);
+		}
 		
 		// next/prev buttons
 		var prev = find(root, conf.prev).click(function() { self.prev(); }),
