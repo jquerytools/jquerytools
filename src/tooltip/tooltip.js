@@ -225,7 +225,7 @@
 					clearTimeout(pretimer);
 				});
 				
-				if (event[1]) { 					
+				if (event[1] && !trigger.is("input:not(:checkbox, :radio), textarea")) { 					
 					tip.bind(event[1], function(e) {
 
 						// being moved to the trigger element
