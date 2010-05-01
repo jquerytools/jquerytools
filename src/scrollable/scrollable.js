@@ -222,7 +222,7 @@
 		var prev = find(root, conf.prev).click(function() { self.prev(); }),
 			 next = find(root, conf.next).click(function() { self.next(); });	
 		
-		if (!conf.circular && self.getSize() > 2) {
+		if (!conf.circular && self.getSize() > 1) {
 			
 			self.onBeforeSeek(function(e, i) {
 				prev.toggleClass(conf.disabledClass, i <= 0);
