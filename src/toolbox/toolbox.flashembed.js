@@ -148,7 +148,10 @@
 			opts = extend({}, opts);
 			
 			/******* OBJECT tag and it's attributes *******/
-			var html = '<object width="' + opts.width + '" height="' + opts.height + '" id="' + opts.id + '"';
+			var html = '<object width="' + opts.width + 
+				'" height="' + opts.height + 
+				'" id="' + opts.id + '"' + 
+				'" name="' + opts.id + '"';
 			
 			if (opts.cachebusting) {
 				opts.src += ((opts.src.indexOf("?") != -1 ? "&" : "?") + Math.random());		
