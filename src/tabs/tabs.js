@@ -51,11 +51,9 @@
 		*/
 		fade: function(i, done) {		
 			
-			var conf = this.getConf(), 
+			var conf = this.getConf(),            
 				 speed = conf.fadeOutSpeed,
 				 panes = this.getPanes();
-	 
-			if (panes.eq(i).is(":visible")) { return; }
 			
 			if (speed) {
 				panes.fadeOut(speed);	
@@ -67,7 +65,7 @@
 		},
 		
 		// for basic accordions
-		slide: function(i, done) {			
+		slide: function(i, done) {
 			this.getPanes().slideUp(200);
 			this.getPanes().eq(i).slideDown(400, done);			 
 		}, 

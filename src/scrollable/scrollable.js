@@ -58,7 +58,6 @@
 			 fire = root.add(self),
 			 itemWrap = root.children(),
 			 index = 0,
-			 forward,
 			 vertical = conf.vertical;
 				
 		if (!current) { current = self; } 
@@ -158,12 +157,12 @@
 	
 				var props = vertical ? {top: -item.position().top} : {left: -item.position().left};  
 				
+				index = i;
+				current = self;  
+				
 				itemWrap.animate(props, time, conf.easing, fn || function() { 
 					fire.trigger("onSeek", [i]);		
-				});	
-				
-				current = self;
-				index = i;
+				});	 
 				
 				return self; 
 			}					

@@ -103,7 +103,7 @@
 			}
 			
 			ver = RE.exec(ver);
-			return [ver[1], ver[3]];
+			return ver ? [ver[1], ver[3]] : [0, 0];
 		},
 		
 		asString: function(obj) { 

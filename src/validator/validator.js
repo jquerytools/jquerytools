@@ -19,7 +19,7 @@
 		numRe = /^-?[0-9]*(\.[0-9]+)?$/,
 		
 		// http://net.tutsplus.com/tutorials/other/8-regular-expressions-you-should-know/
-		emailRe = /^([a-z0-9_\.\-]+)@([\da-z\.\-]+)\.([a-z\.]{2,6})$/i,
+		emailRe = /^([a-z0-9_\.\-\+]+)@([\da-z\.\-]+)\.([a-z\.]{2,6})$/i,
 		urlRe = /^(https?:\/\/)?([\da-z\.\-]+)\.([a-z\.]{2,6})([\/\w \.\-]*)*\/?$/i,
 		v;
 		 
@@ -181,6 +181,7 @@
 				
 			// hide errors function
 			}, function(inputs) {
+
 				var conf = this.getConf();				
 				inputs.removeClass(conf.errorClass).each(function() {
 					var msg = $(this).data("msg.el");
@@ -204,7 +205,7 @@
 		Usage: $("input:eq(2)").oninvalid(function() { ... });
 	*/
 	$.fn.oninvalid = function( fn ){
-		return this[fn ? "bind" : "trigger"]("oninvalid", fn);
+		return this[fn ? "bind" : "trigger"]("OI", fn);
 	};
 	
 	
@@ -233,6 +234,7 @@
 	});
 	
 	v.fn("[required]", "Please complete this mandatory field.", function(el, v) {
+		if (el.is(":checkbox"))  { return el.is(":checked"); }
 		return !!v; 			
 	});
 	
@@ -242,24 +244,16 @@
 	});
 
 	
-	function Validator(form, conf) {		
+	function Validator(inputs, form, conf) {		
 		
 		// private variables
 		var self = this, 
-			 fire = form.add(self),
-			 inputs = form.find(":input");
-			 
-		// inputs are given directly
-		if (!inputs.length) {
-			inputs = form.filter(":input").data("validator", self);	
-			form = inputs.eq(0).closest("form");
-		}
-			 
-		inputs = inputs.not(":button, :image, :reset, :submit");
-			 
-		if (!inputs.length) { throw "Validator: no input fields supplied"; }		
+			 fire = form.add(self);
 
-		
+		// make sure there are input fields available
+		inputs = inputs.not(":button, :image, :reset, :submit");
+		if (!inputs.length) { throw "Validator: no input fields supplied"; }					 
+
 		// utility function
 		function pushMessage(to, matcher, returnValue) {
 			
@@ -318,7 +312,7 @@
 						if (input.length) {
 							
 							// trigger HTML5 ininvalid event
-							input.trigger("oninvalid", [val]);
+							input.trigger("OI", [val]);
 							
 							errors.push({ input: input, messages: [val]});				
 						}
@@ -358,7 +352,7 @@
 					
 				var errs = [], 
 					 event = conf.errorInputEvent + ".v";
-				
+ 
 				// loop trough the inputs
 				els.each(function() {
 						
@@ -375,6 +369,7 @@
 							
 							// execute a validator function
 							var returnValue = fn[1].call(self, el, el.val());
+							
 							
 							// validation failed. multiple substitutions can be returned with an array
 							if (returnValue !== true) {								
@@ -401,7 +396,7 @@
 						errs.push({input: el, messages: msgs});  
 						
 						// trigger HTML5 ininvalid event
-						el.trigger("oninvalid", [msgs]);
+						el.trigger("OI", [msgs]);
 						
 						// begin validating upon error event type (such as keyup) 
 						if (conf.errorInputEvent) {
@@ -459,6 +454,7 @@
 			};
 		});	
 		
+		
 		// form validation
 		if (conf.formEvent) {
 			form.bind(conf.formEvent, function(e) {
@@ -468,22 +464,31 @@
 			});
 		}
 		
-		// Web Forms 2.0 compatibility
-		form[0].checkValidity = self.checkValidity;
+		// disable browser's default validation mechanism
+		if (inputs.get(0).validity) {
+			inputs.each(function()  {
+				this.oninvalid = function() { return false; }		
+			});
+		}
 		
-		// input validation
+		// Web Forms 2.0 compatibility
+		if (form[0]) {
+			form[0].checkValidity = self.checkValidity;
+		}
+		
+		// input validation               
 		if (conf.inputEvent) {
 			inputs.bind(conf.inputEvent, function(e) {
 				self.checkValidity($(this), e);
 			});	
-		}
-		
-		// oninvalid attribute (not using eval())
-		inputs.filter("[oninvalid]").each(function() {
-			$(this).oninvalid(function()  {
-				$.globalEval($(this).attr("oninvalid"));			
-			});
-		});		  
+		} 
+	
+		inputs.filter(":checkbox, select").filter("[required]").change(function(e) {
+			var el = $(this);
+			if (this.checked || (el.is("select") && $(this).val())) {
+				effects[conf.effect][1].call(self, el, e); 
+			}
+		});
 		
 	}
 
@@ -498,10 +503,17 @@
 		conf = $.extend(true, {}, v.conf, conf);		
 		
 		// selector is a form		
-		return this.each(function() {			
-			var el = new Validator($(this), conf);				
-			$(this).data("validator", el);
-		}); 
+		if (this.is("form")) {
+			return this.each(function() {			
+				var form = $(this), 
+					 validator = new Validator(form.find(":input"), form, conf);	 
+				form.data("validator", validator);
+			});
+			
+		} else {
+			var validator = new Validator(this, this.eq(0).closest("form"), conf);
+			return this.data("validator", validator);
+		}     
 		
 	};   
 		

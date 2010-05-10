@@ -277,9 +277,6 @@
 			// se input field's value
 			input.val(val);
 
-			// HTML5 attribute
-			input[0].valueAsNumber = val;
-
 			return self;
 		} 
 		

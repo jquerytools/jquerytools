@@ -191,7 +191,7 @@
 		value = parseDate(value) || now;
 		min   = parseDate(min || conf.yearRange[0] * 365);
 		max   = parseDate(max || conf.yearRange[1] * 365);
-
+		
 		// check that language exists
 		if (!labels) { throw "Dateinput: invalid language: " + conf.lang; }
 		
@@ -281,9 +281,6 @@
 			
 			// store value into input
 			input.data("date", date);
-			
-			// HTML5 DOM property
-			input[0].valueAsDate = date;
 			
 			self.hide(e); 
 		}
@@ -444,7 +441,7 @@
 				
 				var date;
 
-				if (typeof month == 'number') {
+				if (parseInt(month, 10) >= 0) {
 					// strings to numbers
 					year = integer(year);
 					month = integer(month);
@@ -513,7 +510,7 @@
 				weeks.empty();				
 				pm.add(nm).removeClass(css.disabled);
 				
-				for (var j = 0, a, num; j < 35; j++) { 
+				for (var j = 0, a, num; j < 42; j++) { 
 					
 					a = $("<a/>");
 					
@@ -678,8 +675,11 @@
 			
 		}); 
 		
-		// pick current value
-		select(value, conf);
+		// initial value 
+		if (parseDate(input.val())) { 
+			select(value, conf);
+		}
+		
 	} 
 	
 	$.expr[':'].date = function(el) {
