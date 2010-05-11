@@ -211,7 +211,7 @@
 	
 	/******* built-in HTML5 standard validators *********/
 	
-	v.fn(":email", "Plase enter a valid email address", function(el, v) {
+	v.fn(":email", "Please enter a valid email address", function(el, v) {
 		return !v || emailRe.test(v);
 	});
 	
@@ -467,7 +467,9 @@
 		// disable browser's default validation mechanism
 		if (inputs.get(0).validity) {
 			inputs.each(function()  {
-				this.oninvalid = function() { return false; }		
+				this.oninvalid = function() { 
+					return false; 
+				};		
 			});
 		}
 		

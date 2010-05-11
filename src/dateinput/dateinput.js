@@ -206,7 +206,7 @@
 		}
 		input.addClass(css.input);
 		
-		var fire = input.add(this);
+		var fire = input.add(self);
 			 
 		// construct layout
 		if (!root.length) {
@@ -270,10 +270,12 @@
 			currMonth = date.getMonth();
 			currDay	 = date.getDate();				
 			
+			
 			// change
 			e = e || $.Event("api");
 			e.type = "change";
-			fire.trigger(e, [date]);
+			
+			fire.trigger(e, [date]); 
 			if (e.isDefaultPrevented()) { return; }
 			
 			// formatting			
@@ -346,7 +348,7 @@
 				// enter
 				if (key == 13) {
 					if (!$(e.target).is("select")) {
-						select($("." + css.focus).data("date"), conf, e); 
+						$("." + css.focus).click(); 
 					} 
 				}
 				
@@ -558,8 +560,11 @@
 					
 					// date picking					
 					a.click(function(e) {
-						if (!$(this).hasClass(css.disabled)) {
-							select($(this).data("date"), conf, e);
+						var el = $(this); 
+						if (!el.hasClass(css.disabled)) {  
+							$("#" + css.current).removeAttr("id");
+							el.attr("id", css.current);	 
+							select(el.data("date"), conf, e);
 						}
 						return false;
 					});
@@ -607,15 +612,21 @@
 						
 			hide: function(e) {				 
 				
-				if (opened) {
-					root.hide();
-					$(document).unbind("click.d").unbind("keydown.d"); 
+				if (opened) {  
 					
-					// onHide
-					opened = false;
+					// onHide 
 					e = e || $.Event();
 					e.type = "onHide";
 					fire.trigger(e);
+					
+					$(document).unbind("click.d").unbind("keydown.d"); 
+					
+					// cancelled ?
+					if (e.isDefaultPrevented()) { return; }    
+					
+					// do the hide
+					root.hide();
+					opened = false;
 				}
 				
 				return self;
@@ -676,6 +687,7 @@
 		}); 
 		
 		// initial value 
+		
 		if (parseDate(input.val())) { 
 			select(value, conf);
 		}
