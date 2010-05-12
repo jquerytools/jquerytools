@@ -52,9 +52,7 @@ body {
 </div>
 
 <script>
-var inputs = $(".form :input").validator(); 
-
-
 // perform validation programmatically
-console.info(inputs, inputs.data("validator"), inputs.data("validator").checkValidity());
+var inputs = $(".form :input").validator(); 
+inputs.data("validator").checkValidity();
 </script>

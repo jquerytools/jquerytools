@@ -251,8 +251,7 @@
 			 fire = form.add(self);
 
 		// make sure there are input fields available
-		inputs = inputs.not(":button, :image, :reset, :submit");
-		if (!inputs.length) { throw "Validator: no input fields supplied"; }					 
+		inputs = inputs.not(":button, :image, :reset, :submit");			 
 
 		// utility function
 		function pushMessage(to, matcher, returnValue) {
@@ -465,7 +464,7 @@
 		}
 		
 		// disable browser's default validation mechanism
-		if (inputs.get(0).validity) {
+		if (inputs[0] && inputs[0].validity) {
 			inputs.each(function()  {
 				this.oninvalid = function() { 
 					return false; 
