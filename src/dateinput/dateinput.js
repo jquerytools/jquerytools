@@ -445,7 +445,7 @@
 				
 				var date;
 
-				if (parseInt(month, 10) >= 0) {
+				if (parseInt(month, 10) >= -1) {
 					// strings to numbers
 					year = integer(year);
 					month = integer(month);
