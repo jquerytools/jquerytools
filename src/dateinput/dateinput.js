@@ -192,6 +192,7 @@
 		min   = parseDate(min || conf.yearRange[0] * 365);
 		max   = parseDate(max || conf.yearRange[1] * 365);
 		
+		
 		// check that language exists
 		if (!labels) { throw "Dateinput: invalid language: " + conf.lang; }
 		
@@ -441,6 +442,7 @@
 
 			setValue: function(year, month, day)  {						
 				
+				
 				var date;
 
 				if (parseInt(month, 10) >= 0) {
@@ -450,13 +452,13 @@
 					day = integer(day);					
 					date = new Date(year, month, day);
 					
-				} else {
-					
+				} else { 
 					date = year || value;	
-					year = date.getYear() % 100 + 2000;
+					year = date.getYear() + 1900;
 					month = date.getMonth();
 					day = date.getDate();					
 				} 
+				
 				
 				// roll year & month
 				if (month == -1) {
