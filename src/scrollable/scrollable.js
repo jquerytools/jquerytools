@@ -159,6 +159,7 @@
 				
 				index = i;
 				current = self;  
+				time = time || conf.speed;
 				
 				itemWrap.animate(props, time, conf.easing, fn || function() { 
 					fire.trigger("onSeek", [i]);		
