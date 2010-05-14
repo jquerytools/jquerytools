@@ -54,6 +54,7 @@
 		
 		localize: function(lang, messages) { 
 			$.each(messages, function(key, msg)  {
+				v.messages[key] = v.messages[key] || {};
 				v.messages[key][lang] = msg;		
 			});
 		},
