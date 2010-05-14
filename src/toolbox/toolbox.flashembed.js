@@ -150,7 +150,7 @@
 			/******* OBJECT tag and it's attributes *******/
 			var html = '<object width="' + opts.width + 
 				'" height="' + opts.height + 
-				'" id="' + opts.id + '"' + 
+				'" id="' + opts.id + 
 				'" name="' + opts.id + '"';
 			
 			if (opts.cachebusting) {
