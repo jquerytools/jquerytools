@@ -135,10 +135,13 @@
 			
 			
 			/* all seeking functions depend on this */		
-			seekTo: function(i, time, fn) {				
+			seekTo: function(i, time, fn) {	
+				
+				// avoid seeking from end clone to the beginning
+				if (conf.circular && i === 0 && index == -1 && time !== 0) { return self; }
 				
 				// check that index is sane
-				if (!conf.circular && i < 0 || i > self.getSize()) { return self; }
+				if (!conf.circular && i < 0 || i > self.getSize() || i < -1) { return self; }
 				
 				var item = i;
 			
@@ -147,6 +150,8 @@
 				} else {
 					item = self.getItems().eq(i);
 				}  
+				
+				
 				
 				// onBeforeSeek
 				var e = $.Event("onBeforeSeek"); 
@@ -159,7 +164,10 @@
 				
 				index = i;
 				current = self;  
-				time = time || conf.speed;
+				if (time === undefined) { time = conf.speed; }
+				
+				
+				
 				
 				itemWrap.animate(props, time, conf.easing, fn || function() { 
 					fire.trigger("onSeek", [i]);		

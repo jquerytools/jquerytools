@@ -41,7 +41,6 @@
 			messageClass: 'error',		// error message element's class name
 			offset: [0, 0], 
 			position: 'center right',
-			relative: false,				// advanced position flag. rarely needed
 			singleError: false, 			// validate all inputs at once
 			speed: 'normal'				// message's fade-in speed			
 		},
@@ -80,7 +79,7 @@
 			}
 
 			// check for "[type=xxx]" (not supported by jQuery)
-			var test = typeRe.exec(matcher);
+			var test = typeRe.exec(matcher);                                    
 			if (test) { matcher = isType(test[1]); }				
 			
 			// add validator to the arsenal
@@ -98,12 +97,11 @@
 	function getPosition(trigger, el, conf) {	
 		
 		// get origin top/left position 
-		var top = conf.relative ? trigger.position().top : trigger.offset().top, 
-			 left = conf.relative ? trigger.position().left : trigger.offset().left,	 
+		var top = trigger.offset().top, 
+			 left = trigger.offset().left,	 
 			 pos = conf.position.split(/,?\s+/),
 			 y = pos[0],
 			 x = pos[1];
-
 		
 		top  -= el.outerHeight() - conf.offset[0];
 		left += trigger.outerWidth() + conf.offset[1];
@@ -175,8 +173,7 @@
 					var pos = getPosition(input, msg, conf); 
 					 
 					msg.css({ visibility: 'visible', position: 'absolute', top: pos.top, left: pos.left })
-						.fadeIn(conf.speed);    
-				
+						.fadeIn(conf.speed);     
 				});
 						
 				
@@ -463,6 +460,12 @@
 				}
 			});
 		}
+		
+		// form reset
+		form.bind("reset", function() {
+			$("." + conf.messageClass).remove();
+			inputs.removeClass(conf.errorClass).data("msg.el", null);
+		});
 		
 		// disable browser's default validation mechanism
 		if (inputs[0] && inputs[0].validity) {

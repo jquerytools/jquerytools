@@ -1,10 +1,10 @@
 /**
  * @license 
- * jQuery Tools @VERSION / Mask - Dim the lights
+ * jQuery Tools @VERSION / Expose - Dim the lights
  * 
  * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
  * 
- * http://flowplayer.org/tools/toolbox/mask.html
+ * http://flowplayer.org/tools/toolbox/expose.html
  *
  * Since: Mar 2010
  * Date: @DATE 
@@ -105,10 +105,7 @@
 				zIndex: conf.zIndex 
 			});
 			
-			// background color 
-			var bg = mask.css("backgroundColor");
-			
-			if (!bg || bg == 'transparent' || bg == 'rgba(0, 0, 0, 0)') {
+			if (conf.color) {
 				mask.css("backgroundColor", conf.color);	
 			}			
 			
