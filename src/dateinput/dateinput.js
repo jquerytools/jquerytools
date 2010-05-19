@@ -301,6 +301,12 @@
 					
 				var key = e.keyCode;			 
 				
+				// backspace clears the value
+				if (key == 8) {
+					input.val("");
+					return self.hide(e);	
+				}
+				
 				// esc key
 				if (key == 27) { return self.hide(e); }						
 					
