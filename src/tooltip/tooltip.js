@@ -73,8 +73,13 @@
 		],
 		
 		fade: [
-			function(done) { this.getTip().fadeIn(this.getConf().fadeInSpeed, done); },  
-			function(done) { this.getTip().fadeOut(this.getConf().fadeOutSpeed, done); } 
+			function(done) { 
+				var conf = this.getConf();
+				this.getTip().fadeTo(conf.fadeInSpeed, conf.opacity, done); 
+			},  
+			function(done) { 
+				this.getTip().fadeOut(this.getConf().fadeOutSpeed, done); 
+			} 
 		]		
 	};   
 
