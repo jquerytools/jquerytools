@@ -1,8 +1,8 @@
 <project name="jQuery.Tools" default="min">
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml"/> 
-	<property file="build.properties" prefix="v"/>
-	<property name="build" value="build/${v.tools}"/>
+	<property name="version" value="1.2.2"/>
+	<property name="build" value="build/${version}"/>
 	<property name="file" value="none"/>
 	
 	<!-- replace @VERSION and @DATE tags -->
@@ -30,7 +30,7 @@
 		  <sequential>
 		  
 		  		<!-- version number -->                             
-				<replaceregexp match="@VERSION" replace="${v.tools}" byline="true" file="@{file}" /> 
+				<replaceregexp match="@VERSION" replace="${version}" byline="true" file="@{file}" /> 
 			
 				<!-- last modified (via <git log> command) -->
 				<propertyregex property="source" input="@{file}" override="yes" replace="\1" 
