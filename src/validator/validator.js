@@ -331,6 +331,17 @@
 				return self;
 			},
 			
+			reset: function(els) {
+				els = els || inputs;
+				els.removeClass(conf.errorClass).each(function()  {
+					var msg = $(this).data("msg.el");
+					if (msg) {
+						msg.remove();
+						$(this).data("msg.el", null);
+					}
+				});				
+			},
+			
 //{{{  checkValidity() - flesh and bone of this tool
 						
 			/* @returns boolean */
@@ -462,9 +473,8 @@
 		}
 		
 		// form reset
-		form.bind("reset", function() {
-			$("." + conf.messageClass).remove();
-			inputs.removeClass(conf.errorClass).data("msg.el", null);
+		form.bind("reset", function()  {
+			self.reset();			
 		});
 		
 		// disable browser's default validation mechanism

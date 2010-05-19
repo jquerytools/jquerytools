@@ -1,12 +1,9 @@
 
-<script src="../jquery-1.3.2.js"></script>
+<script src="../js/jquery-1.3.2.js"></script>
 <script src="../../src/scrollable/scrollable.js"></script>
-<script src="../../src/scrollable/scrollable.circular.js"></script>
 <script src="../../src/scrollable/scrollable.navigator.js"></script>
 <script src="../../src/scrollable/scrollable.autoscroll.js"></script>
-
 <script src="../../src/toolbox/toolbox.history.js"></script>
-<script src="../../src/toolbox/toolbox.mousewheel.js"></script>
 
 <link rel="stylesheet" type="text/css" href="style.css"/>
 
@@ -14,11 +11,6 @@
 div.cloned {
 	background-color:#ffc !important;
 }
-
-div.active {
-	background-color:#66d !important;
-}
-
 .disabled {
 	visibility:hidden;		
 }
@@ -26,19 +18,8 @@ div.active {
 
 <script>
 $(function() {
-	window.api = $("div.scrollable").scrollable({
-		mousewheel: true
-		
-	}).navigator({idPrefix: 'a', history: true}).bind("onSeek", function() {
-		console.info("BIND", this, arguments);	
-		
-	}).data("scrollable"); 
-	
-	
-	api.onBeforeSeek(function (e, i) { 
-		console.info("API", this, arguments); 
-	});  
-	
+	window.api = $(".scrollable").scrollable({ mousewheel: true})
+		.navigator({idPrefix: 'a', history: true}).data("scrollable");  
 });
 </script>
 
@@ -47,7 +28,6 @@ $(function() {
 
 
 <a class="prev">prev</a> 
-<a class="prevPage">prevPage</a>
 
 <div class="scrollable">
 	
@@ -60,7 +40,6 @@ $(function() {
 </div>
 
 <a class="next">next</a>
-<a class="nextPage">nextPage</a>
 
 <br clear="all" />
 

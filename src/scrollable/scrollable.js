@@ -151,8 +151,6 @@
 					item = self.getItems().eq(i);
 				}  
 				
-				
-				
 				// onBeforeSeek
 				var e = $.Event("onBeforeSeek"); 
 				if (!fn) {
@@ -164,10 +162,7 @@
 				
 				index = i;
 				current = self;  
-				if (time === undefined) { time = conf.speed; }
-				
-				
-				
+				if (time === undefined) { time = conf.speed; }   
 				
 				itemWrap.animate(props, time, conf.easing, fn || function() { 
 					fire.trigger("onSeek", [i]);		
@@ -202,6 +197,7 @@
 			
 			self.onBeforeSeek(function(e, i, time) {
 
+				
 				if (e.isDefaultPrevented()) { return; }
 				
 				/*

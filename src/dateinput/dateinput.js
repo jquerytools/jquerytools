@@ -199,7 +199,7 @@
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input.attr("type") == 'date') {
 			var tmp = $("<input/>");
-			$.each("name,readonly,disabled,value".split(","), function(i, attr)  {
+			$.each("name,readonly,disabled,value,required".split(","), function(i, attr)  {
 				tmp.attr(attr, input.attr(attr));		
 			});			
 			input.replaceWith(tmp);
