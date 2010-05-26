@@ -137,7 +137,7 @@
 	} 
 
 	function isSameDay(d1, d2)  {
-		return d1.getYear() === d2.getYear() && 
+		return d1.getFullYear() === d2.getFullYear() && 
 			d1.getMonth() == d2.getMonth() &&
 			d1.getDate() == d2.getDate(); 
 	}
@@ -460,7 +460,7 @@
 					
 				} else { 
 					date = year || value;	
-					year = date.getYear() + 1900;
+					year = date.getFullYear();
 					month = date.getMonth();
 					day = date.getDate();					
 				} 
