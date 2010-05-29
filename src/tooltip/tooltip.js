@@ -139,8 +139,8 @@
 		
 		// trigger --> show  
 		trigger.bind(evt[0], function(e) {
+			clearTimeout(timer);
 			if (conf.predelay) {
-				clearTimeout(timer);
 				pretimer = setTimeout(function() { self.show(e); }, conf.predelay);	
 				
 			} else {
@@ -149,8 +149,8 @@
 			
 		// trigger --> hide
 		}).bind(evt[1], function(e)  {
+			clearTimeout(pretimer);
 			if (conf.delay)  {
-				clearTimeout(pretimer);
 				timer = setTimeout(function() { self.hide(e); }, conf.delay);	
 				
 			} else {
