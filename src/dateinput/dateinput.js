@@ -714,7 +714,7 @@
 		if (this.data("dateinput")) { return this; } 
 		
 		// configuration
-		conf = $.extend({}, tool.conf, conf);		
+		conf = $.extend(true, {}, tool.conf, conf);		
 		
 		// CSS prefix
 		$.each(conf.css, function(key, val) {
