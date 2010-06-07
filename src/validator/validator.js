@@ -222,11 +222,19 @@
 	});
 	
 	v.fn("[max]", "Please enter a value smaller than $1", function(el, v) {
+			
+		// skip dateinputs
+		if ($.tools.dateinput && el.is(":date")) { return true; }
+		
 		var max = el.attr("max");
 		return parseFloat(v) <= parseFloat(max) ? true : [max];
 	});
 	
 	v.fn("[min]", "Please enter a value larger than $1", function(el, v) {
+			
+		// skip dateinputs
+		if ($.tools.dateinput && el.is(":date")) { return true; }
+		
 		var min = el.attr("min");
 		return parseFloat(v) >= parseFloat(min) ? true : [min];
 	});
