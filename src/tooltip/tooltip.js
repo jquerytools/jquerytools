@@ -125,7 +125,7 @@
 				 
 			 // get show/hide configuration
 			 isInput = trigger.is(":input"), 
-			 isWidget = isInput && trigger.is(":checkbox, :radio, select, :button"),			
+			 isWidget = isInput && trigger.is(":checkbox, :radio, select, :button, :submit"),			
 			 type = trigger.attr("type"),
 			 evt = conf.events[type] || conf.events[isInput ? (isWidget ? 'widget' : 'input') : 'def']; 
 		
