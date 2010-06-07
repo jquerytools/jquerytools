@@ -254,7 +254,7 @@
 		closers = overlay.find(conf.close || ".close");		
 		
 		if (!closers.length && !conf.close) {
-			closers = $('<div class="close"></div>');
+			closers = $('<a class="close"></a>');
 			overlay.prepend(closers);	
 		}		
 		
