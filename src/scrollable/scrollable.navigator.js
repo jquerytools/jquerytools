@@ -104,10 +104,14 @@
 			
 			// activate correct entry
 			api.onBeforeSeek(function(e, index) {
-				var el = els().eq(index);
-				if (!e.isDefaultPrevented() && el.length) {			
-					els().removeClass(cls).eq(index).addClass(cls);
-				}
+				setTimeout(function() {
+					if (!e.isDefaultPrevented()) {	
+						var el = els().eq(index);
+						if (!e.isDefaultPrevented() && el.length) {			
+							els().removeClass(cls).eq(index).addClass(cls);
+						}
+					}
+				}, 1);
 			}); 
 			
 			function doHistory(evt, hash) {

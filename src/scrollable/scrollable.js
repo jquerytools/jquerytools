@@ -229,8 +229,12 @@
 		if (!conf.circular && self.getSize() > 1) {
 			
 			self.onBeforeSeek(function(e, i) {
-				prev.toggleClass(conf.disabledClass, i <= 0);
-				next.toggleClass(conf.disabledClass, i >= self.getSize() -1);
+				setTimeout(function() {
+					if (!e.isDefaultPrevented()) {
+						prev.toggleClass(conf.disabledClass, i <= 0);
+						next.toggleClass(conf.disabledClass, i >= self.getSize() -1);
+					}
+				}, 1);
 			}); 
 		}
 			
