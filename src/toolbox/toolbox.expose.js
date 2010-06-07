@@ -55,7 +55,7 @@
 		} 
 		
 		// other well behaving browsers
-		return [$(window).width(), $(document).height()]; 
+		return [$(document).width(), $(document).height()]; 
 	} 
 	
 	function call(fn) {
