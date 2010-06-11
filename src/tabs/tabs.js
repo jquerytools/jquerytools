@@ -195,7 +195,12 @@
 			
 			prev: function() {
 				return self.click(current - 1);	
-			}		
+			},
+			
+			destroy: function() {
+				tabs.unbind(conf.event).removeClass(conf.current);
+				panes.find("a[href^=#]").unbind("click.T"); 
+			}
 		
 		});
 
@@ -229,7 +234,7 @@
 		});
 		
 		// cross tab anchor link
-		panes.find("a[href^=#]").click(function(e) {
+		panes.find("a[href^=#]").bind("click.T", function(e) {
 			self.click($(this).attr("href"), e);		
 		}); 
 		
@@ -250,7 +255,10 @@
 		
 		// return existing instance
 		var el = this.data("tabs");
-		if (el) { return el; }
+		if (el) { 
+			el.destroy();	
+			this.removeData("tabs");
+		}
 
 		if ($.isFunction(conf)) {
 			conf = {onBeforeClick: conf};
