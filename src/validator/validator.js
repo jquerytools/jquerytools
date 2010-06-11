@@ -347,8 +347,15 @@
 						msg.remove();
 						$(this).data("msg.el", null);
 					}
-				});				
+				}).unbind(conf.errorInputEvent || '');
 			},
+			
+			destroy: function() {
+				self.reset();	
+				form.unbind(conf.formEvent).unbind("reset.V"); 
+				inputs.unbind(conf.inputEvent || '').unbind("change.V");
+			}, 
+			
 			
 //{{{  checkValidity() - flesh and bone of this tool
 						
@@ -481,7 +488,7 @@
 		}
 		
 		// form reset
-		form.bind("reset", function()  {
+		form.bind("reset.V", function()  {
 			self.reset();			
 		});
 		
@@ -506,7 +513,7 @@
 			});	
 		} 
 	
-		inputs.filter(":checkbox, select").filter("[required]").change(function(e) {
+		inputs.filter(":checkbox, select").filter("[required]").bind("change.V", function(e) {
 			var el = $(this);
 			if (this.checked || (el.is("select") && $(this).val())) {
 				effects[conf.effect][1].call(self, el, e); 
@@ -517,10 +524,15 @@
 
 	
 	// jQuery plugin initialization
-	$.fn.validator = function(conf) {   
+	$.fn.validator = function(conf) { 
 		
-		// return existing instance
-		if (this.data("validator")) { return this; } 
+		var instance = this.data("validator");
+		
+		// destroy existing instance
+		if (instance) { 
+			instance.destroy();
+			this.removeData("validator");
+		} 
 		
 		// configuration
 		conf = $.extend(true, {}, v.conf, conf);		
@@ -528,14 +540,14 @@
 		// selector is a form		
 		if (this.is("form")) {
 			return this.each(function() {			
-				var form = $(this), 
-					 validator = new Validator(form.find(":input"), form, conf);	 
-				form.data("validator", validator);
+				var form = $(this); 
+				instance = new Validator(form.find(":input"), form, conf);	 
+				form.data("validator", instance);
 			});
 			
 		} else {
-			var validator = new Validator(this, this.eq(0).closest("form"), conf);
-			return this.data("validator", validator);
+			instance = new Validator(this, this.eq(0).closest("form"), conf);
+			return this.data("validator", instance);
 		}     
 		
 	};   
