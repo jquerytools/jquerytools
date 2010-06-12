@@ -2,6 +2,7 @@
 <!DOCTYPE html>        
 <script src="../js/jquery-1.4.1.min.js"></script>
 <script src="../../src/validator/validator.js"></script>
+<script src="../../src/dateinput/dateinput.js"></script>
 
 <style>
 body {
@@ -48,7 +49,7 @@ input attributes in HTML5
 								/>
 	</p>
 	<p>
-		date <input type="date" title="Use format yyyy-mm-dd" name="day" />
+		date <input type="date" title="Use format yyyy-mm-dd" name="day" min="-40" required="true" />
 	</p>
 	
 	<p>
@@ -89,6 +90,8 @@ var api = $("form").validator({attrPrefix: null, grouped: true}).bind("onBeforeV
 	console.info("BEFORE", this, arguments);
 	
 }).data("validator");
+
+$(":date").dateinput();
 
 api.onFail(function() {
 	console.info("FAIL", this, arguments);		

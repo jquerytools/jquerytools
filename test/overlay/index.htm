@@ -12,6 +12,16 @@ $(function() {
 		top: 'center',
 		speed: 500,
 
+		mask: {
+        color: '#fff',
+
+        // load mask a little faster
+        loadSpeed: 200,
+
+        // very transparent
+        opacity: 0.5
+    },
+
 		// effect: 'apple',
 		
 		onStart: function(e) {
@@ -52,6 +62,8 @@ $(function() {
 		}
 	});	
 	
+	
+	$("a.o1").data("overlay").load();
 });
 </script>
 

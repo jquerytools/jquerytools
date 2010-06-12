@@ -200,6 +200,7 @@
 			destroy: function() {
 				tabs.unbind(conf.event).removeClass(conf.current);
 				panes.find("a[href^=#]").unbind("click.T"); 
+				return self;
 			}
 		
 		});

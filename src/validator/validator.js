@@ -348,12 +348,13 @@
 						$(this).data("msg.el", null);
 					}
 				}).unbind(conf.errorInputEvent || '');
+				return self;
 			},
 			
-			destroy: function() {
-				self.reset();	
+			destroy: function() { 
 				form.unbind(conf.formEvent).unbind("reset.V"); 
 				inputs.unbind(conf.inputEvent || '').unbind("change.V");
+				return self.reset();	
 			}, 
 			
 			

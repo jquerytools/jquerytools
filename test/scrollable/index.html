@@ -18,8 +18,12 @@ div.cloned {
 
 <script>
 $(function() {
-	window.api = $(".scrollable").scrollable({ mousewheel: true})
+		window.api = $(".scrollable").scrollable({ mousewheel: true, size: 5})
 		.navigator({idPrefix: 'a', history: true}).data("scrollable");  
+		
+	api.onBeforeSeek(function() {
+		// return false;
+	});
 });
 </script>
 
