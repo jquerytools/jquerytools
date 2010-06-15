@@ -329,15 +329,14 @@
 					else if (key == 72 || key == 37) { index -= 1; }
 					
 					
-					if (index == -1) {
-						self.addMonth(-1);
-						el = $("#" + css.weeks + " a:last");
-						
-					} else if (index == 35) {
-						self.addMonth();
-						el = $("#" + css.weeks + " a:first");								
+					if (index > 41) {
+						 self.addMonth();
+						 el = $("#" + css.weeks + " a:eq(" + (index-42) + ")");
+					} else if (index < 0) {
+						 self.addMonth(-1);
+						 el = $("#" + css.weeks + " a:eq(" + (index+42) + ")");
 					} else {
-						el = days.eq(index);
+						 el = days.eq(index);
 					}
 					
 					el.addClass(css.focus);
