@@ -240,7 +240,7 @@
 		}); 
 		
 		// open initial tab
-		if (location.hash && conf.tabs === "a") {
+		if (location.hash && conf.tabs === "a" && root.find(conf.tabs + location.hash)) {
 			self.click(location.hash);
 		} else {
 			if (conf.initialIndex === 0 || conf.initialIndex > 0) {
