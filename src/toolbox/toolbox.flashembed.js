@@ -45,7 +45,7 @@
 	// simple extend
 	function extend(to, from) {
 		if (from) {
-			for (key in from) {
+			for (var key in from) {
 				if (from.hasOwnProperty(key)) {
 					to[key] = from[key];
 				}
