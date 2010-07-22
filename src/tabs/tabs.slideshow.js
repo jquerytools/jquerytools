@@ -89,8 +89,8 @@
 		
 			pause: function() {
 				
-				if (!timer) { return self; }
-				
+				if (!timer && !startTimer) { return self; }
+
 				// onBeforePause
 				var e = $.Event("onBeforePause");
 				fire.trigger(e);					
