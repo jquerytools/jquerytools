@@ -223,28 +223,20 @@
 	
 	v.fn("[max]", "Please enter a value smaller than $1", function(el, v) {
 			
-		// skip dateinputs
-		if ($.tools.dateinput && el.is(":date")) { return true; }
-		
-		// skip empty values
-		v = parseFloat(v);		
-		if (isNaN(v)) { return true; }
+		// skip empty values and dateinputs
+		if (v === '' || $.tools.dateinput && el.is(":date")) { return true; }	
 		
 		var max = el.attr("max");
-		return v <= parseFloat(max) ? true : [max];
+		return parseFloat(v) <= parseFloat(max) ? true : [max];
 	});
 	
 	v.fn("[min]", "Please enter a value larger than $1", function(el, v) {
 
-		// skip dateinputs
-		if ($.tools.dateinput && el.is(":date")) { return true; }
-		
-		// skip empty values
-		v = parseFloat(v);
-		if (isNaN(v)) { return true; }		
-		
+		// skip empty values and dateinputs
+		if (v === '' || $.tools.dateinput && el.is(":date")) { return true; }
+
 		var min = el.attr("min");
-		return v >= parseFloat(min) ? true : [min];
+		return parseFloat(v) >= parseFloat(min) ? true : [min];
 	});
 	
 	v.fn("[required]", "Please complete this mandatory field.", function(el, v) {
