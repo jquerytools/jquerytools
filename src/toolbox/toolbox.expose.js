@@ -156,6 +156,7 @@
 			mask.css({display: 'block'}).fadeTo(conf.loadSpeed, conf.opacity, function() {
 				$.mask.fit(); 
 				call(conf.onLoad);
+				loaded = "full";
 			});
 			
 			loaded = true;			
@@ -197,8 +198,8 @@
 			return mask;	
 		},
 		
-		isLoaded: function() {
-			return loaded;	
+		isLoaded: function(fully) {
+			return fully ? loaded == 'full' : loaded;	
 		}, 
 		
 		getConf: function() {

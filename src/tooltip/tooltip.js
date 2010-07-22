@@ -9,14 +9,7 @@
  * Since: November 2008
  * Date: @DATE 
  */
-(function($) { 
-
-	/* 
-		removed: oneInstance, lazy, 
-		tip must next to the trigger 
-		isShown(fully), layout, tipClass, layout
-	*/
-	
+(function($) { 	
 	// static constructs
 	$.tools = $.tools || {version: '@VERSION'};
 	
@@ -258,7 +251,6 @@
 				
 				effects[conf.effect][1].call(self, function() {
 					e.type = "onHide";
-					shown = false;
 					fire.trigger(e);		 
 				});
 				
