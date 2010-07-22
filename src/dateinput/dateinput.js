@@ -187,7 +187,7 @@
 			 max = input.attr("max") || conf.max,
 			 opened;
 
-		// make sure value, min & max has values		
+		// use sane values for value, min & max		
 		value = parseDate(value) || now;
 		min   = parseDate(min || conf.yearRange[0] * 365);
 		max   = parseDate(max || conf.yearRange[1] * 365);
@@ -199,7 +199,7 @@
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input.attr("type") == 'date') {
 			var tmp = $("<input/>");
-			$.each("name,readonly,disabled,value,required".split(","), function(i, attr)  {
+			$.each("name,readonly,disabled,value,required,class".split(","), function(i, attr)  {
 				tmp.attr(attr, input.attr(attr));		
 			});			
 			input.replaceWith(tmp);
