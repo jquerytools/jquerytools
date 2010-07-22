@@ -35,8 +35,7 @@
 			mask: null,  
 			oneInstance: true,
 			speed: 'normal',
-			target: null, // target element to be overlayed. by default taken from [rel]  
-      trigger_attr: 'rel',
+			target: null, // target element to be overlayed. by default taken from [rel]
 			top: '10%'
 		}
 	};
@@ -90,7 +89,7 @@
 		}			 
 		 
 		// get overlay and triggerr
-		var jq = conf.target || trigger.attr(conf.trigger_attr);
+		var jq = conf.target || trigger.attr("rel");
 		overlay = jq ? $(jq) : null || trigger;	
 		
 		// overlay not found. cannot continue
