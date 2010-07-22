@@ -299,6 +299,7 @@
 			
 			$(document).bind("keydown.d", function(e) {
 					
+				if (e.ctrlKey) { return true; }				
 				var key = e.keyCode;			 
 				
 				// backspace clears the value
@@ -363,11 +364,13 @@
 			
 			
 			// click outside dateinput
-			$(document).bind("click.d", function(e) {
+			$(document).bind("click.d", function(e) {					
 				var el = e.target;
-				if (!$(el).parents("#" + css.root).length && el != input[0] && (!trigger || el != trigger[0])) { 
-					self.hide(e); 
+				
+				if (!$(el).parents("#" + css.root).length && el != input[0] && (!trigger || el != trigger[0])) {
+					self.hide(e);
 				}
+				
 			}); 
 		}
 //}}}
@@ -622,14 +625,14 @@
 				if (opened) {  
 					
 					// onHide 
-					e = e || $.Event();
+					e = $.Event();
 					e.type = "onHide";
 					fire.trigger(e);
 					
-					$(document).unbind("click.d").unbind("keydown.d"); 
+					$(document).unbind("click.d").unbind("keydown.d");
 					
 					// cancelled ?
-					if (e.isDefaultPrevented()) { return; }    
+					if (e.isDefaultPrevented()) { return; }
 					
 					// do the hide
 					root.hide();
@@ -693,8 +696,7 @@
 			
 		}); 
 		
-		// initial value 
-		
+		// initial value 		
 		if (parseDate(input.val())) { 
 			select(value, conf);
 		}

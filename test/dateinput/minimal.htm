@@ -5,11 +5,17 @@
 <link rel="stylesheet" type="text/css" href="skin1.css"/>
 
 
+<input type="text" />
+
 <!-- HTML5 date input -->
 <input type="date" name="mydate" class="baz" />
 
 <!-- make it happen -->
 <script>
-$(":date").dateinput();
+$(":date").dateinput( {
+	onHide: function()  {
+		return false;
+	}
+});
 </script>
 
