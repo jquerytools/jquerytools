@@ -313,7 +313,7 @@
 				if (!e) {
 					var errors = [];
 					$.each(errs, function(key, val) {
-						var input = inputs.filter("[name=" + key + "]");
+						var input = inputs.filter("[name='" + key + "']");
 						if (input.length) {
 							
 							// trigger HTML5 ininvalid event
