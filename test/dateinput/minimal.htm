@@ -4,18 +4,11 @@
 
 <link rel="stylesheet" type="text/css" href="skin1.css"/>
 
-
-<input type="text" />
-
 <!-- HTML5 date input -->
-<input type="date" name="mydate" class="baz" />
+<input type="date" name="mydate" data-value="2010-08-05" />
 
 <!-- make it happen -->
 <script>
-$(":date").dateinput( {
-	onHide: function()  {
-		return false;
-	}
-});
+$(":date").dateinput().data("dateinput").show();
 </script>
 

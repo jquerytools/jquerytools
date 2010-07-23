@@ -520,9 +520,10 @@
 					 
 				// populate weeks
 				weeks.empty();				
-				pm.add(nm).removeClass(css.disabled);
+				pm.add(nm).removeClass(css.disabled); 
 				
-				for (var j = 0, a, num; j < 42; j++) { 
+				// !begin === "sunday"
+				for (var j = !begin ? -7 : 0, a, num; j < (!begin ? 35 : 42); j++) { 
 					
 					a = $("<a/>");
 					
