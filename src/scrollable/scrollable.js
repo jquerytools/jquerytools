@@ -137,16 +137,20 @@
 			/* all seeking functions depend on this */		
 			seekTo: function(i, time, fn) {	
 				
+				// ensure numeric index
+				if (!i.jquery) { i *= 1; }
+				
 				// avoid seeking from end clone to the beginning
 				if (conf.circular && i === 0 && index == -1 && time !== 0) { return self; }
 				
-				// check that index is sane
+				// check that index is sane				
 				if (!conf.circular && i < 0 || i > self.getSize() || i < -1) { return self; }
 				
 				var item = i;
 			
 				if (i.jquery) {
 					i = self.getItems().index(i);	
+					
 				} else {
 					item = self.getItems().eq(i);
 				}  
