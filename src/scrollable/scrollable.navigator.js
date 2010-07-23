@@ -44,7 +44,7 @@
 		this.each(function() {
 				
 			var api = $(this).data("scrollable"),
-				 navi = find(api.getRoot(), conf.navi), 
+				 navi = conf.navi.jquery ? conf.navi : find(api.getRoot(), conf.navi), 
 				 buttons = api.getNaviButtons(),
 				 cls = conf.activeClass,
 				 history = conf.history && $.fn.history;
