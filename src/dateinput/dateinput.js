@@ -568,18 +568,18 @@
 					a.attr("href", "#" + num).text(num).data("date", date);					
 					
 					week.append(a);
-					
-					// date picking					
-					a.click(function(e) {
-						var el = $(this); 
-						if (!el.hasClass(css.disabled)) {  
-							$("#" + css.current).removeAttr("id");
-							el.attr("id", css.current);	 
-							select(el.data("date"), conf, e);
-						}
-						return false;
-					});
 				}
+				
+				// date picking					
+				weeks.find("a").click(function(e) {
+					var el = $(this); 
+					if (!el.hasClass(css.disabled)) {  
+						$("#" + css.current).removeAttr("id");
+						el.attr("id", css.current);	 
+						select(el.data("date"), conf, e);
+					}
+					return false;
+				});
 
 				// sunday
 				if (css.sunday) {
