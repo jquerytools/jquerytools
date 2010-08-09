@@ -125,8 +125,8 @@
 				if (!conf.circular)  {
 					itemWrap.append(item);
 				} else {
-					$(".cloned:last").before(item);
-					$(".cloned:first").replaceWith(item.clone().addClass(conf.clonedClass)); 						
+					itemWrap.children("." + conf.clonedClass + ":last").before(item);
+					itemWrap.children("." + conf.clonedClass + "first").replaceWith(item.clone().addClass(conf.clonedClass)); 						
 				}
 				
 				fire.trigger("onAddItem", [item]);
