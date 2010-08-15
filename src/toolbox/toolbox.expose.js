@@ -172,16 +172,15 @@
 				mask.fadeOut(config.closeSpeed, function()  {					
 					call(config.onClose);					
 					if (exposed) {
-						exposed.css({zIndex: overlayIndex});
+						exposed.css({zIndex: overlayIndex});						
 					}				
+					loaded = false;
 				});				
 				
 				// unbind various event listeners
 				$(document).unbind("keydown.mask");
 				mask.unbind("click.mask");
-				$(window).unbind("resize.mask");
-	
-				loaded = false;
+				$(window).unbind("resize.mask");  
 			}
 			
 			return this; 
