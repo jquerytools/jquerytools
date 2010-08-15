@@ -94,6 +94,7 @@
 		if (pos == 'center') 	{ top += height / 2; }
 		if (pos == 'bottom') 	{ top += height; }
 		
+		
 		// adjust X
 		pos = conf.position[1]; 	
 		var width = tip.outerWidth() + trigger.outerWidth();
@@ -132,6 +133,7 @@
 		
 		// trigger --> show  
 		trigger.bind(evt[0], function(e) {
+
 			clearTimeout(timer);
 			if (conf.predelay) {
 				pretimer = setTimeout(function() { self.show(e); }, conf.predelay);	

@@ -240,7 +240,7 @@
 	});
 	
 	v.fn("[required]", "Please complete this mandatory field.", function(el, v) {
-		if (el.is(":checkbox"))  { return el.is(":checked"); }
+		if (el.is(":checkbox")) { return el.is(":checked"); }
 		return !!v; 			
 	});
 	
@@ -391,7 +391,7 @@
 					 event = conf.errorInputEvent + ".v";
  
 				// loop trough the inputs
-				els.each(function() {
+				els.not(":radio:not(:checked)").each(function() {
 						
 					// field and it's error message container						
 					var msgs = [], 
@@ -527,13 +527,19 @@
 			});	
 		} 
 	
+		// checkboxes, selects and radios are checked separately
 		inputs.filter(":checkbox, select").filter("[required]").bind("change.V", function(e) {
 			var el = $(this);
 			if (this.checked || (el.is("select") && $(this).val())) {
 				effects[conf.effect][1].call(self, el, e); 
 			}
+		});		
+		
+		var radios = inputs.filter(":radio").change(function(e) {
+			self.checkValidity(radios, e);
 		});
 		
+		// reposition tooltips when window is resized
 		$(window).resize(function() {
 			self.reflow();		
 		});
