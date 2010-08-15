@@ -177,7 +177,7 @@
 		// Replace built-in range input (type attribute cannot be changed)
 		if (input.attr("type") == 'range') {
 			var tmp = $("<input/>");
-			$.each("name,readonly,disabled,required,class,id".split(","), function(i, attr)  {
+			$.each("class,disabled,id,maxlength,name,readonly,required,size,style,tabindex,title,value".split(","), function(i, attr)  {
 				tmp.attr(attr, input.attr(attr));		
 			});
 			tmp.val(conf.value);
