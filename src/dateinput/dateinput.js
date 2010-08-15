@@ -34,8 +34,8 @@
 			offset: [0, 0],
 			speed: 0,
 			firstDay: 0, // The first day of the week, Sun = 0, Mon = 1, ...
-			min: 0,
-			max: 0,
+			min: undefined,
+			max: undefined,
 			trigger: false,
 			
 			css: {
@@ -187,6 +187,9 @@
 			 max = input.attr("max") || conf.max,
 			 opened;
 
+		// zero min is not undefined 	 
+		if (min === 0) { min = "0"; }
+		
 		// use sane values for value, min & max		
 		value = parseDate(value) || now;
 		min   = parseDate(min || conf.yearRange[0] * 365);
@@ -198,7 +201,7 @@
 		
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input.attr("type") == 'date') {
-			var tmp = $("<input/>"),
+			var tmp = $("<input/>");
 				 
 			$.each("class,disabled,id,maxlength,name,readonly,required,size,style,tabindex,title,value".split(","), function(i, attr)  {
 				tmp.attr(attr, input.attr(attr));		
