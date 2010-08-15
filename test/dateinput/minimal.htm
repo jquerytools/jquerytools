@@ -5,10 +5,10 @@
 <link rel="stylesheet" type="text/css" href="skin1.css"/>
 
 <!-- HTML5 date input -->
-<input type="date" name="mydate" min="0" max="5" />
+<input type="date" name="mydate" />
 
 <!-- make it happen -->
 <script>
-$(":date").dateinput().data("dateinput").show();
+$(":date").dateinput({ selectors: true, yearRange: [-10, 10] }).data("dateinput").show();
 </script>
 
