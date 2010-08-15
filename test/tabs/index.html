@@ -1,7 +1,16 @@
 
 <script src="../js/jquery-1.4.2.js"></script>
 <script src="../../src/tabs/tabs.js"></script>
-<link rel="stylesheet" type="text/css" href="tabs.css"/> 
+<link rel="stylesheet" type="text/css" href="../tabs/tabs.css"/> 
+
+<style>
+body {
+	margin:100px;
+	font-family:sans-serif;
+	width:800px;
+	font-size:12px;
+}
+</style>
 
 <!-- tabs -->
 <ul class="css-tabs">
@@ -43,20 +52,9 @@
 	</div>
 </div>
 
-<!-- activate tabs with JavaScript -->
+
 <script>
-$(function() {
-	// :first selector is optional if you have only one tabs on the page
-	window.api = $("ul.css-tabs").tabs("div.css-panes > div").bind("onBeforeClick", function(e, i)  { 
-		console.info("binded callback", this);
-		
-	}).data("tabs");
-	
-	api.onBeforeClick(function(e, i) {
-		console.info(e.pageX, this);
-	});
-	
-});
+$(".css-tabs").tabs(".css-panes > div");
 </script>
 
 

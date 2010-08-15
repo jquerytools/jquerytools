@@ -246,7 +246,7 @@
 				days.append($("<span/>").text(labels.shortDays[(d + conf.firstDay) % 7]));
 			}
 			
-			input.after(root);
+			$("body").append(root);
 		}	
 		
 				
