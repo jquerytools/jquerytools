@@ -223,7 +223,7 @@
 			});
 			
 			// seek over the cloned item
-			self.seekTo(0, 0);
+			self.seekTo(0, 0, function() {});
 		}
 		
 		// next/prev buttons
@@ -278,7 +278,9 @@
 		}
 		
 		// initial index
-		$(self).trigger("onBeforeSeek", [conf.initialIndex]);
+		if (conf.initialIndex) {
+			self.seekTo(conf.initialIndex, 0, function() {});
+		}
 	} 
 
 		
