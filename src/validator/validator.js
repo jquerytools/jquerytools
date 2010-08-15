@@ -167,7 +167,7 @@
 					// make sure the width is sane (not the body's width)
 					if (msg.outerWidth() == msg.parent().width()) {
 						msg.add(msg.find("p")).css({display: 'inline'});		
-					}
+					} 
 					
 					// insert into correct position (relative to the field)
 					var pos = getPosition(input, msg, conf); 
@@ -305,6 +305,19 @@
 			getInputs: function() {
 				return inputs;	
 			},		
+			
+			reflow: function() {
+				inputs.each(function()  {
+					var input = $(this),
+						 msg = input.data("msg.el");
+						 
+					if (msg) {						
+						var pos = getPosition(input, msg, conf);
+						msg.css({ top: pos.top, left: pos.left });
+					}
+				});
+				return self;
+			},
 			
 			/* @param e - for internal use only */
 			invalidate: function(errs, e) {
@@ -521,6 +534,9 @@
 			}
 		});
 		
+		$(window).resize(function() {
+			self.reflow();		
+		});
 	}
 
 	
