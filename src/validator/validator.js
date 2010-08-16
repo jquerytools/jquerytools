@@ -157,7 +157,7 @@
 					}  
 					
 					// clear the container 
-					msg.css({visibility: 'hidden'}).find("span").remove();
+					msg.css({visibility: 'hidden', display: 'none'}).find("span").remove();
 					
 					// populate messages
 					$.each(err.messages, function(i, m) { 
