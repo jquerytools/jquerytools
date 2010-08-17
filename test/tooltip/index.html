@@ -61,6 +61,26 @@ body {
 	
 </div>
 
+<div id="attr" class="test">
+
+	<h3>Data-tooltip attribute</h3>
+	
+	<a class="trigger" data-tooltip="#attr .tooltip">trigger 1</a> 
+	<a class="trigger" data-tooltip="#attr .tooltip">trigger 2</a>
+	<a class="trigger">trigger 3</a>
+
+	<span></span>
+	
+	<div><div class="tooltip">Manual #3</div></div>
+	
+	<script>
+		$("#attr a").tooltip({ 
+			delay: 300
+		});
+	</script>
+	
+</div>
+
 <div id="manual" class="test">
 
 	<h3>Manual tooltip</h3>
