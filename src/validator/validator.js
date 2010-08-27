@@ -365,7 +365,7 @@
 			},
 			
 			destroy: function() { 
-				form.unbind(conf.formEvent).unbind("reset.V"); 
+				form.unbind(conf.formEvent || '').unbind("reset.V"); 
 				inputs.unbind(conf.inputEvent || '').unbind("change.V");
 				return self.reset();	
 			}, 
