@@ -157,7 +157,7 @@
 					}  
 					
 					// clear the container 
-					msg.css({visibility: 'hidden', display: 'none'}).find("span").remove();
+					msg.css({visibility: 'hidden'}).find("span").remove();
 					
 					// populate messages
 					$.each(err.messages, function(i, m) { 
@@ -241,6 +241,8 @@
 	
 	v.fn("[required]", "Please complete this mandatory field.", function(el, v) {
 		if (el.is(":checkbox")) { return el.is(":checked"); }
+		
+		console.info(el, v);
 		return !!v; 			
 	});
 	
@@ -437,7 +439,8 @@
 						
 						// begin validating upon error event type (such as keyup) 
 						if (conf.errorInputEvent) {
-							el.bind(event, function(e) {
+							
+							el.bind(el.is(":date") ? "onHide" : event, function(e) {
 								self.checkValidity(el, e);		
 							});							
 						} 					

@@ -19,6 +19,7 @@
 	background-color:#fff;
 	font-size:11px;
 	border:1px solid #ccc;
+	z-index:1;
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	-moz-box-shadow: 0 0 15px #666;
