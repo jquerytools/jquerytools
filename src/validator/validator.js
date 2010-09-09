@@ -367,8 +367,8 @@
 			},
 			
 			destroy: function() { 
-				form.unbind(conf.formEvent || '').unbind("reset.V"); 
-				inputs.unbind(conf.inputEvent || '').unbind("change.V");
+				form.unbind(conf.formEvent + ".V").unbind("reset.V"); 
+				inputs.unbind(conf.inputEvent + ".V").unbind("change.V");
 				return self.reset();	
 			}, 
 			
@@ -389,15 +389,20 @@
 				fire.trigger(e, [els]);				
 				if (e.isDefaultPrevented()) { return e.result; }				
 					
-				var errs = [], 
-					 event = conf.errorInputEvent + ".v";
+				// container for errors
+				var errs = [];
  
 				// loop trough the inputs
 				els.not(":radio:not(:checked)").each(function() {
 						
 					// field and it's error message container						
 					var msgs = [], 
-						 el = $(this).unbind(event).data("messages", msgs);					
+						 el = $(this).data("messages", msgs),
+						 event = el.is(":date") ? "onHide.v" : conf.errorInputEvent + ".v";					
+					
+					// cleanup previous validation event
+					el.unbind(event);
+					
 					
 					// loop all validator functions
 					$.each(fns, function() {
@@ -438,9 +443,8 @@
 						el.trigger("OI", [msgs]);
 						
 						// begin validating upon error event type (such as keyup) 
-						if (conf.errorInputEvent) {
-							
-							el.bind(el.is(":date") ? "onHide" : event, function(e) {
+						if (conf.errorInputEvent) {							
+							el.bind(event, function(e) {
 								self.checkValidity(el, e);		
 							});							
 						} 					
@@ -461,7 +465,7 @@
 					return false;
 					
 				// no errors
-				} else {		
+				} else {
 					
 					// call the effect
 					eff[1].call(self, els, e);
@@ -470,7 +474,7 @@
 					e.type = "onSuccess";					
 					fire.trigger(e, [els]);
 					
-					els.unbind(event);
+					els.unbind(conf.errorInputEvent + ".v");
 				}
 				
 				return true;				
@@ -497,7 +501,7 @@
 		
 		// form validation
 		if (conf.formEvent) {
-			form.bind(conf.formEvent, function(e) {
+			form.bind(conf.formEvent + ".V", function(e) {
 				if (!self.checkValidity(null, e)) { 
 					return e.preventDefault(); 
 				}
@@ -525,7 +529,7 @@
 		
 		// input validation               
 		if (conf.inputEvent) {
-			inputs.bind(conf.inputEvent, function(e) {
+			inputs.bind(conf.inputEvent + ".V", function(e) {
 				self.checkValidity($(this), e);
 			});	
 		} 
