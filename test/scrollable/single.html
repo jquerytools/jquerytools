@@ -6,9 +6,11 @@
 
 <script>
 $(function() {
-	$(".scrollable").scrollable({ circular: false, initialIndex: 2, onBeforeSeek: function() {
-		console.info("jou");
-	}}); 	
+	$(".scrollable").scrollable({ 
+		onSeek: function() {
+			console.info("jou");
+		}
+	}); 	
 });
 </script>
 

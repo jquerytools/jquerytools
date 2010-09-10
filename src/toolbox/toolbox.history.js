@@ -91,7 +91,7 @@
 		}
 
 		hash = h;
-    window.location.hash = hash;
+
 	});
 		
 	
