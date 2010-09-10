@@ -37,10 +37,11 @@
 			if (api) { ret = api; }
 			
 			// interval stuff
-			var timer, hoverTimer, stopped = true;
+			var timer, stopped = true;
 	
 			api.play = function() {
 	
+				
 				// do not start additional timer if already exists
 				if (timer) { return; }
 				
@@ -51,11 +52,10 @@
 					api.next();				
 				}, opts.interval);
 				
-				api.next();
 			};	
 
 			api.pause = function() {
-				timer = clearInterval(timer);	
+				timer = clearInterval(timer);
 			};
 			
 			// when stopped - mouseover won't restart 
@@ -66,19 +66,11 @@
 		
 			/* when mouse enters, autoscroll stops */
 			if (opts.autopause) {
-				api.getRoot().add(api.getNaviButtons()).hover(function() {			
-					api.pause();
-					clearInterval(hoverTimer);
-					
-				}, function() {
-					if (!stopped) {						
-						hoverTimer = setTimeout(api.play, opts.interval);						
-					}
-				});
-			}			
+				api.getRoot().add(api.getNaviButtons()).hover(api.pause, api.play);
+			}
 			
 			if (opts.autoplay) {
-				setTimeout(api.play, opts.interval);				
+				api.play();				
 			}
 
 		});
