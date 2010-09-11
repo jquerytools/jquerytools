@@ -386,7 +386,7 @@
 								
 			show: function(e) {
 				
-				if (input.is("[readonly]") || opened) { return; }
+				if (input.attr("readonly") || input.attr("disabled") || opened) { return; }
 				
 				// onBeforeShow
 				e = e || $.Event();
