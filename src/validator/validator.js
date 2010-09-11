@@ -158,14 +158,14 @@
 					}  
 					
 					// clear the container 
-					msg.css({visibility: 'hidden'}).find("span").remove();
+					msg.css({visibility: 'hidden'}).find("p").remove();
 					
 					// populate messages
 					$.each(err.messages, function(i, m) { 
-						$("<span/>").html(m).appendTo(msg);			
+						$("<p/>").html(m).appendTo(msg);			
 					});
 					
-					// make sure the width is sane (not the body's width)
+					// make sure the width is not full body width so it can be positioned correctly
 					if (msg.outerWidth() == msg.parent().width()) {
 						msg.add(msg.find("p")).css({display: 'inline'});		
 					} 
