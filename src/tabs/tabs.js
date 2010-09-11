@@ -240,8 +240,9 @@
 		}); 
 		
 		// open initial tab
-		if (location.hash && conf.tabs === "a" && root.find(conf.tabs + location.hash).length) {
+		if (location.hash && conf.tabs == "a" && root.find("[href=" +location.hash+ "]").length) {
 			self.click(location.hash);
+
 		} else {
 			if (conf.initialIndex === 0 || conf.initialIndex > 0) {
 				self.click(conf.initialIndex);
@@ -267,6 +268,7 @@
 		
 		// setup conf
 		conf = $.extend({}, $.tools.tabs.conf, conf);		
+		
 		
 		this.each(function() {				
 			el = new Tabs($(this), paneSelector, conf);
