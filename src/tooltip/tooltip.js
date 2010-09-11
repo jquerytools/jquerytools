@@ -226,20 +226,25 @@
 				// tooltip events       
 				var event = conf.events.tooltip.split(/,\s*/);
 
-				tip.bind(event[0], function() { 
-					clearTimeout(timer);
-					clearTimeout(pretimer);
-				});
-				
-				if (event[1] && !trigger.is("input:not(:checkbox, :radio), textarea")) { 					
-					tip.bind(event[1], function(e) {
-
-						// being moved to the trigger element
-						if (e.relatedTarget != trigger[0]) {
-							trigger.trigger(evt[1].split(" ")[0]);
-						}
-					}); 
-				} 
+				if (!tip.data("__set")) {
+					
+					tip.bind(event[0], function() { 
+						clearTimeout(timer);
+						clearTimeout(pretimer);
+					});
+					
+					if (event[1] && !trigger.is("input:not(:checkbox, :radio), textarea")) { 					
+						tip.bind(event[1], function(e) {
+	
+							// being moved to the trigger element
+							if (e.relatedTarget != trigger[0]) {
+								trigger.trigger(evt[1].split(" ")[0]);
+							}
+						}); 
+					} 
+					
+					tip.data("__set", true);
+				}
 				
 				return self;
 			},
