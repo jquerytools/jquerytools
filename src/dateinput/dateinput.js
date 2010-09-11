@@ -235,7 +235,7 @@
 			if (conf.selectors) {				
 				var monthSelector = $("<select/>").attr("id", css.month),
 					 yearSelector = $("<select/>").attr("id", css.year);				
-				title.append(monthSelector.add(yearSelector));
+				title.html(monthSelector.add(yearSelector));
 			}						
 			
 			// day titles

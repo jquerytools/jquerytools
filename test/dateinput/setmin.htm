@@ -7,8 +7,12 @@
 <!-- HTML5 date input -->
 <input type="date" name="mydate" data-value="2010-12-01" min="2010-12-01" />
 
+<input type="date" name="mydate" data-value="2010-12-01" min="2010-12-01" />
+
 <!-- make it happen -->
 <script>
-$(":date").dateinput({selectors: true});
+$(":date:first").dateinput({selectors: true});
+
+$(":date:last").dateinput({selectors: false});
 </script>
 
