@@ -17,10 +17,11 @@
 	// globals
 	var typeRe = /\[type=([a-z]+)\]/, 
 		numRe = /^-?[0-9]*(\.[0-9]+)?$/,
+		dateInput = $.tools.dateinput,
 		
 		// http://net.tutsplus.com/tutorials/other/8-regular-expressions-you-should-know/
 		emailRe = /^([a-z0-9_\.\-\+]+)@([\da-z\.\-]+)\.([a-z\.]{2,6})$/i,
-		urlRe = /^(https?:\/\/)?[\da-z\.\-]+\.[a-z\.]{2,6}[#\?\/\w \.\-=]*$/i,
+		urlRe = /^(https?:\/\/)?[\da-z\.\-]+\.[a-z\.]{2,6}[#&+_\?\/\w \.\-=]*$/i,
 		v;
 		 
 	v = $.tools.validator = {
@@ -224,7 +225,7 @@
 	v.fn("[max]", "Please enter a value smaller than $1", function(el, v) {
 			
 		// skip empty values and dateinputs
-		if (v === '' || $.tools.dateinput && el.is(":date")) { return true; }	
+		if (v === '' || dateInput && el.is(":date")) { return true; }	
 		
 		var max = el.attr("max");
 		return parseFloat(v) <= parseFloat(max) ? true : [max];
@@ -233,7 +234,7 @@
 	v.fn("[min]", "Please enter a value larger than $1", function(el, v) {
 
 		// skip empty values and dateinputs
-		if (v === '' || $.tools.dateinput && el.is(":date")) { return true; }
+		if (v === '' || dateInput && el.is(":date")) { return true; }
 
 		var min = el.attr("min");
 		return parseFloat(v) >= parseFloat(min) ? true : [min];
@@ -396,7 +397,7 @@
 					// field and it's error message container						
 					var msgs = [], 
 						 el = $(this).data("messages", msgs),
-						 event = el.is(":date") ? "onHide.v" : conf.errorInputEvent + ".v";					
+						 event = dateInput && el.is(":date") ? "onHide.v" : conf.errorInputEvent + ".v";					
 					
 					// cleanup previous validation event
 					el.unbind(event);
