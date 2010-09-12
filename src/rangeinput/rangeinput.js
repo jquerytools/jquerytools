@@ -335,7 +335,7 @@
 			
 			// API methods
 			self[name] = function(fn) {
-				$(self).bind(name, fn);
+				if (fn) { $(self).bind(name, fn); }
 				return self;	
 			};
 		}); 
