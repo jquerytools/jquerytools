@@ -240,6 +240,10 @@
 					}
 				}, 1);
 			}); 
+			
+			if (!conf.initialIndex) {
+				prev.addClass(conf.disabledClass);	
+			}
 		}
 			
 		// mousewheel support
