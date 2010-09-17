@@ -1,6 +1,13 @@
 
+body {
+	margin:100px auto;
+	font-family:sans-serif;
+	width:800px;
+	font-size:12px;
+}
+
 /* root element for tabs  */
-.css-tabs {  
+.tabs {  
 	margin:0 !important; 
 	padding:0;
 	height:28px;
@@ -8,7 +15,7 @@
 }
 
 /* single tab */
-.css-tabs li {  
+.tabs li {  
 	float:left;	 
 	padding:0; 
 	margin:0;  
@@ -16,7 +23,7 @@
 }
 
 /* link inside the tab. uses a background image */
-.css-tabs a { 
+.tabs a { 
 	float:left;
 	display:block;
 	padding:5px 30px;	
@@ -32,13 +39,13 @@
 	-moz-border-radius:4px 4px 0 0;
 }
 
-.css-tabs a:hover {
+.tabs a:hover {
 	background-color:#F7F7F7;
 	color:#333;
 }
 	
 /* selected tab */
-.css-tabs a.current {
+.tabs a.current {
 	background-color:#ddd;
 	border-bottom:2px solid #ddd;	
 	color:#000;	

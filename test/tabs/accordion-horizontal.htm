@@ -1,46 +1,33 @@
 
-<script src="../../../jquery-1.3.2.js"></script>
-<script src="../tools.tabs.js"></script>
-<link rel="stylesheet" type="text/css" href="horizontal.css"/> 
-
-
-<script>
-$(function() {
-		
-	$("#accordion").tabs("#accordion div", {
-		tabs: 'img', 
-		effect: 'horizontal'
-	});
-	
-});
-</script>
-
+<script src="../js/jquery-1.4.2.js"></script>
+<script src="../../src/tabs/tabs.js"></script>
+<link rel="stylesheet" type="text/css" href="css/horizontal.css"/> 
 
 <!-- accordion root -->
 <div id="accordion">
 
 	<!-- accordion header #1 -->
-	<img src="${cdn}/img/title/streaminge.png" />
+	<div class="blok"></div>
 	
-	<div style="width:200px; display:block">
+	<div class="pane" style="width:200px; display:block">
 		<h3>First pane</h3>
 		<p>
 			Consectetur adipiscing elit. Praesent bibendum eros ac nulla. Integer vel lacus ac neque viverra.
 		</p>
 	</div>
 	
-	<img src="${cdn}/img/title/flash.png" />
+	<div class="blok"></div>
 	
-	<div>
+	<div class="pane">
 		<h3>Second pane</h3>
 		<p>
 			Cras diam. Donec dolor lacus, vestibulum at, varius in, mollis id, dolor. Aliquam erat volutpat. 
 		</p>
 	</div>
 
-	<img src="${cdn}/img/title/streaming.png" />
+	<div class="blok"></div>
 	
-	<div>
+	<div class="pane">
 		<h3>Third pane</h3>
 		<p>
 			Non lectus lacinia egestas. Nulla hendrerit, felis quis elementum viverra, purus felis egestas magna.
@@ -49,3 +36,7 @@ $(function() {
 
 </div>
 
+
+<script>		
+$("#accordion").tabs(".pane", { tabs: '.blok',  effect: 'horizontal'});
+</script>

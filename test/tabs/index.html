@@ -1,28 +1,20 @@
 
 <script src="../js/jquery-1.4.2.js"></script>
 <script src="../../src/tabs/tabs.js"></script>
-<link rel="stylesheet" type="text/css" href="../tabs/tabs.css"/> 
+<link rel="stylesheet" type="text/css" href="css/tabs.css"/> 
 
-<style>
-body {
-	margin:100px;
-	font-family:sans-serif;
-	width:800px;
-	font-size:12px;
-}
-</style>
 
 <!-- tabs -->
-<ul class="css-tabs">
+<ul class="tabs">
 	<li><a href="#1">Tab 1</a></li>
 	<li><a href="#2">Second tab</a></li>
 	<li><a href="#3">A ultra long third tab</a></li>
 </ul>
 
 <!-- panes -->
-<div class="css-panes">
+<div class="panes">
 
-	<div style="display:block">
+	<div class="pane" style="display:block">
 		<p>
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra, leo sit amet auctor fermentum, risus lorem posuere tortor, in accumsan purus magna imperdiet sem.
 		</p>
@@ -32,7 +24,7 @@ body {
 		</p>			
 	</div>
 	
-	<div>
+	<div class="pane">
 		<p>
 			Mauris ultricies. Nam feugiat egestas nulla. Donec augue dui, molestie sed, tristique sit amet, blandit eu, turpis. Mauris hendrerit, nisi et sodales tempor, orci tellus laoreet elit, sed molestie dui quam vitae dui.
 		</p> 
@@ -41,7 +33,7 @@ body {
 		</p>
 	</div>
 	
-	<div>
+	<div class="pane">
 		<p>
 			Maecenas at odio. Nunc laoreet lectus vel ante. Nullam imperdiet. Sed justo dolor, mattis eu, euismod sed, tempus a, nisl. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
 		</p>
@@ -54,7 +46,7 @@ body {
 
 
 <script>
-$(".css-tabs").tabs(".css-panes > div");
+$(".tabs").tabs(".pane");
 </script>
 
 
