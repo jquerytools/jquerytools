@@ -44,7 +44,8 @@
 			 trigger = this.getTrigger(),
 			 self = this,
 			 oWidth = overlay.outerWidth({margin:true}),
-			 img = overlay.data("img");  
+			 img = overlay.data("img"),
+			 position = conf.fixed ? 'fixed' : 'absolute';  
 		
 		
 		// growing image is required.
@@ -77,7 +78,7 @@
 			
 		// initialize background image and make it visible
 		img.css({
-			position: 'absolute',
+			position: position,
 			top: itop, 
 			left: ileft,
 			width: 0,
@@ -88,21 +89,14 @@
 		// put overlay into final position
 		pos.top += w.scrollTop();
 		pos.left += w.scrollLeft();		
-		pos.position = 'absolute';
+		pos.position = position;
 		overlay.css(pos);
 		
 		// begin growing
 		img.animate({
 			top: overlay.css("top"), 
 			left: overlay.css("left"), 
-			width: oWidth}, conf.speed, function() { 
-
-			if (conf.fixed) {
-				pos.top -= w.scrollTop();
-				pos.left -= w.scrollLeft();
-				pos.position = 'fixed';
-				img.add(overlay).css(pos);
-			}
+			width: oWidth}, conf.speed, function() {
 			
 			// set close button and content over the image
 			overlay.css("zIndex", conf.zIndex + 1).fadeIn(conf.fadeInSpeed, function()  { 
