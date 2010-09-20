@@ -31,6 +31,7 @@
 			prev: '.prev', 
 			speed: 400,
 			vertical: false,
+			touch: true,
 			wheelSpeed: 0
 		} 
 	};
@@ -254,6 +255,30 @@
 					return false;
 				}
 			});			
+		}
+		
+		// touch event
+		if (conf.touch) {
+			var touch = {};
+			
+			itemWrap[0].ontouchstart = function(e) {
+				var t = e.touches[0];
+				touch.x = t.clientX;
+				touch.y = t.clientY;
+			};
+			
+			itemWrap[0].ontouchmove = function(e) {
+				
+				// only deal with one finger
+				if (e.touches.length == 1 && !itemWrap.is(":animated")) {			
+					var t = e.touches[0],
+						 deltaX = touch.x - t.clientX,
+						 deltaY = touch.y - t.clientY;
+	
+					self[vertical && deltaY > 0 || !vertical && deltaX > 0 ? 'next' : 'prev']();				
+					e.preventDefault();
+				}
+			};
 		}
 		
 		if (conf.keyboard)  {

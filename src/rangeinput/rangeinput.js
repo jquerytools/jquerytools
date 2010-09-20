@@ -371,7 +371,7 @@
 			if (input.is(":disabled") || e.target == handle[0]) { 
 				return e.preventDefault(); 
 			}				  
-			  
+			init(); 
 			var fix = handle.width() / 2;   
 			slide(e, vertical ? len-origo-fix + e.pageY  : e.pageX -origo -fix);  
 		});
