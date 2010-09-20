@@ -344,11 +344,12 @@
 		// dragging		                                  
 		handle.drag({drag: false}).bind("dragStart", function() {
 		
-			/* do some pre- calculations for seek() function. improves performance */
+			/* do some pre- calculations for seek() function. improves performance */			
+			init();
 			
 			// avoid redundant event triggering (= heavy stuff)
 			fireOnSlide = hasEvent($(self)) || hasEvent(input);
-
+			
 				
 		}).bind("drag", function(e, y, x) {        
 			
@@ -370,8 +371,7 @@
 			if (input.is(":disabled") || e.target == handle[0]) { 
 				return e.preventDefault(); 
 			}				  
-			
-			init();  
+			  
 			var fix = handle.width() / 2;   
 			slide(e, vertical ? len-origo-fix + e.pageY  : e.pageX -origo -fix);  
 		});
