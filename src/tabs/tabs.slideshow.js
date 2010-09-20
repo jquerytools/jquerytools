@@ -33,9 +33,7 @@
 			 fire = root.add(this),
 			 tabs = root.data("tabs"),
 			 timer, 
-			 hoverTimer, 
-			 startTimer, 
-			 stopped = false;
+			 stopped = true;
 		
 			 
 		// next / prev buttons
@@ -51,7 +49,7 @@
 		var prevButton = find(conf.prev).click(function() {
 			tabs.prev();		
 		}); 
-		
+
 
 		// extend the Tabs API with slideshow methods			
 		$.extend(self, {
@@ -68,28 +66,27 @@
 			play: function() {
 	
 				// do not start additional timer if already exists
-				if (timer) { return; }
+				if (timer) { return self; }	
 				
 				// onBeforePlay
 				var e = $.Event("onBeforePlay");
-				fire.trigger(e);
-				
+				fire.trigger(e);				
 				if (e.isDefaultPrevented()) { return self; }				
 				
-				stopped = false;
 				
 				// construct new timer
 				timer = setInterval(tabs.next, conf.interval);
-
+				stopped = false;				
+				
 				// onPlay
 				fire.trigger("onPlay");				
 				
-				tabs.next();
+				return self;
 			},
 		
 			pause: function() {
 				
-				if (!timer && !startTimer) { return self; }
+				if (!timer) { return self; }
 
 				// onBeforePause
 				var e = $.Event("onBeforePause");
@@ -97,10 +94,11 @@
 				if (e.isDefaultPrevented()) { return self; }		
 				
 				timer = clearInterval(timer);
-				startTimer = clearInterval(startTimer);
 				
 				// onPause
-				fire.trigger("onPause");		
+				fire.trigger("onPause");	
+				
+				return self;
 			},
 			
 			// when stopped - mouseover won't restart 
@@ -116,35 +114,25 @@
 				
 			// configuration
 			if ($.isFunction(conf[name]))  {
-				self.bind(name, conf[name]);	
+				$(self).bind(name, conf[name]);	
 			}
 			
 			// API methods				
 			self[name] = function(fn) {
-				return self.bind(name, fn);
+				return $(self).bind(name, fn);
 			};
 		});	
 		
 	
 		/* when mouse enters, slideshow stops */
 		if (conf.autopause) {
-			var els = tabs.getTabs().add(nextButton).add(prevButton).add(tabs.getPanes());
-			
-			els.hover(function() {					
-				self.pause();					
-				hoverTimer = clearInterval(hoverTimer);
-				
-			}, function() {
-				if (!stopped) {						
-					hoverTimer = setTimeout(self.play, conf.interval);						
-				}
+			tabs.getTabs().add(nextButton).add(prevButton).add(tabs.getPanes()).hover(self.pause, function() {
+				if (!stopped) { self.play(); }		
 			});
 		} 
 		
 		if (conf.autoplay) {
-			startTimer = setTimeout(self.play, conf.interval);				
-		} else {
-			self.stop();	
+			self.play();	
 		}
 		
 		if (conf.clickable) {
@@ -156,23 +144,15 @@
 		// manage disabling of next/prev buttons
 		if (!tabs.getConf().rotate) {
 			
-			var cls = conf.disabledClass;
+			var disabled = conf.disabledClass;
 			
 			if (!tabs.getIndex()) {
-				prevButton.addClass(cls);
+				prevButton.addClass(disabled);
 			}
-			tabs.onBeforeClick(function(e, i)  {
-				if (!i) {
-					prevButton.addClass(cls);
-				} else {
-					prevButton.removeClass(cls);	
-				
-					if (i == tabs.getTabs().length -1) {
-						nextButton.addClass(cls);
-					} else {
-						nextButton.removeClass(cls);	
-					}
-				}
+			
+			tabs.onBeforeClick(function(e, i)  { 
+				prevButton.toggleClass(disabled, !i);
+				nextButton.toggleClass(disabled, i == tabs.getTabs().length -1); 
 			});
 		}  
 	}

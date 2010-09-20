@@ -4,6 +4,11 @@
 <script src="../../src/tabs/tabs.slideshow.js"></script>
 <link rel="stylesheet" type="text/css" href="css/tabs.css"/> 
 
+<style>
+.disabled {
+	visibility:hidden;		
+}
+</style>
 
 <!-- tabs -->
 <ul class="tabs">
@@ -45,16 +50,33 @@
 	</div>
 </div>
 
+<button class="backward">Prev</button>
+<button class="forward">Next</button>
 
 <script>
 var api = $(".tabs").tabs(".pane", { rotate: true }).slideshow({
-	autoplay: true,
-	interval: 1000
+	effect: 'fade',
+	fadeOutSpeed: "slow",
+	interval: 1000,
+	
+	onBeforePlay: function() {
+		console.info("onBeforePlay");
+	},
+	onPlay: function() {
+		console.info("onPlay");
+	},
+	onBeforePause: function() {
+		console.info("onBeforePause");
+	},
+	onPause: function() {
+		console.info("onPause");
+	}	
 	
 }).data("slideshow");
 </script>
 
 <button onClick='api.play();'>Play</button>
 <button onClick='api.stop();'>Stop</button>
+
 
 

@@ -39,8 +39,7 @@
 			// interval stuff
 			var timer, stopped = true;
 	
-			api.play = function() {
-	
+			api.play = function() { 
 				
 				// do not start additional timer if already exists
 				if (timer) { return; }
