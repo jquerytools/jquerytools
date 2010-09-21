@@ -288,6 +288,7 @@
 			},
 			
 			setValue: function(val, e) {
+				init();
 				return slide(e || $.Event("api"), undefined, val, true); 
 			}, 			  
 			
