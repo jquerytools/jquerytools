@@ -75,25 +75,30 @@
 			itop = p.top;
 			ileft = p.left;
 		} 
+		
+		// put overlay into final position
+		if (conf.fixed) {
+			itop -= w.scrollTop();
+			ileft -= w.scrollLeft();
+		} else {
+			pos.top += w.scrollTop();
+			pos.left += w.scrollLeft();				
+		}
 			
 		// initialize background image and make it visible
 		img.css({
-			position: position,
+			position: 'absolute',
 			top: itop, 
 			left: ileft,
 			width: 0,
 			zIndex: conf.zIndex
 		}).show();
-
 		
-		// put overlay into final position
-		pos.top += w.scrollTop();
-		pos.left += w.scrollLeft();		
 		pos.position = position;
 		overlay.css(pos);
 		
 		// begin growing
-		img.animate({
+		img.animate({			
 			top: overlay.css("top"), 
 			left: overlay.css("left"), 
 			width: oWidth}, conf.speed, function() {
@@ -107,7 +112,8 @@
 					overlay.hide();	
 				} 
 			});
-		});
+			
+		}).css("position", position);
 		
 	};
 //}}}
