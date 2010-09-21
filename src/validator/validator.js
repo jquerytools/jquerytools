@@ -107,6 +107,12 @@
 		top  -= el.outerHeight() - conf.offset[0];
 		left += trigger.outerWidth() + conf.offset[1];
 		
+		
+		// iPad position fix
+		if (/iPad/i.test(navigator.userAgent)) {
+			top -= $(window).scrollTop();
+		}
+		
 		// adjust Y		
 		var height = el.outerHeight() + trigger.outerHeight();
 		if (y == 'center') 	{ top += height / 2; }

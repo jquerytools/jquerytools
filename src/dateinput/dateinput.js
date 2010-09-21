@@ -431,6 +431,11 @@
 				// show calendar
 				var pos = input.offset();
 
+				// iPad position fix
+				if (/iPad/i.test(navigator.userAgent)) {
+					pos.top -= $(window).scrollTop();
+				}
+				
 				root.css({ 
 					top: pos.top + input.outerHeight({margins: true}) + conf.offset[0], 
 					left: pos.left + conf.offset[1] 
