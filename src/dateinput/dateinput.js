@@ -457,24 +457,18 @@
 
 //{{{  setValue
 
-			setValue: function(year, month, day)  {						
+			setValue: function(year, month, day)  {
 				
+				var date = integer(month) >= -1 ?
+					new Date(integer(year), integer(month), integer(day || 1)) : year || value
+				;				
 				
-				var date;
-
-				if (parseInt(month, 10) >= -1) {
-					// strings to numbers
-					year = integer(year);
-					month = integer(month);
-					day = integer(day);					
-					date = new Date(year, month, day);
-					
-				} else { 
-					date = year || value;	
-					year = date.getFullYear();
-					month = date.getMonth();
-					day = date.getDate();					
-				} 
+				if (date < min) { date = min; }
+				else if (date > max) { date = max; }
+				
+				year = date.getFullYear();
+				month = date.getMonth();
+				day = date.getDate(); 
 				
 				
 				// roll year & month

@@ -5,14 +5,12 @@
 <link rel="stylesheet" type="text/css" href="skin1.css"/>
 
 <!-- HTML5 date input -->
-<input type="date" name="mydate" data-value="2010-12-01" min="2010-12-01" />
+<input type="date" name="mydate" data-value="2010-12-01" min="2010-12-01" max="2011-12-02" />
 
-<input type="date" name="mydate" data-value="2010-12-01" min="2010-12-01" />
+<input type="date" name="mydate" data-value="2010-12-01" min="2010-12-01" max="2012-07-01" />
 
 <!-- make it happen -->
 <script>
-$(":date:first").dateinput({selectors: true});
-
-$(":date:last").dateinput({selectors: false});
+$(":date").dateinput({selectors: true});
 </script>
 
