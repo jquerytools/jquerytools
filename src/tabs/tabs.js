@@ -118,7 +118,7 @@
 		
 		
 		// public methods
-		$.extend(this, {				
+		$.extend(this, {
 			click: function(i, e) {
 				
 				var tab = tabs.eq(i);												 

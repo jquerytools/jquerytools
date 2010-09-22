@@ -1,0 +1,32 @@
+
+body {
+	margin:50px auto;
+	background-color: #333;
+	width:900px;
+}
+
+.accordion div {
+	width: 160px;
+	height: 100px;	
+	float: left;
+	margin: 5px;	
+	border:1px solid #ccc;
+}
+
+.vertical {
+	height:500px;	
+	width:200px;
+}
+
+.vertical div {
+	float:none;	
+	margin:10px 5px;	
+}
+
+
+
+/* colors */
+.pane1 { background-color: #53b388; }
+.pane2 { background-color: #5a69a9; }
+.pane3 { background-color: #c26468; }
+.pane4 { background-color: #bf7cc7; }

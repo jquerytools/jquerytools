@@ -1,91 +1,115 @@
 
+/* ACCORDION */
 (function($) {
-  $.fn.accordion = function(options) {
-    var DEFAULTS = {
-      orientation: "vertical",
-      min: 0,
-      max: 200,
-      sticky: false,
-      event: "mouseenter",
-      duration: 500,
-      pane: ".pane",
-      defaultPane: 0
-    };
-    
-    options = $.extend(DEFAULTS, options);
-  
-    this.each(function() {
-      var panes = $(options.pane, this);
-      var currentPane;
-      var dummy = document.createElement("span");
-      
-      if (panes.length) {
-        if (options.orientation == "vertical") {
-          var STYLE_PROPERTY = "height";
-          var OFFSET_PROPERTY = "offsetHeight";
-        } else {
-          STYLE_PROPERTY = "width";
-          OFFSET_PROPERTY = "offsetWidth";
-          
-          $(this).next().css({clear: "left"});
-          var lastPane = panes.get(panes.length - 1);
-          $(this).css({
-            width:  lastPane.offsetLeft + lastPane.offsetWidth - panes[0].offsetLeft,
-            height: lastPane.offsetHeight,
-            overflow: "hidden"
-          });
-        }
+		
+	var CONF = {
+		easing: 'swing',
+		event: 'click', // mouseenter		
+		initialIndex: -1,
+		small: 0,
+		large: 300,
+		panes: null,
+		speed: 400,
+		sticky: false,
+		vertical: false
+	};
 
-        var size = panes[0][OFFSET_PROPERTY];
+	function Accordion(root, conf)  {		
+    		 	
+      var panes = root.children(conf.panes),
+      	 currentIndex = conf.initialIndex,
+      	 self = this,
+      	 totalSize, 
+      	 vertical, 
+      	 prop, 
+      	 size;
+      	 
+		$.extend(self, {
+				
+			select: function(index, evt)  {
+				
+				// calculate dimensions
+				if (!size) {
+					vertical = conf.vertical || root.height() > root.width(); 
+					prop = vertical ? 'height' : 'width';
+					size = panes.eq(0)[prop]();
+					totalSize = size * panes.length;
+				}				
+				
+				var large = conf.large,
+					 small = conf.small || (totalSize - large) / (panes.length - 1);				
+				
+				// same element clicked
+				if (index === currentIndex && self.isOpened()) {
+					large = small = size;								
+				}
+      	 
+				var sizes = $.map(panes, function(el)  {
+					return $(el)[prop]();		
+				});
+				
+				$("<span/>").stop().animate({step: 1}, {
+					duration: conf.speed,
+					easing: conf.easing,
+					
+					step: function(step) {
+						var large = totalSize;
+						panes.each(function(i) {
+							if (i !== index)  {
+								var value = sizes[i] + Math.round(step * (small - sizes[i]));
+								if (value < 0) { value = 0; }
+								$(this)[prop](value);
+								large -= value;		
+							}
+						});						
+						panes.eq(index)[prop](large);
+					}
+				});
+				
+				currentIndex = index;				
+			},
+				
+			getPanes: function() {
+				return panes;	
+			},
+			
+			getCurrentPane: function() {
+				return panes.eq(index);	
+			},
+			
+			getIndex: function() {
+				return index;	
+			}, 
+			
+			isOpened: function() {				
+				return panes.eq(currentIndex)[prop]() > size;	
+			},
+			
+			next: function() {
+				return self.select(index + 1);
+			},
+			
+			prev: function() {
+				return self.select(index - 1);	
+			}
+			
+		});
         
-        panes.bind(options.event, function() {
-          currentPane = this;
-          animatePanes(options.max, options.min);
-        });
+		panes.bind(conf.event, function(e) {
+			self.select($(this).index(), e);
+		});	
+		
+		if (!conf.sticky) {
+			root.bind("mouseleave", function(e)  {
+				if (self.isOpened()) { 
+					self.select(currentIndex); 
+				}		
+			});
+		}
+	}
+		
+	$.fn.accordion = function(conf) {		
+		return $.tools.create(this, Accordion, CONF, conf);			
+	};
 
-        if (options.sticky) {
-          currentPane = panes.get(options.defaultPane);
-          animatePanes(options.max, options.min, 1);
-        } else {
-          $(this).mouseleave(function() {
-            animatePanes(size);
-          });
-        }
-      }
-
-      function animatePanes(max, min, duration) {
-        if (!currentPane) return;
-
-        if (duration == null) duration = options.duration;
-
-        var totalSize = size * panes.length;
-
-        var sizes = [];
-        panes.each(function(i) {
-          sizes[i] = this[OFFSET_PROPERTY];
-        });
-
-        var collapsedSize = min || Math.round((totalSize - max) / (panes.length - 1));
-        
-        $(dummy).stop();
-        dummy.style.step = 0;
-        $(dummy).animate({step: 1}, {
-          duration: duration,
-          easing: options.easing,
-          step: function(step) {
-            var expandedSize = totalSize;
-            for (var i = 0, pane; pane = panes[i]; i++) {
-              if (pane != currentPane) {
-                var value = sizes[i] + Math.round(step * (collapsedSize - sizes[i]));
-                if (value < 0) value = 0;
-                pane.style[STYLE_PROPERTY] = value + "px";
-                expandedSize -= value;
-              }
-            }
-            currentPane.style[STYLE_PROPERTY] = expandedSize + "px";
-          }
-        });
-      };
-    });
-  };
 })(jQuery);
