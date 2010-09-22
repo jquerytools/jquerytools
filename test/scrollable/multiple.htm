@@ -1,0 +1,62 @@
+
+<script src="../js/jquery-1.3.2.js"></script>
+<script src="../../src/scrollable/scrollable.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css"/>
+
+<script>
+$(function() {
+	$(".scrollable").scrollable({ circular: false, initialIndex: 2, onBeforeSeek: function() {
+		console.info("jou");
+	}}); 	
+});
+</script>
+
+
+<div>
+	
+	<a class="prev">prev</a>
+	
+	<div class="navi"></div>
+	
+	<div class="scrollable" style="width:130px">
+		
+		<div class="items">
+			<div>0</div>  
+			<div>1</div>  
+			<div>2</div>  
+			<div>3</div>  
+			<div>4</div>
+			<div>5</div>  
+			<div>6</div>  
+		</div>
+		
+	</div> 
+	
+	<a class="next">next</a>
+	
+</div>
+
+<div>
+	
+	<a class="prev">prev</a>
+	
+	<div class="navi"></div>
+	
+	<div class="scrollable" style="width:130px">
+		
+		<div class="items">
+			<div>0</div>  
+			<div>1</div>  
+			<div>2</div>  
+			<div>3</div>  
+			<div>4</div>
+			<div>5</div>  
+			<div>6</div>  
+		</div>
+		
+	</div> 
+	
+	<a class="next">next</a>
+	
+</div>

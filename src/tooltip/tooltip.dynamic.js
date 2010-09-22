@@ -2,11 +2,9 @@
  * @license 
  * jQuery Tools @VERSION / Tooltip Dynamic Positioning
  * 
- * Copyright (c) 2010 Tero Piirainen
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
+ * 
  * http://flowplayer.org/tools/tooltip/dynamic.html
- *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
  *
  * Since: July 2009
  * Date: @DATE 
@@ -18,7 +16,6 @@
 	
 	t.dynamic = {
 		conf: {
-			api: false,
 			classNames: "top right bottom left"
 		}
 	};
@@ -61,7 +58,7 @@
 		return true;
 	}
 	
-	// scrollable mousewheel implementation
+	// dynamic plugin
 	$.fn.dynamic = function(conf) {
 		
 		if (typeof conf == 'number') { conf = {speed: conf}; }
@@ -71,10 +68,6 @@
 		var cls = conf.classNames.split(/\s/), orig;	
 			
 		this.each(function() {		
-				
-			if ($(this).tooltip().jquery)  {
-				throw "Lazy feature not supported by dynamic plugin. set lazy: false for tooltip";	
-			}
 				
 			var api = $(this).tooltip().onBeforeShow(function(e, pos) {				
 
@@ -101,13 +94,12 @@
 				$.extend(tipConf, orig[4]);
 				tipConf.position = [orig[0], orig[1]];
 				tipConf.offset = [orig[2], orig[3]];
-				
+
 				tip.css({
 					visibility: 'hidden',
 					position: 'absolute',
 					top: pos.top,
-					left: pos.left
-					
+					left: pos.left 
 				}).show(); 
 				
 				// now let's see for hidden edges
@@ -133,11 +125,13 @@
 		
 			});
 			
-			// restore positioning
-			api.onShow(function() {
-				var c = this.getConf(), tip = this.getTip();				
-				c.position = [orig[0], orig[1]];
-				c.offset = [orig[2], orig[3]];				
+			// restore positioning as soon as possible
+			api.onBeforeShow(function() {
+				var c = this.getConf(), tip = this.getTip();		 
+				setTimeout(function() { 
+					c.position = [orig[0], orig[1]];
+					c.offset = [orig[2], orig[3]];
+				}, 0);
 			});
 			
 			// remove custom class names and restore original effect

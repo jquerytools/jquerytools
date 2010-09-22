@@ -2,11 +2,9 @@
  * @license 
  * jQuery Tools @VERSION / Scrollable Navigator
  * 
- * Copyright (c) 2010 Tero Piirainen
- * http://flowplayer.org/tools/scrollable/navigator.html
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
  *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
+ * http://flowplayer.org/tools/scrollable/navigator.html
  *
  * Since: September 2009
  * Date: @DATE 
@@ -22,14 +20,18 @@
 			naviItem: null,		
 			activeClass: 'active',
 			indexed: false,
-			api: false,
 			idPrefix: null,
 			
 			// 1.2
 			history: false
 		}
 	};		
-		
+	
+	function find(root, query) {
+		var el = $(query);
+		return el.length < 2 ? el : root.parent().find(query);
+	}
+	
 	// jQuery plugin implementation
 	$.fn.navigator = function(conf) {
 
@@ -40,99 +42,93 @@
 		var ret;
 		
 		this.each(function() {
-			
+				
 			var api = $(this).data("scrollable"),
-				 root = api.getRoot(), 
-				 navi = root.data("finder").call(null, conf.navi), 
-				 els = null, 
-				 buttons = api.getNaviButtons();
-			
+				 navi = conf.navi.jquery ? conf.navi : find(api.getRoot(), conf.navi), 
+				 buttons = api.getNaviButtons(),
+				 cls = conf.activeClass,
+				 history = conf.history && $.fn.history;
+
+			// @deprecated stuff
 			if (api) { ret = api; }
 			
 			api.getNaviButtons = function() {
 				return buttons.add(navi);	
 			}; 
-				
-			// generate new entries
-			function reload() {
-				
-				if (!navi.children().length || navi.data("navi") == api) {
-					
-					navi.empty();
-					navi.data("navi", api);
-					
-					for (var i = 0; i < api.getPageAmount(); i++) {		
-						navi.append($("<" + (conf.naviItem || 'a') + "/>"));
+			
+			
+			function doClick(el, i, e) {
+				api.seekTo(i);				
+				if (history) {
+					if (location.hash) {
+						location.hash = el.attr("href").replace("#", "");	
 					}
-					
-					els = navi.children().each(function(i) {
-						var el = $(this).attr("href", "#" + i);
-						
-						el.click(function(e) {
-							api.setPage(i);				
-							if (!conf.history) {
-								return e.preventDefault();		
-							}							
-						});
-						
-						// possible index number
-						if (conf.indexed)  { el.text(i); }
-						if (conf.idPrefix) { el.attr("id", conf.idPrefix + i); }
-					});
-					
-					
-				// assign onClick events to existing entries
-				} else {
-					
-					// find a entries first -> syntaxically correct
-					els = conf.naviItem ? navi.find(conf.naviItem) : navi.children();
-					
-					els.each(function(i)  {
-						var el = $(this);
-						
-						el.click(function(evt) {
-							api.setPage(i);
-							return evt.preventDefault();						
-						});
-						
-					});
+				} else  {
+					return e.preventDefault();			
 				}
-				
-				// activate first entry
-				els.eq(0).addClass(conf.activeClass); 
-				
 			}
+			
+			function els() {
+				return navi.find(conf.naviItem || '> *');	
+			}
+			
+			function addItem(i) {  
+				
+				var item = $("<" + (conf.naviItem || 'a') + "/>").click(function(e)  {
+					doClick($(this), i, e);
+					
+				}).attr("href", "#" + i);
+				
+				// index number / id attribute
+				if (i === 0) {  item.addClass(cls); }
+				if (conf.indexed)  { item.text(i + 1); }
+				if (conf.idPrefix) { item.attr("id", conf.idPrefix + i); } 
+				
+				return item.appendTo(navi);
+			}
+
+			
+			// generate navigator
+			if (els().length) {
+				els().each(function(i) { 
+					$(this).click(function(e)  {
+						doClick($(this), i, e);		
+					});
+				});
+				
+			} else {
+				$.each(api.getItems(), function(i) {
+					addItem(i); 
+				});
+			}   
 			
 			// activate correct entry
-			api.onStart(function(e, index) {
-				var cls = conf.activeClass;				
-				els.removeClass(cls).eq(api.getPageIndex()).addClass(cls);
-			});
+			api.onBeforeSeek(function(e, index) {
+				setTimeout(function() {
+					if (!e.isDefaultPrevented()) {	
+						var el = els().eq(index);
+						if (!e.isDefaultPrevented() && el.length) {			
+							els().removeClass(cls).eq(index).addClass(cls);
+						}
+					}
+				}, 1);
+			}); 
 			
-			api.onReload(function() {
-				reload();		
-			});
-			
-			reload();			
-			
-			// look for correct navi item from location.hash
-			var el = els.filter("[href=" + location.hash + "]");	
-			if (el.length) { api.move(els.index(el)); }			
-			
-			
-			// history support
-			if (conf.history && $.fn.history) {
-
-				// enable history support
-				els.history(function(evt, hash) {
-					els.eq(hash.replace("#", "")).click();		
-				});	  
-				
-				// tab clicks perform their original action
-				els.click(function(e) {
-					location.hash = $(this).attr("href").replace("#", "");	
-				});		 
+			function doHistory(evt, hash) {
+				var el = els().eq(hash.replace("#", ""));
+				if (!el.length) {
+					el = els().filter("[href=" + hash + "]");	
+				}
+				el.click();		
 			}
+			
+			// new item being added
+			api.onAddItem(function(e, item) {
+				item = addItem(api.getItems().index(item)); 
+				if (history)  { item.history(doHistory); }
+			});
+			
+			if (history) { els().history(doHistory); }
 			
 		});		
 		

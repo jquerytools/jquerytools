@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>        
+<script src="../js/jquery-1.4.2.min.js"></script>
+<script src="../../src/validator/validator.js"></script>
+
+<form action="#" style="margin:100px">
+
+	<label>
+		requred text 
+		<input type="text" required="required" />
+	</label>
+	
+	<button>Submit</button>
+	
+</form>
+
+<script>
+$("form").validator({ position: 'top center'}).submit(function(e) {
+		
+	// flag to see whether validation failed
+	var failed = $(":input", this).hasClass("invalid");
+	
+	// do not perform submit
+	e.preventDefault();
+}); 
+</script>

@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>        
+<script src="../js/jquery-1.4.2.min.js"></script>
+<script src="../../src/validator/validator.js"></script>
+
+<style>
+label {
+	margin:10px 0;
+	display:block;
+}
+
+body {
+	padding:100px;		
+	font-family:sans-serif;
+}
+
+.invalid {
+	border:1px solid red;		
+}
+
+.error {
+	display:none;		
+	border:1px solid #667;
+	background:#eee;
+	padding:5px;
+}
+</style>
+
+<form action="#">
+
+	<label>
+		requred text 
+		<input type="text" required="required" />
+	</label>
+	
+	<label><input type="radio" name="test" value="male" checked /> male</label>
+	<label><input type="radio" name="test" value="female" /> female</label>
+	
+
+	<button>Submit</button>
+	
+</form>
+
+<script>
+$.tools.validator.fn("[name=test]", "Female required (?)", function(el, val) {
+	return val == 'female';		
+});
+
+$("form").validator({position: 'top center'});
+</script>

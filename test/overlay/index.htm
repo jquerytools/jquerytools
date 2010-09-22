@@ -1,71 +1,15 @@
 
-<script src="../jquery-1.3.2.js"></script>
-<script src="../../src/toolbox/toolbox.mask.js"></script>
-<script src="../../src/toolbox/toolbox.lazyload.js"></script>
+<script src="../js/jquery-1.4.2.js"></script>
+<script src="../../src/toolbox/toolbox.expose.js"></script>
 <script src="../../src/overlay/overlay.js"></script>
-<script src="../../src/overlay/overlay.apple.js"></script>
 
 <link rel="stylesheet" type="text/css" href="style.css"/>
 
-<script>
-$(function() {
-	$("a.o1").overlay({
-		top: 'center',
-		speed: 500,
-		lazyload:  {
-			effect: 'grow'
-		},
-		
-		// effect: 'apple',
-		
-		onStart: function(e) {
-			console.info("CONF", this, e);
-			var el = e.originalTarget || e.srcElement;			
-		},
-		
-		onBeforeLoad: function(e) {
-			console.log("overlay before load", e.pageX);			
-		},
-		
-		onLoad: function(e) {
-			console.info("overlay load", e.pageX);			
-		},
-		
-		onBeforeClose: function(e) {
-			console.log("overlay beforeClose", e.pageX);			
-		},
-		
-		onClose: function(e) {
-			console.log("overlay close", e.pageX);	
-		} 
-		
-	}).bind("onBeforeLoad", function()  {
-		console.info("BIND", this, arguments);	
-	});
-	
-	$("a.o2").overlay({
-		effect: 'apple',     
-		mask: '#561',
-		oneInstance: false, 
-		lazyload: true,
-		
-		onLoad: function() {
-			console.info("apple done");
-			
-			return true;
-		}
-	});	
-	
-});
-</script>
-
 <p>
-	<a class="o1" rel="#overlay" href="#">show</a>
-	<a class="o1" rel="#overlay" href="#">show b</a>
-	
-	<a class="o2" rel="#overlay2" href="#">show 2</a>
-	<a class="o2" rel="#overlay2" href="#">show 2b</a>
+	<a rel="#overlay" href="#">show</a>
+	<a rel="#overlay2" href="#">show b</a>
 </p>
+
 
 <div class="overlay" id="overlay">
 	
@@ -82,3 +26,14 @@ $(function() {
 	</div>
 	
 </div>
+
+<script>
+$("a[rel]").overlay({
+	closeOnClick: false,
+	
+	mask: { 
+		color: '#ccc',
+		closeSpeed: 200
+	}
+});
+</script>

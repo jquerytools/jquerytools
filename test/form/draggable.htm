@@ -1,0 +1,104 @@
+
+<script src="../js/jquery-1.3.2.min.js"></script>
+
+<style>
+body {
+	padding:100px;	 
+}
+.drag {
+	width:30px;
+	height:30px;
+	background:blue;
+	position:absolute;
+}
+</style>
+
+<div class="drag"></div>
+                      
+<br /><br />
+
+<div class="baz" style="position:relative;margin:300px">
+	<div class="drag"></div>
+</div>
+
+
+<div class="drag"></div>
+
+<script>
+	
+//{{{ fn.drag
+		
+	/* 
+		Full featured drag and drop implementation in 35 lines (0.4 kb minified). 
+		Who told that drag and drop is rocket science? Find your way. Example:
+		
+		$(".myelement").drag({y: false}).bind("drag", function(event, x, y) {
+			// do your custom thing
+		});
+		 
+		Configuration: x (enable horizontal), y (enable vertical), drag (perform drag) 
+		Tree events: dragStart, drag, dragEnd. 
+	*/
+	$.fn.drag = function(conf) {
+		
+		conf = $.extend({x: true, y: true, drag: true}, conf);
+	
+		var draggable, doc = doc || $(document).bind("mousedown mouseup", function(e) {
+				
+			var el = $(e.target); 
+			
+			// start 
+			if (e.type == "mousedown" && el.data("drag")) {
+				
+				var offset = el.position(),
+					 x0 = e.pageX - offset.left, 
+					 y0 = e.pageY - offset.top,
+					 start = true;    
+				
+				doc.bind("mousemove.drag", function(e) {  
+					var x = e.pageX -x0, 
+						 y = e.pageY -y0,
+						 props = {};
+					
+					if (conf.x) { props.left = x; }
+					if (conf.y) { props.top = y; } 
+					
+					if (start) {
+						el.trigger("dragStart");
+						start = false;
+					}
+					if (conf.drag) { el.css(props); }
+					el.trigger("drag", [y, x]);
+					draggable = el;
+				}); 
+				
+				e.preventDefault();
+				
+			} else {
+				if (draggable) { draggable.trigger("dragEnd"); }
+				doc.unbind("mousemove.drag");
+				draggable = null; 
+			} 
+							
+		});
+		
+		return this.data("drag", true); 
+	};	
+
+//}}}          
+	
+
+
+$(function() {
+	$("div").drag({y: true}).bind("dragStart", function()  {
+		// console.info("starttia");
+		
+	}).bind("drag", function(e, x, y)  {
+		console.info("draggaa", x, y, e);
+		
+	}).bind("dragEnd", function()  {
+		// console.info("endi", arguments);		
+		
+	});
+});
+</script>

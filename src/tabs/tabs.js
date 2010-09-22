@@ -2,11 +2,9 @@
  * @license 
  * jQuery Tools @VERSION Tabs- The basics of UI design.
  * 
- * Copyright (c) 2010 Tero Piirainen
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
+ * 
  * http://flowplayer.org/tools/tabs/
- *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
  *
  * Since: November 2008
  * Date: @DATE 
@@ -26,11 +24,9 @@
 			effect: 'default',
 			initialIndex: 0,			
 			event: 'click',
-			api: false,
 			rotate: false,
 			
 			// 1.2
-			lazyload: false,
 			history: false
 		},
 		
@@ -38,7 +34,9 @@
 			effects[name] = fn;
 		}
 		
-	}, effects = {
+	};
+	
+	var effects = {
 		
 		// simple "toggle" effect
 		'default': function(i, done) { 
@@ -51,11 +49,12 @@
 				- fadeOutSpeed (positive value does "crossfading")
 				- fadeInSpeed
 		*/
-		fade: function(i, done) {
-			var conf = this.getConf(), 
+		fade: function(i, done) {		
+			
+			var conf = this.getConf(),            
 				 speed = conf.fadeOutSpeed,
 				 panes = this.getPanes();
-	 
+			
 			if (speed) {
 				panes.fadeOut(speed);	
 			} else {
@@ -66,15 +65,13 @@
 		},
 		
 		// for basic accordions
-		slide: function(i, done) {			
+		slide: function(i, done) {
 			this.getPanes().slideUp(200);
 			this.getPanes().eq(i).slideDown(400, done);			 
 		}, 
 
 		/**
 		 * AJAX effect
-		 * 
-		 * @deprecated use lazyload instead
 		 */
 		ajax: function(i, done)  {			
 			this.getPanes().eq(0).load(this.getTabs().eq(i).attr("href"), done);	
@@ -124,8 +121,7 @@
 		$.extend(this, {				
 			click: function(i, e) {
 				
-				var pane = self.getCurrentPane(),
-					 tab = tabs.eq(i);												 
+				var tab = tabs.eq(i);												 
 				
 				if (typeof i == 'string' && i.replace("#", "")) {
 					tab = tabs.filter("[href*=" + i.replace("#", "") + "]");
@@ -199,17 +195,13 @@
 			
 			prev: function() {
 				return self.click(current - 1);	
-			},  
+			},
 			
-			bind: function(name, fn) {
-				$(self).bind(name, fn);
-				return self;	
-			},	
-
-			unbind: function(name) {
-				$(self).unbind(name);
-				return self;	
-			}			
+			destroy: function() {
+				tabs.unbind(conf.event).removeClass(conf.current);
+				panes.find("a[href^=#]").unbind("click.T"); 
+				return self;
+			}
 		
 		});
 
@@ -218,18 +210,24 @@
 				
 			// configuration
 			if ($.isFunction(conf[name])) {
-				self.bind(name, conf[name]); 
+				$(self).bind(name, conf[name]); 
 			}
 
 			// API
 			self[name] = function(fn) {
-				return self.bind(name, fn);	
+				if (fn) { $(self).bind(name, fn); }
+				return self;	
 			};
 		});
+	
 		
+		if (conf.history && $.fn.history) {
+			$.tools.history.init(tabs);
+			conf.event = 'history';
+		}	
 		
 		// setup click actions for each tab
-		tabs.each(function(i) { 
+		tabs.each(function(i) { 				
 			$(this).bind(conf.event, function(e) {
 				self.click(i, e);
 				return e.preventDefault();
@@ -237,47 +235,14 @@
 		});
 		
 		// cross tab anchor link
-		panes.find("a[href^=#]").click(function(e) {
+		panes.find("a[href^=#]").bind("click.T", function(e) {
 			self.click($(this).attr("href"), e);		
 		}); 
-
-
-		// history support
-		if (conf.history && $.fn.history) {
-			
-			// enable history support
-			tabs.history(function(evt, hash) {
-				if (!hash || hash == '#') { hash = conf.initialIndex; }
-				self.click(hash);		
-			});	  
- 			
-			// tab clicks perform their original action
-			tabs.click(function(e) {
-				location.hash = $(this).attr("href").replace("#", "");	
-			});		 
-		}  
-			 
-		// lazyload support. all logic is here.
-		var lconf = $.tools.lazyload && conf.lazyload, loader;
-			 
-		if (lconf) {
-	
-			// lazyload configuration
-			if (typeof lconf != 'object') { lconf = { select: lconf }; }
-			if (typeof lconf.select != 'string') { lconf.select = "img, :backgroundImage"; }			
-			$.extend(lconf, { growParent: panes.parent(), api: true }, lconf);  
-			
-			// initialize lazyload
-			loader = panes.parent().find(lconf.select).lazyload(lconf);
-			
-			self.onBeforeClick(function(e, i) {
-				loader.load(panes.eq(i).find(":unloaded").andSelf());			
-			});  
-		}
 		
 		// open initial tab
-		if (location.hash) {
+		if (location.hash && conf.tabs == "a" && root.find("[href=" +location.hash+ "]").length) {
 			self.click(location.hash);
+
 		} else {
 			if (conf.initialIndex === 0 || conf.initialIndex > 0) {
 				self.click(conf.initialIndex);
@@ -292,7 +257,10 @@
 		
 		// return existing instance
 		var el = this.data("tabs");
-		if (el) { return el; }
+		if (el) { 
+			el.destroy();	
+			this.removeData("tabs");
+		}
 
 		if ($.isFunction(conf)) {
 			conf = {onBeforeClick: conf};
@@ -301,7 +269,8 @@
 		// setup conf
 		conf = $.extend({}, $.tools.tabs.conf, conf);		
 		
-		this.each(function(i) {				
+		
+		this.each(function() {				
 			el = new Tabs($(this), paneSelector, conf);
 			$(this).data("tabs", el); 
 		});		

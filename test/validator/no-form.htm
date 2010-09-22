@@ -1,0 +1,58 @@
+<!DOCTYPE html>        
+<script src="../js/jquery-1.4.2.min.js"></script>
+<script src="../../src/validator/validator.js"></script>
+
+<style>
+label {
+	margin:10px 0;
+	display:block;
+}
+
+body {
+	padding:100px;		
+	font-family:sans-serif;
+}
+
+.invalid {
+	border:1px solid red;		
+}
+
+.error {
+	display:none;		
+	border:1px solid #667;
+	background:#eee;
+	padding:5px;
+}
+</style>
+
+<div class="form" action="#">
+
+	<label>
+		requred text 
+		<input type="text" required="required" />
+	</label>
+	
+	<label>
+		pattern
+		<input type="text" pattern="\d+" />
+	</label>
+	
+	<label>
+		date 
+		<input type="date" title="Use format yyyy-mm-dd" name="day" />
+	</label>
+	
+	<label>
+		email 
+		<input type="email" />
+	</label>
+	
+	<button>Submit</button>
+	
+</div>
+
+<script>
+// perform validation programmatically
+var inputs = $(".form :input").validator(); 
+inputs.data("validator").checkValidity();
+</script>

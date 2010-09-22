@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>        
+<script src="../js/jquery-1.4.1.min.js"></script>
+<script src="../../src/validator/validator.js"></script>
+<script src="../../src/dateinput/dateinput.js"></script>
+
+<style>
+body {
+	padding:100px;		
+	font:11px sans-serif;
+}
+
+input.error {
+	border:1px solid red;		
+}
+
+div.error {
+	display:none;		
+	border:1px solid #667;
+	background:#eee;
+	padding:0 5px;
+}
+</style>
+	
+
+<form action="#">
+
+	<p>
+		abc, required <input type="text" pattern="\d+" name="abc" 
+								/>
+	</p>
+	<p>
+		date <input type="date" title="Use format yyyy-mm-dd" name="day" min="-40" required="true" />
+	</p>
+	
+	<p>
+		email <input type="email" id="emailfield" value="tipiirai@gmail.com" 
+					equals="abc"
+					requires="day, abc" 
+					oninvalid="console.info('jou')" />
+	</p>
+	
+	<p>
+		url <input type="url" value="tipiirai@gmail.com" disabled />
+	</p>
+	
+	<p>
+		[0 - 10] <input type="range" min="10" max="100" value="joku" /></p>
+	</p>
+	
+	<p>
+		[number] <input type="text" min="0" />
+	</p>
+
+	<input type="submit" />	
+</form>
+
+<script>
+/* Validator power! 1:st argument can also be function. type attributes are supported!
+$.tools.validator.fn("[type=range]", "Please supply a value between $1 and $2", function(el, val) {
+		
+	// access to API		
+	var conf = this.getConf();
+
+	// supply "backreferences"
+	return val == "paska" ? true : [val, "test"];
+	
+});
+*/
+var api = $("form").validator({attrPrefix: null, grouped: true}).bind("onBeforeValidate", function()  {
+	console.info("BEFORE", this, arguments);
+	
+}).data("validator");
+
+$(":date").dateinput();
+
+api.onFail(function() {
+	console.info("FAIL", this, arguments);		
+});
+
+$.tools.validator.localize("fi", {
+	':email'  		: 'Virheellinen sähköpostiosoite',
+	':number' 		: 'Arvon on oltava numeerinen',
+	':url' 			: 'Virheellinen URL',
+	'[max]'	 		: 'Arvon on oltava pienempi, kuin $1',
+	'[min]'	 		: 'Arvon on oltava suurempi, kuin $1',
+	'[required]' 	: 'Kentän arvo on annettava'
+});
+</script>

@@ -1,8 +1,9 @@
 <project name="jQuery.Tools" default="min">
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml"/> 
-	<property file="build.properties" prefix="v"/>
-	<property name="build" value="build/${v.tools}"/>
+	<property name="version" value="1.2.5"/>
+	<property name="build" value="build/${version}"/>
+	<property name="file" value="none"/>
 	
 	<!-- replace @VERSION and @DATE tags -->
 	<target name="sources">
@@ -29,7 +30,7 @@
 		  <sequential>
 		  
 		  		<!-- version number -->                             
-				<replaceregexp match="@VERSION" replace="${v.tools}" byline="true" file="@{file}" /> 
+				<replaceregexp match="@VERSION" replace="${version}" byline="true" file="@{file}" /> 
 			
 				<!-- last modified (via <git log> command) -->
 				<propertyregex property="source" input="@{file}" override="yes" replace="\1" 
@@ -72,22 +73,38 @@
 		
 	</target>
 	
-	<!-- lint (http://www.jslint.com/lint.html)  --> 
-   <target name="lint">		
-		<for param="file"> 
-			<path>
-				<fileset dir="src" includes="**/*.js"/>
-			</path>
-				
-			<sequential>
+	<!--  lint (http://www.jslint.com/lint.html) -->
+   <target name="lint">		 
+		<if>
+			<equals arg1="${file}" arg2="none" />
+			
+			<!-- loop trough all files -->
+			<then>
+				<for param="file"> 
+					<path>
+						<fileset dir="src" includes="**/*.js"/>
+					</path>
+						
+					<sequential>
+						<java jar="lib/rhino.jar" fork="true">
+							<arg value="lib/jslint.js" />
+							<arg value="@{file}" />
+						</java>	
+					</sequential>
+				</for>
+			</then>
+			
+			<!-- ant lint -Dfile=validator/validator.js -->
+			<else>
 				<java jar="lib/rhino.jar" fork="true">
 					<arg value="lib/jslint.js" />
-					<arg value="@{file}" />
+					<arg value="src/${file}" />
 				</java>	
-			</sequential>
-		</for>
-	</target>
-	
+			</else>
+			
+		</if>
+		
+	</target> 
 	
 </project>
 

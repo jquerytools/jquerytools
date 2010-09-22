@@ -2,20 +2,18 @@
  * @license 
  * jQuery Tools @VERSION Slideshow - Extend it.
  * 
- * Copyright (c) 2010 Tero Piirainen
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
+ * 
  * http://flowplayer.org/tools/tabs/slideshow.html
- *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
  *
  * Since: September 2009
  * Date: @DATE 
  */
 (function($) {
 	
-	var t = $.tools.tabs; 
+	var tool;
 	
-	var tool = t.slideshow = { 
+	tool = $.tools.tabs.slideshow = { 
 
 		conf: {
 			next: '.forward',
@@ -29,20 +27,19 @@
 		}
 	};  
 	
-	function Slideshow(root, conf, len) {
+	function Slideshow(root, conf) {
 	
 		var self = this,
 			 fire = root.add(this),
 			 tabs = root.data("tabs"),
 			 timer, 
-			 hoverTimer, 
-			 startTimer, 
-			 stopped = false;
+			 stopped = true;
 		
 			 
 		// next / prev buttons
 		function find(query) {
-			return len == 1 ? $(query) : root.parent().find(query);	
+			var el = $(query);
+			return el.length < 2 ? el : root.parent().find(query);	
 		}	
 		
 		var nextButton = find(conf.next).click(function() {
@@ -52,7 +49,7 @@
 		var prevButton = find(conf.prev).click(function() {
 			tabs.prev();		
 		}); 
-		
+
 
 		// extend the Tabs API with slideshow methods			
 		$.extend(self, {
@@ -61,59 +58,53 @@
 			getTabs: function() {
 				return tabs;	
 			},
+			
+			getConf: function() {
+				return conf;	
+			},
 				
 			play: function() {
 	
 				// do not start additional timer if already exists
-				if (timer) { return; }
+				if (timer) { return self; }	
 				
 				// onBeforePlay
 				var e = $.Event("onBeforePlay");
-				fire.trigger(e);
-				
+				fire.trigger(e);				
 				if (e.isDefaultPrevented()) { return self; }				
 				
-				stopped = false;
 				
 				// construct new timer
 				timer = setInterval(tabs.next, conf.interval);
-
+				stopped = false;				
+				
 				// onPlay
 				fire.trigger("onPlay");				
 				
-				tabs.next();
+				return self;
 			},
 		
 			pause: function() {
 				
 				if (!timer) { return self; }
-				
+
 				// onBeforePause
 				var e = $.Event("onBeforePause");
 				fire.trigger(e);					
 				if (e.isDefaultPrevented()) { return self; }		
 				
 				timer = clearInterval(timer);
-				startTimer = clearInterval(startTimer);
 				
 				// onPause
-				fire.trigger("onPause");		
+				fire.trigger("onPause");	
+				
+				return self;
 			},
 			
 			// when stopped - mouseover won't restart 
 			stop: function() {					
 				self.pause();
 				stopped = true;	
-			},
-			
-			bind: function(name, fn) {
-				$(self).bind(name, fn);
-				return self;	
-			},	
-
-			unbind: function(name) {
-				$(self).unbind(name);
-				return self;	
 			}
 			
 		});
@@ -123,35 +114,25 @@
 				
 			// configuration
 			if ($.isFunction(conf[name]))  {
-				self.bind(name, conf[name]);	
+				$(self).bind(name, conf[name]);	
 			}
 			
 			// API methods				
 			self[name] = function(fn) {
-				return self.bind(name, fn);
+				return $(self).bind(name, fn);
 			};
 		});	
 		
 	
 		/* when mouse enters, slideshow stops */
 		if (conf.autopause) {
-			var els = tabs.getTabs().add(nextButton).add(prevButton).add(tabs.getPanes());
-			
-			els.hover(function() {					
-				self.pause();					
-				hoverTimer = clearInterval(hoverTimer);
-				
-			}, function() {
-				if (!stopped) {						
-					hoverTimer = setTimeout(self.play, conf.interval);						
-				}
+			tabs.getTabs().add(nextButton).add(prevButton).add(tabs.getPanes()).hover(self.pause, function() {
+				if (!stopped) { self.play(); }		
 			});
 		} 
 		
 		if (conf.autoplay) {
-			startTimer = setTimeout(self.play, conf.interval);				
-		} else {
-			self.stop();	
+			self.play();	
 		}
 		
 		if (conf.clickable) {
@@ -163,23 +144,15 @@
 		// manage disabling of next/prev buttons
 		if (!tabs.getConf().rotate) {
 			
-			var cls = conf.disabledClass;
+			var disabled = conf.disabledClass;
 			
 			if (!tabs.getIndex()) {
-				prevButton.addClass(cls);
+				prevButton.addClass(disabled);
 			}
-			tabs.onBeforeClick(function(e, i)  {
-				if (!i) {
-					prevButton.addClass(cls);
-				} else {
-					prevButton.removeClass(cls);	
-				
-					if (i == tabs.getTabs().length -1) {
-						nextButton.addClass(cls);
-					} else {
-						nextButton.removeClass(cls);	
-					}
-				}
+			
+			tabs.onBeforeClick(function(e, i)  { 
+				prevButton.toggleClass(disabled, !i);
+				nextButton.toggleClass(disabled, i == tabs.getTabs().length -1); 
 			});
 		}  
 	}
@@ -188,13 +161,13 @@
 	$.fn.slideshow = function(conf) {
 	
 		// return existing instance
-		var el = this.data("slideshow"), len = this.length;
+		var el = this.data("slideshow");
 		if (el) { return el; }
  
 		conf = $.extend({}, tool.conf, conf);		
 		
 		this.each(function() {
-			el = new Slideshow($(this), conf, len);
+			el = new Slideshow($(this), conf);
 			$(this).data("slideshow", el); 			
 		});	
 		

@@ -2,11 +2,9 @@
  * @license 
  * jQuery Tools @VERSION / Tooltip Slide Effect
  * 
- * Copyright (c) 2010 Tero Piirainen
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
+ * 
  * http://flowplayer.org/tools/tooltip/slide.html
- *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
  *
  * Since: September 2009
  * Date: @DATE 

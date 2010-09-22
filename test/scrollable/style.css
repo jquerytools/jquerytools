@@ -1,6 +1,6 @@
 
 /* minimal settings */
-div.scrollable {
+.scrollable {
 	
 	/* required settings for the root element */
 	position:relative;
@@ -13,13 +13,13 @@ div.scrollable {
 	height:130px;
 }
 
-div.scrollable div.items { 	
+.scrollable .items { 	
 	margin-left:10px;
 	position:relative;
 	width:20000em;	
 }
 
-div.scrollable div.items div {
+.scrollable .items div {
 	text-align:center;
 	width:110px;
 	padding:25px 0px;
@@ -32,12 +32,12 @@ div.scrollable div.items div {
 	-moz-border-radius:5px;
 }
 
-div.navi {
+.navi {
 	height:30px;	
 	margin-bottom:20px;	
 }
 
-div.navi a {
+.navi a {
 	width:20px;
 	height: 20px;
 	background-color:blue;
@@ -46,7 +46,7 @@ div.navi a {
 	margin-right:10px;
 }
 
-div.navi a.active {
+.navi a.active {
 	background-color:yellow;		
 }
 

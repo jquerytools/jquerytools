@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+
+<script src="../js/jquery-1.3.2.js"></script>
+<script src="../../src/form/form.dateinput.js"></script>
+
+
+<style>
+body {
+	font-family:"lucida grande","verdana","sans serif";	
+	padding:50px 100px;
+}
+
+.picktrigger {
+	width:30px;
+	height:30px;
+	border:1px solid blue;
+}
+</style>
+
+<link rel="stylesheet" type="text/css" href="picker.css"/>
+
+
+<h2>Dateinput test page</h2>
+
+
+<!--  http://www.apple.com/iphone/iphone-3gs/more-features.html  -->
+<input type="date" class="date" name="joku" data-value="2004-02-20"  />
+
+
+<input type="date" class="date" data-value="2004-02-20" min="2004-02-20"  />
+
+<input type="date" class="date" data-value="2004-02-20" min="2004-02-20"  />
+<div class="picktrigger"></div>
+
+<script>
+$.tools.dateinput.localize("fr",  {
+	months: 			'Janvier,F&eacute;vrier,Mars,Avril,Mai,Juin,Juillet,Ao&ucirc;t,Septembre,Octobre,Novembre,D&eacute;cembre', 
+	shortMonths: 	'Jan,F&eacute;v,Mar,Avr,Mai,Jun,Jul,Ao&ucirc;,Sep,Oct,Nov,D&eacute;c',
+	days: 			'Dimanche,Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi',
+	shortDays: 		'Dim,Lun,Mar,Mer,Jeu,Ven,Sam'	
+});
+
+$(function() {
+	var els = $(".date").dateinput({
+		format: 'dddd dd mmmm yyyy',
+		selectors: true,
+		// offset: [10, 10],
+		yearRange: [-3, 3],
+		speed: 0,
+		firstDay: 0,
+		min: 365 * 1,
+		max: 365 * 2,
+		lang: 'fr',
+
+		change: function(e, date) {
+			//console.info(date, "picked", this.getDate("yy-mm-dd"));		
+		},
+		
+		onShow: function(e) {
+			//console.info("onShow", this, e);
+		},
+		
+		onHide: function(e) {
+			//console.info("onHide", this.getDate(), e, this);	
+		}
+		
+	}).one("change", function()  {
+	 	//console.info("binded event");		
+	 	
+	}).one("onBeforeShow", function(e)  {
+		//console.info("before show", e);
+		return true;
+	});
+	
+	$(":date:first").change(function() {
+		//console.info("JOOOOOOOOOOOO", this, arguments);		
+	});
+});
+</script>
+

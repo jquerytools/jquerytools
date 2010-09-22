@@ -1,0 +1,101 @@
+
+<script src="../js/jquery-1.4.2.js"></script>
+<script src="../../src/toolbox/toolbox.mask.js"></script>
+<script src="../../src/overlay/overlay.js"></script>
+<script src="../../src/overlay/overlay.apple.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css"/>
+
+<script>
+$(function() {
+	$("a.o1").overlay({
+		top: 'center',
+		speed: 500,
+
+		mask: {
+        color: '#fff',
+
+        // load mask a little faster
+        loadSpeed: 200,
+
+        // very transparent
+        opacity: 0.5
+    },
+
+		// effect: 'apple',
+		
+		onStart: function(e) {
+			console.info("CONF", this, e);
+			var el = e.originalTarget || e.srcElement;			
+		},
+		
+		onBeforeLoad: function(e) {
+			console.log("overlay before load", e.pageX);			
+		},
+		
+		onLoad: function(e) {
+			console.info("overlay load", e.pageX);			
+		},
+		
+		onBeforeClose: function(e) {
+			console.log("overlay beforeClose", e.pageX);			
+		},
+		
+		onClose: function(e) {
+			console.log("overlay close", e.pageX);	
+		} 
+		
+	}).bind("onBeforeLoad", function()  {
+		console.info("BIND", this, arguments);	
+	});
+	
+	$("a.o2").overlay({
+		effect: 'apple',     
+		mask: '#561',
+		oneInstance: false, 
+		lazyload: true,
+		fixed: false,
+		
+		onLoad: function() {
+			console.info("apple done");
+			
+			return true;
+		}
+	});	
+	
+	
+	$("a.o1").data("overlay").load();
+});
+</script>
+
+<div style="height:400px"></div>
+<p>
+	<a class="o1" rel="#overlay" href="#">show</a>
+	<a class="o1" rel="#overlay" href="#">show b</a>
+	
+	<a class="o2" rel="#overlay2" href="#">show 2</a>
+	<a class="o2" rel="#overlay2" href="#">show 2b</a>
+</p>
+
+<div style="position:relative;top:400px;left:200px">
+
+<div class="overlay" id="overlay">
+	
+	<div class="content" style="background-image:url(../img/6481762_3d2c7e79f7.jpg)">  
+		asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj 
+	</div>
+	
+</div>
+
+</div>
+
+<div class="overlay" id="overlay2">
+	
+	<div style="padding:40px">
+		asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj 
+	</div>
+	
+</div>
+
+
+<div style="height:2000px"></div>

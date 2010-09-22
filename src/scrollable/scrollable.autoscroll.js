@@ -2,11 +2,9 @@
  * @license 
  * jQuery Tools @VERSION / Scrollable Autoscroll
  * 
- * Copyright (c) 2010 Tero Piirainen
+ * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
+ * 
  * http://flowplayer.org/tools/scrollable/autoscroll.html
- *
- * Dual licensed under MIT and GPL 2+ licenses
- * http://www.opensource.org/licenses
  *
  * Since: September 2009
  * Date: @DATE 
@@ -20,9 +18,7 @@
 		conf: {
 			autoplay: true,
 			interval: 3000,
-			autopause: true,
-			steps: 1,
-			api: false
+			autopause: true
 		}
 	};	
 	
@@ -41,10 +37,10 @@
 			if (api) { ret = api; }
 			
 			// interval stuff
-			var timer, hoverTimer, stopped = true;
+			var timer, stopped = true;
 	
-			api.play = function() {
-	
+			api.play = function() { 
+				
 				// do not start additional timer if already exists
 				if (timer) { return; }
 				
@@ -52,14 +48,13 @@
 				
 				// construct new timer
 				timer = setInterval(function() { 
-					api.move(opts.steps);				
+					api.next();				
 				}, opts.interval);
 				
-				api.move(opts.steps);
 			};	
 
 			api.pause = function() {
-				timer = clearInterval(timer);	
+				timer = clearInterval(timer);
 			};
 			
 			// when stopped - mouseover won't restart 
@@ -70,19 +65,11 @@
 		
 			/* when mouse enters, autoscroll stops */
 			if (opts.autopause) {
-				api.getRoot().add(api.getNaviButtons()).hover(function() {			
-					api.pause();
-					clearInterval(hoverTimer);
-					
-				}, function() {
-					if (!stopped) {						
-						hoverTimer = setTimeout(api.play, opts.interval);						
-					}
-				});
-			}			
+				api.getRoot().add(api.getNaviButtons()).hover(api.pause, api.play);
+			}
 			
 			if (opts.autoplay) {
-				setTimeout(api.play, opts.interval);				
+				api.play();				
 			}
 
 		});

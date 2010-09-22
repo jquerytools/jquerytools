@@ -1,0 +1,95 @@
+
+<script src="../js/jquery-1.4.2.js"></script>
+<script src="../../src/rangeinput/rangeinput.js"></script>
+
+<!-- 
+	todo
+	- initial input edit fix
+-->
+<style>
+body {
+	padding:40px;	
+}
+
+/* http://www.patterncooler.com/ */
+#scrollwrap {
+	position:relative;
+	overflow:hidden;
+	width: 660px;	
+	height:150px;
+	border:1px solid #000;
+	margin-bottom:15px;
+	-moz-box-shadow:0 0 20px #666;
+	-webkit-box-shadow:0 0 20px #666;
+}
+
+#scroll { 	
+	position:relative;
+	width:20000em;	
+	padding:20px 100px;
+	font:bold 90px  sans-serif;
+	height:150px;
+	background:url(img/pattern.png);
+	color:#fff;
+	text-shadow:5px 1px 1px #000; 
+	left:-100px;
+}
+
+.slider { 
+	position:relative; 
+	cursor:pointer;
+	height:1px;
+	border:2px solid #00118E;	
+	width:658px;
+	-moz-border-radius:2px;
+}
+
+.handle { 
+	border:1px solid #cfcfcf;
+	background-color:#fff;
+	height:20px;
+	width:80px;
+	position:absolute; 
+	top:-12px;
+	display:block;
+	cursor:move;
+	-moz-border-radius:14px;
+	-webkit-border-radius:14px;
+}
+
+.handle:active {
+	background:blue;		
+}
+
+.range {
+	display:none;
+}
+</style>
+
+<div id="scrollwrap">
+	<div id="scroll">
+		jQuery TOOLS ${v.jqt} Rangeinput. HTML5 ranges for humans. 
+	</div>
+</div>
+
+<input class="range" type="range" max="2750" step="10" />
+
+
+<script>		
+var scroll = $("#scroll");
+
+$(".range").rangeinput({ 
+	onSlide: function(ev, i)  {  
+		scroll.css({left: -i});
+	},
+	
+	speed: 0,
+	
+	value: 100,
+	
+	change: function(e, i) {
+		scroll.animate({left: -i}, "fast");	
+	}
+	
+});
+</script>

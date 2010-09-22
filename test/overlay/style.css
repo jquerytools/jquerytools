@@ -6,7 +6,7 @@ div.overlay {
 	padding:10px;
 }
 
-div.overlay div.close {
+div.overlay a.close {
 	background-image:url(img/close.png);
 	position:absolute;
 	right:5px;
