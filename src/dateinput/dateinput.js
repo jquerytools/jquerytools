@@ -459,9 +459,8 @@
 
 			setValue: function(year, month, day)  {
 				
-				var date = integer(month) >= -1 ?
-					new Date(integer(year), integer(month), integer(day || 1)) : year || value
-				;				
+				var date = integer(month) >= -1 ? new Date(integer(year), integer(month), integer(day || 1)) : 
+					year || value;				
 				
 				if (date < min) { date = min; }
 				else if (date > max) { date = max; }
