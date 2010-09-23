@@ -31,7 +31,7 @@
 		
 		var opts = $.extend({}, t.autoscroll.conf, conf), ret;
 		
-		this.each(function() {		
+		return this.each(function() {		
 				
 			var api = $(this).data("scrollable");			
 			if (api) { ret = api; }
@@ -72,10 +72,7 @@
 				api.play();				
 			}
 
-		});
-		
-		return opts.api ? ret : this;
-		
+		});		
 	}; 
 	
 })(jQuery);		

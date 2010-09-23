@@ -12,9 +12,7 @@
 (function($) { 
 
 	// static constructs
-	$.tools = $.tools || {version: '@VERSION'};
-	
-	$.tools.overlay = {
+	var instances = [], effects = {}, GLOBAL =  {
 		
 		addEffect: function(name, loadFn, closeFn) {
 			effects[name] = [loadFn, closeFn];	
@@ -38,19 +36,9 @@
 			target: null, // target element to be overlayed. by default taken from [rel]
 			top: '10%'
 		}
-	};
-
+	};		
 	
-	var instances = [], effects = {};
-		
-	// the default effect. nice and easy!
-	$.tools.overlay.addEffect('default', 
-		
-		/* 
-			onLoad/onClose functions must be called otherwise none of the 
-			user supplied callback methods won't be called
-		*/
-		function(pos, onLoad) {
+	GLOBAL.addEffect('default', function(pos, onLoad) {
 			
 			var conf = this.getConf(),
 				 w = $(window);				 
@@ -65,11 +53,11 @@
 			
 		}, function(onClose) {
 			this.getOverlay().fadeOut(this.getConf().closeSpeed, onClose); 			
-		}		
+		}
 	);		
 
 	
-	function Overlay(trigger, conf) {		
+	function Tool(trigger, conf) {		
 		
 		// private variables
 		var self = this,
@@ -180,7 +168,6 @@
 						}
 					});			
 				}
-
 				
 				return self; 
 			}, 
@@ -226,29 +213,10 @@
 
 			isOpened: function()  {
 				return opened;
-			},
-			
-			// manipulate start, finish and speeds
-			getConf: function() {
-				return conf;	
 			}			
 			
 		});
-		
-		// callbacks	
-		$.each("onBeforeLoad,onStart,onLoad,onBeforeClose,onClose".split(","), function(i, name) {
-				
-			// configuration
-			if ($.isFunction(conf[name])) { 
-				$(self).bind(name, conf[name]); 
-			}
-
-			// API
-			self[name] = function(fn) {
-				if (fn) { $(self).bind(name, fn); }
-				return self;
-			};
-		});
+	
 		
 		// close button
 		closers = overlay.find(conf.close || ".close");		
@@ -265,28 +233,17 @@
 		// autoload
 		if (conf.load) { self.load(); }
 		
+		instances.push(self); 
 	}
 	
 	// jQuery plugin initialization
 	$.fn.overlay = function(conf) {   
-		
-		// already constructed --> return API
-		var el = this.data("overlay");
-		if (el) { return el; }	  		 
-		
+
 		if ($.isFunction(conf)) {
 			conf = {onBeforeLoad: conf};	
 		}
-
-		conf = $.extend(true, {}, $.tools.overlay.conf, conf);
 		
-		this.each(function() {		
-			el = new Overlay($(this), conf);
-			instances.push(el);
-			$(this).data("overlay", el);	
-		});
-		
-		return conf.api ? el: this;		
+		return $.tools.create(this, "overlay", Tool, GLOBAL, conf, "BeforeLoad,Start,Load,BeforeClose,Close");		
 	}; 
 	
 })(jQuery);

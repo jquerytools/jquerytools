@@ -39,9 +39,7 @@
 		if (typeof conf == 'string') { conf = {navi: conf}; } 
 		conf = $.extend({}, t.navigator.conf, conf);
 		
-		var ret;
-		
-		this.each(function() {
+		return this.each(function() {
 				
 			var api = $(this).data("scrollable"),
 				 navi = conf.navi.jquery ? conf.navi : find(api.getRoot(), conf.navi), 
@@ -131,8 +129,6 @@
 			if (history) { els().history(doHistory); }
 			
 		});		
-		
-		return conf.api ? ret : this;
 		
 	};
 	

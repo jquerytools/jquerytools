@@ -10,22 +10,14 @@
  * Date: @DATE 
  */
 (function($) {	
-		
-	/* TODO: 
-		 preserve today highlighted
-	*/
 	
-	$.tools = $.tools || {version: '@VERSION'};
-	
-	var instances = [], 
-		 tool, 
-		 
-		 // h=72, j=74, k=75, l=76, down=40, left=37, up=38, right=39
-		 KEYS = [75, 76, 38, 39, 74, 72, 40, 37],
-		 LABELS = {};
-	
-	tool = $.tools.dateinput = {
-		
+	$.expr[':'].date = function(el) {
+		var type = el.getAttribute("type");
+		return type && type == 'date' || !!$(el).data("dateinput");
+	};
+
+	// h=72, j=74, k=75, l=76, down=40, left=37, up=38, right=39
+	var KEYS = [75, 76, 38, 39, 74, 72, 40, 37], LABELS = {}, instances = [], GLOBAL = {		 
 		conf: { 
 			format: 'mm/dd/yy',
 			selectors: false,
@@ -73,11 +65,10 @@
 				labels[key] = val.split(",");		
 			});
 			LABELS[language] = labels;	
-		}
-		
+		}		
 	};
 	
-	tool.localize("en", {
+	GLOBAL.localize("en", {
 		months: 		 'January,February,March,April,May,June,July,August,September,October,November,December', 
 		shortMonths: 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec',  
 		days: 		 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday', 
@@ -170,7 +161,7 @@
 //}}}
 		 
 	
-	function Dateinput(input, conf)  { 
+	function Tool(input, conf)  { 
 
 		// variables
 		var self = this,  
@@ -647,10 +638,6 @@
 				return self;
 			},
 			
-			getConf: function() {
-				return conf;	
-			},
-			
 			getInput: function() {
 				return input;	
 			},
@@ -668,22 +655,6 @@
 			}
 			
 		}); 
-		
-		// callbacks	
-		$.each(['onBeforeShow','onShow','change','onHide'], function(i, name) {
-				
-			// configuration
-			if ($.isFunction(conf[name]))  {
-				$(self).bind(name, conf[name]);	
-			}
-			
-			// API methods				
-			self[name] = function(fn) {
-				if (fn) { $(self).bind(name, fn); }
-				return self;
-			};
-		});
-
 		
 		// show dateinput & assign keyboard shortcuts
 		input.bind("focus click", self.show).keydown(function(e) {
@@ -706,39 +677,24 @@
 			select(value, conf);
 		}
 		
+		instances.push(self);
+		
 	} 
 	
-	$.expr[':'].date = function(el) {
-		var type = el.getAttribute("type");
-		return type && type == 'date' || !!$(el).data("dateinput");
-	};
 	
-	
-	$.fn.dateinput = function(conf) {   
+	$.fn.dateinput = function(conf) {
 		
-		// already instantiated
-		if (this.data("dateinput")) { return this; } 
-		
-		// configuration
-		conf = $.extend(true, {}, tool.conf, conf);		
-		
+		conf = $.extend(true, {}, GLOBAL.conf, conf);
+
 		// CSS prefix
 		$.each(conf.css, function(key, val) {
 			if (!val && key != 'prefix') { 
 				conf.css[key] = (conf.css.prefix || '') + (val || key);
 			}
 		});		
-	
-		var els;
 		
-		this.each(function() {									
-			var el = new Dateinput($(this), conf);
-			instances.push(el);
-			var input = el.getInput().data("dateinput", el);
-			els = els ? els.add(input) : input;	
-		});		
-	
-		return els ? els : this;		
+		return $.tools.create(this, "dateinput", Tool, GLOBAL, conf, "BeforeShow,Show,change,onHide", true);		
+
 	}; 
 	
 	

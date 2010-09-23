@@ -14,7 +14,7 @@
 		vertical: false
 	};
 
-	function Accordion(root, conf)  {		
+	function Tool(root, conf)  {		
     		 	
       var panes = root.children(conf.panes),
       	 currentIndex = conf.initialIndex,
@@ -109,7 +109,7 @@
 	}
 		
 	$.fn.accordion = function(conf) {		
-		return $.tools.create(this, Accordion, CONF, conf);			
+		return $.tools.create(this, "accordion", Tool, CONF, conf);			
 	};
 
 })(jQuery);

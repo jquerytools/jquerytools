@@ -9,11 +9,9 @@
  * Since: November 2008
  * Date: @DATE 
  */
-(function($) { 	
-	// static constructs
-	$.tools = $.tools || {version: '@VERSION'};
-	
-	$.tools.tooltip = {
+(function($) { 
+		
+	var CONF =  {
 		
 		conf: { 
 			
@@ -111,7 +109,7 @@
 
 	
 	
-	function Tooltip(trigger, conf) {
+	function Tool(trigger, conf) {
 
 		var self = this, 
 			 fire = trigger.add(self),
@@ -282,10 +280,6 @@
 				return fully ? shown == 'full' : shown;	
 			},
 				
-			getConf: function() {
-				return conf;	
-			},
-				
 			getTip: function() {
 				return tip;	
 			},
@@ -294,47 +288,19 @@
 				return trigger;	
 			}		
 
-		});		
-
-		// callbacks	
-		$.each("onHide,onBeforeShow,onShow,onBeforeHide".split(","), function(i, name) {
-				
-			// configuration
-			if ($.isFunction(conf[name])) { 
-				$(self).bind(name, conf[name]); 
-			}
-
-			// API
-			self[name] = function(fn) {
-				if (fn) { $(self).bind(name, fn); }
-				return self;
-			};
-		});
-		
+		});				
 	}
 		
 	
 	// jQuery plugin implementation
-	$.fn.tooltip = function(conf) {
-		
-		// return existing instance
-		var api = this.data("tooltip");
-		if (api) { return api; }
-
-		conf = $.extend(true, {}, $.tools.tooltip.conf, conf);
-		
+	$.fn.tooltip = function(conf) {  
+				
 		// position can also be given as string
-		if (typeof conf.position == 'string') {
+		if (conf && typeof conf.position == 'string') {
 			conf.position = conf.position.split(/,?\s/);	
 		}
-		
-		// install tooltip for each entry in jQuery object
-		this.each(function() {
-			api = new Tooltip($(this), conf); 
-			$(this).data("tooltip", api); 
-		});
-		
-		return conf.api ? api: this;		 
+
+		return $.tools.create(this, "tooltip", Tool, CONF, conf, "Hide,BeforeShow,Show,BeforeHide");		
 	};
 		
 }) (jQuery);

@@ -10,35 +10,34 @@
  * Date: @DATE 
  */
 (function($) {
-	 
-	$.tools = $.tools || {version: '@VERSION'};
-	 
-	var tool;
-	
-	tool = $.tools.rangeinput = {
-		                            
-		conf: {
-			min: 0,
-			max: 100,		// as defined in the standard
-			step: 'any', 	// granularity of the value. a non-zero float or int (or "any")
-			steps: 0,
-			value: 0,			
-			precision: undefined,
-			vertical: 0,
-			keyboard: true,
-			progress: false,
-			speed: 100,
-			
-			// set to null if not needed
-			css: {
-				input:		'range',
-				slider: 		'slider',
-				progress: 	'progress',
-				handle: 		'handle'					
-			}
 
+	$.expr[':'].range = function(el) {
+		var type = el.getAttribute("type");
+		return type && type == 'range' || !!$(el).filter("input").data("rangeinput");
+	};
+	
+	var CONF = {
+					
+		min: 0,
+		max: 100,		// as defined in the standard
+		step: 'any', 	// granularity of the value. a non-zero float or int (or "any")
+		steps: 0,
+		value: 0,			
+		precision: undefined,
+		vertical: 0,
+		keyboard: true,
+		progress: false,
+		speed: 100,
+		
+		// set to null if not needed
+		css: {
+			input:		'range',
+			slider: 		'slider',
+			progress: 	'progress',
+			handle: 		'handle'					
 		} 
 	};
+	
 	
 //{{{ fn.drag
 		
@@ -136,7 +135,7 @@
 		return e && e.onSlide;
 	}
 	
-	function RangeInput(input, conf) {
+	function Tool(input, conf) {
 		
 		// private variables
 		var self = this,  
@@ -292,10 +291,6 @@
 				return slide(e || $.Event("api"), undefined, val, true); 
 			}, 			  
 			
-			getConf: function() {
-				return conf;	
-			},
-			
 			getProgress: function() {
 				return progress;	
 			},
@@ -325,21 +320,6 @@
 			}
 			
 		});
-		
-		// callbacks
-		$.each("onSlide,change".split(","), function(i, name) {
-				
-			// from configuration
-			if ($.isFunction(conf[name]))  {
-				$(self).bind(name, conf[name]);	
-			}
-			
-			// API methods
-			self[name] = function(fn) {
-				if (fn) { $(self).bind(name, fn); }
-				return self;	
-			};
-		}); 
 			
 
 		// dragging		                                  
@@ -439,32 +419,11 @@
 		if (!len) {  
 			$(window).load(begin);
 		}
-	}
-	
-	$.expr[':'].range = function(el) {
-		var type = el.getAttribute("type");
-		return type && type == 'range' || !!$(el).filter("input").data("rangeinput");
-	};
-	
+	}	
 	
 	// jQuery plugin implementation
-	$.fn.rangeinput = function(conf) {
-
-		// already installed
-		if (this.data("rangeinput")) { return this; } 
-		
-		// extend configuration with globals
-		conf = $.extend(true, {}, tool.conf, conf);		
-		
-		var els;
-		
-		this.each(function() {				
-			var el = new RangeInput($(this), $.extend(true, {}, conf));		 
-			var input = el.getInput().data("rangeinput", el);
-			els = els ? els.add(input) : input;	
-		});		
-		
-		return els ? els : this; 
+	$.fn.rangeinput = function(conf) {		
+		return $.tools.create(this, "rangeinput", Tool, CONF, conf, "Slide,change", true);
 	};	
 	
 	

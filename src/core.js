@@ -3,35 +3,69 @@
 	$.tools = {
 		version: '@VERSION',
 		
-		create: function(root, fn, globals, conf) {
+		create: function(elem, name, fn, globals, conf, events, isInput) {
 						
-			var args = arguments,
-				 name = fn.name.toLowerCase(),
-				 api = root.data(name);
+			var api = elem.data(name);
 				 
 			if (api) { 
 				api.destroy();
 				
 			} else {
-				
-				if (!globals.conf) { globals = { conf: globals }; }
-				
-				$.tools[name] = globals;
-				
+				// configuration
+				if (!globals.conf) { globals = { conf: globals }; }				
+				$.tools[name] = globals;				
 				conf = $.extend(true, {}, globals.conf, conf);
+
+				// :overlay, :date
+				$.expr[':'][name] = $.expr[':'][name] || function(el) {					
+					return !!$(el).data(name);
+				};				
+			}
+			
+			var ret;
+			
+			elem.each(function() {
+					
+				api = new fn($(this), conf);
 				
-				$.extend(fn.prototype,  {
+				$.extend(api, {
 					getConf: function()  {
 						return conf;	
 					}
-				});
-			}
+				});			
+
+				// events	
+				$.each(events.split(","), function(i, name) {
+						
+					if (name != 'change') { name = "on" + name; }
+					
+					// configuration
+					if ($.isFunction(conf[name])) {
+						$(api).bind(name, conf[name]); 
+					}
+		
+					// API
+					api[name] = function(fn) {
+						if (fn) { $(api).bind(name, fn); }
+						return api;	
+					};
+				});				
+				
+				$(this).data(name, api).data("api", api); 
+				
+				if (isInput) {
+					var input = api.getInput().data(name, api).data("api", api);
+					ret = ret ? ret.add(input) : input;
+				}
+			});	
 			
-			return root.each(function() {				
-				api = new fn($(this), conf);
-				$(this).data(name, api); 
-			});						
+			return ret ? ret : elem;
 		}
+	};
+
+	// jQuery.tool(":overlay").load();
+	$.tool = function(query) {
+		return $(query).data("api");	
 	};
 	
 })(jQuery);

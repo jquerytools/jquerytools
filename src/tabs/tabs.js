@@ -11,10 +11,7 @@
  */  
 (function($) {
 		
-	// static constructs
-	$.tools = $.tools || {version: '@VERSION'};
-	
-	$.tools.tabs = {
+	var GLOBALS = {
 		
 		conf: {
 			tabs: 'a',
@@ -25,8 +22,6 @@
 			initialIndex: 0,			
 			event: 'click',
 			rotate: false,
-			
-			// 1.2
 			history: false
 		},
 		
@@ -38,17 +33,12 @@
 	
 	var effects = {
 		
-		// simple "toggle" effect
+		// toggle
 		'default': function(i, done) { 
 			this.getPanes().hide().eq(i).show();
 			done.call();
 		}, 
-		
-		/*
-			configuration:
-				- fadeOutSpeed (positive value does "crossfading")
-				- fadeInSpeed
-		*/
+
 		fade: function(i, done) {		
 			
 			var conf = this.getConf(),            
@@ -63,50 +53,19 @@
 
 			panes.eq(i).fadeIn(conf.fadeInSpeed, done);	
 		},
-		
-		// for basic accordions
-		slide: function(i, done) {
-			this.getPanes().slideUp(200);
-			this.getPanes().eq(i).slideDown(400, done);			 
-		}, 
 
-		/**
-		 * AJAX effect
-		 */
 		ajax: function(i, done)  {			
 			this.getPanes().eq(0).load(this.getTabs().eq(i).attr("href"), done);	
 		}		
 	};   	
-	
-	var w;
-	
-	/**
-	 * Horizontal accordion
-	 * 
-	 * @deprecated will be replaced with a more robust implementation
-	 */
-	$.tools.tabs.addEffect("horizontal", function(i, done) {
-	
-		// store original width of a pane into memory
-		if (!w) { w = this.getPanes().eq(0).width(); }
-		
-		// set current pane's width to zero
-		this.getCurrentPane().animate({width: 0}, function() { $(this).hide(); });
-		
-		// grow opened pane to it's original width
-		this.getPanes().eq(i).animate({width: w}, function() { 
-			$(this).show();
-			done.call();
-		});
-		
-	});	
 
 	
-	function Tabs(root, paneSelector, conf) {
+	function Tabs(root, conf) {
 		
 		var self = this, 
 			 trigger = root.add(this),
 			 tabs = root.find(conf.tabs),
+			 paneSelector = conf.select,
 			 panes = paneSelector.jquery ? paneSelector : root.children(paneSelector),			 
 			 current;
 			 
@@ -164,10 +123,6 @@
 				
 				return self;
 			},
-			
-			getConf: function() {
-				return conf;	
-			},
 
 			getTabs: function() {
 				return tabs;	
@@ -205,21 +160,6 @@
 		
 		});
 
-		// callbacks	
-		$.each("onBeforeClick,onClick".split(","), function(i, name) {
-				
-			// configuration
-			if ($.isFunction(conf[name])) {
-				$(self).bind(name, conf[name]); 
-			}
-
-			// API
-			self[name] = function(fn) {
-				if (fn) { $(self).bind(name, fn); }
-				return self;	
-			};
-		});
-	
 		
 		if (conf.history && $.fn.history) {
 			$.tools.history.init(tabs);
@@ -247,35 +187,22 @@
 			if (conf.initialIndex === 0 || conf.initialIndex > 0) {
 				self.click(conf.initialIndex);
 			}
-		}				
-		
+		}		
 	}
 	
 	
 	// jQuery plugin implementation
 	$.fn.tabs = function(paneSelector, conf) {
-		
-		// return existing instance
-		var el = this.data("tabs");
-		if (el) { 
-			el.destroy();	
-			this.removeData("tabs");
-		}
 
+		conf = conf || {};
+		
 		if ($.isFunction(conf)) {
 			conf = {onBeforeClick: conf};
 		}
 		
-		// setup conf
-		conf = $.extend({}, $.tools.tabs.conf, conf);		
-		
-		
-		this.each(function() {				
-			el = new Tabs($(this), paneSelector, conf);
-			$(this).data("tabs", el); 
-		});		
-		
-		return conf.api ? el: this;		
+		conf.select = paneSelector;
+	
+		return $.tools.create(this, "tabs", Tabs, GLOBALS, conf, "BeforeClick,Click");		
 	};		
 		
 }) (jQuery); 

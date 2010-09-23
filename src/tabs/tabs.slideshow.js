@@ -11,23 +11,17 @@
  */
 (function($) {
 	
-	var tool;
-	
-	tool = $.tools.tabs.slideshow = { 
-
-		conf: {
-			next: '.forward',
-			prev: '.backward',
-			disabledClass: 'disabled',
-			autoplay: false,
-			autopause: true,
-			interval: 3000, 
-			clickable: true,
-			api: false
-		}
+	var CONF = {
+		next: '.forward',
+		prev: '.backward',
+		disabledClass: 'disabled',
+		autoplay: false,
+		autopause: true,
+		interval: 3000, 
+		clickable: true
 	};  
 	
-	function Slideshow(root, conf) {
+	function Tool(root, conf) {
 	
 		var self = this,
 			 fire = root.add(this),
@@ -57,10 +51,6 @@
 			// return tabs API
 			getTabs: function() {
 				return tabs;	
-			},
-			
-			getConf: function() {
-				return conf;	
 			},
 				
 			play: function() {
@@ -109,20 +99,6 @@
 			
 		});
 
-		// callbacks	
-		$.each("onBeforePlay,onPlay,onBeforePause,onPause".split(","), function(i, name) {
-				
-			// configuration
-			if ($.isFunction(conf[name]))  {
-				$(self).bind(name, conf[name]);	
-			}
-			
-			// API methods				
-			self[name] = function(fn) {
-				return $(self).bind(name, fn);
-			};
-		});	
-		
 	
 		/* when mouse enters, slideshow stops */
 		if (conf.autopause) {
@@ -160,18 +136,8 @@
 	// jQuery plugin implementation
 	$.fn.slideshow = function(conf) {
 	
-		// return existing instance
-		var el = this.data("slideshow");
-		if (el) { return el; }
- 
-		conf = $.extend({}, tool.conf, conf);		
-		
-		this.each(function() {
-			el = new Slideshow($(this), conf);
-			$(this).data("slideshow", el); 			
-		});	
-		
-		return conf.api ? el : this;
+		return $.tools.create(this, "slideshow", Tool, CONF, conf, "BeforePlay,Play,BeforePause,Pause");	
+
 	};
 	
 })(jQuery); 

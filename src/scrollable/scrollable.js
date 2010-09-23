@@ -11,29 +11,23 @@
  */
 (function($) { 
 
-	// static constructs
-	$.tools = $.tools || {version: '@VERSION'};
-	
-	$.tools.scrollable = {
-		
-		conf: {	
-			activeClass: 'active',
-			circular: false,
-			clonedClass: 'cloned',
-			disabledClass: 'disabled',
-			easing: 'swing',
-			initialIndex: 0,
-			item: null,
-			items: '.items',
-			keyboard: true,
-			mousewheel: false,
-			next: '.next',   
-			prev: '.prev', 
-			speed: 400,
-			vertical: false,
-			touch: true,
-			wheelSpeed: 0
-		} 
+	var CONF = {
+		activeClass: 'active',
+		circular: false,
+		clonedClass: 'cloned',
+		disabledClass: 'disabled',
+		easing: 'swing',
+		initialIndex: 0,
+		item: null,
+		items: '.items',
+		keyboard: true,
+		mousewheel: false,
+		next: '.next',   
+		prev: '.prev', 
+		speed: 400,
+		vertical: false,
+		touch: true,
+		wheelSpeed: 0
 	};
 					
 	// get hidden element's width or height even though it's hidden
@@ -52,7 +46,7 @@
 	var current;		
 	
 	// constructor
-	function Scrollable(root, conf) {   
+	function Tool(root, conf) {   
 		
 		// current instance
 		var self = this, 
@@ -65,11 +59,7 @@
 		if (itemWrap.length > 1) { itemWrap = $(conf.items, root); }
 		
 		// methods
-		$.extend(self, {
-				
-			getConf: function() {
-				return conf;	
-			},			
+		$.extend(self, {			
 			
 			getIndex: function() {
 				return index;	
@@ -177,20 +167,7 @@
 			}					
 			
 		});
-				
-		// callbacks	
-		$.each(['onBeforeSeek', 'onSeek', 'onAddItem'], function(i, name) {
-				
-			// configuration
-			if ($.isFunction(conf[name])) { 
-				$(self).bind(name, conf[name]); 
-			}
-			
-			self[name] = function(fn) {
-				if (fn) { $(self).bind(name, fn); }
-				return self;
-			};
-		});  
+
 		
 		// circular loop
 		if (conf.circular) {
@@ -200,8 +177,7 @@
 				
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			
-			self.onBeforeSeek(function(e, i, time) {
-
+			root.bind("onBeforeSeek", function(e, i, time) {
 				
 				if (e.isDefaultPrevented()) { return; }
 				
@@ -233,7 +209,7 @@
 		
 		if (!conf.circular && self.getSize() > 1) {
 			
-			self.onBeforeSeek(function(e, i) {
+			root.bind("onBeforeSeek", function(e, i) {
 				setTimeout(function() {
 					if (!e.isDefaultPrevented()) {
 						prev.toggleClass(conf.disabledClass, i <= 0);
@@ -315,20 +291,7 @@
 		
 	// jQuery plugin implementation
 	$.fn.scrollable = function(conf) { 
-			
-		// already constructed --> return API
-		var el = this.data("scrollable");
-		if (el) { return el; }		 
-
-		conf = $.extend({}, $.tools.scrollable.conf, conf); 
-		
-		this.each(function() {			
-			el = new Scrollable($(this), conf);
-			$(this).data("scrollable", el);	
-		});
-		
-		return conf.api ? el: this; 
-		
+		return $.tools.create(this, "scrollable", Tool, CONF, conf, "BeforeSeek,Seek,AddItem");		
 	};
 			
 	

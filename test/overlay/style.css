@@ -1,12 +1,12 @@
 /* automatically absolutely positioned */
-div.overlay {
-	width:400px;
+.overlay {
+	width:600px;
 	display:none;
 	color:#fff;
 	padding:10px;
 }
 
-div.overlay a.close {
+.overlay .close {
 	background-image:url(img/close.png);
 	position:absolute;
 	right:5px;
@@ -23,7 +23,9 @@ div.overlay a.close {
 }
 
 #overlay2 {
-	background-image:url(img/overlay.png)	
+	background-image:url(img/overlay.png);
+	width:300px;
+	z-index:10010;
 }
 
 #img {
