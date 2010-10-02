@@ -626,7 +626,7 @@
 
 				// sunday
 				if (css.sunday) {
-					weeks.find(css.week).each(function() {
+					weeks.find("." + css.week).each(function() {
 						var beg = conf.firstDay ? 7 - conf.firstDay : 0;
 						$(this).children().slice(beg, beg + 1).addClass(css.sunday);		
 					});	
