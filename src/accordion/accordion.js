@@ -109,7 +109,7 @@
 	}
 		
 	$.fn.accordion = function(conf) {		
-		return $.tools.create(this, "accordion", Tool, CONF, conf);			
+		return $.tools.create(this, "accordion", Tool, CONF, conf, "Select");			
 	};
 
 })(jQuery);
