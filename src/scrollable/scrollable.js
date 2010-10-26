@@ -120,7 +120,7 @@
 				return self;
 			},
 			
-			appendItem: function(item) {
+			addItem: function(item) {
 				item = $(item);
 				
 				if (!conf.circular)  {
@@ -138,16 +138,17 @@
 				item = $(item);
 				
 				if (!conf.circular)  {
-					itemWrap.prepend(item);
+					itemWrap.prepend(item);					
 				} else {
 					itemWrap.children("." + conf.clonedClass + ":first").after(item);
 					itemWrap.children("." + conf.clonedClass + ":last").replaceWith(item.clone().addClass(conf.clonedClass)); 						
 				}
 				
-				fire.trigger("onAddItem", [item]);
+				self.seekTo(self.getIndex() +1, 0);
+				
+				fire.trigger("onPrependItem", [item]);
 				return self;
-			},
-			
+			},			
 			
 			/* all seeking functions depend on this */		
 			seekTo: function(i, time, fn) {	
@@ -193,7 +194,7 @@
 		});
 				
 		// callbacks	
-		$.each(['onBeforeSeek', 'onSeek', 'onAddItem'], function(i, name) {
+		$.each(['onBeforeSeek', 'onSeek', 'onAddItem', 'onPrependItem'], function(i, name) {
 				
 			// configuration
 			if ($.isFunction(conf[name])) { 
