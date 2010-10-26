@@ -120,7 +120,7 @@
 				return self;
 			},
 			
-			addItem: function(item) {
+			appendItem: function(item) {
 				item = $(item);
 				
 				if (!conf.circular)  {
@@ -128,6 +128,20 @@
 				} else {
 					itemWrap.children("." + conf.clonedClass + ":last").before(item);
 					itemWrap.children("." + conf.clonedClass + ":first").replaceWith(item.clone().addClass(conf.clonedClass)); 						
+				}
+				
+				fire.trigger("onAddItem", [item]);
+				return self;
+			},
+			
+			prependItem: function(item) {
+				item = $(item);
+				
+				if (!conf.circular)  {
+					itemWrap.prepend(item);
+				} else {
+					itemWrap.children("." + conf.clonedClass + ":first").after(item);
+					itemWrap.children("." + conf.clonedClass + ":last").replaceWith(item.clone().addClass(conf.clonedClass)); 						
 				}
 				
 				fire.trigger("onAddItem", [item]);
