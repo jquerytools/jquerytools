@@ -134,7 +134,7 @@
 				return self;
 			},
 			
-			prependItem: function(item) {
+			addItemBefore: function(item) {
 				item = $(item);
 				
 				if (!conf.circular)  {
@@ -146,7 +146,7 @@
 				
 				self.seekTo(self.getIndex() +1, 0);
 				
-				fire.trigger("onPrependItem", [item]);
+				fire.trigger("onAddItemBefore", [item]);
 				return self;
 			},			
 			
@@ -194,7 +194,7 @@
 		});
 				
 		// callbacks	
-		$.each(['onBeforeSeek', 'onSeek', 'onAddItem', 'onPrependItem'], function(i, name) {
+		$.each(['onBeforeSeek', 'onSeek', 'onAddItem', 'onAddItemBefore'], function(i, name) {
 				
 			// configuration
 			if ($.isFunction(conf[name])) { 
