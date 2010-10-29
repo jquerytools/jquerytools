@@ -29,6 +29,7 @@
 			mousewheel: false,
 			next: '.next',   
 			prev: '.prev', 
+			size: 1,
 			speed: 400,
 			vertical: false,
 			touch: true,
@@ -195,8 +196,10 @@
 		// circular loop
 		if (conf.circular) {
 			
-			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
-				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
+			var items = self.getItems();
+			var cloned1 = items.slice(-1).clone().prependTo(itemWrap),
+				 cloned2 = items.filter(":lt(" + conf.size + ")").clone().appendTo(itemWrap);
+				 items = null;
 				
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			
