@@ -148,7 +148,7 @@
 				// check that index is sane
 				// note that for some weird IE bug, you can't place the line below directly in an if statement otherwise circular will break		
 				var test = ((!conf.circular && i < 0) || i > self.getSize() || i < -1);
-				if (test) { console.log("Nope"); return self; }
+				if (test) { return self; }
 				
 				var item = i;
 			
