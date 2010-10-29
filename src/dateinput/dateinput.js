@@ -90,7 +90,7 @@
 
 	// @return amount of days in certain month
 	function dayAm(year, month) {
-		return 32 - new Date(year, month, 32).getDate();		
+		return new Date(year, month + 1, 0).getDate();
 	}
  
 	function zeropad(val, len) {
