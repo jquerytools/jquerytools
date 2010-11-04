@@ -129,7 +129,8 @@
 			});
 			
 			if (history) { els().history(doHistory); }
-			
+
+			els().eq(api.getIndex()).addClass(cls);
 		});		
 		
 		return conf.api ? ret : this;
