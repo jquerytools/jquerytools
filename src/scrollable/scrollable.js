@@ -308,6 +308,9 @@
 		
 		// initial index
 		if (conf.initialIndex) {
+                    if (self.getItems().length <= conf.initialIndex) {
+                        conf.initialIndex = 0;
+                    }
 			self.seekTo(conf.initialIndex, 0, function() {});
 		}
 	} 
