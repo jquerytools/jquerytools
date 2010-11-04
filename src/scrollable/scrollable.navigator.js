@@ -59,6 +59,11 @@
 			
 			function doClick(el, i, e) {
 				api.seekTo(i);				
+
+                                if (t.autoscroll && api.isPlaying()) {
+                                    api.stop().play();
+                                }
+
 				if (history) {
 					if (location.hash) {
 						location.hash = el.attr("href").replace("#", "");	
