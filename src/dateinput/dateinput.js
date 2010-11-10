@@ -699,8 +699,11 @@
 			// allow tab
 			return e.shiftKey || e.ctrlKey || e.altKey || key == 9 ? true : e.preventDefault();   
 			
-		}); 
-		
+		});
+
+	  // hide when focus is lost
+	  input.bind("blur", self.hide);
+  		
 		// initial value 		
 		if (parseDate(input.val())) { 
 			select(value, conf);
