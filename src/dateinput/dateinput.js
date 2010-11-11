@@ -275,6 +275,10 @@
 			currMonth = date.getMonth();
 			currDay	 = date.getDate();				
 			
+			// focus the input after selection (doesn't work in IE)
+			if (e.type == "click" && !$.browser.msie) {
+				input.focus();
+			}
 			
 			// change
 			e = e || $.Event("api");
@@ -638,9 +642,7 @@
 					if (e.isDefaultPrevented()) { return; }
 					
 					$(document).unbind("click.d").unbind("keydown.d");
-					input.focus();
-					input.select();
-					
+										
 					// do the hide
 					root.hide();
 					opened = false;
