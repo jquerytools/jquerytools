@@ -307,7 +307,7 @@
 				var key = e.keyCode;			 
 				
 				// backspace or delete clears the value
-				if (key == 8 || key == 9) {
+				if (key == 8 || key == 46) {
 					input.val("");
 					return self.hide(e);	
 				}
@@ -692,10 +692,12 @@
 
 			var key = e.keyCode;
 	
-			// open dateinput with navigation keys, or clear value on backspace or delete
-			if (!opened &&  $(KEYS).index(key) >= 0) {
+			// open dateinput with navigation keys or spacebar
+			if (!opened && ($(KEYS).index(key) >= 0 || key == 32)) {
 				self.show(e);
 				return e.preventDefault();
+			
+			// clear value on backspace or delete
 			} else if (key == 8 || key == 46) {
 				input.val("");
 			}
