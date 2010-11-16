@@ -248,8 +248,8 @@
 			}
 		}
 		if (self.getSize() <= 1){
-			next.addClass(conf.disabledClass)			  
-			prev.addClass(conf.disabledClass)
+			next.addClass(conf.disabledClass);			  
+			prev.addClass(conf.disabledClass);
 		}	
 		// mousewheel support
 		if (conf.mousewheel && $.fn.mousewheel) {
