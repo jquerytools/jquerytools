@@ -244,7 +244,7 @@
 			if (!conf.initialIndex) {
 				prev.addClass(conf.disabledClass);	
 			}else if(conf.initialIndex === self.getSize() -1 ){
-				next.addClass(conf.desabledClass);
+				next.addClass(conf.disabledClass);
 			}
 		}
 		if (self.getSize() <= 1){
