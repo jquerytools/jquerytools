@@ -92,7 +92,12 @@
 			},
 			
 			getItems: function() {
-				return itemWrap.find(conf.item).not("." + conf.clonedClass);	
+				if (conf.item) {
+					return itemWrap.find(conf.item).not("." + conf.clonedClass);
+				} else {
+					return itemWrap.children(conf.item).not("." + conf.clonedClass);
+				}
+				
 			},
 							
 			move: function(offset, time) {
