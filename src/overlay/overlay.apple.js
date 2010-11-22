@@ -96,12 +96,19 @@
 		
 		pos.position = position;
 		overlay.css(pos);
+		overlay.css({
+			opacity: 0
+		});
+		overlay.show();
 		
 		// begin growing
 		img.animate({			
 			top: overlay.css("top"), 
 			left: overlay.css("left"), 
 			width: oWidth}, conf.speed, function() {
+			overlay.css({
+				opacity: 1
+			});
 			
 			// set close button and content over the image
 			overlay.css("zIndex", conf.zIndex + 1).fadeIn(conf.fadeInSpeed, function()  { 
