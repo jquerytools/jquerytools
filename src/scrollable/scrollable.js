@@ -291,7 +291,9 @@
 			$(document).bind("keydown.scrollable", function(evt) {
 
 				// skip certain conditions
-				if (!conf.keyboard || evt.altKey || evt.ctrlKey || $(evt.target).is(":input")) { return; }
+				if (!conf.keyboard || evt.altKey || evt.ctrlKey || evt.metaKey || $(evt.target).is(":input")) { 
+					return; 
+				}
 				
 				// does this instance have focus?
 				if (conf.keyboard != 'static' && current != self) { return; }
