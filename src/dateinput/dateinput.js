@@ -36,7 +36,8 @@
 			firstDay: 0, // The first day of the week, Sun = 0, Mon = 1, ...
 			min: undefined,
 			max: undefined,
-			trigger: false,
+			trigger: 0,
+			editable: 0,
 			
 			css: {
 				
@@ -684,22 +685,24 @@
 			};
 		});
 
-		
-		// show dateinput & assign keyboard shortcuts
-		input.bind("focus click", self.show).keydown(function(e) {
-
-			var key = e.keyCode;
+		if (!conf.editable) {
+			
+			// show dateinput & assign keyboard shortcuts
+			input.bind("focus click", self.show).keydown(function(e) {
 	
-			// open dateinput with navigation keyw
-			if (!opened &&  $(KEYS).index(key) >= 0) {
-				self.show(e);
-				return e.preventDefault();
-			} 
-			
-			// allow tab
-			return e.shiftKey || e.ctrlKey || e.altKey || key == 9 ? true : e.preventDefault();   
-			
-		}); 
+				var key = e.keyCode;
+		
+				// open dateinput with navigation keyw
+				if (!opened &&  $(KEYS).index(key) >= 0) {
+					self.show(e);
+					return e.preventDefault();
+				} 
+				
+				// allow tab
+				return e.shiftKey || e.ctrlKey || e.altKey || key == 9 ? true : e.preventDefault();   
+				
+			});
+		}
 		
 		// initial value 		
 		if (parseDate(input.val())) { 
