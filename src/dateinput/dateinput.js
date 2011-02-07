@@ -209,7 +209,7 @@
 			original = input.clone();
 			var tmp = $("<input/>");
 				 
-			$.each("class,disabled,id,maxlength,name,readonly,required,size,style,tabindex,title,value".split(","), function(i, attr)  {
+			$.each("class,disabled,id,maxlength,name,placeholder,readonly,required,size,style,tabindex,title,value".split(","), function(i, attr)  {
 				tmp.attr(attr, input.attr(attr));		
 			});		
 			
