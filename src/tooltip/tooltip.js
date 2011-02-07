@@ -252,7 +252,8 @@
 						}); 
 					} 
 					
-					tip.data("__set", true);
+					// bind again for same tip element
+					if (!conf.tip) tip.data("__set", true);
 				}
 				
 				return self;
