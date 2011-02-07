@@ -46,7 +46,11 @@
 
 
 <script>
-$(".tabs").tabs(".pane");
+$(".tabs").tabs(".pane", {
+	onClick: function () {
+	  console.log(this.getConf(), this.getCurrentPane(), this.getCurrentTab(), this.getIndex(), this.getPanes(), this.getTabs());
+	}
+});
 </script>
 
 

@@ -317,8 +317,8 @@
 					return self.hide(e);	
 				}
 				
-				// esc key
-				if (key == 27) { return self.hide(e); }						
+				// esc or tab key
+				if (key == 27 || key == 9) { return self.hide(e); }						
 					
 				if ($(KEYS).index(key) >= 0) {
 					
