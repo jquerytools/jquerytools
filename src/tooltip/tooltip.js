@@ -237,13 +237,13 @@
 
 				if (!tip.data("__set")) {
 					
-					tip.bind(event[0], function() { 
+					tip.unbind(event[0]).bind(event[0], function() { 
 						clearTimeout(timer);
 						clearTimeout(pretimer);
 					});
 					
 					if (event[1] && !trigger.is("input:not(:checkbox, :radio), textarea")) { 					
-						tip.bind(event[1], function(e) {
+						tip.unbind(event[1]).bind(event[1], function(e) {
 	
 							// being moved to the trigger element
 							if (e.relatedTarget != trigger[0]) {
@@ -252,7 +252,7 @@
 						}); 
 					} 
 					
-					// bind again for same tip element
+					// bind agein for if same tip element
 					if (!conf.tip) tip.data("__set", true);
 				}
 				

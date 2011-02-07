@@ -292,7 +292,7 @@
 		
 		jQuery.fn.flashembed = function(opts, conf) {		
 			return this.each(function() { 
-				$(this).data("flashembed", flashembed(this, opts, conf));
+				jQuery(this).data("flashembed", flashembed(this, opts, conf));
 			});
 		}; 
 	} 

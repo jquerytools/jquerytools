@@ -88,7 +88,7 @@
 			maskConf.closeOnClick = maskConf.closeOnEsc = false;
 		}			 
 		 
-		// get overlay and triggerr
+		// get overlay and trigger
 		var jq = conf.target || trigger.attr("rel");
 		overlay = jq ? $(jq) : null || trigger;	
 		
