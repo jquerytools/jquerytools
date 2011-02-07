@@ -510,6 +510,9 @@
 				if (!self.checkValidity(null, e)) { 
 					return e.preventDefault(); 
 				}
+				// Reset event type and target
+				e.target = form;
+				e.type = conf.formEvent;
 			});
 		}
 		

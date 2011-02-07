@@ -92,7 +92,7 @@
 			},
 			
 			getItems: function() {
-				return itemWrap.children(conf.item).not("." + conf.clonedClass);	
+				return itemWrap.find(conf.item).not("." + conf.clonedClass);	
 			},
 							
 			move: function(offset, time) {
