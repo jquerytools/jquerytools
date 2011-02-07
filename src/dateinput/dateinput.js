@@ -145,7 +145,7 @@
 
 	function parseDate(val) {
 		
-		if (!val) { return; }
+		if (val === undefined) { return; }
 		if (val.constructor == Date) { return val; } 
 		
 		if (typeof val == 'string') {
@@ -176,6 +176,7 @@
 		// variables
 		var self = this,  
 			 now = new Date(),
+			 yearNow = now.getFullYear(),
 			 css = conf.css,
 			 labels = LABELS[conf.lang],
 			 root = $("#" + css.root),
@@ -193,9 +194,10 @@
 		if (min === 0) { min = "0"; }
 		
 		// use sane values for value, min & max		
-		value = parseDate(value) || now;
-		min   = parseDate(min || conf.yearRange[0] * 365);
-		max   = parseDate(max || conf.yearRange[1] * 365);
+		value = parseDate(value) || now;  
+		
+		min   = parseDate(min || new Date(yearNow + conf.yearRange[0], 1, 1));
+		max   = parseDate(max || new Date( yearNow + conf.yearRange[1]+ 1, 1, -1));
 		
 		
 		// check that language exists
