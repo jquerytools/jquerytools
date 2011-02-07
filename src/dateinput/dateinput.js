@@ -186,7 +186,8 @@
 			 value = input.attr("data-value") || conf.value || input.val(), 
 			 min = input.attr("min") || conf.min,  
 			 max = input.attr("max") || conf.max,
-			 opened;
+			 opened,
+			 original;
 
 		// zero min is not undefined 	 
 		if (min === 0) { min = "0"; }
@@ -202,11 +203,14 @@
 		
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input.attr("type") == 'date') {
+			
+			original = input.clone();
 			var tmp = $("<input/>");
 				 
 			$.each("class,disabled,id,maxlength,name,readonly,required,size,style,tabindex,title,value".split(","), function(i, attr)  {
 				tmp.attr(attr, input.attr(attr));		
-			});			
+			});		
+			
 			input.replaceWith(tmp);
 			input = tmp;
 		}
@@ -624,8 +628,15 @@
 			
 			addYear: function(amount) {
 				return this.setValue(currYear + (amount || 1), currMonth, currDay);	
+			},						
+			
+			destroy: function() {
+				input.add(document).unbind("click.d").unbind("keydown.d");
+				root.add(trigger).remove();
+				input.removeData("dateinput").removeClass(css.input);
+				if (original)  { input.replaceWith(original); }
 			},
-						
+			
 			hide: function(e) {				 
 				
 				if (opened) {  
@@ -688,7 +699,7 @@
 		if (!conf.editable) {
 			
 			// show dateinput & assign keyboard shortcuts
-			input.bind("focus click", self.show).keydown(function(e) {
+			input.bind("focus.d click.d", self.show).keydown(function(e) {
 	
 				var key = e.keyCode;
 		
