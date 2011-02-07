@@ -3,14 +3,21 @@
 <script src="../../src/scrollable/scrollable.js"></script>
 
 <link rel="stylesheet" type="text/css" href="style.css"/>
+<style>
+.disabled {
+	visibility:hidden;		
+}
+</style>
 
 <script>
 $(function() {
-	$(".scrollable").scrollable({ 
+	var api = $(".scrollable").scrollable({ 
 		onSeek: function() {
 			console.info("jou");
 		}
-	}); 	
+	}).data("scrollable"); 	
+	
+	api.addItem("<div>added</div>");
 });
 </script>
 
@@ -25,12 +32,12 @@ $(function() {
 		
 		<div class="items">
 			<div>0</div>  
-			<div>1</div>  
+			<!-- <div>1</div>  
 			<div>2</div>  
 			<div>3</div>  
 			<div>4</div>
 			<div>5</div>  
-			<div>6</div>  
+			<div>6</div>   -->
 		</div>
 		
 	</div> 

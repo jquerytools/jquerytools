@@ -125,6 +125,8 @@
 				
 				if (!conf.circular)  {
 					itemWrap.append(item);
+					next.removeClass("disabled");
+					
 				} else {
 					itemWrap.children("." + conf.clonedClass + ":last").before(item);
 					itemWrap.children("." + conf.clonedClass + ":first").replaceWith(item.clone().addClass(conf.clonedClass)); 						
@@ -229,10 +231,9 @@
 		
 		// next/prev buttons
 		var prev = find(root, conf.prev).click(function() { self.prev(); }),
-			 next = find(root, conf.next).click(function() { self.next(); });	
+			 next = find(root, conf.next).click(function() { self.next(); }); 
 		
-		if (!conf.circular && self.getSize() > 1) {
-			
+		if (!conf.circular) {
 			self.onBeforeSeek(function(e, i) {
 				setTimeout(function() {
 					if (!e.isDefaultPrevented()) {
@@ -241,10 +242,14 @@
 					}
 				}, 1);
 			}); 
+		}
+		
+		if (!conf.initialIndex) {
+			prev.addClass(conf.disabledClass);	
+		}
 			
-			if (!conf.initialIndex) {
-				prev.addClass(conf.disabledClass);	
-			}
+		if (self.getSize() < 2) {
+			prev.add(next).addClass(conf.disabledClass);	
 		}
 			
 		// mousewheel support
