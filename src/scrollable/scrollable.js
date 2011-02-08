@@ -23,12 +23,13 @@
 			disabledClass: 'disabled',
 			easing: 'swing',
 			initialIndex: 0,
-			item: null,
+			item: '> *',
 			items: '.items',
 			keyboard: true,
 			mousewheel: false,
 			next: '.next',   
 			prev: '.prev', 
+			size: 1,
 			speed: 400,
 			vertical: false,
 			touch: true,
@@ -63,6 +64,10 @@
 				
 		if (!current) { current = self; } 
 		if (itemWrap.length > 1) { itemWrap = $(conf.items, root); }
+		
+		
+		// in this version circular not supported when size > 1
+		if (conf.size > 1) { conf.circular = false; } 
 		
 		// methods
 		$.extend(self, {
@@ -100,11 +105,11 @@
 			},
 			
 			next: function(time) {
-				return self.move(1, time);	
+				return self.move(conf.size, time);	
 			},
 			
 			prev: function(time) {
-				return self.move(-1, time);	
+				return self.move(-conf.size, time);	
 			},
 			
 			begin: function(time) {
@@ -128,8 +133,8 @@
 					next.removeClass("disabled");
 					
 				} else {
-					itemWrap.children("." + conf.clonedClass + ":last").before(item);
-					itemWrap.children("." + conf.clonedClass + ":first").replaceWith(item.clone().addClass(conf.clonedClass)); 						
+					itemWrap.children().last().before(item);
+					itemWrap.children().first().replaceWith(item.clone().addClass(conf.clonedClass)); 						
 				}
 				
 				fire.trigger("onAddItem", [item]);
@@ -200,6 +205,10 @@
 			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
 				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
 				
+ 			/* var items = self.getItems(),
+ 				 cloned1 = items.slice(-1).clone().prependTo(itemWrap),	
+				 cloned2 = items.filter(":lt(" + conf.size + ")").clone().appendTo(itemWrap); */
+
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			
 			self.onBeforeSeek(function(e, i, time) {
@@ -241,11 +250,11 @@
 						next.toggleClass(conf.disabledClass, i >= self.getSize() -1);
 					}
 				}, 1);
-			}); 
-		}
-		
-		if (!conf.initialIndex) {
-			prev.addClass(conf.disabledClass);	
+			});
+			
+			if (!conf.initialIndex) {
+				prev.addClass(conf.disabledClass);	
+			}			
 		}
 			
 		if (self.getSize() < 2) {
