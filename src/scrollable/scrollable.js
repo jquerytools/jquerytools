@@ -82,7 +82,7 @@
 			},
 			
 			getItems: function() {
-				return itemWrap.children(conf.item).not("." + conf.clonedClass);	
+				return itemWrap.find(conf.item).not("." + conf.clonedClass);	
 			},
 							
 			move: function(offset, time) {
@@ -115,6 +115,8 @@
 				
 				if (!conf.circular)  {
 					itemWrap.append(item);
+					next.removeClass("disabled");
+					
 				} else {
 					itemWrap.children("." + conf.clonedClass + ":last").before(item);
 					itemWrap.children("." + conf.clonedClass + ":first").replaceWith(item.clone().addClass(conf.clonedClass)); 						
@@ -205,11 +207,13 @@
 		
 		// next/prev buttons
 		var prev = find(root, conf.prev).click(function() { self.prev(); }),
-			 next = find(root, conf.next).click(function() { self.next(); });	
+			 next = find(root, conf.next).click(function() { self.next(); }); 
 		
-		if (!conf.circular && self.getSize() > 1) {
+		if (!conf.circular) {
 			
-			root.bind("onBeforeSeek", function(e, i) {
+			// perform last from the events
+			self.onBeforeSeek(function(e, i) {
+					
 				setTimeout(function() {
 					if (!e.isDefaultPrevented()) {
 						prev.toggleClass(conf.disabledClass, i <= 0);
@@ -217,10 +221,14 @@
 					}
 				}, 1);
 			}); 
+		}
+		
+		if (!conf.initialIndex) {
+			prev.addClass(conf.disabledClass);	
+		}
 			
-			if (!conf.initialIndex) {
-				prev.addClass(conf.disabledClass);	
-			}
+		if (self.getSize() < 2) {
+			prev.add(next).addClass(conf.disabledClass);	
 		}
 			
 		// mousewheel support
@@ -262,7 +270,9 @@
 			$(document).bind("keydown.scrollable", function(evt) {
 
 				// skip certain conditions
-				if (!conf.keyboard || evt.altKey || evt.ctrlKey || $(evt.target).is(":input")) { return; }
+				if (!conf.keyboard || evt.altKey || evt.ctrlKey || evt.metaKey || $(evt.target).is(":input")) { 
+					return; 
+				}
 				
 				// does this instance have focus?
 				if (conf.keyboard != 'static' && current != self) { return; }

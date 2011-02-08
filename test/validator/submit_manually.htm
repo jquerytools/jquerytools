@@ -1,0 +1,21 @@
+<!DOCTYPE html>        
+<script src="../js/jquery-1.4.2.min.js"></script>
+<script src="../../src/validator/validator.js"></script>
+
+<form action="http://google.com/search" style="margin:100px">
+
+	<label>
+		requred text 
+		<input name="q" type="text" required="required" />
+	</label>
+
+  <a href="#" class="submit">Submit</a>
+</form>
+
+<script>
+$("form").validator({ position: 'top center'});
+$("a.submit").click(function(event) {
+  event.preventDefault();
+  $("form:first").submit();
+});
+</script>

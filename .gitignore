@@ -1,7 +1,13 @@
 builder
 build
+<<<<<<< HEAD
 www
 site
+=======
+site
+www
+builder
+>>>>>>> dev
 jquerytools.github.com
 
 # patch
