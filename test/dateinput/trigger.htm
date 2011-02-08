@@ -1,0 +1,35 @@
+
+<script src="../js/jquery-1.5.min.js"></script>
+<script src="../../src/dateinput/dateinput.js"></script>
+
+<link rel="stylesheet" type="text/css" href="skin1.css"/>
+
+<style>
+body {
+	font-family:sans-serif;
+	padding:100px;
+}
+
+.caltrigger {
+	display:block;
+	width:22px;
+	height:22px;
+	float:left;
+	background-color:blue;
+	margin:6px 5px 0 0;
+}
+</style>
+
+<!-- HTML5 date input -->
+<input type="date" name="mydate" />
+
+<!-- make it happen -->
+<script>
+var api = $(":date").dateinput({ trigger: true, editable: true }).data("dateinput");
+
+
+api.destroy();
+
+$(":date").dateinput();
+</script>
+
