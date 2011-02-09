@@ -9,10 +9,8 @@
 
 <!-- make it happen -->
 <script>
-$(":date").dateinput({ 
-	selectors: true, 
-	yearRange: [-10, 10]
+var api = $(":date").dateinput({ selectors: true, yearRange: [-10, 10] }).data("dateinput");
 
-}).data("dateinput");
+api.setValue('2012-10-10');
 </script>
 
