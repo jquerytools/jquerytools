@@ -204,15 +204,10 @@
 			
 			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
 				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
-				
- 			/* var items = self.getItems(),
- 				 cloned1 = items.slice(-1).clone().prependTo(itemWrap),	
-				 cloned2 = items.filter(":lt(" + conf.size + ")").clone().appendTo(itemWrap); */
 
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			
 			self.onBeforeSeek(function(e, i, time) {
-
 				
 				if (e.isDefaultPrevented()) { return; }
 				

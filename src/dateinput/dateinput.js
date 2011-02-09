@@ -205,16 +205,13 @@
 		
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input.attr("type") == 'date') {
-			
-			original = input.clone();
-			var tmp = $("<input/>");
+			var original = input.clone(),
+				 def = original.wrap("<div/>").parent().html(),
+				 clone = $(def.replace(/type/i, "type=text data-orig-type"));
 				 
-			$.each("class,disabled,id,maxlength,name,placeholder,readonly,required,size,style,tabindex,title,value".split(","), function(i, attr)  {
-				tmp.attr(attr, input.attr(attr));		
-			});		
-			
-			input.replaceWith(tmp);
-			input = tmp;
+			clone.val(conf.value);
+			input.replaceWith(clone);
+			input = clone;
 		}
 		input.addClass(css.input);
 		
