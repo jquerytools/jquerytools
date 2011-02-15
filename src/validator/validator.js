@@ -264,7 +264,7 @@
 			 fire = form.add(self);
 
 		// make sure there are input fields available
-		inputs = inputs.not(":button, :image, :reset, :submit");			 
+		inputs = inputs.not(":image, :reset, :submit");
 
 		// utility function
 		function pushMessage(to, matcher, returnValue) {
