@@ -367,7 +367,7 @@
 						msg.remove();
 						$(this).data("msg.el", null);
 					}
-				}).unbind(conf.errorInputEvent || '');
+				}).unbind(conf.errorInputEvent + '.v' || '');
 				return self;
 			},
 			
