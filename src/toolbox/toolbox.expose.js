@@ -62,8 +62,9 @@
 		if (fn) { return fn.call($.mask); }
 	}
 	
-	var mask, exposed, loaded, config, overlayIndex;		
+	var mask, exposed, loaded, config, overlayIndex, iframe;
 	
+	var isIE6 = $.browser.msie && $.browser.version < 7 && !window.XMLHttpRequest;
 	
 	$.mask = {
 		
@@ -102,8 +103,22 @@
 				height: size[1],
 				display: 'none',
 				opacity: conf.startOpacity,					 		
-				zIndex: conf.zIndex 
+				zIndex: isIE6 ? conf.zIndex - 1 : conf.zIndex
 			});
+			
+			// IE6 iframe to hide select elements
+            if (isIE6) {
+                iframe = $('<iframe src="' + (/^https/i.test(window.location.href || '') ? 'javascript:void(false)' : 'about:blank' ) + '" scrolling="no" border="0" frameborder="0" tabindex="-1"></iframe>').prependTo(mask);
+                iframe.css({
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: size[0],
+                    height: size[1],
+                    background: 'transparent',
+                    zIndex: conf.zIndex
+                });
+            }
 			
 			if (conf.color) {
 				mask.css("backgroundColor", conf.color);	
@@ -190,6 +205,9 @@
 			if (loaded) {
 				var size = viewport();				
 				mask.css({width: size[0], height: size[1]});
+				if (isIE6) {
+				    iframe.css({width: size[0], height: size[1]});
+				}
 			}				
 		},
 		
