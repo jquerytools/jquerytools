@@ -402,7 +402,7 @@
 			$(document).on("click.d", function(e) {					
 				var el = e.target;
 				
-				if (!$(el).parents("#" + css.root).length && el != input[0] && (!trigger || el != trigger[0])) {
+				if (!(el.id == css.root || $(el).parents("#" + css.root).length) && el != input[0] && (!trigger || el != trigger[0])) {
 					self.hide(e);
 				}
 				
