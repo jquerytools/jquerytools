@@ -138,7 +138,7 @@
 		
 		
 		// trigger --> show  
-		trigger.bind(evt[0], function(e) {
+		trigger.bind(evt[0] + '.tooltip', function(e) {
 
 			clearTimeout(timer);
 			if (conf.predelay) {
@@ -149,7 +149,7 @@
 			}
 			
 		// trigger --> hide
-		}).bind(evt[1], function(e)  {
+		}).bind(evt[1] + '.tooltip', function(e)  {
 			clearTimeout(pretimer);
 			if (conf.delay)  {
 				timer = setTimeout(function() { self.hide(e); }, conf.delay);	
@@ -293,8 +293,21 @@
 			
 			getTrigger: function() {
 				return trigger;	
-			}		
-
+			},
+                
+            destroy: function() {
+                self.hide();
+                if( tip ){
+                   tip.remove();
+                }
+                trigger.unbind('.tooltip')
+                        .removeData('tooltip');
+                //put the title back if there was one
+                if( title && conf.cancelDefault ){
+                    trigger.attr('title',title);
+                    trigger.removeData('title');
+                }
+           }
 		});		
 
 		// callbacks	
