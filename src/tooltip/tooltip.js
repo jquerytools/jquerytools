@@ -332,10 +332,6 @@
 	
 	// jQuery plugin implementation
 	$.fn.tooltip = function(conf) {
-		
-		// return existing instance
-		var api = this.data("tooltip");
-		if (api) { return api; }
 
 		conf = $.extend(true, {}, $.tools.tooltip.conf, conf);
 		
@@ -345,9 +341,12 @@
 		}
 		
 		// install tooltip for each entry in jQuery object
+		// that is not an existing instance
 		this.each(function() {
-			api = new Tooltip($(this), conf); 
-			$(this).data("tooltip", api); 
+			if ( $(this).data("tooltip")===null){
+			    api = new Tooltip($(this), conf);
+			    $(this).data("tooltip", api);
+			};
 		});
 		
 		return conf.api ? api: this;		 
