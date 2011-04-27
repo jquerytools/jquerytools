@@ -179,9 +179,16 @@
 			self.click($(this).attr("href"), e);		
 		}); 
 		
+
+                // filter out the hash page from the location
+		hash = location.hash;
+		if (location.hash.split('?').length > 1) {
+			hash = location.hash.split('?')[0];
+		}
+
 		// open initial tab
-		if (location.hash && conf.tabs == "a" && root.find("[href=" +location.hash+ "]").length) {
-			self.click(location.hash);
+		if (location.hash && conf.tabs == "a" && root.find("[href=" +hash+ "]").length) {
+			self.click(hash);
 
 		} else {
 			if (conf.initialIndex === 0 || conf.initialIndex > 0) {
