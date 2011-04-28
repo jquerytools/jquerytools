@@ -30,7 +30,7 @@ div.error {
 								/>
 	</p>
 	<p>
-		date <input type="date" title="Use format yyyy-mm-dd" name="day" min="-40" required="true" />
+		date <input data-position="center left" type="date" title="Use format yyyy-mm-dd" name="day" min="-40" required="true" />
 	</p>
 	
 	<p>
@@ -67,7 +67,17 @@ $.tools.validator.fn("[type=range]", "Please supply a value between $1 and $2", 
 	
 });
 */
-var api = $("form").validator({attrPrefix: null, grouped: true}).bind("onBeforeValidate", function()  {
+var api = $("form").validator({
+    attrPrefix: null,
+    grouped: true,
+    elementPosition: function(el) {
+        var dataPosition = $(el).attr('data-position');
+        if (typeof dataPosition === 'undefined') {
+            dataPosition = null;
+        }
+        return dataPosition;
+    }
+}).attr('novalidate', 'novalidate').bind("onBeforeValidate", function()  {
 	console.info("BEFORE", this, arguments);
 	
 }).data("validator");
