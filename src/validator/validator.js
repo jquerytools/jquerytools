@@ -42,10 +42,10 @@
 			messageClass: 'error',		// error message element's class name
 			offset: [0, 0], 
 			position: 'center right',
-			elementPosition: function(element) {
+			elementPosition: function(trigger, errorElement) {
 				return null;
 			}, // callback for handling positioning of specified elements
-			elementOffset: function(element) {
+			elementOffset: function(trigger, errorElement) {
 				return null;
 			}, // callback for handing custom offsets per element
 			singleError: false, 			// validate all inputs at once
@@ -114,7 +114,7 @@
 			x;
 
 		if (conf.elementPosition !== null) {
-			pos = conf.elementPosition(trigger);
+			pos = conf.elementPosition(trigger, el);
 		} 
 		if (pos === null) {
 			pos = confPos;
@@ -124,7 +124,7 @@
 		x = pos[1];
 
 		if (conf.elementOffset !== null) {
-			offset = conf.elementOffset(trigger);
+			offset = conf.elementOffset(trigger, el);
 		}
 		if (offset === null) {
 			offset = confOffset;
