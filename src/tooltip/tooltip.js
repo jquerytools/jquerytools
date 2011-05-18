@@ -224,7 +224,7 @@
 				}
 
 				// onBeforeShow
-				e = e || $.Event();
+				e = $.Event();
 				e.type = "onBeforeShow";
 				fire.trigger(e, [pos]);				
 				if (e.isDefaultPrevented()) { return self; }
@@ -278,7 +278,7 @@
 				if (!tip || !self.isShown()) { return self; }
 			
 				// onBeforeHide
-				e = e || $.Event();
+				e = $.Event();
 				e.type = "onBeforeHide";
 				fire.trigger(e);				
 				if (e.isDefaultPrevented()) { return; }
