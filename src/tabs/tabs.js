@@ -149,6 +149,8 @@
 				trigger.trigger(e, [i]);				
 				if (e.isDefaultPrevented()) { return; }
 
+				current = i;
+
 				// call the effect
 				effects[conf.effect].call(self, i, function() {
 
@@ -158,7 +160,6 @@
 				});			
 				
 				// default behaviour
-				current = i;
 				tabs.removeClass(conf.current);	
 				tab.addClass(conf.current);				
 				
