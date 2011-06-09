@@ -228,7 +228,7 @@
 		return numRe.test(v);			
 	});
 	
-	v.fn("[max]", "Please enter a value smaller than $1", function(el, v) {
+	v.fn("[max]", "Please enter a value no larger than $1", function(el, v) {
 			
 		// skip empty values and dateinputs
 		if (v === '' || dateInput && el.is(":date")) { return true; }	
@@ -237,7 +237,7 @@
 		return parseFloat(v) <= parseFloat(max) ? true : [max];
 	});
 	
-	v.fn("[min]", "Please enter a value larger than $1", function(el, v) {
+	v.fn("[min]", "Please enter a value of at least $1", function(el, v) {
 
 		// skip empty values and dateinputs
 		if (v === '' || dateInput && el.is(":date")) { return true; }
