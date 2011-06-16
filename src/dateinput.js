@@ -93,9 +93,9 @@
             var days_of_month = [31, 28, 31, 30, 31, 30, 31, 28, 30, 31, 30, 31];
             var is_leap_year = false;
             
-            if(year % 400) {is_leap_year = true;}
-            else if(year % 100) {is_leap_year = false;}
-            else if(year % 4) {is_leap_year = true;}
+            if((year % 400) === 0) {is_leap_year = true;}
+            else if((year % 100) === 0) {is_leap_year = false;}
+            else if((year % 4) === 0) {is_leap_year = true;}
             
             var r = days_of_month[month];
             
