@@ -212,6 +212,28 @@
 	var VERSION = f.getVersion();
 
 	function Flash(root, opts, conf) {
+		
+		// API methods for callback
+		extend(this, {
+				
+			getRoot: function() {
+				return root;	
+			},
+			
+			getOptions: function() {
+				return opts;	
+			},
+
+			
+			getConf: function() {
+				return conf;	
+			}, 
+			
+			getApi: function() {
+				return root.firstChild;	
+			}
+			
+		}); 
 
 		// version is ok
 		if (f.isSupported(opts.version)) {
@@ -256,28 +278,6 @@
 		if (IE) {
 			window[opts.id] = document.getElementById(opts.id);
 		}
-
-		// API methods for callback
-		extend(this, {
-
-			getRoot: function() {
-				return root;
-			},
-
-			getOptions: function() {
-				return opts;
-			},
-
-
-			getConf: function() {
-				return conf;
-			},
-
-			getApi: function() {
-				return root.firstChild;
-			}
-
-		});
 	}
 
 	// setup jquery support
