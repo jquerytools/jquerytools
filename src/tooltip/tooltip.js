@@ -29,6 +29,7 @@
 			position: ['top', 'center'], 
 			offset: [0, 0],
 			relative: false,
+			offsetParent: null,
 			cancelDefault: true,
 			
 			// type to event mapping 
@@ -190,10 +191,15 @@
 					// manual tooltip
 					} else {	
 						tip = trigger.next();  
-						if (!tip.length) { tip = trigger.parent().next(); } 	 
+						if (!tip.length) { tip = trigger.parent().next(); }
+						
 					}
 					
 					if (!tip.length) { throw "Cannot find tooltip for " + trigger;	}
+					
+					if (conf.offsetParent) {
+						tip.appendTo($(conf.offsetParent));
+					}
 				} 
 			 	
 			 	if (self.isShown()) { return self; }  
