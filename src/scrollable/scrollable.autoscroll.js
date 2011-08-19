@@ -61,7 +61,7 @@
 			};	
 
 			api.pause = function() {
-				clearTimeout(timer);  // clear any queued items immediately
+				timer = clearTimeout(timer);  // clear any queued items immediately
         root.unbind('onSeek', scroll);
 			};
 			
