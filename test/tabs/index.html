@@ -1,0 +1,56 @@
+
+<script src="../js/jquery-1.4.2.js"></script>
+<script src="../../src/tabs/tabs.js"></script>
+<link rel="stylesheet" type="text/css" href="css/tabs.css"/> 
+
+
+<!-- tabs -->
+<ul class="tabs">
+	<li><a href="#1">Tab 1</a></li>
+	<li><a href="#2">Second tab</a></li>
+	<li><a href="#3">A ultra long third tab</a></li>
+</ul>
+
+<!-- panes -->
+<div class="panes">
+
+	<div class="pane" style="display:block">
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra, leo sit amet auctor fermentum, risus lorem posuere tortor, in accumsan purus magna imperdiet sem.
+		</p>
+		
+		<p>
+			Suspendisse enim. Pellentesque facilisis aliquam enim. Maecenas facilisis molestie lectus. Sed ornare ultricies tortor. Vivamus nibh metus, faucibus quis, semper ut, dignissim id, diam. 
+		</p>			
+	</div>
+	
+	<div class="pane">
+		<p>
+			Mauris ultricies. Nam feugiat egestas nulla. Donec augue dui, molestie sed, tristique sit amet, blandit eu, turpis. Mauris hendrerit, nisi et sodales tempor, orci tellus laoreet elit, sed molestie dui quam vitae dui.
+		</p> 
+		<p>
+			Pellentesque nisl. Ut adipiscing vehicula risus. Nam eget tortor. Maecenas id augue. Vivamus interdum nulla ac dolor. Fusce metus. Suspendisse eu purus. Maecenas quis lacus eget dui volutpat molestie.
+		</p>
+	</div>
+	
+	<div class="pane">
+		<p>
+			Maecenas at odio. Nunc laoreet lectus vel ante. Nullam imperdiet. Sed justo dolor, mattis eu, euismod sed, tempus a, nisl. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+		</p>
+		
+		<p>
+			In sed dolor. Etiam eget quam ac nibh pharetra adipiscing. Nullam vitae ligula. Sed sit amet leo sit amet arcu mollis ultrices. Vivamus rhoncus sapien nec lorem. In mattis nisi. Vivamus at enim. Integer semper imperdiet massa. Vestibulum nulla massa, pretium quis, porta id, vestibulum vitae, velit.
+		</p>
+	</div>
+</div>
+
+
+<script>
+$(".tabs").tabs(".pane", {
+	onClick: function () {
+	  console.log(this.getConf(), this.getCurrentPane(), this.getCurrentTab(), this.getIndex(), this.getPanes(), this.getTabs());
+	}
+});
+</script>
+
+

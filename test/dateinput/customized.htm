@@ -1,0 +1,32 @@
+
+<script src="../js/jquery-1.4.2.js"></script>
+<script src="../../src/dateinput/dateinput.js"></script>
+
+<link rel="stylesheet" type="text/css" href="skin1.css"/>
+
+
+<!-- HTML5 date input -->
+<input type="date" name="mydate" />
+
+<input type="date" name="mydate" data-value="1967-05-30" />
+
+<!-- make it happen -->
+<script>
+var begdat = new Date(1980,1,1);
+var mindat = new Date(1940,1,1);
+var maxdat = new Date(1992,1,1);
+
+
+$(":date:first").dateinput({value: begdat, max: maxdat, min: mindat});
+
+$(":date:eq(1)").dateinput({
+  format: 'dd/mm/yyyy',
+  firstDay: 1,
+  speed: 'fast',
+  selectors: false,
+  yearRange: [-75, -10]
+});
+</script>
+
+
+

@@ -1,0 +1,53 @@
+
+<script src="../js/jquery-1.4.2.min.js"></script>
+<script src="../../src/scrollable/scrollable.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<style>
+.disabled {
+	visibility:hidden;		
+}
+.scrollable {
+	height: 90px;
+	width: 265px;	
+}
+</style>
+
+<script>
+$(function() {
+	var api = $(".scrollable").scrollable({
+		
+		onBeforeSeek: function() {
+			console.info("jou");
+		},
+		size: 2,
+		circular: true
+		
+	}).data("scrollable"); 	
+	
+	// api.addItem("<div>added</div>");
+});
+</script>
+
+
+<div>
+	
+	<a class="prev">prev</a>
+	
+	<div class="navi"></div>
+	
+	<div class="scrollable">
+		
+		<div class="items">
+			<div>0</div>  
+			<div>1</div>
+			<div>2</div>
+			<div>3</div>
+			<div>4</div>
+		</div>
+		
+	</div> 
+	
+	<a class="next">next</a>
+	
+</div>

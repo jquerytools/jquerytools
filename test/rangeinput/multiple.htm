@@ -1,0 +1,48 @@
+
+<script src="../js/jquery-1.4.2.js"></script>
+<script src="../../src/rangeinput/rangeinput.js"></script>
+
+<!-- style for the range inputs only -->
+<link rel="stylesheet" type="text/css" href="css/small.css"/>
+
+<!-- style for the "surroundings" -->
+<link rel="stylesheet" type="text/css" href="css/multiple.css"/>
+
+<div id="controls">
+
+	<div class="column">
+		<input type="range" />
+		<input type="range" />
+		<input type="range" />
+		<input type="range" />
+	</div>
+
+	<div class="column">
+		<input type="range" />
+		<input type="range" />
+		<input type="range" />
+		<input type="range" />
+	</div>
+
+	<div class="column vertical">
+		<input type="range" />
+		<input type="range" />
+		<input type="range" />
+		<input type="range" />
+	</div>
+	
+	<div class="column vertical">
+		<input type="range" />
+		<input type="range" />
+		<input type="range" />
+		<input type="range" />
+	</div>
+	
+</div>
+
+<script>		
+$(".column:lt(2) :range").rangeinput({ precision: 1, value: 30.5 });
+
+$(".vertical :range").rangeinput({ precision: 1, vertical: true, value: 50.5 });
+</script>
+

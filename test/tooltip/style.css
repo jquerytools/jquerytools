@@ -1,0 +1,24 @@
+
+
+body {
+	padding:150px;		
+}
+
+.tip {
+	background:#000 url(../../../../www/trunk/web/tools/img/tooltip/black.png) 0 0 no-repeat;
+	display:none;
+	width:165px;
+	height:63px;
+	position:absolute;
+	padding:20px;
+	color:#fff;		
+}
+
+.trigger {
+	border:1px solid blue;
+	display:blocK;
+	padding:10px;
+	width:100px;
+	margin:0px;	
+	margin-bottom:5px;
+}

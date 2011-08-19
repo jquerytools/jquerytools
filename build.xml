@@ -1,0 +1,113 @@
+<project name="jQuery.Tools" default="min">
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/> 
+	<property name="version" value="1.2.5"/>
+	<property name="build" value="build/${version}"/>
+	<property name="file" value="none"/>
+	
+	<!-- replace @VERSION and @DATE tags -->
+	<target name="sources">
+ 
+		<!-- copy sources to build directory -->
+		<mkdir dir="${build}"/> 
+		<copy todir="${build}">
+			<fileset dir="src"/>
+		</copy>
+
+		<!-- jQuery library -->
+		<copy todir="${build}">
+			<fileset dir="lib" includes="*.js"/>
+		</copy>
+
+
+		
+		<!-- loop trough them -->
+		<for param="file"> 
+			<path>
+				<fileset dir="${build}" includes="*/*.js" excludes="*/*.min.js"/>
+			</path>
+		
+		  <sequential>
+		  
+		  		<!-- version number -->                             
+				<replaceregexp match="@VERSION" replace="${version}" byline="true" file="@{file}" /> 
+			
+				<!-- last modified (via <git log> command) -->
+				<propertyregex property="source" input="@{file}" override="yes" replace="\1" 
+ 					regexp=".+/\d.\d.\d/(.*)\.js"/>  
+ 				
+				<exec executable="git" outputproperty="git.log" >  
+					<arg line="log -1 src/${source}.js"/>  
+				</exec> 			
+				
+				<propertyregex property="date" input="${git.log}" select="\1">  
+					<regexp pattern="Date:(.+)"/>  
+				</propertyregex>  
+				
+				<replaceregexp match="@DATE" replace="${date}" file="@{file}" /> 
+				
+		  </sequential>
+		</for>
+	</target>
+	
+	
+	<!-- minify with Closure Compiler (default mode) --> 
+	<target name="min" depends="sources">                                                   
+		                            
+		<!-- do the hard work -->   
+		<apply                      
+			executable="java" 
+			parallel="false"         
+			verbose="true"           
+			dest="${build}">              
+									
+			 <fileset dir="${build}" includes="*/*.js" excludes="*/*.min.js"/>
+			 <arg line="-jar"/>
+			 <arg path="lib/compiler.jar"/>
+			 <arg line="--js"/>
+			 <srcfile/>
+			 <arg line="--js_output_file"/>
+			 <mapper type="glob" from="*.js" to="*.min.js"/>
+			 <targetfile/>
+		</apply>
+		
+	</target>
+	
+	<!--  lint (http://www.jslint.com/lint.html) -->
+   <target name="lint">		 
+		<if>
+			<equals arg1="${file}" arg2="none" />
+			
+			<!-- loop trough all files -->
+			<then>
+				<for param="file"> 
+					<path>
+						<fileset dir="src" includes="**/*.js"/>
+					</path>
+						
+					<sequential>
+						<java jar="lib/rhino.jar" fork="true">
+							<arg value="lib/jslint.js" />
+							<arg value="@{file}" />
+						</java>	
+					</sequential>
+				</for>
+			</then>
+			
+			<!-- ant lint -Dfile=validator/validator.js -->
+			<else>
+				<java jar="lib/rhino.jar" fork="true">
+					<arg value="lib/jslint.js" />
+					<arg value="src/${file}" />
+				</java>	
+			</else>
+			
+		</if>
+		
+	</target> 
+	
+</project>
+
+
+
+

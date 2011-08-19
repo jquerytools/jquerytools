@@ -1,0 +1,69 @@
+
+<script src="../js/jquery-1.5.min.js"></script>
+<script src="../../src/scrollable/scrollable.js"></script>
+<script src="../../src/scrollable/scrollable.navigator.js"></script>
+<script src="../../src/scrollable/scrollable.autoscroll.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css"/>
+
+<style>
+div.cloned {
+	background-color:#ffc !important;
+}
+.disabled {
+	visibility:hidden;		
+}
+</style>
+
+<script>
+$(function() {
+	window.api = $(".scrollable").scrollable({ mousewheel: true, size: 5 })
+		.navigator({idPrefix: 'a', history: true}).data("scrollable");  
+		
+	api.onBeforeSeek(function() {
+		// return false;
+	});
+});
+</script>
+
+
+<div class="navi"></div>
+
+
+<a class="prev">prev</a> 
+
+<div class="scrollable">
+	
+	<div class="items">
+		<div>0</div>  <div>1</div>  <div>2</div>  <div>3</div> <div>4</div> 
+		<div>5</div>  <div>6</div>  <div>7</div>  <div>8</div>  <div>9</div> 
+		<div>10</div> <div>11</div> <div>12</div> <div>13</div> <div>14</div> 
+	</div>
+	
+</div>
+
+<a class="next">next</a>
+
+<br clear="all" />
+
+<h2>Core methods</h2>
+
+<p>
+	<button type="button" onclick="api.begin()">begin</button>
+	<button type="button" onclick="api.prev()">&lt;</button>
+	<button type="button" onclick="api.next()">&gt;</button>
+	<button type="button" onclick="api.end()">end</button>
+</p>
+
+<h2>Add / remove items</h2>
+
+<p>
+	<button type="button" onclick="api.addItem('<div>x</div>')">add item</button>
+	<button type="button" onclick="$('div.items div:last').remove()">remove item</button>
+</p>
+
+
+
+	
+
+	
