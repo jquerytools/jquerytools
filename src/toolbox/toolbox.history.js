@@ -34,7 +34,7 @@
 							 h = idoc.location.hash;
 					
 						if (hash !== h) {						
-							$.event.trigger("hash", h);
+							$(window).trigger("hash", h);
 						}
 					}, 100);
 					
@@ -47,7 +47,7 @@
 				setInterval(function() {
 					var h = location.hash;
 					if (h !== hash) {
-						$.event.trigger("hash", h);
+						$(window).trigger("hash", h);
 					}						
 				}, 100);
 			}
