@@ -57,6 +57,11 @@
 				timer = clearInterval(timer);
 			};
 			
+			// resume playing if not stopped
+			api.resume = function() {
+				stopped || api.play();
+			};
+			
 			// when stopped - mouseover won't restart 
 			api.stop = function() {
 				api.pause();
@@ -65,7 +70,7 @@
 		
 			/* when mouse enters, autoscroll stops */
 			if (opts.autopause) {
-				api.getRoot().add(api.getNaviButtons()).hover(api.pause, api.play);
+				api.getRoot().add(api.getNaviButtons()).hover(api.pause, api.resume);
 			}
 			
 			if (opts.autoplay) {
