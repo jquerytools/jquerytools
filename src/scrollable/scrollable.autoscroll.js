@@ -56,6 +56,8 @@
 				// do not start additional timer if already exists
 				if (timer) { return; }
 				
+				stopped = false;
+				
         root.bind('onSeek', scroll);
         scroll();
 			};	
@@ -65,15 +67,20 @@
         root.unbind('onSeek', scroll);
 			};
 			
-			// Original intention is to have stop not restart on hover
-      // this doesn't appear to be ever have been implemented, can implement if requested
+			// resume playing if not stopped
+			api.resume = function() {
+				stopped || api.play();
+			};
+			
+			// when stopped - mouseover won't restart 
 			api.stop = function() {
+			  stopped = true;
 				api.pause();
 			};
 		
 			/* when mouse enters, autoscroll stops */
 			if (opts.autopause) {
-				root.add(api.getNaviButtons()).hover(api.pause, api.play);
+				root.add(api.getNaviButtons()).hover(api.pause, api.resume);
 			}
 			
 			if (opts.autoplay) {
