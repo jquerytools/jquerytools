@@ -27,7 +27,8 @@
 			rotate: false,
 			
 			// 1.2
-			history: false
+			history: false,
+			updateParent: false
 		},
 		
 		addEffect: function(name, fn) {
@@ -159,9 +160,15 @@
 				
 				// default behaviour
 				current = i;
-				tabs.removeClass(conf.current);	
-				tab.addClass(conf.current);				
+				tabs.removeClass(conf.current);
+				tab.addClass(conf.current);
 				
+				// update parent class as well
+				if (conf.updateParent) {
+				  tabs.parent().removeClass(conf.current);
+				  tab.parent().addClass(conf.current);
+				}
+
 				return self;
 			},
 			
