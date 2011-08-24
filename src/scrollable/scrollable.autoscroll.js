@@ -36,7 +36,7 @@
 			var api = $(this).data("scrollable"),
 			    root = api.getRoot(),
 			    // interval stuff
-    			timer;
+    			timer, stopped = false;
 
 	    /**
       *
