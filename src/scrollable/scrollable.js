@@ -241,12 +241,16 @@
 					}
 				}, 1);
 			}); 
-			
 			if (!conf.initialIndex) {
 				prev.addClass(conf.disabledClass);	
+			}else if(conf.initialIndex === self.getSize() -1 ){
+				next.addClass(conf.disabledClass);
 			}
 		}
-			
+		if (self.getSize() <= 1){
+			next.addClass(conf.disabledClass);			  
+			prev.addClass(conf.disabledClass);
+		}	
 		// mousewheel support
 		if (conf.mousewheel && $.fn.mousewheel) {
 			root.mousewheel(function(e, delta)  {
