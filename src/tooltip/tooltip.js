@@ -335,6 +335,18 @@
 		});
 		
 		return conf.api ? api: this;		 
+	}
+
+
+	$.fn.tooltipRemove = function() {
+		this.each(function() {
+			var api = $(this).data("tooltip");
+			if(api.getTip()) {
+				api.getTip().removeData();
+			}
+			$(this).unbind("mouseenter").unbind("mouseleave");
+			$(this).removeData();
+		});
 	};
 		
 }) (jQuery);
