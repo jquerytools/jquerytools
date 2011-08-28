@@ -265,6 +265,9 @@
 
 		// make sure there are input fields available
 		inputs = inputs.not(":button, :image, :reset, :submit");			 
+		
+    // Prevent default Firefox validation
+    form.attr("novalidate", "novalidate");
 
 		// utility function
 		function pushMessage(to, matcher, returnValue) {
