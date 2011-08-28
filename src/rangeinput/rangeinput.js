@@ -372,7 +372,7 @@
 				return e.preventDefault(); 
 			}				  
 			init(); 
-			var fix = handle.width() / 2;   
+			var fix = vertical ? handle.height() / 2 : handle.width() / 2;
 			slide(e, vertical ? len-origo-fix + e.pageY  : e.pageX -origo -fix);  
 		});
 

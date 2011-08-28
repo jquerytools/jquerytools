@@ -1,0 +1,35 @@
+
+<script src="../js/jquery-1.6.2.min.js"></script>
+<script src="../../src/toolbox/toolbox.expose.js"></script>
+<script src="../../src/overlay/overlay.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css"/>
+
+<p><a rel="#overlay" href="page.htm">show external page</a></p>
+
+<div class="overlay" id="overlay">
+  
+  <!-- the external content is loaded inside this tag -->
+  	<div class="contentWrap"></div>
+  	
+</div>
+
+<script>
+$("a[rel]").overlay({
+	
+	mask: { 
+		color: '#ccc',
+		closeSpeed: 200
+	},
+	
+	onBeforeLoad: function() {
+
+		// grab wrapper element inside content
+		var wrap = this.getOverlay().find(".contentWrap");
+
+		// load the page specified in the trigger
+		wrap.load(this.getTrigger().attr("href"));
+	}
+	
+});
+</script>
