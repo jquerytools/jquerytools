@@ -259,7 +259,7 @@
 			if (vertical) {
 				handle.animate({top: x}, speed, callback);
 				if (conf.progress) { 
-					progress.animate({height: len - x + handle.width() / 2}, speed);	
+					progress.animate({height: len - x + handle.height() / 2}, speed);	
 				}				
 				
 			} else {
