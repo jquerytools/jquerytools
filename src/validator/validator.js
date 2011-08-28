@@ -259,6 +259,9 @@
 	
 	function Validator(inputs, form, conf) {		
 		
+		// Prevent default Firefox validation
+		form.attr("novalidate", "novalidate");
+
 		// private variables
 		var self = this, 
 			 fire = form.add(self);
