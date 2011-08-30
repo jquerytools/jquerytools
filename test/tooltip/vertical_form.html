@@ -37,8 +37,14 @@
 $(function(){
   $("input").tooltip({
     events: {
-      input: "focus mouseover, blur mouseout"
+      input: "focus mouseenter,blur mouseleave"
     }
+  }).mouseleave(function(){
+    console.log("input mouseleave");
+  });
+  
+  $(".tooltip").live('mouseleave', function(){
+    console.log("tooltip mouseleave");
   });
 });
 </script>
