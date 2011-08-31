@@ -618,7 +618,11 @@
 			},
 			
 			addMonth: function(amount) {
-				return this.setValue(currYear, currMonth + (amount || 1), currDay);	
+				var targetMonth        = currMonth + (amount || 1);
+				var lastDayTargetMonth = dayAm(currYear, targetMonth);
+				var targetDay          = currDay <= lastDayTargetMonth ? currDay : lastDayTargetMonth;
+				
+				return this.setValue(currYear, targetMonth, targetDay);
 			},
 			
 			addYear: function(amount) {
