@@ -9,7 +9,7 @@
  * Since: Mar 2010
  * Date: @DATE 
  */
-(function($) {	
+(function($, undefined) {	
 		
 	/* TODO: 
 		 preserve today highlighted
@@ -91,7 +91,7 @@
 
 	// @return amount of days in certain month
 	function dayAm(year, month) {
-		return 32 - new Date(year, month, 32).getDate();		
+		return new Date(year, month + 1, 0).getDate();
 	}
  
 	function zeropad(val, len) {
@@ -339,10 +339,10 @@
 					
 					
 					if (index > 41) {
-						 self.addMonth();
+						 showNextMonth();
 						 el = $("#" + css.weeks + " a:eq(" + (index-42) + ")");
 					} else if (index < 0) {
-						 self.addMonth(-1);
+						 showPreviousMonth();
 						 el = $("#" + css.weeks + " a:eq(" + (index+42) + ")");
 					} else {
 						 el = days.eq(index);
@@ -354,17 +354,17 @@
 				}
 			 
 				// pageUp / pageDown
-				if (key == 34) { return self.addMonth(); }						
-				if (key == 33) { return self.addMonth(-1); }
+				if (key == 34) { return showNextMonth(); }
+				if (key == 33) { return showPreviousMonth(); }
 				
 				// home
-				if (key == 36) { return self.today(); } 
+				if (key == 36) { return self.today(); }
 				
 				// enter
 				if (key == 13) {
 					if (!$(e.target).is("select")) {
-						$("." + css.focus).click(); 
-					} 
+						$("." + css.focus).click();
+					}
 				}
 				
 				return $([16, 17, 18, 9]).index(key) >= 0;  				
@@ -382,12 +382,42 @@
 			}); 
 		}
 //}}}
-		
+
+
+    /**
+    *   @private
+    *
+    *   Calculates the days in the next month to properly switch months
+    *
+    */
+    function showNextMonth() {
+	
+      var daysNextMonth = dayAm(currYear, currMonth + 1);
+	
+      /*  
+      *   If next month has less days than the current date	
+      *   add number of days in the next month, otherwise add
+      *   number of days in the current month
+	    */
+      return self.addDay(currDay > daysNextMonth ? daysNextMonth : dayAm(currYear, currMonth));
+    }
+	  
+	  /**
+	  *   @private
+	  *
+	  *   Return to previous month
+	  */
+    function showPreviousMonth() {
+      return self.addDay(-dayAm(currYear, currMonth));
+    }
 		
 		$.extend(self, {
 
-//{{{  show
-								
+      
+			/**
+			*   @public
+			*   Show the calendar
+			*/					
 			show: function(e) {
 				
 				if (input.attr("readonly") || input.attr("disabled") || opened) { return; }
@@ -417,14 +447,14 @@
 				// prev / next month
 				pm = root.find("#" + css.prev).unbind("click").click(function(e) {
 					if (!pm.hasClass(css.disabled)) {	
-						self.addMonth(-1);
+						showPreviousMonth();
 					}
 					return false;
 				});
 				
 				nm = root.find("#" + css.next).unbind("click").click(function(e) {
 					if (!nm.hasClass(css.disabled)) {
-						self.addMonth();
+						showNextMonth();
 					}
 					return false;
 				});	 
@@ -456,16 +486,15 @@
 				
 				return self;
 			}, 
-//}}}
 
-
-//{{{  setValue
-
+      /**
+      *   @public
+      *
+      *   Set the value of the dateinput
+      */
 			setValue: function(year, month, day)  {
 				
-
-				
-				var date = integer(month) >= -1 ? new Date(integer(year), integer(month), integer(day || 1)) : 
+				var date = integer(month) >= -1 ? new Date(integer(year), integer(month), integer(day == undefined || isNaN(day) ? 1 : day)) : 
 					year || value;				
 
 				if (date < min) { date = min; }
@@ -495,6 +524,7 @@
 				
 				currMonth = month;
 				currYear = year;
+				currDay = day;
 
 				// variables
 				var tmp = new Date(year, month, 1 - conf.firstDay), begin = tmp.getDay(),
