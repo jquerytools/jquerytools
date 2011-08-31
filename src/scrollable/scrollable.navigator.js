@@ -59,6 +59,11 @@
 			
 			function doClick(el, i, e) {
 				api.seekTo(i);				
+
+                                if (t.autoscroll && api.isPlaying()) {
+                                    api.stop().play();
+                                }
+
 				if (history) {
 					if (location.hash) {
 						location.hash = el.attr("href").replace("#", "");	
@@ -129,7 +134,8 @@
 			});
 			
 			if (history) { els().history(doHistory); }
-			
+
+			els().eq(api.getIndex()).addClass(cls);
 		});		
 		
 		return conf.api ? ret : this;

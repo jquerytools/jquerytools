@@ -51,10 +51,12 @@
 					api.next();				
 				}, opts.interval);
 				
+                                return this;
 			};	
 
 			api.pause = function() {
 				timer = clearInterval(timer);
+                                return this;
 			};
 			
 			// resume playing if not stopped
@@ -65,9 +67,14 @@
 			// when stopped - mouseover won't restart 
 			api.stop = function() {
 				api.pause();
-				stopped = true;	
+				stopped = true;
+                                return this;	
 			};
 		
+                        api.isPlaying = function() {
+                            return !stopped;    
+                        };
+
 			/* when mouse enters, autoscroll stops */
 			if (opts.autopause) {
 				api.getRoot().add(api.getNaviButtons()).hover(api.pause, api.resume);
