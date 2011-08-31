@@ -192,12 +192,8 @@
 			};
 		});  
 		
-		// next/prev buttons
-		var prev = find(root, conf.prev).click(function() { self.prev(); }),
-			 next = find(root, conf.next).click(function() { self.next(); });	
-		
 		// circular loop
-		if (conf.circular && self.getSize() > 1) {
+		if (conf.circular) {
 			
 			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
 				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
@@ -229,8 +225,13 @@
 			
 			// seek over the cloned item
 			self.seekTo(0, 0, function() {});
-
-		} else if (!conf.circular && self.getSize() > 1) {
+		}
+		
+		// next/prev buttons
+		var prev = find(root, conf.prev).click(function() { self.prev(); }),
+			 next = find(root, conf.next).click(function() { self.next(); });	
+		
+		if (!conf.circular && self.getSize() > 1) {
 			
 			self.onBeforeSeek(function(e, i) {
 				setTimeout(function() {
@@ -244,9 +245,6 @@
 			if (!conf.initialIndex) {
 				prev.addClass(conf.disabledClass);	
 			}
-		} else { // the case where there is one or zero items
-			prev.addClass(conf.disabledClass);
-			next.addClass(conf.disabledClass);
 		}
 			
 		// mousewheel support
