@@ -508,7 +508,7 @@
 					// month selector
 					monthSelector.empty();
 					$.each(labels.months, function(i, m) {					
-						if (min < new Date(year, i + 1, -1) && max > new Date(year, i, 0)) {
+						if (min < new Date(year, i + 1, 1) && max > new Date(year, i, 0)) {
 							monthSelector.append($("<option/>").html(m).attr("value", i));
 						}
 					});
@@ -518,7 +518,7 @@
 					var yearNow = now.getFullYear();
 					
 					for (var i = yearNow + conf.yearRange[0];  i < yearNow + conf.yearRange[1]; i++) {
-						if (min <= new Date(i + 1, -1, 1) && max > new Date(i, 0, 0)) {
+						if (min < new Date(i + 1, 0, 1) && max > new Date(i, 0, 0)) {
 							yearSelector.append($("<option/>").text(i));
 						}
 					}		
