@@ -157,7 +157,7 @@
 			}	
 			
 			// invalid offset
-			if (!/^-?\d+$/.test(val)) { return; }
+			if ( !(/^-?\d+$/).test(val) ) { return; }
 			
 			// convert to integer
 			val = integer(val);
@@ -339,10 +339,10 @@
 					
 					
 					if (index > 41) {
-						 showNextMonth();
+						 self.addMonth();
 						 el = $("#" + css.weeks + " a:eq(" + (index-42) + ")");
 					} else if (index < 0) {
-						 showPreviousMonth();
+						 self.addMonth(-1);
 						 el = $("#" + css.weeks + " a:eq(" + (index+42) + ")");
 					} else {
 						 el = days.eq(index);
@@ -354,8 +354,8 @@
 				}
 			 
 				// pageUp / pageDown
-				if (key == 34) { return showNextMonth(); }
-				if (key == 33) { return showPreviousMonth(); }
+				if (key == 34) { return self.addMonth(); }
+				if (key == 33) { return self.addMonth(-1); }
 				
 				// home
 				if (key == 36) { return self.today(); }
@@ -384,33 +384,6 @@
 //}}}
 
 
-    /**
-    *   @private
-    *
-    *   Calculates the days in the next month to properly switch months
-    *
-    */
-    function showNextMonth() {
-	
-      var daysNextMonth = dayAm(currYear, currMonth + 1);
-	
-      /*  
-      *   If next month has less days than the current date	
-      *   add number of days in the next month, otherwise add
-      *   number of days in the current month
-	    */
-      return self.addDay(currDay > daysNextMonth ? daysNextMonth : dayAm(currYear, currMonth));
-    }
-	  
-	  /**
-	  *   @private
-	  *
-	  *   Return to previous month
-	  */
-    function showPreviousMonth() {
-      return self.addDay(-dayAm(currYear, currMonth));
-    }
-		
 		$.extend(self, {
 
       
@@ -447,14 +420,14 @@
 				// prev / next month
 				pm = root.find("#" + css.prev).unbind("click").click(function(e) {
 					if (!pm.hasClass(css.disabled)) {	
-						showPreviousMonth();
+					  self.addMonth(-1);
 					}
 					return false;
 				});
 				
 				nm = root.find("#" + css.next).unbind("click").click(function(e) {
 					if (!nm.hasClass(css.disabled)) {
-						showNextMonth();
+						self.addMonth();
 					}
 					return false;
 				});	 
@@ -657,7 +630,11 @@
 			},
 			
 			addMonth: function(amount) {
-				return this.setValue(currYear, currMonth + (amount || 1), currDay);	
+			  var targetMonth        = currMonth + (amount || 1),
+            daysInTargetMonth  = dayAm(currYear, targetMonth),
+            targetDay          = currDay <= daysInTargetMonth ? currDay : daysInTargetMonth;
+       
+        return this.setValue(currYear, targetMonth, targetDay);
 			},
 			
 			addYear: function(amount) {
