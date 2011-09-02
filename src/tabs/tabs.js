@@ -78,26 +78,29 @@
 		}		
 	};   	
 	
-	var w;
-	
 	/**
 	 * Horizontal accordion
 	 * 
 	 * @deprecated will be replaced with a more robust implementation
-	 */
-	$.tools.tabs.addEffect("horizontal", function(i, done) {
+	*/
 	
+	var w;
+	 
+	$.tools.tabs.addEffect("horizontal", function(i, done) {
+	  
 		// store original width of a pane into memory
-		if (!w) { w = this.getPanes().eq(0).width(); }
+		w || ( w = this.getPanes().eq(0).width() );
 		
 		// set current pane's width to zero
-		this.getCurrentPane().animate({width: 0}, function() { $(this).hide(); });
-		
-		// grow opened pane to it's original width
-		this.getPanes().eq(i).animate({width: w}, function() { 
-			$(this).show();
-			done.call();
+		this.getCurrentPane().animate({width: 0}, function(){
+		  $(this).hide();
 		});
+		
+    // grow opened pane to it's original width
+    this.getPanes().eq(i).animate({width: w}, function() { 
+     $(this).show();
+     done.call();
+    });
 		
 	});	
 
@@ -120,7 +123,7 @@
 		// public methods
 		$.extend(this, {				
 			click: function(i, e) {
-				
+			  
 				var tab = tabs.eq(i);												 
 				
 				if (typeof i == 'string' && i.replace("#", "")) {
@@ -149,14 +152,13 @@
 				trigger.trigger(e, [i]);				
 				if (e.isDefaultPrevented()) { return; }
 
-				current = i;
-
 				// call the effect
 				effects[conf.effect].call(self, i, function() {
 
 					// onClick callback
 					e.type = "onClick";
 					trigger.trigger(e, [i]);					
+					current = i;
 				});			
 				
 				// default behaviour
