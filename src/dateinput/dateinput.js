@@ -256,7 +256,7 @@
 				
 		// trigger icon
 		if (conf.trigger) {
-			trigger = $("<a/>").attr("href", "#").addClass(css.trigger).click(function(e)  {
+			trigger = $("<a/>").attr("href", "#").addClass(css.trigger).bind("click.t", function(e)  {
 				self.show();
 				return e.preventDefault();
 			}).insertAfter(input);	
@@ -380,6 +380,15 @@
 				}
 				
 			}); 
+
+			if (conf.trigger) {
+				input.siblings("." + conf.css.trigger)
+					.unbind("click.t")
+					.bind("click.t", function(e) {
+						self.hide(e);
+						e.preventDefault();
+					});
+			}
 		}
 //}}}
 
@@ -659,6 +668,15 @@
 					
 					$(document).unbind("click.d").unbind("keydown.d");
 					
+					if (conf.trigger) {
+						input.siblings("." + conf.css.trigger)
+							.unbind("click.t")
+							.bind("click.t", function(e) {
+								self.show(e);
+								e.preventDefault();
+							});
+					}
+
 					// cancelled ?
 					if (e.isDefaultPrevented()) { return; }
 					
