@@ -65,7 +65,9 @@
 		
 		conf = $.extend({}, t.dynamic.conf, conf);
 		
-		var cls = conf.classNames.split(/\s/), orig;	
+		var confOrigin = $.extend(true,{},conf),
+		    cls = conf.classNames.split(/\s/), 
+		    orig;
 			
 		this.each(function() {		
 				
@@ -102,8 +104,10 @@
 					left: pos.left 
 				}).show(); 
 				
-				// now let's see for hidden edges
-				var crop = getCropping(tip);		
+				var conf = $.extend(true,{},confOrigin),
+				
+				    // now let's see for hidden edges
+				    crop = getCropping(tip);		
 								
 				// possibly alter the configuration
 				if (!isVisible(crop)) {
