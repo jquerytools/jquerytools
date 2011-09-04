@@ -1,5 +1,5 @@
 
-<script src="../js/jquery-1.4.2.js"></script>
+<script src="../js/jquery-1.6.2.js"></script>
 <script src="../../src/tabs/tabs.js"></script>
 <link rel="stylesheet" type="text/css" href="css/horizontal.css"/> 
 
@@ -38,5 +38,7 @@
 
 
 <script>		
-$("#accordion").tabs(".pane", { tabs: '.blok',  effect: 'horizontal'});
+  $(function(){
+    $("#accordion").tabs(".pane", { tabs: '.blok',  effect: 'horizontal'});
+  });
 </script>
