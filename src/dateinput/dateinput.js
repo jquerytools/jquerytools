@@ -90,7 +90,17 @@
 
 	// @return amount of days in certain month
 	function dayAm(year, month) {
-		return 32 - new Date(year, month, 32).getDate();		
+            var days_of_month = [31, 28, 31, 30, 31, 30, 31, 28, 30, 31, 30, 31];
+            var is_leap_year = false;
+            
+            if((year % 400) === 0) {is_leap_year = true;}
+            else if((year % 100) === 0) {is_leap_year = false;}
+            else if((year % 4) === 0) {is_leap_year = true;}
+            
+            var r = days_of_month[month];
+            
+            if(is_leap_year && month === 1) { r = r + 1; }
+            return r;
 	}
  
 	function zeropad(val, len) {
@@ -233,8 +243,8 @@
 			
 			// year & month selectors
 			if (conf.selectors) {				
-				var monthSelector = $("<select/>").attr("id", css.month),
-					 yearSelector = $("<select/>").attr("id", css.year);				
+				var monthSelector = $("<select/>").prop("id", css.month),
+					 yearSelector = $("<select/>").prop("id", css.year);				
 				title.html(monthSelector.add(yearSelector));
 			}						
 			
@@ -527,7 +537,7 @@
 				pm.add(nm).removeClass(css.disabled); 
 				
 				// !begin === "sunday"
-				for (var j = !begin ? -7 : 0, a, num; j < (!begin ? 35 : 42); j++) { 
+				for (var j = (!begin) ? -7 : 0, a, num; j < ((!begin) ? 35 : 42); j++) { 
 					
 					a = $("<a/>");
 					
