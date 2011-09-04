@@ -37,6 +37,7 @@
 			min: undefined,
 			max: undefined,
 			trigger: 0,
+			toggle: 0,
 			editable: 0,
 			
 			css: {
@@ -257,7 +258,7 @@
 		// trigger icon
 		if (conf.trigger) {
 			trigger = $("<a/>").attr("href", "#").addClass(css.trigger).click(function(e)  {
-				self.show();
+				conf.toggle ? self.toggle() : self.show();
 				return e.preventDefault();
 			}).insertAfter(input);	
 		}
@@ -668,6 +669,10 @@
 				}
 				
 				return self;
+			},
+			
+			toggle: function(){
+			  return self.isOpen() ? self.hide() : self.show();
 			},
 			
 			getConf: function() {
