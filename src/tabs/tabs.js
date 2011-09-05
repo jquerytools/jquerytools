@@ -26,6 +26,10 @@
 			event: 'click',
 			rotate: false,
 			
+      // slide effect
+      slideUpSpeed: 400,
+      slideDownSpeed: 400,
+			
 			// 1.2
 			history: false
 		},
@@ -51,7 +55,7 @@
 		*/
 		fade: function(i, done) {		
 			
-			var conf = this.getConf(),            
+			var conf = this.getConf(),
 				 speed = conf.fadeOutSpeed,
 				 panes = this.getPanes();
 			
@@ -66,8 +70,10 @@
 		
 		// for basic accordions
 		slide: function(i, done) {
-			this.getPanes().slideUp(200);
-			this.getPanes().eq(i).slideDown(400, done);			 
+		  var conf = this.getConf();
+		  
+			this.getPanes().slideUp(conf.slideUpSpeed);
+			this.getPanes().eq(i).slideDown(conf.slideDownSpeed, done);			 
 		}, 
 
 		/**
