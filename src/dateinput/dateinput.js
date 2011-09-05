@@ -164,7 +164,7 @@
 			val = integer(val);
 		}
 		
-		var date = new Date();
+		var date = new Date;
 		date.setDate(date.getDate() + val);
 		return date; 
 	}
@@ -176,7 +176,7 @@
 
 		// variables
 		var self = this,  
-			 now = new Date(),
+			 now = new Date,
 			 yearNow = now.getFullYear(),
 			 css = conf.css,
 			 labels = LABELS[conf.lang],
@@ -207,13 +207,15 @@
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input.attr("type") == 'date') {
 			var original = input.clone(),
-				 def = original.wrap("<div/>").parent().html(),
-				 clone = $(def.replace(/type/i, "type=text data-orig-type"));
-				 
-			clone.val(conf.value);
+          def = original.wrap("<div/>").parent().html(),
+          clone = $(def.replace(/type/i, "type=text data-orig-type"));
+          
+			if (conf.value) clone.val(conf.value);   // jquery 1.6.2 val(undefined) will clear val()
+			
 			input.replaceWith(clone);
 			input = clone;
 		}
+		
 		input.addClass(css.input);
 		
 		var fire = input.add(self);
@@ -732,7 +734,7 @@
 		}
 		
 		// initial value 		
-		if (parseDate(input.val())) { 
+		if (parseDate(input.val())) {
 			select(value, conf);
 		}
 		
