@@ -5,8 +5,10 @@
 	font-size:11px;
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
+	border-radius:5px;
 	-moz-box-shadow: 0 0 20px #999;
 	-webkit-box-shadow: 0 0 20px #999;		
+	box-shadow: 0 0 20px #999;
 }
 
 #datehead {	
@@ -93,6 +95,7 @@
 	color:#666;
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px; 		
+	border-radius:3px;
 } 
 
 .pickweek a:hover, .pickfocus {

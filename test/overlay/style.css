@@ -20,6 +20,7 @@ div.overlay a.close {
 	height:200px;		
 	background-color:#666;
 	-moz-border-radius:15px;		
+	border-radius:15px;
 }
 
 #overlay2 {

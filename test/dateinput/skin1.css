@@ -9,6 +9,7 @@
 	text-align:center;
 	width:194px;		
 	-moz-box-shadow:0 0 10px #eee inset;
+	box-shadow:0 0 10px #eee inset;
 }
 
 /* calendar root element */
@@ -21,9 +22,11 @@
 	border:1px solid #ccc;
 	z-index:1;
 	-moz-border-radius:5px;
+	border-radius:5px;
 	-webkit-border-radius:5px;
 	-moz-box-shadow: 0 0 15px #666;
 	-webkit-box-shadow: 0 0 15px #666;	
+	box-shadow: 0 0 15px #666;
 }
 
 /* head. contains title, prev/next month controls and possible month/year selectors */
