@@ -277,7 +277,7 @@
 			
 			
 			// change
-			e = e || $.Event("api");
+			e || (e = $.Event("api"));
 			e.type = "change";
 			
 			fire.trigger(e, [date]); 
@@ -285,6 +285,10 @@
 			
 			// formatting			
 			input.val(format(date, conf.format, conf.lang));
+			
+			// onAfterChange
+			e.type = "onAfterChange";
+			fire.trigger(e, [date]);
 			
 			// store value into input
 			input.data("date", date);
