@@ -29,6 +29,7 @@
 			mousewheel: false,
 			next: '.next',   
 			prev: '.prev', 
+                        scrollItems: 1,
 			speed: 400,
 			vertical: false,
 			touch: true,
@@ -100,11 +101,11 @@
 			},
 			
 			next: function(time) {
-				return self.move(1, time);	
+				return self.move(conf.scrollItems, time);	
 			},
 			
 			prev: function(time) {
-				return self.move(-1, time);	
+				return self.move(-conf.scrollItems, time);	
 			},
 			
 			begin: function(time) {
