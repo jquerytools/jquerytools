@@ -19,7 +19,7 @@
 			onBeforeClick: null,
 			onClick: null, 
 			effect: 'default',
-			initialIndex: 0,			
+			//initialIndex: 0,
 			event: 'click',
 			rotate: false,
 			history: false
