@@ -1,5 +1,5 @@
 
-<script src="../js/jquery-1.4.2.js"></script>
+<script src="../js/jquery-1.5.min.js"></script>
 <script src="../../src/dateinput/dateinput.js"></script>
 
 <link rel="stylesheet" type="text/css" href="skin1.css"/>
@@ -9,6 +9,8 @@
 
 <!-- make it happen -->
 <script>
-$(":date").dateinput({ selectors: true, yearRange: [-10, 10] }).data("dateinput").show();
+var api = $(":date").dateinput({ selectors: true, yearRange: [-10, 10] }).data("dateinput");
+
+api.setValue('2012-10-10');
 </script>
 

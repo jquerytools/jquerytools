@@ -1,6 +1,6 @@
+<!DOCTYPE html>
 
-<!DOCTYPE html>        
-<script src="../js/jquery-1.4.2.min.js"></script>
+<script src="../js/jquery-1.5.min.js"></script>
 <script src="../../src/validator/validator.js"></script>
 
 <style>
@@ -65,52 +65,10 @@ body {
 		</select>
 	</label>
 	
-	<button>Submit</button>
+	<!-- <button>Submit</button> -->
 	
 </form>
-<form action="#">
 
-	<label>
-		requred text 
-		<input type="text" required="required" />
-	</label>
-	
-	<label>
-		pattern
-		<input type="text" pattern="\d+" />
-	</label>
-	
-	<label>
-		URL
-		<input type="url" value="http://www.spa.gov.sa/NewsHeadlines.php?pg=2&joku+paha" />
-	</label>
-	
-	<label>
-		date 
-		<input type="date" title="Use format yyyy-mm-dd" name="day" />
-	</label>
-	
-	<label>
-		email 
-		<input type="email" />
-	</label>
-	
-	<label>
-		terms
-		<input type="checkbox" required="required" name="terms" data-message="Accept the terms" />
-	</label>
-	
-	<label>
-		required
-		<select required="required">
-			<option value="">-- choose one --</option>
-			<option value="8">jotain</option>
-		</select>
-	</label>
-	
-	<button>Submit</button>
-	
-</form>
 
 <script>
 $("form").validator({ position: 'top center'}); 

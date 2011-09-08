@@ -175,14 +175,13 @@
 		}  
 		
 		// Replace built-in range input (type attribute cannot be changed)
-		if (input.attr("type") == 'range') {
-			var tmp = $("<input/>");
-			$.each("class,disabled,id,maxlength,name,readonly,required,size,style,tabindex,title,value".split(","), function(i, attr)  {
-				tmp.attr(attr, input.attr(attr));		
-			});
-			tmp.val(conf.value);
-			input.replaceWith(tmp);
-			input = tmp;
+		if (input.attr("type") == 'range') {			
+			var def = input.clone().wrap("<div/>").parent().html(),
+				 clone = $(def.replace(/type/i, "type=text data-orig-type"));
+				 
+			clone.val(conf.value);
+			input.replaceWith(clone);
+			input = clone;
 		}
 		
 		input.addClass(css.input);

@@ -7,7 +7,7 @@
 
 	<label>
 		requred text 
-		<input type="text" required="required" />
+		<input type="text" name="kama" required="required" />
 	</label>
 	
 	<button>Submit</button>
@@ -21,6 +21,6 @@ $("form").validator({ position: 'top center'}).submit(function(e) {
 	var failed = $(":input", this).hasClass("invalid");
 	
 	// do not perform submit
-	e.preventDefault();
+	// e.preventDefault();
 }); 
 </script>
