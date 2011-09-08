@@ -1,0 +1,50 @@
+
+<script src="../js/jquery-1.6.2.js"></script>
+<script src="../../src/tooltip/tooltip.js"></script>
+
+<style type="text/css">
+  body{
+    padding:50px;
+  }
+  
+  input {
+    display:block;
+    margin:10px;
+  }
+  
+  /* tooltip styling. by default the element to be styled is .tooltip  */
+  .tooltip {
+  	display:none;
+  	background:transparent url('http://flowplayer.org/tools/img/tooltip/black_arrow.png');
+  	font-size:12px;
+  	height:70px;
+  	width:160px;
+  	padding:25px;
+  	color:#fff;	
+  }
+</style>
+
+<input type="text" title="The tooltip text #1" />
+<input type="text" title="The tooltip text #2" />
+<input type="text" title="The tooltip text #3" />
+<input type="text" title="The tooltip text #4" />
+<input type="text" title="The tooltip text #5" />
+<input type="text" title="The tooltip text #6" />
+<input type="text" title="The tooltip text #7" />
+<input type="text" title="The tooltip text #8" />
+
+<script type="text/javascript">
+$(function(){
+  $("input").tooltip({
+    events: {
+      input: "focus mouseenter,blur mouseleave"
+    }
+  }).mouseleave(function(){
+    console.log("input mouseleave");
+  });
+  
+  $(".tooltip").live('mouseleave', function(){
+    console.log("tooltip mouseleave");
+  });
+});
+</script>

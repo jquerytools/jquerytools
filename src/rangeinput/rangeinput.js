@@ -259,7 +259,7 @@
 			if (vertical) {
 				handle.animate({top: x}, speed, callback);
 				if (conf.progress) { 
-					progress.animate({height: len - x + handle.width() / 2}, speed);	
+					progress.animate({height: len - x + handle.height() / 2}, speed);	
 				}				
 				
 			} else {
@@ -372,7 +372,7 @@
 				return e.preventDefault(); 
 			}				  
 			init(); 
-			var fix = handle.width() / 2;   
+			var fix = vertical ? handle.height() / 2 : handle.width() / 2;
 			slide(e, vertical ? len-origo-fix + e.pageY  : e.pageX -origo -fix);  
 		});
 

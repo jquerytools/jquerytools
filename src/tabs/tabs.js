@@ -26,6 +26,10 @@
 			event: 'click',
 			rotate: false,
 			
+      // slide effect
+      slideUpSpeed: 400,
+      slideDownSpeed: 400,
+			
 			// 1.2
 			history: false
 		},
@@ -51,7 +55,7 @@
 		*/
 		fade: function(i, done) {		
 			
-			var conf = this.getConf(),            
+			var conf = this.getConf(),
 				 speed = conf.fadeOutSpeed,
 				 panes = this.getPanes();
 			
@@ -66,8 +70,10 @@
 		
 		// for basic accordions
 		slide: function(i, done) {
-			this.getPanes().slideUp(200);
-			this.getPanes().eq(i).slideDown(400, done);			 
+		  var conf = this.getConf();
+		  
+			this.getPanes().slideUp(conf.slideUpSpeed);
+			this.getPanes().eq(i).slideDown(conf.slideDownSpeed, done);			 
 		}, 
 
 		/**
@@ -78,27 +84,38 @@
 		}		
 	};   	
 	
-	var w;
-	
 	/**
 	 * Horizontal accordion
 	 * 
 	 * @deprecated will be replaced with a more robust implementation
-	 */
-	$.tools.tabs.addEffect("horizontal", function(i, done) {
+	*/
 	
+	var w;
+	 
+	$.tools.tabs.addEffect("horizontal", function(i, done) {
+	  
+	  var nextPane = this.getPanes().eq(i),
+	      currentPane = this.getCurrentPane();
+	      
 		// store original width of a pane into memory
-		if (!w) { w = this.getPanes().eq(0).width(); }
+		w || ( w = this.getPanes().eq(0).width() );
 		
-		// set current pane's width to zero
-		this.getCurrentPane().animate({width: 0}, function() { $(this).hide(); });
+		nextPane.show(); // hidden by default
 		
-		// grow opened pane to it's original width
-		this.getPanes().eq(i).animate({width: w}, function() { 
-			$(this).show();
-			done.call();
-		});
-		
+		// animate current pane's width to zero
+    // animate next pane's width at the same time for smooth animation
+    currentPane.animate({width: 0}, {
+      step: function(now){
+        nextPane.css("width", w-now);
+      },
+      complete: function(){
+        $(this).hide();
+        done.call();
+     }
+    });
+    // Dirty hack...  onLoad, currentPant will be empty and nextPane will be the first pane
+    // If this is the case, manually run callback since the animation never occured
+    if (!currentPane.length){ done.call(); }
 	});	
 
 	
@@ -120,8 +137,8 @@
 		// public methods
 		$.extend(this, {				
 			click: function(i, e) {
-				
-				var tab = tabs.eq(i);												 
+			  
+				var tab = tabs.eq(i);
 				
 				if (typeof i == 'string' && i.replace("#", "")) {
 					tab = tabs.filter("[href*=" + i.replace("#", "") + "]");
@@ -151,14 +168,13 @@
 
 				// call the effect
 				effects[conf.effect].call(self, i, function() {
-
+					current = i;
 					// onClick callback
 					e.type = "onClick";
-					trigger.trigger(e, [i]);					
+					trigger.trigger(e, [i]);
 				});			
 				
 				// default behaviour
-				current = i;
 				tabs.removeClass(conf.current);	
 				tab.addClass(conf.current);				
 				

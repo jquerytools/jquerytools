@@ -24,6 +24,7 @@
 			delay: 30,
 			opacity: 1,			
 			tip: 0,
+            fadeIE: false, // enables fade effect in IE
 			
 			// 'top', 'bottom', 'right', 'left', 'center'
 			position: ['top', 'center'], 
@@ -66,13 +67,26 @@
 		],
 		
 		fade: [
-			function(done) { 
+			function(done) {
 				var conf = this.getConf();
-				this.getTip().fadeTo(conf.fadeInSpeed, conf.opacity, done); 
-			},  
-			function(done) { 
-				this.getTip().fadeOut(this.getConf().fadeOutSpeed, done); 
-			} 
+				if (!$.browser.msie || conf.fadeIE) {
+					this.getTip().fadeTo(conf.fadeInSpeed, conf.opacity, done);
+				}
+				else {
+					this.getTip().show();
+					done();
+				}
+			},
+			function(done) {
+				var conf = this.getConf();
+				if (!$.browser.msie || conf.fadeIE) {
+					this.getTip().fadeOut(conf.fadeOutSpeed, done);
+				}
+				else {
+					this.getTip().hide();
+					done();
+				}
+			}
 		]		
 	};   
 
@@ -210,7 +224,7 @@
 				}
 
 				// onBeforeShow
-				e = e || $.Event();
+				e = $.Event();
 				e.type = "onBeforeShow";
 				fire.trigger(e, [pos]);				
 				if (e.isDefaultPrevented()) { return self; }
@@ -264,7 +278,7 @@
 				if (!tip || !self.isShown()) { return self; }
 			
 				// onBeforeHide
-				e = e || $.Event();
+				e = $.Event();
 				e.type = "onBeforeHide";
 				fire.trigger(e);				
 				if (e.isDefaultPrevented()) { return; }
