@@ -264,7 +264,7 @@
 			 fire = form.add(self);
 
 		// make sure there are input fields available
-		inputs = inputs.not(":button, :image, :reset, :submit");			 
+		inputs = inputs.not(":image, :reset, :submit");
 
 		// utility function
 		function pushMessage(to, matcher, returnValue) {
@@ -367,7 +367,7 @@
 						msg.remove();
 						$(this).data("msg.el", null);
 					}
-				}).unbind(conf.errorInputEvent || '');
+				}).unbind(conf.errorInputEvent + '.v' || '');
 				return self;
 			},
 			

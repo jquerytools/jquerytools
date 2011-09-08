@@ -709,8 +709,10 @@
 	} 
 	
 	$.expr[':'].date = function(el) {
-		var type = el.getAttribute("type");
-		return type && type == 'date' || !!$(el).data("dateinput");
+		try {
+			var type = el.getAttribute("type");
+			return type && type == 'date' || !!$(el).data("dateinput");
+		} catch (err) {};
 	};
 	
 	
