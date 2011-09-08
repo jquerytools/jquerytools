@@ -94,16 +94,17 @@
 	 
 	$.tools.tabs.addEffect("horizontal", function(i, done) {
 	  
-	  var nextPane = this.getPanes().eq(i);
-	  
+	  var nextPane = this.getPanes().eq(i),
+	      currentPane = this.getCurrentPane();
+	      
 		// store original width of a pane into memory
 		w || ( w = this.getPanes().eq(0).width() );
 		
 		nextPane.show(); // hidden by default
 		
-		// set current pane's width to zero
-    // animate next pane at the same time for smooth animation
-    this.getCurrentPane().animate({width: 0}, {
+		// animate current pane's width to zero
+    // animate next pane's width at the same time for smooth animation
+    currentPane.animate({width: 0}, {
       step: function(now){
         nextPane.css("width", w-now);
       },
@@ -111,7 +112,10 @@
         $(this).hide();
         done.call();
      }
-    });		
+    });
+    // Dirty hack...  onLoad, currentPant will be empty and nextPane will be the first pane
+    // If this is the case, manually run callback since the animation never occured
+    if (!currentPane.length){ done.call(); }
 	});	
 
 	
@@ -134,7 +138,7 @@
 		$.extend(this, {				
 			click: function(i, e) {
 			  
-				var tab = tabs.eq(i);												 
+				var tab = tabs.eq(i);
 				
 				if (typeof i == 'string' && i.replace("#", "")) {
 					tab = tabs.filter("[href*=" + i.replace("#", "") + "]");
@@ -164,7 +168,6 @@
 
 				// call the effect
 				effects[conf.effect].call(self, i, function() {
-
 					current = i;
 					// onClick callback
 					e.type = "onClick";
@@ -258,7 +261,6 @@
 
 		} else {
 			if (conf.initialIndex === 0 || conf.initialIndex > 0) {
-			  current = conf.initialIndex;    // ensure that current is set properly
 				self.click(conf.initialIndex);
 			}
 		}				
