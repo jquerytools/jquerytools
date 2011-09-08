@@ -94,20 +94,24 @@
 	 
 	$.tools.tabs.addEffect("horizontal", function(i, done) {
 	  
+	  var nextPane = this.getPanes().eq(i);
+	  
 		// store original width of a pane into memory
 		w || ( w = this.getPanes().eq(0).width() );
 		
+		nextPane.show(); // hidden by default
+		
 		// set current pane's width to zero
-		this.getCurrentPane().animate({width: 0}, function(){
-		  $(this).hide();
-		});
-		
-    // grow opened pane to it's original width
-    this.getPanes().eq(i).animate({width: w}, function() { 
-     $(this).show();
-     done.call();
-    });
-		
+    // animate next pane at the same time for smooth animation
+    this.getCurrentPane().animate({width: 0}, {
+      step: function(now){
+        nextPane.css("width", w-now);
+      },
+      complete: function(){
+        $(this).hide();
+        done.call();
+     }
+    });		
 	});	
 
 	
@@ -161,10 +165,10 @@
 				// call the effect
 				effects[conf.effect].call(self, i, function() {
 
+					current = i;
 					// onClick callback
 					e.type = "onClick";
-					trigger.trigger(e, [i]);					
-					current = i;
+					trigger.trigger(e, [i]);
 				});			
 				
 				// default behaviour
@@ -254,6 +258,7 @@
 
 		} else {
 			if (conf.initialIndex === 0 || conf.initialIndex > 0) {
+			  current = conf.initialIndex;    // ensure that current is set properly
 				self.click(conf.initialIndex);
 			}
 		}				
