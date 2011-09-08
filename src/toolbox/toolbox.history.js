@@ -34,7 +34,7 @@
 							 h = idoc.location.hash;
 					
 						if (hash !== h) {						
-							$.event.trigger("hash", h);
+							$('body').trigger("hash", h);
 						}
 					}, 100);
 					
@@ -47,7 +47,7 @@
 				setInterval(function() {
 					var h = location.hash;
 					if (h !== hash) {
-						$.event.trigger("hash", h);
+						$('body').trigger("hash", h);
 					}						
 				}, 100);
 			}
@@ -80,7 +80,7 @@
 	} 
 		 
 	// global histroy change listener
-	$(window).bind("hash", function(e, h)  { 
+	$("body").bind("hash", function(e, h)  { 
 		if (h) {
 			links.filter(function() {
 			  var href = $(this).attr("href");
