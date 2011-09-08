@@ -42,6 +42,12 @@
 			messageClass: 'error',		// error message element's class name
 			offset: [0, 0], 
 			position: 'center right',
+			elementPosition: function(trigger, errorElement) {
+				return null;
+			}, // callback for handling positioning of specified elements
+			elementOffset: function(trigger, errorElement) {
+				return null;
+			}, // callback for handing custom offsets per element
 			singleError: false, 			// validate all inputs at once
 			speed: 'normal'				// message's fade-in speed			
 		},
@@ -99,13 +105,33 @@
 		
 		// get origin top/left position 
 		var top = trigger.offset().top, 
-			 left = trigger.offset().left,	 
-			 pos = conf.position.split(/,?\s+/),
-			 y = pos[0],
-			 x = pos[1];
+			left = trigger.offset().left,	 
+			pos = null,
+			confPos = conf.position,
+			offset = null,
+			confOffset = conf.offset,
+			y,
+			x;
+
+		if (conf.elementPosition !== null) {
+			pos = conf.elementPosition(trigger, el);
+		} 
+		if (pos === null) {
+			pos = confPos;
+		}
+		pos = pos.split(/,?\s+/);
+		y = pos[0];
+		x = pos[1];
+
+		if (conf.elementOffset !== null) {
+			offset = conf.elementOffset(trigger, el);
+		}
+		if (offset === null) {
+			offset = confOffset;
+		}
 		
-		top  -= el.outerHeight() - conf.offset[0];
-		left += trigger.outerWidth() + conf.offset[1];
+		top  -= el.outerHeight() - offset[0];
+		left += trigger.outerWidth() + offset[1];
 		
 		
 		// iPad position fix
@@ -121,7 +147,15 @@
 		// adjust X
 		var width = trigger.outerWidth();
 		if (x == 'center') 	{ left -= (width  + el.outerWidth()) / 2; }
-		if (x == 'left')  	{ left -= width; }	 
+		if (x == 'left')  	{ left -= width + el.outerWidth(); }	 
+
+		// Make sure that the element is still visible
+		if (left <= 0) {
+			left = 0;
+		}
+		if (top <= 0) {
+			top = 0;
+		}
 		
 		return {top: top, left: left};
 	}	
