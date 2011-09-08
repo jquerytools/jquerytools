@@ -29,6 +29,7 @@
 			mousewheel: false,
 			next: '.next',   
 			prev: '.prev', 
+			size: 1,
 			speed: 400,
 			vertical: false,
 			touch: true,
@@ -144,8 +145,10 @@
 				// avoid seeking from end clone to the beginning
 				if (conf.circular && i === 0 && index == -1 && time !== 0) { return self; }
 				
-				// check that index is sane				
-				if (!conf.circular && i < 0 || i > self.getSize() || i < -1) { return self; }
+				// check that index is sane
+				// note that for some weird IE bug, you can't place the line below directly in an if statement otherwise circular will break		
+				var test = ((!conf.circular && i < 0) || i > self.getSize() || i < -1);
+				if (test) { return self; }
 				
 				var item = i;
 			
@@ -195,8 +198,10 @@
 		// circular loop
 		if (conf.circular) {
 			
-			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
-				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
+			var items = self.getItems();
+			var cloned1 = items.slice(-1).clone().prependTo(itemWrap),
+				 cloned2 = items.filter(":lt(" + conf.size + ")").clone().appendTo(itemWrap);
+				 items = null;
 				
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			

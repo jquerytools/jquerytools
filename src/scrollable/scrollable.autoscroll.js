@@ -18,7 +18,8 @@
 		conf: {
 			autoplay: true,
 			interval: 3000,
-			autopause: true
+			autopause: true,
+			direction: "forward"
 		}
 	};	
 	
@@ -48,7 +49,12 @@
 				
 				// construct new timer
 				timer = setInterval(function() { 
-					api.next();				
+				    if(opts.direction == "backward")
+				    {
+    					api.previous();				
+				    } else {
+    					api.next();				
+				    }
 				}, opts.interval);
 				
 			};	
