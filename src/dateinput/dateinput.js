@@ -526,9 +526,9 @@
 				weeks.empty();				
 				pm.add(nm).removeClass(css.disabled); 
 				
-				// !begin === "sunday"
-				for (var j = !begin ? -7 : 0, a, num; j < (!begin ? 35 : 42); j++) { 
-					
+				var last_day = new Date(year, month+1, 0).getDate();
+				var remaining = Math.ceil((last_day + begin) / 7) * 7;
+				for (var j = 0, a, num; j < remaining; j++) {
 					a = $("<a/>");
 					
 					if (j % 7 === 0) {
@@ -587,7 +587,7 @@
 
 				// sunday
 				if (css.sunday) {
-					weeks.find(css.week).each(function() {
+					weeks.find("." + css.week).each(function() {
 						var beg = conf.firstDay ? 7 - conf.firstDay : 0;
 						$(this).children().slice(beg, beg + 1).addClass(css.sunday);		
 					});	
