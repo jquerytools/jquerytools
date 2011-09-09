@@ -90,15 +90,31 @@
 	 * @deprecated will be replaced with a more robust implementation
 	*/
 	
-	var w;
+	var
+	  /**
+	  *   @type {Boolean}
+	  *
+	  *   Mutex to control horizontal animation
+	  *   Disables clicking of tabs while animating
+	  *   They mess up otherwise as currentPane gets set *after* animation is done
+	  */
+	  animating,
+	  /**
+	  *   @type {Number}
+	  *   
+	  *   Initial width of tab panes
+	  */
+	  w;
 	 
 	$.tools.tabs.addEffect("horizontal", function(i, done) {
+	  if (animating) return;    // don't allow other animations
 	  
 	  var nextPane = this.getPanes().eq(i),
 	      currentPane = this.getCurrentPane();
 	      
 		// store original width of a pane into memory
 		w || ( w = this.getPanes().eq(0).width() );
+		animating = true;
 		
 		nextPane.show(); // hidden by default
 		
@@ -111,11 +127,15 @@
       complete: function(){
         $(this).hide();
         done.call();
+        animating = false;
      }
     });
     // Dirty hack...  onLoad, currentPant will be empty and nextPane will be the first pane
-    // If this is the case, manually run callback since the animation never occured
-    if (!currentPane.length){ done.call(); }
+    // If this is the case, manually run callback since the animation never occured, and reset animating
+    if (!currentPane.length){ 
+      done.call(); 
+      animating = false;
+    }
 	});	
 
 	
