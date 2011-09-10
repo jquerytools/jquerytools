@@ -283,9 +283,9 @@
 			currDay	 = date.getDate();				
 			
 			
-			// change
+			// beforChange
 			e = e || $.Event("api");
-			e.type = "change";
+			e.type = "beforeChange";
 			
 			fire.trigger(e, [date]); 
 			if (e.isDefaultPrevented()) { return; }
@@ -293,6 +293,10 @@
 			// formatting			
 			input.val(format(date, conf.format, conf.lang));
 			
+      // change
+			e.type = "change";
+			fire.trigger(e);
+              
 			// store value into input
 			input.data("date", date);
 			
