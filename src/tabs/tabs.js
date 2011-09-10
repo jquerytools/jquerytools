@@ -90,24 +90,52 @@
 	 * @deprecated will be replaced with a more robust implementation
 	*/
 	
-	var w;
+	var
+	  /**
+	  *   @type {Boolean}
+	  *
+	  *   Mutex to control horizontal animation
+	  *   Disables clicking of tabs while animating
+	  *   They mess up otherwise as currentPane gets set *after* animation is done
+	  */
+	  animating,
+	  /**
+	  *   @type {Number}
+	  *   
+	  *   Initial width of tab panes
+	  */
+	  w;
 	 
 	$.tools.tabs.addEffect("horizontal", function(i, done) {
+	  if (animating) return;    // don't allow other animations
 	  
+	  var nextPane = this.getPanes().eq(i),
+	      currentPane = this.getCurrentPane();
+	      
 		// store original width of a pane into memory
 		w || ( w = this.getPanes().eq(0).width() );
+		animating = true;
 		
-		// set current pane's width to zero
-		this.getCurrentPane().animate({width: 0}, function(){
-		  $(this).hide();
-		});
+		nextPane.show(); // hidden by default
 		
-    // grow opened pane to it's original width
-    this.getPanes().eq(i).animate({width: w}, function() { 
-     $(this).show();
-     done.call();
+		// animate current pane's width to zero
+    // animate next pane's width at the same time for smooth animation
+    currentPane.animate({width: 0}, {
+      step: function(now){
+        nextPane.css("width", w-now);
+      },
+      complete: function(){
+        $(this).hide();
+        done.call();
+        animating = false;
+     }
     });
-		
+    // Dirty hack...  onLoad, currentPant will be empty and nextPane will be the first pane
+    // If this is the case, manually run callback since the animation never occured, and reset animating
+    if (!currentPane.length){ 
+      done.call(); 
+      animating = false;
+    }
 	});	
 
 	
@@ -130,7 +158,7 @@
 		$.extend(this, {				
 			click: function(i, e) {
 			  
-				var tab = tabs.eq(i);												 
+				var tab = tabs.eq(i);
 				
 				if (typeof i == 'string' && i.replace("#", "")) {
 					tab = tabs.filter("[href*=" + i.replace("#", "") + "]");
@@ -160,11 +188,10 @@
 
 				// call the effect
 				effects[conf.effect].call(self, i, function() {
-
+					current = i;
 					// onClick callback
 					e.type = "onClick";
-					trigger.trigger(e, [i]);					
-					current = i;
+					trigger.trigger(e, [i]);
 				});			
 				
 				// default behaviour
