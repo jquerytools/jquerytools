@@ -35,10 +35,6 @@
 			 timer, 
 			 stopped = true;
 		
-		fire.bind('onClick', function(){
-		  console.log(">> slideshow onClick");
-		});
-			 
 		// next / prev buttons
 		function find(query) {
 			var el = $(query);
