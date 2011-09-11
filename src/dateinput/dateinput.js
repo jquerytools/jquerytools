@@ -287,7 +287,7 @@
 			e = e || $.Event("api");
 			e.type = "beforeChange";
 			
-			fire.trigger(e, [date]); 
+			fire.trigger(e, [date]);
 			if (e.isDefaultPrevented()) { return; }
 			
 			// formatting			
