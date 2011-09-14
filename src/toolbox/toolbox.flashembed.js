@@ -191,7 +191,7 @@
 				for (var k in conf) {
 					if (conf[k]) {
 						var val = conf[k];
-						vars += k +'='+ (/function|object/.test(typeof val) ? f.asString(val) : val) + '&';
+						vars += k +'='+ encodeURIComponent(/function|object/.test(typeof val) ? f.asString(val) : val) + '&';
 					}
 				}
 				vars = vars.slice(0, -1);
