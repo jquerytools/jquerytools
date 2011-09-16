@@ -33,12 +33,24 @@
 		
 		this.each(function() {		
 				
-			var api = $(this).data("scrollable");			
+			var api = $(this).data("scrollable"),
+			    root = api.getRoot(),
+			    // interval stuff
+    			timer, stopped = false;
+
+	    /**
+      *
+      *   Function to run autoscroll through event binding rather than setInterval
+      *   Fixes this bug: http://flowplayer.org/tools/forum/25/72029
+      */
+      function scroll(){        
+        timer = setTimeout(function(){
+          api.next();
+        }, opts.interval);
+      }
+			    
 			if (api) { ret = api; }
 			
-			// interval stuff
-			var timer, stopped = true;
-	
 			api.play = function() { 
 				
 				// do not start additional timer if already exists
@@ -46,15 +58,13 @@
 				
 				stopped = false;
 				
-				// construct new timer
-				timer = setInterval(function() { 
-					api.next();				
-				}, opts.interval);
-				
+        root.bind('onSeek', scroll);
+        scroll();
 			};	
 
 			api.pause = function() {
-				timer = clearInterval(timer);
+				timer = clearTimeout(timer);  // clear any queued items immediately
+        root.unbind('onSeek', scroll);
 			};
 			
 			// resume playing if not stopped
@@ -64,13 +74,13 @@
 			
 			// when stopped - mouseover won't restart 
 			api.stop = function() {
+			  stopped = true;
 				api.pause();
-				stopped = true;	
 			};
 		
 			/* when mouse enters, autoscroll stops */
 			if (opts.autopause) {
-				api.getRoot().add(api.getNaviButtons()).hover(api.pause, api.resume);
+				root.add(api.getNaviButtons()).hover(api.pause, api.resume);
 			}
 			
 			if (opts.autoplay) {

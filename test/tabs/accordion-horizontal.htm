@@ -1,5 +1,5 @@
 
-<script src="../js/jquery-1.4.2.js"></script>
+<script src="../js/jquery-1.6.2.js"></script>
 <script src="../../src/tabs/tabs.js"></script>
 <link rel="stylesheet" type="text/css" href="css/horizontal.css"/> 
 
@@ -9,7 +9,7 @@
 	<!-- accordion header #1 -->
 	<div class="blok"></div>
 	
-	<div class="pane" style="width:200px; display:block">
+	<div class="pane 0" style="width:200px;">
 		<h3>First pane</h3>
 		<p>
 			Consectetur adipiscing elit. Praesent bibendum eros ac nulla. Integer vel lacus ac neque viverra.
@@ -18,7 +18,7 @@
 	
 	<div class="blok"></div>
 	
-	<div class="pane">
+	<div class="pane 1">
 		<h3>Second pane</h3>
 		<p>
 			Cras diam. Donec dolor lacus, vestibulum at, varius in, mollis id, dolor. Aliquam erat volutpat. 
@@ -27,7 +27,7 @@
 
 	<div class="blok"></div>
 	
-	<div class="pane">
+	<div class="pane 2">
 		<h3>Third pane</h3>
 		<p>
 			Non lectus lacinia egestas. Nulla hendrerit, felis quis elementum viverra, purus felis egestas magna.
@@ -38,5 +38,7 @@
 
 
 <script>		
-$("#accordion").tabs(".pane", { tabs: '.blok',  effect: 'horizontal'});
+  $(function(){
+    $("#accordion").tabs(".pane", { tabs: '.blok',  effect: 'horizontal'});
+  });
 </script>

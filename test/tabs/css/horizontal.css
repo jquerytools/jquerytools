@@ -27,6 +27,7 @@
 	float:left;	
 	display:none;		
 	margin-right:10px;
+	overflow:hidden;
 }
 
 /* content inside a pane should have fixed width */

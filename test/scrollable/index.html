@@ -1,9 +1,8 @@
 
-<script src="../js/jquery-1.3.2.js"></script>
+<script src="../js/jquery-1.5.min.js"></script>
 <script src="../../src/scrollable/scrollable.js"></script>
 <script src="../../src/scrollable/scrollable.navigator.js"></script>
 <script src="../../src/scrollable/scrollable.autoscroll.js"></script>
-<script src="../../src/toolbox/toolbox.history.js"></script>
 
 <link rel="stylesheet" type="text/css" href="style.css"/>
 
@@ -18,7 +17,7 @@ div.cloned {
 
 <script>
 $(function() {
-		window.api = $(".scrollable").scrollable({ mousewheel: true, size: 5})
+	window.api = $(".scrollable").scrollable({ mousewheel: true, size: 5 })
 		.navigator({idPrefix: 'a', history: true}).data("scrollable");  
 		
 	api.onBeforeSeek(function() {
@@ -51,17 +50,15 @@ $(function() {
 
 <p>
 	<button type="button" onclick="api.begin()">begin</button>
-	<button type="button" onclick="api.prevPage()">prevPage</button>
-	<button type="button" onclick="api.prev()">prev</button>
-	<button type="button" onclick="api.next()">next</button>
-	<button type="button" onclick="api.nextPage()">nextPage</button>
+	<button type="button" onclick="api.prev()">&lt;</button>
+	<button type="button" onclick="api.next()">&gt;</button>
 	<button type="button" onclick="api.end()">end</button>
 </p>
 
 <h2>Add / remove items</h2>
 
 <p>
-	<button type="button" onclick="$('div.items').append('<div>x</div>')">add item</button>
+	<button type="button" onclick="api.addItem('<div>x</div>')">add item</button>
 	<button type="button" onclick="$('div.items div:last').remove()">remove item</button>
 </p>
 
