@@ -580,7 +580,7 @@
 					}
 					
 					// disabled
-					if (min && date < min) {
+					if (min && date < min && !a.hasClass(css.off)) {
 						a.add(pm).addClass(css.disabled);						
 					}
 					
