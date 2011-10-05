@@ -259,7 +259,7 @@
             		overlay.prepend($('<a class="close"></a>'));
         	}
         	
-        	overlay.delegate(conf.close, 'click',function(e) {
+        	overlay.undelegate(conf.close,'click.overlay').delegate(conf.close, 'click.overlay',function(e) {
 			self.close(e); 
 		});	
 		
