@@ -74,8 +74,7 @@
 		// private variables
 		var self = this,
 			 fire = trigger.add(self),
-			 w = $(window), 
-			 closers,            
+			 w = $(window),         
 			 overlay,
 			 opened,
 			 maskConf = $.tools.expose && (conf.mask || conf.expose),
@@ -221,7 +220,8 @@
 			},
 			
 			getClosers: function() {
-				return closers;	
+				// find closers dynamically for remote-loaded content
+				return overlay.find(conf.close);
 			},			
 
 			isOpened: function()  {
@@ -251,14 +251,21 @@
 		});
 		
 		// close button
-		closers = overlay.find(conf.close || ".close");		
-		
-		if (!closers.length && !conf.close) {
-			closers = $('<a class="close"></a>');
-			overlay.prepend(closers);	
-		}		
-		
-		closers.click(function(e) { 
+		// selector set?
+        	if(!conf.close) {
+        		// set default one: ".close"
+            		conf.close = ".close";
+        	}
+        	
+        	// should be created? 
+        	if(this.getClosers().length == 0) {
+        		// prepend with default one
+            		overlay.prepend($('<a class="close"></a>'));
+        	}
+        	// delegate event now and in future
+        	// root element is our overlay and
+        	// it will work even for future-loaded overlay content
+        	overlay.delegate(conf.close, 'click',function(e) {
 			self.close(e);  
 		});	
 		
