@@ -251,22 +251,16 @@
 		});
 		
 		// close button
-		// selector set?
         	if(!conf.close) {
-        		// set default one: ".close"
             		conf.close = ".close";
         	}
         	
-        	// should be created? 
         	if(this.getClosers().length == 0) {
-        		// prepend with default one
             		overlay.prepend($('<a class="close"></a>'));
         	}
-        	// delegate event now and in future
-        	// root element is our overlay and
-        	// it will work even for future-loaded overlay content
+        	
         	overlay.delegate(conf.close, 'click',function(e) {
-			self.close(e);  
+			self.close(e); 
 		});	
 		
 		// autoload
