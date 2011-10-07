@@ -210,7 +210,10 @@
 					}
 					
 					if (!tip.length) { throw "Cannot find tooltip for " + trigger;	}
+					tip.data('width',tip.width());
 				} 
+			 	
+			 	tip.width(tip.data('width'));
 			 	
 			 	if (self.isShown()) { return self; }  
 				
