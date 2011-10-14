@@ -1,4 +1,8 @@
 build
+site
+www
+builder
+jquerytools.github.com
 
 # patch
 *.rej

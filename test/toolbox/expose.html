@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+	<title>jQuery Tools standalone demo</title>
+
+  <script src="../js/jquery-1.6.2.js"></script>
+  <script src="../../src/toolbox/toolbox.expose.js"></script>
+
+	<style type="text/css">
+		.wrap {
+			position: relative;
+			width: 395px;
+			margin: 0 auto;
+			margin-top: 50px;
+			/*border: 1px dotted #cccccc;*/
+		}
+		
+		form.expose {
+			border: 1px outset #ccc;
+			background: #fff url('http://www.tribalmystic.com/tools/img/global/h150.png') repeat-x;
+			padding: 20px;
+			margin: 20px 0;
+			text-align:center;
+			width: 350px;
+			-moz-border-radius: 4px;
+			-webkit-border-radius: 4px;
+			border-radius:4px;
+		}
+
+		/* http://www.quirksmode.org/css/forms.html */
+		label, input {
+			display: block;
+			width: 150px;
+			float: left;
+			margin-bottom: 10px;
+		}
+
+		label {
+			text-align: right;
+			width: 75px;
+			padding-right: 20px;
+		}
+
+		br {
+			clear: left;
+		}
+		
+		p {
+			font-size: 1.4em;
+		}
+	</style>
+
+</head>
+<body>
+
+<div class="wrap">
+
+	<form class="expose">
+		<label for="username">Username</label>
+		<input id="username" /><br/>
+		<label for="password">Password</label>
+		<input id="password" type="password" /><br/>
+	</form>
+
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel velit sed sapien sollicitudin ultricies ornare ac ipsum</p>
+
+</div>
+</body>
+
+<script type="text/javascript">
+	$(function(){
+
+		// expose the form when it's clicked or cursor is focused
+		var form = $(".expose").bind("click keydown", function() {
+
+			$(this).expose({
+
+				// when exposing is done, change form's background color
+				onLoad: function() {
+					form.css({backgroundColor: '#c7f8ff'});
+				},
+
+				// when "unexposed", return to original background color
+				onClose: function() {
+					form.css({backgroundColor: ''});
+				}
+			});
+		});
+
+	});
+</script>
+
+</html>
