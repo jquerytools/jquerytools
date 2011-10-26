@@ -33,7 +33,8 @@
 			speed: 400,
 			vertical: false,
 			touch: true,
-			wheelSpeed: 0
+			wheelSpeed: 0,
+			displaySize:null
 		} 
 	};
 					
@@ -264,7 +265,7 @@
 				setTimeout(function() {
 					if (!e.isDefaultPrevented()) {
 						prev.toggleClass(conf.disabledClass, i <= 0);
-						next.toggleClass(conf.disabledClass, i >= self.getSize() -1);
+						next.toggleClass(conf.disabledClass, i >= self.getSize() - (conf.displaySize || 1));
 					}
 				}, 1);
 			});
@@ -274,7 +275,7 @@
 			}			
 		}
 			
-		if (self.getSize() < 2) {
+		if (self.getSize() < (conf.displaySize+1 || 2)) {
 			prev.add(next).addClass(conf.disabledClass);	
 		}
 			
