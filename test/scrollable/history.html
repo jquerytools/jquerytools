@@ -1,0 +1,84 @@
+
+<script src="../js/jquery-1.6.2.js"></script>
+<script src="../../src/scrollable/scrollable.js"></script>
+<script src="../../src/scrollable/scrollable.navigator.js"></script>
+<link rel='stylesheet' href='http://flowplayer.org/tools/css/tabs-flowplayer-v2.css'>
+
+<style type="text/css">
+  /* override the root element to enable scrolling */
+	#flowpanes {
+		position:relative;
+		overflow:hidden;
+		clear:both;
+	}
+
+	/* override single pane */
+	#flowpanes div {
+		float:left;
+		display:block;
+		width:670px;
+		font-size:14px;
+	}
+
+	/* our additional wrapper element for the items */
+	#flowpanes .items {
+		width:20000em;
+		position:absolute;
+		clear:both;
+		margin:0;
+		padding:0;
+	}
+
+	#flowpanes .less, #flowpanes .less a {
+		color:#999 !important;
+		font-size:11px;
+	}
+
+</style>
+
+<!-- tabs work as navigator for scrollable -->
+<ul id="flowtabs" class="navi">
+	<li><a id="t1" href="#story">The Story</a></li>
+	<li><a id="t2" href="#features">Features</a></li>
+	<li><a id="t3" href="#plugins">Plugins</a></li>
+	<li><a id="t4" href="#demos">Demos</a></li>
+</ul>
+
+<!-- tab panes -->
+<div id="flowpanes">
+
+	<!-- wrapper for scrollable items -->
+	<div class="items">
+
+		<!-- the items -->
+		<div> [ story html ]</div>
+		<div> [ features html ]</div>
+		<div> [ plugins html ]</div>
+		<div> [ demos html ]</div>
+
+	</div>
+
+</div>
+
+<script type="text/javascript">
+// wait until document is fully scriptable
+$(function() {
+
+	// select #flowplanes and make it scrollable. use circular and navigator plugins
+	$("#flowpanes").scrollable({ circular: true, mousewheel: true }).navigator({
+
+		// select #flowtabs to be used as navigator
+		navi: "#flowtabs",
+
+		// select A tags inside the navigator to work as items (not direct children)
+		naviItem: 'a',
+
+		// assign "current" class name for the active A tag inside navigator
+		activeClass: 'current',
+
+		// make browser's back button work
+		history: true
+
+	});
+});
+</script>
