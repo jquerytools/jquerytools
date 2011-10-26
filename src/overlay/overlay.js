@@ -74,8 +74,7 @@
 		// private variables
 		var self = this,
 			 fire = trigger.add(self),
-			 w = $(window), 
-			 closers,            
+			 w = $(window),         
 			 overlay,
 			 opened,
 			 maskConf = $.tools.expose && (conf.mask || conf.expose),
@@ -221,7 +220,8 @@
 			},
 			
 			getClosers: function() {
-				return closers;	
+				// find closers dynamically for remote-loaded content
+				return overlay.find(conf.close);
 			},			
 
 			isOpened: function()  {
@@ -251,15 +251,16 @@
 		});
 		
 		// close button
-		closers = overlay.find(conf.close || ".close");		
-		
-		if (!closers.length && !conf.close) {
-			closers = $('<a class="close"></a>');
-			overlay.prepend(closers);	
-		}		
-		
-		closers.click(function(e) { 
-			self.close(e);  
+        	if(!conf.close) {
+            		conf.close = ".close";
+        	}
+        	
+        	if(this.getClosers().length == 0) {
+            		overlay.prepend($('<a class="close"></a>'));
+        	}
+        	
+        	overlay.undelegate(conf.close,'click.overlay').delegate(conf.close, 'click.overlay',function(e) {
+			self.close(e); 
 		});	
 		
 		// autoload
