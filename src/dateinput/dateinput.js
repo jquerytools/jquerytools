@@ -283,7 +283,7 @@
 			currDay	 = date.getDate();				
 			
 			
-			// beforChange
+			// beforeChange
 			e = e || $.Event("api");
 			e.type = "beforeChange";
 			
