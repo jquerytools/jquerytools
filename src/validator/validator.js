@@ -101,8 +101,8 @@
 		el = $(el).first() || el;
 		
 		// get origin top/left position 
-		var	top = trigger.offset().top, 
-			left = trigger.offset().left,	 
+		var	top = trigger.offset().top,
+			left = trigger.offset().left,
 			pos = conf.position.split(/,?\s+/),
 			y = pos[0],
 			x = pos[1];
