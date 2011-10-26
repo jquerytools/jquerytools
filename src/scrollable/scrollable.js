@@ -30,6 +30,7 @@
 			next: '.next',   
 			prev: '.prev', 
 			size: 1,
+      itemsPerFrame: 1,
 			speed: 400,
 			vertical: false,
 			touch: true,
@@ -204,6 +205,9 @@
 			
 			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
 				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
+      
+      // add more clones, for no gap
+      self.getItems().slice(2, conf.itemsPerFrame + 1).clone().appendTo(itemWrap).addClass(conf.clonedClass);
 
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			
