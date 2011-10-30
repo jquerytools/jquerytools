@@ -206,7 +206,7 @@
 
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input.attr("type") == 'date') {
-			var original = input.clone(),
+			original = input.clone(),
           def = original.wrap("<div/>").parent().html(),
           clone = $(def.replace(/type/i, "type=text data-orig-type"));
 
@@ -282,13 +282,14 @@
 			currMonth = date.getMonth();
 			currDay	 = date.getDate();
 
+			// beforeChange
+			e = e || $.Event("api");
+
 			// focus the input after selection (doesn't work in IE)
 			if (e.type == "click" && !$.browser.msie) {
 				input.focus();
 			}
 
-			// beforeChange
-			e = e || $.Event("api");
 			e.type = "beforeChange";
 
 			fire.trigger(e, [date]);
