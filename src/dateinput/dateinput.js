@@ -282,13 +282,14 @@
 			currMonth = date.getMonth();
 			currDay	 = date.getDate();				
 			
+			e || (e = $.Event("api"));
+
 			// focus the input after selection (doesn't work in IE)
 			if (e.type == "click" && !$.browser.msie) {
 				input.focus();
 			}
 			
 			// beforeChange
-			e = e || $.Event("api");
 			e.type = "beforeChange";
 			
 			fire.trigger(e, [date]);
@@ -420,7 +421,7 @@
 				
 				// month selector
 				monthSelector.unbind("change").change(function() {
-					self.setValue(yearSelector.val(), $(this).val());		
+					self.setValue(yearSelector.val(), $(this).val());
 				});
 				
 				// year selector
