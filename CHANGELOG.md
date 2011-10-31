@@ -4,6 +4,7 @@
   - Fix dateinput selectors bug[#541](https://github.com/jquerytools/jquerytools/issues/541)
   - Fix history bug in scrollable navigator[#542](https://github.com/jquerytools/jquerytools/issues/542)
   - Fix apple effect on firefox 3.6 [#310](https://github.com/jquerytools/jquerytools/issues/310)
+  - Initial effect on tabs is now configurable [#531](https://github.com/jquerytools/jquerytools/issues/531)
 
 # 1.2.6
 ### Sept 15, 2011
