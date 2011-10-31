@@ -282,9 +282,14 @@
 			currMonth = date.getMonth();
 			currDay	 = date.getDate();				
 			
+			e || (e = $.Event("api"));
+
+			// focus the input after selection (doesn't work in IE)
+			if (e.type == "click" && !$.browser.msie) {
+				input.focus();
+			}
 			
-			// beforChange
-			e = e || $.Event("api");
+			// beforeChange
 			e.type = "beforeChange";
 			
 			fire.trigger(e, [date]);
@@ -317,13 +322,13 @@
 				if (e.ctrlKey) { return true; }				
 				var key = e.keyCode;			 
 				
-				// backspace clears the value
-				if (key == 8) {
+				// backspace or delete clears the value
+				if (key == 8 || key == 46) {
 					input.val("");
 					return self.hide(e);	
 				}
 				
-				// esc or tab key
+				// esc or tab key exits
 				if (key == 27 || key == 9) { return self.hide(e); }						
 					
 				if ($(KEYS).index(key) >= 0) {
@@ -414,16 +419,16 @@
 				
 				opened = true;
 				
-				// month selector
-				monthSelector.unbind("change").change(function() {
-					self.setValue(yearSelector.val(), $(this).val());		
-				});
-				
-				// year selector
-				yearSelector.unbind("change").change(function() {
-					self.setValue($(this).val(), monthSelector.val());		
-				});
-				
+        // month selector
+        monthSelector.unbind("change").change(function() {
+          self.setValue(integer(yearSelector.val()), integer($(this).val()));
+        });
+
+        // year selector
+        yearSelector.unbind("change").change(function() {
+          self.setValue(integer($(this).val()), integer(monthSelector.val()));
+        });
+        
 				// prev / next month
 				pm = root.find("#" + css.prev).unbind("click").click(function(e) {
 					if (!pm.hasClass(css.disabled)) {	
@@ -664,11 +669,11 @@
 					e.type = "onHide";
 					fire.trigger(e);
 					
-					$(document).unbind("click.d").unbind("keydown.d");
-					
 					// cancelled ?
 					if (e.isDefaultPrevented()) { return; }
 					
+					$(document).unbind("click.d").unbind("keydown.d");
+										
 					// do the hide
 					root.hide();
 					opened = false;
@@ -729,6 +734,10 @@
 				if (!opened &&  $(KEYS).index(key) >= 0) {
 					self.show(e);
 					return e.preventDefault();
+			
+			// clear value on backspace or delete
+			} else if (key == 8 || key == 46) {
+				input.val("");
 				} 
 				
 				// allow tab
