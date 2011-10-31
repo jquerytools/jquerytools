@@ -99,8 +99,8 @@
 		
 		// begin growing
 		img.animate({			
-			top: overlay.css("top"), 
-			left: overlay.css("left"), 
+			top: pos.top,
+			left: pos.left,
 			width: oWidth}, conf.speed, function() {
 			
 			// set close button and content over the image
