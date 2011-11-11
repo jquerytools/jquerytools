@@ -164,7 +164,7 @@
 				// when window is clicked outside overlay, we close
 				if (conf.closeOnClick) {
 					$(document).bind("click." + uid, function(e) { 
-						if (!$(e.target).parents(overlay).length) { 
+						if (!overlay.has(e.target).length) { 
 							self.close(e); 
 						}
 					});						
