@@ -9,8 +9,11 @@
  * Since: Mar 2010
  * Date: @DATE 
  */
-(function($, undefined) {	
-
+(function($, window, undefined) {	
+    
+    var hasTouch = 'ontouchstart' in window,
+        startEvent = hasTouch ? 'touchstart' : 'mousedown',
+        endEvent = hasTouch ? 'touchend' : 'mouseup';
 	/* TODO: 
 		 preserve today highlighted
 	*/
@@ -261,7 +264,7 @@
 				
 		// trigger icon
 		if (conf.trigger) {
-			trigger = $("<a/>").attr("href", "#").addClass(css.trigger).click(function(e)  {
+			trigger = $("<a/>").attr("href", "#").addClass(css.trigger).bind(endEvent, function(e)  {
 				if (conf.toggle) {self.toggle();} else {self.show();}
 				return e.preventDefault();
 			}).insertAfter(input);	
@@ -284,7 +287,7 @@
 			currDay	 = date.getDate();				
 			
 			// focus the input after selection (doesn't work in IE)
-			if (e.type == "click" && !$.browser.msie) {
+			if (e.type == endEvent && !$.browser.msie) {
 				input.focus();
 			}
 			
@@ -375,7 +378,7 @@
 				// enter
 				if (key == 13) {
 					if (!$(e.target).is("select")) {
-						$("." + css.focus).click();
+						$("." + css.focus).trigger(endEvent);
 					}
 				}
 				
@@ -384,7 +387,7 @@
 			
 			
 			// click outside dateinput
-			$(document).bind("click.d", function(e) {					
+			$(document).bind(endEvent+".d", function(e) {					
 				var el = e.target;
 				
 				if (!$(el).parents("#" + css.root).length && el != input[0] && (!trigger || el != trigger[0])) {
@@ -430,14 +433,14 @@
 				});
 				
 				// prev / next month
-				pm = root.find("#" + css.prev).unbind("click").click(function(e) {
+				pm = root.find("#" + css.prev).unbind(endEvent).bind(endEvent, function(e) {
 					if (!pm.hasClass(css.disabled)) {	
 					  self.addMonth(-1);
 					}
 					return false;
 				});
 				
-				nm = root.find("#" + css.next).unbind("click").click(function(e) {
+				nm = root.find("#" + css.next).unbind(endEvent).bind(endEvent, function(e) {
 					if (!nm.hasClass(css.disabled)) {
 						self.addMonth();
 					}
@@ -599,7 +602,7 @@
 				}
 				
 				// date picking					
-				weeks.find("a").click(function(e) {
+				weeks.find("a").bind(endEvent, function(e) {
 					var el = $(this); 
 					if (!el.hasClass(css.disabled)) {  
 						$("#" + css.current).removeAttr("id");
@@ -654,7 +657,7 @@
 			},						
 			
 			destroy: function() {
-				input.add(document).unbind("click.d").unbind("keydown.d");
+				input.add(document).unbind(endEvent+".d").unbind("keydown.d");
 				root.add(trigger).remove();
 				input.removeData("dateinput").removeClass(css.input);
 				if (original)  { input.replaceWith(original); }
@@ -672,7 +675,7 @@
 					// cancelled ?
 					if (e.isDefaultPrevented()) { return; }
 					
-					$(document).unbind("click.d").unbind("keydown.d");
+					$(document).unbind(endEvent+".d").unbind("keydown.d");
 										
 					// do the hide
 					root.hide();
@@ -726,7 +729,7 @@
 		if (!conf.editable) {
 			
 			// show dateinput & assign keyboard shortcuts
-			input.bind("focus.d click.d", self.show).keydown(function(e) {
+			input.bind("focus.d "+endEvent+".d", self.show).keydown(function(e) {
 	
 				var key = e.keyCode;
 		
@@ -787,6 +790,6 @@
 	}; 
 	
 	
-}) (jQuery);
+}) (jQuery, window);
  
 	
