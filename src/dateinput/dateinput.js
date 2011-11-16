@@ -10,6 +10,13 @@
  * Date: @DATE 
  */
 (function($, undefined) {	
+    
+    var hasTouch = 'ontouchstart' in window,
+        resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize',
+        startEvent = hasTouch ? 'touchstart' : 'mousedown',
+        moveEvent = hasTouch ? 'touchmove' : 'mousemove',
+        endEvent = hasTouch ? 'touchend' : 'mouseup',
+        cancelEvent = hasTouch ? 'touchcancel' : 'mouseup';
 		
 	/* TODO: 
 		 preserve today highlighted
@@ -80,10 +87,10 @@
 	};
 	
 	tool.localize("en", {
-		months: 		 'January,February,March,April,May,June,July,August,September,October,November,December', 
-		shortMonths: 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec',  
-		days: 		 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday', 
-		shortDays: 	 'Sun,Mon,Tue,Wed,Thu,Fri,Sat'	  
+		months:'January,February,March,April,May,June,July,August,September,October,November,December', 
+		shortMonths:'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec',  
+		days:'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday', 
+		shortDays:'Sun,Mon,Tue,Wed,Thu,Fri,Sat'	  
 	});
 
 	
@@ -164,7 +171,7 @@
 			val = integer(val);
 		}
 		
-		var date = new Date;
+		var date = new Date();
 		date.setDate(date.getDate() + val);
 		return date; 
 	}
@@ -176,7 +183,7 @@
 
 		// variables
 		var self = this,  
-			 now = new Date,
+			 now = new Date(),
 			 yearNow = now.getFullYear(),
 			 css = conf.css,
 			 labels = LABELS[conf.lang],
@@ -189,9 +196,11 @@
 			 min = input.attr("min") || conf.min,  
 			 max = input.attr("max") || conf.max,
 			 opened,
+			 yearSelector,
+			 monthSelector,
 			 original;
 
-		// zero min is not undefined 	 
+		// zero min is not undefined
 		if (min === 0) { min = "0"; }
 		
 		// use sane values for value, min & max		
@@ -206,9 +215,9 @@
 		
 		// Replace built-in date input: NOTE: input.attr("type", "text") throws exception by the browser
 		if (input.attr("type") == 'date') {
-			var original = input.clone(),
-          def = original.wrap("<div/>").parent().html(),
-          clone = $(def.replace(/type/i, "type=text data-orig-type"));
+		    original = input.clone();
+            def = original.wrap("<div/>").parent().html();
+            clone = $(def.replace(/type/i, "type=text data-orig-type"));
           
 			if (conf.value) clone.val(conf.value);   // jquery 1.6.2 val(undefined) will clear val()
 			
@@ -233,15 +242,15 @@
 				.eq(1).attr("id", css.body).children()
 					.eq(0).attr("id", css.days).end()
 					.eq(1).attr("id", css.weeks).end().end().end()
-				.find("a").eq(0).attr("id", css.prev).end().eq(1).attr("id", css.next);		 				  
+				.find("a").eq(0).attr("id", css.prev).end().eq(1).attr("id", css.next);
 			
 			// title
 			title = root.find("#" + css.head).find("div").attr("id", css.title);
 			
 			// year & month selectors
 			if (conf.selectors) {				
-				var monthSelector = $("<select/>").attr("id", css.month),
-					 yearSelector = $("<select/>").attr("id", css.year);				
+				monthSelector = $("<select/>").attr("id", css.month);
+			    yearSelector = $("<select/>").attr("id", css.year);				
 				title.html(monthSelector.add(yearSelector));
 			}						
 			
@@ -260,7 +269,7 @@
 		// trigger icon
 		if (conf.trigger) {
 			trigger = $("<a/>").attr("href", "#").addClass(css.trigger).click(function(e)  {
-				conf.toggle ? self.toggle() : self.show();
+				if (conf.toggle) {self.toggle();} else {self.show();}
 				return e.preventDefault();
 			}).insertAfter(input);	
 		}
@@ -273,11 +282,10 @@
 			 
 		
 //{{{ pick
-			 			 
 		function select(date, conf, e) {  
 			
 			// current value
-			value 	 = date;
+			value = date;
 			currYear  = date.getFullYear();
 			currMonth = date.getMonth();
 			currDay	 = date.getDate();				
@@ -378,7 +386,7 @@
 					}
 				}
 				
-				return $([16, 17, 18, 9]).index(key) >= 0;  				
+				return $([16, 17, 18, 9]).index(key) >= 0;
 			});
 			
 			
@@ -478,7 +486,7 @@
       */
 			setValue: function(year, month, day)  {
 				
-				var date = integer(month) >= -1 ? new Date(integer(year), integer(month), integer(day == undefined || isNaN(day) ? 1 : day)) : 
+				var date = integer(month) >= -1 ? new Date(integer(year), integer(month), integer(day === undefined || isNaN(day) ? 1 : day)) : 
 					year || value;				
 
 				if (date < min) { date = min; }
@@ -504,7 +512,7 @@
 				if (!opened) { 
 					select(date, conf);
 					return self; 
-				} 				
+				}
 				
 				currMonth = month;
 				currYear = year;
@@ -543,8 +551,8 @@
 				// title
 				} else {
 					title.html(labels.months[month] + " " + year);	
-				} 	   
-					 
+				}
+				
 				// populate weeks
 				weeks.empty();				
 				pm.add(nm).removeClass(css.disabled); 
@@ -745,7 +753,7 @@
 			});
 		}
 		
-		// initial value 		
+		// initial value
 		if (parseDate(input.val())) {
 			select(value, conf);
 		}
@@ -787,5 +795,3 @@
 	
 	
 }) (jQuery);
- 
-	
