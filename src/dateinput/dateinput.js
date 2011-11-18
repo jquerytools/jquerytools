@@ -334,7 +334,7 @@
 					
 					if (!opened) { 
 						self.show(e); 
-						return e.preventDefault();
+						return conf.editable;
 					} 
 					
 					var days = $("#" + css.weeks + " a"), 
@@ -360,7 +360,7 @@
 					}
 					
 					el.addClass(css.focus);
-					return e.preventDefault();
+					return conf.editable;
 					
 				}
 			 
@@ -378,7 +378,7 @@
 					}
 				}
 				
-				return $([16, 17, 18, 9]).index(key) >= 0;  				
+				return $([16, 17, 18, 9]).index(key) >= 0 : conf.editable;  				
 			});
 			
 			
