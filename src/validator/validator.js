@@ -261,7 +261,7 @@
 
 	v.fn(":radio", "Please select an option.", function(el) {
 		var	checked = false;
-		var	els = $("[name=" + el.attr("name") + "]").each(function(i, el) {
+		var	els = $("[name='" + el.attr("name") + "']").each(function(i, el) {
 			if ($(el).is(":checked")) {
 				checked = true;
 			}
@@ -578,7 +578,7 @@
 
 		// get radio groups by name
 		inputs.filter(":radio[required]").bind("change.V", function(e) {			
-			var els = $("[name=" + $(e.srcElement).attr("name") + "]");
+			var els = $("[name='" + $(e.srcElement).attr("name") + "']");
 			if ((els != null) && (els.length != 0)) {
 				self.checkValidity(els, e);
 			}
