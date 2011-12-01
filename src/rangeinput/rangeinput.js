@@ -162,17 +162,8 @@
 			}
 		});			   
 		
-		var range = conf.max - conf.min, 
-			 step = conf.step == 'any' ? 0 : conf.step,
-			 precision = conf.precision;
-			 
-		if (precision === undefined) {
-			try {
-				precision = step.toString().split(".")[1].length;
-			} catch (err) {
-				precision = 0;	
-			}
-		}  
+        var range, step, precision;
+        updateRange(conf);
 		
 		// Replace built-in range input (type attribute cannot be changed)
 		if (input.attr("type") == 'range') {			
@@ -187,6 +178,23 @@
 		input.addClass(css.input);
 			 
 		var fire = $(self).add(input), fireOnSlide = true;
+
+        /**
+            Calculate range, step and precision values by config.
+         */
+        function updateRange(conf) {
+            range = conf.max - conf.min, 
+                 step = conf.step == 'any' ? 0 : conf.step,
+                 precision = conf.precision;
+                 
+            if (precision === undefined) {
+                try {
+                    precision = step.toString().split(".")[1].length;
+                } catch (err) {
+                    precision = 0;	
+                }
+            }  
+        }
 
 		
 		/**
@@ -321,7 +329,32 @@
 			// HTML5 compatible name
 			stepDown: function(am) { 
 				return self.step(-am || -1);
-			}
+			},
+
+            setRange: function(min, max) {
+                conf.min = min;
+                conf.max = max;
+
+                range = conf.max - conf.min, 
+                     step = conf.step == 'any' ? 0 : conf.step,
+                     precision = conf.precision;
+                     
+                if (precision === undefined) {
+                    try {
+                        precision = step.toString().split(".")[1].length;
+                    } catch (err) {
+                        precision = 0;	
+                    }
+                }  
+
+                if (conf.value < min) {
+                    conf.value = min;
+                }
+                else if (conf.value > max) {
+                    conf.value = max;
+                }
+                self.setValue(conf.value);
+            }
 			
 		});
 		
