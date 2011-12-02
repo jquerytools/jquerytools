@@ -335,17 +335,7 @@
                 conf.min = min;
                 conf.max = max;
 
-                range = conf.max - conf.min, 
-                     step = conf.step == 'any' ? 0 : conf.step,
-                     precision = conf.precision;
-                     
-                if (precision === undefined) {
-                    try {
-                        precision = step.toString().split(".")[1].length;
-                    } catch (err) {
-                        precision = 0;	
-                    }
-                }  
+                updateRange(conf);
 
                 //Update values if they does not belong to range anymore.
                 var value = self.getValue();
