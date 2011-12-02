@@ -347,13 +347,15 @@
                     }
                 }  
 
-                if (conf.value < min) {
-                    conf.value = min;
+                //Update values if they does not belong to range anymore.
+                var value = self.getValue();
+                if (value < min) {
+                    value = min;
                 }
-                else if (conf.value > max) {
-                    conf.value = max;
+                else if (value > max) {
+                    value = max;
                 }
-                self.setValue(conf.value);
+                self.setValue(value);
             }
 			
 		});
