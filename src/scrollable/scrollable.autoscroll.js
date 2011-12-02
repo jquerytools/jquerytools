@@ -18,7 +18,8 @@
 		conf: {
 			autoplay: true,
 			interval: 3000,
-			autopause: true
+			autopause: true,
+			invert: false
 		}
 	};	
 	
@@ -45,7 +46,7 @@
       */
       function scroll(){        
         timer = setTimeout(function(){
-          api.next();
+          ops.invert?api.prev():api.next();
         }, opts.interval);
       }
 			    
