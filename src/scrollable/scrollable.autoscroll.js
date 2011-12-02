@@ -46,7 +46,7 @@
       */
       function scroll(){        
         timer = setTimeout(function(){
-          ops.invert?api.prev():api.next();
+          opts.invert?api.prev():api.next();
         }, opts.interval);
       }
 			    
