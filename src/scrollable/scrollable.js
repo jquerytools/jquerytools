@@ -8,6 +8,7 @@
  *
  * Since: March 2008
  * Date: @DATE 
+ * eddit by christopher pietsch cpietsch@gmail.com
  */
 (function($) { 
 
@@ -33,7 +34,8 @@
 			speed: 400,
 			vertical: false,
 			touch: true,
-			wheelSpeed: 0
+			wheelSpeed: 0,
+			displaySize:null
 		} 
 	};
 					
@@ -152,7 +154,7 @@
 				if (conf.circular && i === 0 && index == -1 && time !== 0) { return self; }
 				
 				// check that index is sane				
-				if (!conf.circular && i < 0 || i > self.getSize() || i < -1) { return self; }
+				if (!conf.circular && (i < 0 || i > self.getSize() - (conf.displaySize-1 || 0) || i < -1)) { return self; }
 				
 				var item = i;
 			
@@ -201,11 +203,17 @@
 		
 		// circular loop
 		if (conf.circular) {
-			
 			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
-				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
+				cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
 
 			cloned1.add(cloned2).addClass(conf.clonedClass);
+					
+			if(conf.displaySize!==undefined){
+				for(var i=0;i<conf.displaySize-1;i++){
+					var clone=self.getItems().eq(1+i).clone().appendTo(itemWrap);
+					clone.addClass(conf.clonedClass);
+				}
+			}
 			
 			self.onBeforeSeek(function(e, i, time) {
 				
@@ -264,7 +272,7 @@
 				setTimeout(function() {
 					if (!e.isDefaultPrevented()) {
 						prev.toggleClass(conf.disabledClass, i <= 0);
-						next.toggleClass(conf.disabledClass, i >= self.getSize() -1);
+						next.toggleClass(conf.disabledClass, i >= self.getSize() - (conf.displaySize || 1));
 					}
 				}, 1);
 			});
@@ -274,7 +282,7 @@
 			}			
 		}
 			
-		if (self.getSize() < 2) {
+		if (self.getSize() < (conf.displaySize+1 || 2)) {
 			prev.add(next).addClass(conf.disabledClass);	
 		}
 			

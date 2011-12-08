@@ -1,0 +1,82 @@
+
+<script src="../js/jquery-1.4.2.min.js"></script>
+<script src="../../src/scrollable/scrollable.js"></script>
+<script src="../../src/scrollable/scrollable.autoscroll.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<style>
+.disabled {
+	visibility:hidden;		
+}
+.scrollable {
+	height: 90px;
+	width: 265px;	
+}
+</style>
+
+<script>
+$(function() {
+	
+		$("#1").scrollable({
+			size: 1,
+			circular: true,
+			displaySize:2
+		});
+
+	
+		$("#2").scrollable({
+			size: 1,
+			circular: true
+		});
+
+	
+	// api.addItem("<div>added</div>");
+});
+</script>
+
+press next 5 times, you will see that without diplaySize the cycle isn't working properly
+<div id="1">
+	
+	<a class="prev">prev</a>
+	
+	<div class="navi"></div>
+	
+	<div class="scrollable">
+		
+		<div class="items">
+			<div>0</div>  
+			<div>1</div>
+			<div>2</div>
+			<div>3</div>
+			<div>4</div>
+		</div>
+		
+	</div> 
+	
+	<a class="next">next</a>
+	
+</div>
+
+
+<div id="2">
+	
+	<a class="prev">prev</a>
+	
+	<div class="navi"></div>
+	
+	<div class="scrollable">
+		
+		<div class="items">
+			<div>0</div>  
+			<div>1</div>
+			<div>2</div>
+			<div>3</div>
+			<div>4</div>
+		</div>
+		
+	</div> 
+	
+	<a class="next">next</a>
+	
+</div>
+
