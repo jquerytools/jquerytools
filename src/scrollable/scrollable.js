@@ -154,7 +154,7 @@
 				if (conf.circular && i === 0 && index == -1 && time !== 0) { return self; }
 				
 				// check that index is sane				
-				if (!conf.circular && (i < 0 || i > self.getSize() - (conf.displaySize || 0) || i < -1)) { return self; }
+				if (!conf.circular && (i < 0 || i > self.getSize() - (conf.displaySize-1 || 0) || i < -1)) { return self; }
 				
 				var item = i;
 			
@@ -203,7 +203,6 @@
 		
 		// circular loop
 		if (conf.circular) {
-			
 			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
 				cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
 

@@ -17,7 +17,8 @@
 		
 		conf: {
 			navi: '.navi',
-			naviItem: 'a',		
+			naviItem: 'span',	
+			naviItemClass: 'navItem',	
 			activeClass: 'active',
 			indexed: false,
 			idPrefix: null,
@@ -70,55 +71,59 @@
 			}
 			
 			function els() {
-				return navi.find('.navItem');	
+				return navi.find('.'+conf.naviItemClass);	
 			}
 
 			
 			function addItem(i) {  
 							
-				var item = $("<" + (conf.naviItem || 'a') + "/>").click(function(e)  {
+				var item = $("<"+conf.naviItem+"><a></a></"+conf.naviItem+">").find('a').click(function(e)  {
 					doClick($(this), i, e);
 					
-				}).attr("href", "#" + i).addClass('navItem');
-				
+				}).addClass('navItem').attr("href", "#" + i).end().addClass(conf.naviItemClass);
+			
 				// index number / id attribute
 				if (i === 0) {  item.addClass(cls); }
-				if (conf.indexed)  { item.text(i + 1); }
-				if (conf.idPrefix) { item.attr("id", conf.idPrefix + i); } 
+				if (conf.indexed)  { item.find('a').text(i + 1); }
+				if (conf.idPrefix) { item.find('a').attr("id", conf.idPrefix + i); } 
 				
 				if(i==1 || i==api.getSize()-1){
-					$("<" + (conf.naviItem) + "/>").addClass('points').appendTo(navi).text("…").hide();
+					$("<a/>").addClass('points').appendTo(navi).wrap('<'+conf.naviItem+'/>').text("...").hide();
 				}
 				
 				return item.appendTo(navi);
 			}
 			
-			function makeCoolPagination(){
+			function makeCoolPagination(index){
+				//console.log("pagei",els());
 				
 				// hide points
 				navi.find('.points').hide();
 				
-				els().each(function(i,elm) { 
-					if(i==0 || i==api.getSize()-1){
-						// für den ersten und letzten
-						$(elm).show();
-					} else {
-						if(Math.abs(i-api.getIndex())<2){
+				navi.each(function(){
+					$('.'+conf.naviItemClass,this).each(function(i,elm) { 
+
+						if(i==0 || i==api.getSize()-1){
+							// für den ersten und letzten
 							$(elm).show();
 						} else {
-							$(elm).hide();
-							
+							if(Math.abs(i-api.getIndex())<2){
+								$(elm).show();
+							} else {
+								$(elm).hide();
+
+							}
 						}
-					}
-					if(api.getIndex()>2){
-						navi.find('.points:first').show();
-					}
-					if(api.getSize()-api.getIndex()>3){
-						navi.find('.points:last').show();
-					}
-					
+						if(api.getIndex()>2){
+							navi.find('.points:first').show();
+						}
+						if(api.getSize()-api.getIndex()>3){
+							navi.find('.points:last').show();
+						}
+
+					}).removeClass(cls).eq(index).addClass(cls);
 				});
-				
+							
 				
 			}
 
@@ -138,17 +143,20 @@
 			}   
 			
 			// Make cool pagination
-			makeCoolPagination();
+			makeCoolPagination(0);
+			
 		
 			// activate correct entry
 			api.onBeforeSeek(function(e, index) {
 				setTimeout(function() {
 					if (!e.isDefaultPrevented()) {
-						makeCoolPagination();
+						makeCoolPagination(index);
+						/*
 						var el = els().eq(index);
 						if (!e.isDefaultPrevented() && el.length) {			
 							els().removeClass(cls).eq(index).addClass(cls);
 						}
+						*/
 					}
 				}, 1);
 			}); 
@@ -175,4 +183,4 @@
 		
 	};
 	
-})(jQuery);
+})(jQuery);	

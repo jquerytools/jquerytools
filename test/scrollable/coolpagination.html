@@ -1,0 +1,71 @@
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script src="../js/jquery-1.4.2.min.js"></script>
+<script src="../../src/scrollable/scrollable.js"></script>
+<script src="../../src/scrollable/scrollable.navigator.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<style>
+.disabled {
+	visibility:hidden;		
+}
+.scrollable {
+	height: 90px;
+	width: 265px;	
+}
+
+.navi a {
+	background:none;
+}
+</style>
+
+<script>
+$(function() {
+	var api = $(".scrollable").scrollable({
+		
+		onBeforeSeek: function() {
+			console.info("jou");
+		},
+		size: 2
+		
+	}).navigator({indexed:true}); 		
+	
+	// api.addItem("<div>added</div>");
+});
+</script>
+</head>
+<body>
+	
+<div>
+	
+	<a class="prev">prev</a>
+	
+	<div class="navi"></div>
+	
+	<div class="scrollable">
+		
+		<div class="items">
+			<div>0</div>  
+			<div>1</div>
+			<div>2</div>
+			<div>3</div>
+			<div>4</div>
+			<div>5</div>
+			<div>6</div>
+			<div>7</div>
+			<div>8</div>
+			<div>9</div>
+			<div>10</div>
+
+		</div>
+		
+	</div> 
+	
+	<a class="next">next</a>
+	
+</div>
+</body>
+</html>
