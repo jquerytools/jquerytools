@@ -34,7 +34,8 @@
 			// callbacks
 			onLoad: null,
 			onClose: null
-		}
+		}, 
+		mask: null
 	};
 
 	/* one of the greatest headaches in the tool. finally made it */
@@ -59,14 +60,14 @@
 	} 
 	
 	function call(fn) {
-		if (fn) { return fn.call($.mask); }
+		if (fn) { return fn.call(tool.mask); }
 	}
 	
 	var mask, exposed, loaded, config, overlayIndex;		
-	
-	
-	$.mask = {
-		
+
+
+	tool.mask = {
+
 		load: function(conf, els) {
 			
 			// already loaded ?
@@ -118,7 +119,7 @@
 			if (conf.closeOnEsc) {						
 				$(document).bind("keydown.mask", function(e) {							
 					if (e.keyCode == 27) {
-						$.mask.close(e);	
+						tool.mask.close(e);	
 					}		
 				});			
 			}
@@ -126,13 +127,13 @@
 			// mask click closes
 			if (conf.closeOnClick) {
 				mask.bind("click.mask", function(e)  {
-					$.mask.close(e);		
+					tool.mask.close(e);		
 				});					
 			}			
 			
 			// resize mask when window is resized
 			$(window).bind("resize.mask", function() {
-				$.mask.fit();
+				tool.mask.fit();
 			});
 			
 			// exposed elements
@@ -154,7 +155,7 @@
 			
 			// reveal mask
 			mask.css({display: 'block'}).fadeTo(conf.loadSpeed, conf.opacity, function() {
-				$.mask.fit(); 
+				tool.mask.fit(); 
 				call(conf.onLoad);
 				loaded = "full";
 			});
@@ -209,14 +210,16 @@
 			return exposed;	
 		}		
 	};
-	
+
+	$.mask = tool.expose;
+
 	$.fn.mask = function(conf) {
-		$.mask.load(conf);
+		tool.mask.load(conf);
 		return this;		
 	};			
 	
 	$.fn.expose = function(conf) {
-		$.mask.load(conf, this);
+		tool.mask.load(conf, this);
 		return this;			
 	};
 
