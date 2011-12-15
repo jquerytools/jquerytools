@@ -1,5 +1,5 @@
 
-<script src="../js/jquery-1.4.2.js"></script>
+<script src="../js/jquery-1.6.2.js"></script>
 <script src="../../src/dateinput/dateinput.js"></script>
 
 <link rel="stylesheet" type="text/css" href="skin1.css"/>
@@ -9,6 +9,12 @@
 <input type="date" name="mydate" />
 
 <input type="date" name="mydate" data-value="1967-05-30" />
+
+<input type="date" name="date1" value="Today" />
+
+<input type="date" name="date2" value="5 days from now" min="2010-03-01" max="2012-01-01" />
+
+<input type="date" name="date3" value="15" min="-25" max="25" data-value="15"/>
 
 <!-- make it happen -->
 <script>
@@ -24,7 +30,19 @@ $(":date:eq(1)").dateinput({
   firstDay: 1,
   speed: 'fast',
   selectors: false,
-  yearRange: [-75, -10]
+  yearRange: [-75, -10],
+  trigger: true,
+  toggle: true
+});
+
+$(":date:eq(2), :date:eq(3), :date:eq(4)").dateinput({
+  format: 'dddd dd, mmmm yyyy',   // the format displayed for the user
+  selectors: true,                // whether month/year dropdowns are shown
+  min: -100,                    // min selectable day (100 days backwards)
+  max: 100,                       // max selectable day (100 days onwards)
+  offset: [10, 20],               // tweak the position of the calendar
+  speed: 'fast',                  // calendar reveal speed
+  firstDay: 1                     // which day starts a week. 0 = sunday, 1 = monday etc..
 });
 </script>
 

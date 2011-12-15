@@ -23,12 +23,13 @@
 			disabledClass: 'disabled',
 			easing: 'swing',
 			initialIndex: 0,
-			item: null,
+			item: '> *',
 			items: '.items',
 			keyboard: true,
 			mousewheel: false,
 			next: '.next',   
 			prev: '.prev', 
+			size: 1,
 			speed: 400,
 			vertical: false,
 			touch: true,
@@ -63,6 +64,10 @@
 				
 		if (!current) { current = self; } 
 		if (itemWrap.length > 1) { itemWrap = $(conf.items, root); }
+		
+		
+		// in this version circular not supported when size > 1
+		if (conf.size > 1) { conf.circular = false; } 
 		
 		// methods
 		$.extend(self, {
@@ -100,11 +105,11 @@
 			},
 			
 			next: function(time) {
-				return self.move(1, time);	
+				return self.move(conf.size, time);	
 			},
 			
 			prev: function(time) {
-				return self.move(-1, time);	
+				return self.move(-conf.size, time);	
 			},
 			
 			begin: function(time) {
@@ -125,9 +130,11 @@
 				
 				if (!conf.circular)  {
 					itemWrap.append(item);
+					next.removeClass("disabled");
+					
 				} else {
-					itemWrap.children("." + conf.clonedClass + ":last").before(item);
-					itemWrap.children("." + conf.clonedClass + ":first").replaceWith(item.clone().addClass(conf.clonedClass)); 						
+					itemWrap.children().last().before(item);
+					itemWrap.children().first().replaceWith(item.clone().addClass(conf.clonedClass)); 						
 				}
 				
 				fire.trigger("onAddItem", [item]);
@@ -212,11 +219,10 @@
 			
 			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
 				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
-				
+
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			
 			self.onBeforeSeek(function(e, i, time) {
-
 				
 				if (e.isDefaultPrevented()) { return; }
 				
@@ -237,17 +243,38 @@
 				}
 				
 			});
-			
+
 			// seek over the cloned item
-			self.seekTo(0, 0, function() {});
+
+			// if the scrollable is hidden the calculations for seekTo position
+			// will be incorrect (eg, if the scrollable is inside an overlay).
+			// ensure the elements are shown, calculate the correct position,
+			// then re-hide the elements. This must be done synchronously to
+			// prevent the hidden elements being shown to the user.
+
+			// See: https://github.com/jquerytools/jquerytools/issues#issue/87
+
+			var hidden_parents = root.parents().add(root).filter(function () {
+				if ($(this).css('display') === 'none') {
+					return true;
+				}
+			});
+			if (hidden_parents.length) {
+				hidden_parents.show();
+				self.seekTo(0, 0, function() {});
+				hidden_parents.hide();
+			}
+			else {
+				self.seekTo(0, 0, function() {});
+			}
+
 		}
 		
 		// next/prev buttons
-		var prev = find(root, conf.prev).click(function() { self.prev(); }),
-			 next = find(root, conf.next).click(function() { self.next(); });	
+		var prev = find(root, conf.prev).click(function(e) { e.stopPropagation(); self.prev(); }),
+			 next = find(root, conf.next).click(function(e) { e.stopPropagation(); self.next(); }); 
 		
-		if (!conf.circular && self.getSize() > 1) {
-			
+		if (!conf.circular) {
 			self.onBeforeSeek(function(e, i) {
 				setTimeout(function() {
 					if (!e.isDefaultPrevented()) {
@@ -255,11 +282,15 @@
 						next.toggleClass(conf.disabledClass, i >= self.getSize() -1);
 					}
 				}, 1);
-			}); 
+			});
 			
 			if (!conf.initialIndex) {
 				prev.addClass(conf.disabledClass);	
-			}
+			}			
+		}
+			
+		if (self.getSize() < 2) {
+			prev.add(next).addClass(conf.disabledClass);	
 		}
 			
 		// mousewheel support
@@ -301,7 +332,9 @@
 			$(document).bind("keydown.scrollable", function(evt) {
 
 				// skip certain conditions
-				if (!conf.keyboard || evt.altKey || evt.ctrlKey || $(evt.target).is(":input")) { return; }
+				if (!conf.keyboard || evt.altKey || evt.ctrlKey || evt.metaKey || $(evt.target).is(":input")) { 
+					return; 
+				}
 				
 				// does this instance have focus?
 				if (conf.keyboard != 'static' && current != self) { return; }

@@ -27,14 +27,14 @@
 				// create iframe that is constantly checked for hash changes
 				if (!iframe) {
 					iframe = $("<iframe/>").attr("src", "javascript:false;").hide().get(0);
-					$("body").append(iframe);
+					$("body").prepend(iframe);
 									
 					setInterval(function() {
 						var idoc = iframe.contentWindow.document, 
 							 h = idoc.location.hash;
 					
 						if (hash !== h) {						
-							$.event.trigger("hash", h);
+							$(window).trigger("hash", h);
 						}
 					}, 100);
 					
@@ -47,7 +47,7 @@
 				setInterval(function() {
 					var h = location.hash;
 					if (h !== hash) {
-						$.event.trigger("hash", h);
+						$(window).trigger("hash", h);
 					}						
 				}, 100);
 			}

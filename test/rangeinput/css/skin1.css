@@ -13,6 +13,7 @@
 	cursor:pointer; 
 	margin:15px 0; 
 	-moz-border-radius:5px; 
+	border-radius:5px;
 	border:1px inset #333;
 	width:400px;
 	float:left; 
@@ -35,6 +36,7 @@
 	display:block; 
 	margin-top:1px;
 	-moz-border-radius:14px;
+	border-radius:14px;
 }
 
 .range {
