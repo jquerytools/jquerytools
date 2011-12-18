@@ -289,7 +289,12 @@
 		
 //{{{ pick
 			 			 
-		function select(date, conf, e) {  
+		function select(date, conf, e) {
+			// If it is readonly, then we'll just close the calendar
+			if (input.attr('readonly')) {
+				self.hide(e);
+				return;
+			}
 			
 			// current value
 			value 	 = date;
@@ -420,7 +425,7 @@
 			*/					
 			show: function(e) {
 				
-				if (input.attr("readonly") || input.attr("disabled") || opened) { return; }
+				if (input.attr("disabled") || opened) { return; }
 				
 				// onBeforeShow
 				e = e || $.Event();
