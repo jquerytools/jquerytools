@@ -275,15 +275,21 @@
 			self.click($(this).attr("href"), e);		
 		}); 
 		
+		// Use only the part of location.hash that is in front of the first 
+		// slash. This is for frameworks like Backbone.js where you might have 
+		// a URL like http://example.com/myapp#users/pg/3
+		var slashIndex = location.hash.indexOf("/"),
+			locationHashStr = slashIndex === -1 ? location.hash : location.hash.slice(0, slashIndex);
+
 		// open initial tab
-		if (location.hash && conf.tabs == "a" && root.find("[href=" +location.hash+ "]").length) {
-			self.click(location.hash);
+		if (locationHashStr && conf.tabs == "a" && root.find("[href=" + locationHashStr + "]").length) {
+			self.click(locationHashStr);
 
 		} else {
 			if (conf.initialIndex === 0 || conf.initialIndex > 0) {
 				self.click(conf.initialIndex);
 			}
-		}				
+		}					
 		
 	}
 	
