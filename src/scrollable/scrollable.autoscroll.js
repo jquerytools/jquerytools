@@ -38,16 +38,17 @@
 			    // interval stuff
     			timer, stopped = false;
 
-	    /**
-      *
-      *   Function to run autoscroll through event binding rather than setInterval
-      *   Fixes this bug: http://flowplayer.org/tools/forum/25/72029
-      */
-      function scroll(){        
-        timer = setTimeout(function(){
-          api.next();
-        }, opts.interval);
-      }
+			/**
+			 *
+			 *   Function to run autoscroll through event binding rather than setInterval
+			 *   Fixes this bug: http://flowplayer.org/tools/forum/25/72029
+			 */
+			function scroll() {
+				clearTimeout(timer);
+				timer = setTimeout(function(){
+			    	api.next();
+				}, opts.interval);
+			}
 			    
 			if (api) { ret = api; }
 			
@@ -58,13 +59,13 @@
 				
 				stopped = false;
 				
-        root.bind('onSeek', scroll);
-        scroll();
+				root.bind('onSeek', scroll);
+        		scroll();
 			};	
 
 			api.pause = function() {
-				timer = clearTimeout(timer);  // clear any queued items immediately
-        root.unbind('onSeek', scroll);
+				timer = clearTimeout(timer);  // clear any queued items immediately 
+				root.unbind('onSeek', scroll);
 			};
 			
 			// resume playing if not stopped
@@ -74,7 +75,7 @@
 			
 			// when stopped - mouseover won't restart 
 			api.stop = function() {
-			  stopped = true;
+				stopped = true;
 				api.pause();
 			};
 		
@@ -93,4 +94,4 @@
 		
 	}; 
 	
-})(jQuery);		
+})(jQuery);

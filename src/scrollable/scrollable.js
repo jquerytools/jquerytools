@@ -65,10 +65,6 @@
 		if (!current) { current = self; } 
 		if (itemWrap.length > 1) { itemWrap = $(conf.items, root); }
 		
-		
-		// in this version circular not supported when size > 1
-		if (conf.size > 1) { conf.circular = false; } 
-		
 		// methods
 		$.extend(self, {
 				
@@ -117,7 +113,7 @@
 			},
 			
 			end: function(time) {
-				return self.seekTo(self.getSize() -1, time);	
+				return self.seekTo(self.getSize() - conf.size, time);	
 			},	
 			
 			focus: function() {
@@ -143,16 +139,17 @@
 			
 			
 			/* all seeking functions depend on this */		
-			seekTo: function(i, time, fn) {	
-				
+			seekTo: function(i, time, fn) {
+
 				// ensure numeric index
 				if (!i.jquery) { i *= 1; }
 				
 				// avoid seeking from end clone to the beginning
-				if (conf.circular && i === 0 && index == -1 && time !== 0) { return self; }
+
+				if (conf.circular && i === 0 && index == -conf.size && time !== 0) { return self; }
 				
 				// check that index is sane				
-				if (!conf.circular && i < 0 || i > self.getSize() || i < -1) { return self; }
+				if (!conf.circular && i < 0 || i > self.getSize()) { return self; }
 				
 				var item = i;
 			
@@ -202,11 +199,24 @@
 		// circular loop
 		if (conf.circular) {
 			
-			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
-				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
-
-			cloned1.add(cloned2).addClass(conf.clonedClass);
+			//  Clone enough items to fill all open item slots - for instance
+			//  if size is 3 and there are 4 items, clone the first 2 and place
+			//  at the end of the items stack.
+			//
+			//  @todo come up with better strategy to handle smooth scrolling 
+			//
+			if(self.getSize()%conf.size && self.getSize() > conf.size) {
+				var create = conf.size - self.getSize()%conf.size;
+				self.getItems().slice(0, create).clone().appendTo(itemWrap);
+			}
 			
+			//
+			//  Clone the first conf.size items and append them to the container, and clone
+			//  the last conf.size items and prepend them to the container. 
+			//
+			var  cloned2 = self.getItems().slice(0,conf.size).clone().addClass(conf.clonedClass).appendTo(itemWrap),
+				 cloned1 = self.getItems().slice(-conf.size).clone().addClass(conf.clonedClass).prependTo(itemWrap);
+  	 
 			self.onBeforeSeek(function(e, i, time) {
 				
 				if (e.isDefaultPrevented()) { return; }
@@ -215,14 +225,14 @@
 					1. animate to the clone without event triggering
 					2. seek to correct position with 0 speed
 				*/
-				if (i == -1) {
-					self.seekTo(cloned1, time, function()  {
+				if (i == -conf.size) {
+					self.seekTo(cloned1.eq(-conf.size), time, function()  {
 						self.end(0);		
 					});          
 					return e.preventDefault();
 					
 				} else if (i == self.getSize()) {
-					self.seekTo(cloned2, time, function()  {
+					self.seekTo(cloned2.eq(0), time, function()  {
 						self.begin(0);		
 					});	
 				}
@@ -257,14 +267,14 @@
 		
 		// next/prev buttons
 		var prev = find(root, conf.prev).click(function(e) { e.stopPropagation(); self.prev(); }),
-			 next = find(root, conf.next).click(function(e) { e.stopPropagation(); self.next(); }); 
+			next = find(root, conf.next).click(function(e) { e.stopPropagation(); self.next(); }); 
 		
 		if (!conf.circular) {
 			self.onBeforeSeek(function(e, i) {
 				setTimeout(function() {
 					if (!e.isDefaultPrevented()) {
 						prev.toggleClass(conf.disabledClass, i <= 0);
-						next.toggleClass(conf.disabledClass, i >= self.getSize() -1);
+						next.toggleClass(conf.disabledClass, i >= self.getSize() -conf.size);
 					}
 				}, 1);
 			});
@@ -282,7 +292,7 @@
 		if (conf.mousewheel && $.fn.mousewheel) {
 			root.mousewheel(function(e, delta)  {
 				if (conf.mousewheel) {
-					self.move(delta < 0 ? 1 : -1, conf.wheelSpeed || 50);
+					self.move(delta < 0 ? conf.size : -conf.size, conf.wheelSpeed || 50);
 					return false;
 				}
 			});			
@@ -327,12 +337,12 @@
 				var key = evt.keyCode;
 			
 				if (vertical && (key == 38 || key == 40)) {
-					self.move(key == 38 ? -1 : 1);
+					self.move(key == 38 ? -conf.size : conf.size);
 					return evt.preventDefault();
 				}
 				
 				if (!vertical && (key == 37 || key == 39)) {					
-					self.move(key == 37 ? -1 : 1);
+					self.move(key == 37 ? -conf.size : conf.size);
 					return evt.preventDefault();
 				}	  
 				
