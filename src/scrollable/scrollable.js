@@ -7,8 +7,39 @@
  * http://flowplayer.org/tools/scrollable.html
  *
  * Since: March 2008
- * Date: @DATE 
+ * Date: @DATE
  */
+ 
+ /**
+  * 
+  * @date	January 9th 2012
+  * @author Steve Rhoades <sedonami@gmail.com>
+  * @description
+  * Updated scrollable to be configurable with cicrular in terms of how many elements
+  * are moved with each step.  I have chosen to utilize the existing conf.size parameter
+  * for this.
+  * 
+  * @usage
+  * For more usage information see http://www.stephenrhoades.com
+  * 
+  * javascript:
+  * $('.scrollable').scrollable({ size: 3, circular: true });
+  * 
+  * html - this will scroll 3 at a time circular
+  * <div class='scrollable'>
+  * 	<div class='items'>
+  *       	<img src="http://farm1.static.flickr.com/143/321464099_a7cfcb95cf_t.jpg" />
+  *       	<img src="http://farm4.static.flickr.com/3089/2796719087_c3ee89a730_t.jpg" />
+  *       	<img src="http://farm1.static.flickr.com/79/244441862_08ec9b6b49_t.jpg" />
+  *       	<img src="http://farm1.static.flickr.com/28/66523124_b468cf4978_t.jpg" />
+  *       	<img src="http://farm1.static.flickr.com/164/399223606_b875ddf797_t.jpg" />
+  *       	<img src="http://farm1.static.flickr.com/163/399223609_db47d35b7c_t.jpg" />
+  *       	<img src="http://farm1.static.flickr.com/135/321464104_c010dbf34c_t.jpg" />
+  * 	</div>
+  * </div>
+  * 
+  * @see tests/scrollable/circular.html
+  */
 (function($) { 
 
 	// static constructs
@@ -139,34 +170,32 @@
 			
 			
 			/* all seeking functions depend on this */		
-			seekTo: function(i, time, fn) {
+			seekTo: function(i, time, fn, clonedIndex) {
 
 				// ensure numeric index
 				if (!i.jquery) { i *= 1; }
 				
 				// avoid seeking from end clone to the beginning
-
-				if (conf.circular && i === 0 && index == -conf.size && time !== 0) { return self; }
-				
+				if (conf.circular && i > self.getSize() || conf.circular && i < -self.getSize()) { return self; }
+								
 				// check that index is sane				
-				if (!conf.circular && i < 0 || i > self.getSize()) { return self; }
+				if (!conf.circular && i < 0 || !conf.circular &&  i > self.getSize()) { return self; }
 				
 				var item = i;
 			
 				if (i.jquery) {
-					i = self.getItems().index(i);	
-					
+					i = clonedIndex;	
 				} else {
 					item = self.getItems().eq(i);
 				}  
-				
+
 				// onBeforeSeek
 				var e = $.Event("onBeforeSeek"); 
 				if (!fn) {
 					fire.trigger(e, [i, time]);				
 					if (e.isDefaultPrevented() || !item.length) { return self; }			
 				}  
-	
+
 				var props = vertical ? {top: -item.position().top} : {left: -item.position().left};  
 				
 				index = i;
@@ -198,46 +227,54 @@
 		
 		// circular loop
 		if (conf.circular) {
-			
-			//  Clone enough items to fill all open item slots - for instance
-			//  if size is 3 and there are 4 items, clone the first 2 and place
-			//  at the end of the items stack.
-			//
-			//  @todo come up with better strategy to handle smooth scrolling 
-			//
-			if(self.getSize()%conf.size && self.getSize() > conf.size) {
-				var create = conf.size - self.getSize()%conf.size;
-				self.getItems().slice(0, create).clone().appendTo(itemWrap);
-			}
-			
 			//
 			//  Clone the first conf.size items and append them to the container, and clone
 			//  the last conf.size items and prepend them to the container. 
 			//
-			var  cloned2 = self.getItems().slice(0,conf.size).clone().addClass(conf.clonedClass).appendTo(itemWrap),
-				 cloned1 = self.getItems().slice(-conf.size).clone().addClass(conf.clonedClass).prependTo(itemWrap);
-  	 
+			var  cloned2 = self.getItems().slice(0,self.getSize()).clone().addClass(conf.clonedClass).appendTo(itemWrap),
+			 cloned1 = self.getItems().slice(-self.getSize()).clone().addClass(conf.clonedClass).prependTo(itemWrap);
+  	
 			self.onBeforeSeek(function(e, i, time) {
 				
-				if (e.isDefaultPrevented()) { return; }
+				if (e.isDefaultPrevented() || self.supressEvents) { return; }
 				
 				/*
 					1. animate to the clone without event triggering
 					2. seek to correct position with 0 speed
 				*/
 				if (i == -conf.size) {
+					// seek to the end
 					self.seekTo(cloned1.eq(-conf.size), time, function()  {
 						self.end(0);		
 					});          
+					
 					return e.preventDefault();
 					
 				} else if (i == self.getSize()) {
+					//seek to the beginning
 					self.seekTo(cloned2.eq(0), time, function()  {
 						self.begin(0);		
-					});	
+					});
+				} else if(i < 0) { 
+					// if i is less than 0 then seek to that beginning position
+					// then seekTo the position within the main elements.
+					self.seekTo(cloned1.eq(i), time, function() {
+						// add empty function to supress onBeforeSeek event call
+						self.seekTo(i + self.getSize(), 0, function(){});
+					}, i);
+					
+					return e.preventDefault();
+
+				} else if(i + conf.size > self.getSize()) {
+					// the next position will exceed the size.  seek to current position then 
+					// find the corresponding index in cloned1 (beginning) and go there with time 0
+					self.seekTo(i, time, function() {
+						var clonedIndex = i - self.getSize();
+						// add empty function to supress onBeforeSeek event call
+						self.seekTo(cloned1.eq(clonedIndex), 0, function(){}, clonedIndex);
+					});
 				}
-				
-			});
+			});	
 
 			// seek over the cloned item
 
