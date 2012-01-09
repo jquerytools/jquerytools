@@ -8,10 +8,20 @@
 
 <script>
 $(function() {
-	$(".scrollable").scrollable({
+	$("#scrollable").scrollable({
 		size: 3,
 		circular: true		
 	}).navigator(); 	
+});
+
+$(function() {
+	$("#scrollable-auto").scrollable({
+		size: 3,
+		circular: true		
+	}).navigator().autoscroll({
+		autoplay: true,
+		interval: 1000
+	}); 	
 });
 </script>
 
@@ -20,7 +30,7 @@ $(function() {
 	
 	<a class="prev">prev</a>
 	
-	<div class="scrollable" style="width:390px">
+	<div id="scrollable" class="scrollable" style="width:390px">
 		
 		<div class="items">
 			<div>0</div>  
@@ -39,3 +49,25 @@ $(function() {
 	
 </div>
 
+<div>
+	
+	<a class="prev">prev</a>
+	
+	<div id="scrollable-auto" class="scrollable" style="width:390px">
+		
+		<div class="items">
+			<div>0</div>  
+			<div>1</div>  
+			<div>2</div>  
+			<div>3</div>  
+			<div>4</div>
+			<div>5</div>  
+			<div>6</div>
+			<div>7</div> 
+		</div>
+		
+	</div> 
+	
+	<a class="next">next</a>
+	
+</div>
