@@ -282,13 +282,14 @@
 			currMonth = date.getMonth();
 			currDay	 = date.getDate();				
 			
+			e || (e = $.Event("api"));
+
 			// focus the input after selection (doesn't work in IE)
 			if (e.type == "click" && !$.browser.msie) {
 				input.focus();
 			}
 			
-			// beforChange
-			e = e || $.Event("api");
+			// beforeChange
 			e.type = "beforeChange";
 			
 			fire.trigger(e, [date]);
@@ -418,16 +419,16 @@
 				
 				opened = true;
 				
-				// month selector
-				monthSelector.unbind("change").change(function() {
-					self.setValue(yearSelector.val(), $(this).val());		
-				});
-				
-				// year selector
-				yearSelector.unbind("change").change(function() {
-					self.setValue($(this).val(), monthSelector.val());		
-				});
-				
+        // month selector
+        monthSelector.unbind("change").change(function() {
+          self.setValue(integer(yearSelector.val()), integer($(this).val()));
+        });
+
+        // year selector
+        yearSelector.unbind("change").change(function() {
+          self.setValue(integer($(this).val()), integer(monthSelector.val()));
+        });
+        
 				// prev / next month
 				pm = root.find("#" + css.prev).unbind("click").click(function(e) {
 					if (!pm.hasClass(css.disabled)) {	

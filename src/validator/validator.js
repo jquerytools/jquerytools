@@ -95,14 +95,17 @@
 	};
 	
 	/* calculate error message position relative to the input */  	
-	function getPosition(trigger, el, conf) {	
+	function getPosition(trigger, el, conf) {
+	
+		// Get the first element in the selector set
+		el = $(el).first() || el;
 		
 		// get origin top/left position 
-		var top = trigger.offset().top, 
-			 left = trigger.offset().left,	 
-			 pos = conf.position.split(/,?\s+/),
-			 y = pos[0],
-			 x = pos[1];
+		var	top = trigger.offset().top,
+			left = trigger.offset().left,
+			pos = conf.position.split(/,?\s+/),
+			y = pos[0],
+			x = pos[1];
 		
 		top  -= el.outerHeight() - conf.offset[0];
 		left += trigger.outerWidth() + conf.offset[1];
@@ -256,12 +259,21 @@
 		return p.test(el.val()); 			
 	});
 
+	v.fn(":radio", "Please select an option.", function(el) {
+		var	checked = false;
+		var	els = $("[name=" + el.attr("name") + "]").each(function(i, el) {
+			if ($(el).is(":checked")) {
+				checked = true;
+			}
+		});
+		return (checked) ? true : false;
+	});
 	
 	function Validator(inputs, form, conf) {		
 		
 		// private variables
 		var self = this, 
-			 fire = form.add(self);
+			fire = form.add(self);
 
 		// make sure there are input fields available
 		inputs = inputs.not(":button, :image, :reset, :submit");			 
@@ -370,7 +382,7 @@
 						msg.remove();
 						$(this).data("msg.el", null);
 					}
-				}).unbind(conf.errorInputEvent || '');
+				}).unbind(conf.errorInputEvent + '.v' || '');
 				return self;
 			},
 			
@@ -388,6 +400,17 @@
 				
 				els = els || inputs;    
 				els = els.not(":disabled");
+
+				// filter duplicate elements by name
+				var names = {};
+				els = els.filter(function(){
+					var name = $(this).attr("name");					
+					if (!names[name]) {
+						names[name] = true;
+						return $(this);
+					}
+				});
+
 				if (!els.length) { return true; }
 
 				e = e || $.Event();
@@ -401,7 +424,7 @@
 				var errs = [];
  
 				// loop trough the inputs
-				els.not(":radio:not(:checked)").each(function() {
+				els.each(function() {
 						
 					// field and it's error message container						
 					var msgs = [], 
@@ -545,22 +568,27 @@
 			});	
 		} 
 	
-		// checkboxes, selects and radios are checked separately
+		// checkboxes and selects are checked separately
 		inputs.filter(":checkbox, select").filter("[required]").bind("change.V", function(e) {
 			var el = $(this);
 			if (this.checked || (el.is("select") && $(this).val())) {
 				effects[conf.effect][1].call(self, el, e); 
 			}
-		});		
-		
-		var radios = inputs.filter(":radio").change(function(e) {
-			self.checkValidity(radios, e);
+		});
+
+		// get radio groups by name
+		inputs.filter(":radio[required]").bind("change.V", function(e) {			
+			var els = $("[name=" + $(e.srcElement).attr("name") + "]");
+			if ((els != null) && (els.length != 0)) {
+				self.checkValidity(els, e);
+			}
 		});
 		
 		// reposition tooltips when window is resized
 		$(window).resize(function() {
 			self.reflow();		
 		});
+		
 	}
 
 	
@@ -594,5 +622,3 @@
 	};   
 		
 })(jQuery);
-			
-

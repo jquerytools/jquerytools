@@ -22,6 +22,7 @@
 			onBeforeClick: null,
 			onClick: null, 
 			effect: 'default',
+			initialEffect: false,   // whether or not to show effect in first init of tabs
 			initialIndex: 0,			
 			event: 'click',
 			rotate: false,
@@ -141,11 +142,11 @@
 	
 	function Tabs(root, paneSelector, conf) {
 		
-		var self = this, 
-			 trigger = root.add(this),
-			 tabs = root.find(conf.tabs),
-			 panes = paneSelector.jquery ? paneSelector : root.children(paneSelector),			 
-			 current;
+		var self = this,
+        trigger = root.add(this),
+        tabs = root.find(conf.tabs),
+        panes = paneSelector.jquery ? paneSelector : root.children(paneSelector),
+        current;
 			 
 		
 		// make sure tabs and panes are found
@@ -158,7 +159,8 @@
 		$.extend(this, {				
 			click: function(i, e) {
 			  
-				var tab = tabs.eq(i);
+				var tab = tabs.eq(i),
+				    firstRender = !root.data('tabs');
 				
 				if (typeof i == 'string' && i.replace("#", "")) {
 					tab = tabs.filter("[href*=" + i.replace("#", "") + "]");
@@ -185,9 +187,12 @@
 				e.type = "onBeforeClick";
 				trigger.trigger(e, [i]);				
 				if (e.isDefaultPrevented()) { return; }
+				
+        // if firstRender, only run effect if initialEffect is set, otherwise default
+				var effect = firstRender ? conf.initialEffect && conf.effect || 'default' : conf.effect;
 
 				// call the effect
-				effects[conf.effect].call(self, i, function() {
+				effects[effect].call(self, i, function() {
 					current = i;
 					// onClick callback
 					e.type = "onClick";
