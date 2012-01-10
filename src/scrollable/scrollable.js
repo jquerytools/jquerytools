@@ -236,7 +236,7 @@
   	
 			self.onBeforeSeek(function(e, i, time) {
 				
-				if (e.isDefaultPrevented() || self.supressEvents) { return; }
+				if (e.isDefaultPrevented()) { return; }
 				
 				/*
 					1. animate to the clone without event triggering
