@@ -68,8 +68,10 @@
 	$.mask = {
 		
 		load: function(conf, els) {
-			
-			// already loaded ?
+			// must halt animation on close or a closing mask will have loaded == true
+			if (mask) {
+				mask.stop(true,true);
+			}
 			if (loaded) { return this; }			
 			
 			// configuration
