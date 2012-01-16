@@ -44,6 +44,8 @@
       *   Fixes this bug: http://flowplayer.org/tools/forum/25/72029
       */
       function scroll(){        
+      	// Fixes https://github.com/jquerytools/jquerytools/issues/591
+        if (timer) clearTimeout(timer); // reset timeout, especially for onSeek event
         timer = setTimeout(function(){
           api.next();
         }, opts.interval);
