@@ -176,10 +176,10 @@
 				if (!i.jquery) { i *= 1; }
 				
 				// avoid seeking from end clone to the beginning
-				if (conf.circular && i > self.getSize() || conf.circular && i < -self.getSize()) { return self; }
+				if ( (conf.circular && i > self.getSize()) || (conf.circular && i < -self.getSize()) ) { return self; }
 								
 				// check that index is sane				
-				if (!conf.circular && i < 0 || !conf.circular &&  i > self.getSize()) { return self; }
+				if ( (!conf.circular && i < 0) || (!conf.circular &&  i > self.getSize()) ) { return self; }
 				
 				var item = i;
 			
