@@ -44,7 +44,7 @@
 			 *   Fixes this bug: http://flowplayer.org/tools/forum/25/72029
 			 */
 			function scroll() {
-				clearTimeout(timer);
+				if(timer) clearTimeout(timer);
 				timer = setTimeout(function(){
 			    	api.next();
 				}, opts.interval);
