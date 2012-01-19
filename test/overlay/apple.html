@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <script src="../js/jquery-1.6.2.js"></script>
+    <script src="../../src/overlay/overlay.js"></script>
+    <script src="../../src/overlay/overlay.apple.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+  </head>
+  
+  <body>
+    
+    <p>
+    	<a rel="#overlay2" href="#">show overlay</a>
+    </p>
+
+    <div class="overlay" id="overlay2">
+
+    	<div style="padding:40px">
+    		asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj 
+    	</div>
+
+    </div>
+
+    <script>
+    $("a[rel]").overlay({
+    	closeOnClick: false,
+
+    	mask: { 
+    		color: '#ccc',
+    		closeSpeed: 200
+    	},
+    	
+    	effect: 'apple'
+    });
+    </script>
+    
+  </body>
+</html>
