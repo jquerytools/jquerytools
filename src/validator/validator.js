@@ -254,9 +254,8 @@
 		return !!v; 			
 	});
 	
-	v.fn("[pattern]", function(el) {
-		var p = new RegExp("^" + el.attr("pattern") + "$");  
-		return p.test(el.val()); 			
+	v.fn("[pattern]", function(el, v) {
+		return v === '' || new RegExp("^" + el.attr("pattern") + "$").test(v);
 	});
 
 	v.fn(":radio", "Please select an option.", function(el) {
