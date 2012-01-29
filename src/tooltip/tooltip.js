@@ -30,6 +30,7 @@
 			position: ['top', 'center'], 
 			offset: [0, 0],
 			relative: false,
+			fixed: false,
 			cancelDefault: true,
 			
 			// type to event mapping 
@@ -104,10 +105,10 @@
 		left += trigger.outerWidth() + conf.offset[1];
 		
 		// iPad position fix
-		if (/iPad/i.test(navigator.userAgent)) {
+		if (/iPad/i.test(navigator.userAgent) || conf.fixed) {
 			top -= $(window).scrollTop();
 		}
-		
+
 		// adjust Y		
 		var height = tip.outerHeight() + trigger.outerHeight();
 		if (pos == 'center') 	{ top += height / 2; }
@@ -118,8 +119,8 @@
 		pos = conf.position[1]; 	
 		var width = tip.outerWidth() + trigger.outerWidth();
 		if (pos == 'center') 	{ left -= width / 2; }
-		if (pos == 'left')   	{ left -= width; }	 
-		
+		if (pos == 'left')   	{ left -= width; }
+
 		return {top: top, left: left};
 	}		
 
@@ -232,9 +233,12 @@
 				
 				// onBeforeShow may have altered the configuration
 				pos = getPosition(trigger, tip, conf);
-				
+
+				var position = 'absolute';
+				if(conf.fixed) position = 'fixed';
+
 				// set position
-				tip.css({position:'absolute', top: pos.top, left: pos.left});					
+				tip.css({position:position, top: pos.top, left: pos.left});
 				
 				shown = true;
 				
