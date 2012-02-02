@@ -92,7 +92,10 @@ $(".range").rangeinput({
 	
 	change: function(e, i) {
 		scroll.animate({left: -i}, "fast");	
+	},
+
+	onBegin: function(e, i) {
+		scroll.css({left: -i});
 	}
-	
 });
 </script>

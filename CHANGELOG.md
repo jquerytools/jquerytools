@@ -1,5 +1,13 @@
+# 1.2.7
+### In Progress
+  
+  - Fix dateinput selectors bug[#541](https://github.com/jquerytools/jquerytools/issues/541)
+  - Fix history bug in scrollable navigator[#542](https://github.com/jquerytools/jquerytools/issues/542)
+  - Fix apple effect on firefox 3.6 [#310](https://github.com/jquerytools/jquerytools/issues/310)
+  - Initial effect on tabs is now configurable [#531](https://github.com/jquerytools/jquerytools/issues/531)
+
 # 1.2.6
-#### Sept 15, 2011
+### Sept 15, 2011
 
   - Fixed animation queue issue when switching tabs in both autoscroll and slideshow plugins [#447](https://github.com/jquerytools/jquerytools/issues/447)
   - Native browser validation is now disabled in validator to avoid compatibility issues [#334](https://github.com/jquerytools/jquerytools/issues/334)
