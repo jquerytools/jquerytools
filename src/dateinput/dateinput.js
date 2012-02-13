@@ -259,7 +259,7 @@
 				
 		// trigger icon
 		if (conf.trigger) {
-			trigger = $("<a/>").attr("href", "#").addClass(css.trigger).click(function(e)  {
+			trigger = $("<a/>").attr("href", "#").addClass(css.trigger).on("click", function(e)  {
 				conf.toggle ? self.toggle() : self.show();
 				return e.preventDefault();
 			}).insertAfter(input);	
@@ -317,7 +317,7 @@
 			ev.type = "onShow";
 			fire.trigger(ev);
 			
-			$(document).bind("keydown.d", function(e) {
+			$(document).on("keydown.d", function(e) {
 					
 				if (e.ctrlKey) { return true; }				
 				var key = e.keyCode;			 
@@ -375,7 +375,7 @@
 				// enter
 				if (key == 13) {
 					if (!$(e.target).is("select")) {
-						$("." + css.focus).click();
+						$("." + css.focus).trigger("click");
 					}
 				}
 				
@@ -384,7 +384,7 @@
 			
 			
 			// click outside dateinput
-			$(document).bind("click.d", function(e) {					
+			$(document).on("click.d", function(e) {					
 				var el = e.target;
 				
 				if (!$(el).parents("#" + css.root).length && el != input[0] && (!trigger || el != trigger[0])) {
@@ -420,24 +420,24 @@
 				opened = true;
 				
         // month selector
-        monthSelector.unbind("change").change(function() {
+        monthSelector.off("change").on("change", function() {
           self.setValue(integer(yearSelector.val()), integer($(this).val()));
         });
 
         // year selector
-        yearSelector.unbind("change").change(function() {
+        yearSelector.off("change").on("change", function() {
           self.setValue(integer($(this).val()), integer(monthSelector.val()));
         });
         
 				// prev / next month
-				pm = root.find("#" + css.prev).unbind("click").click(function(e) {
+				pm = root.find("#" + css.prev).off("click").on("click", function(e) {
 					if (!pm.hasClass(css.disabled)) {	
 					  self.addMonth(-1);
 					}
 					return false;
 				});
 				
-				nm = root.find("#" + css.next).unbind("click").click(function(e) {
+				nm = root.find("#" + css.next).off("click").on("click", function(e) {
 					if (!nm.hasClass(css.disabled)) {
 						self.addMonth();
 					}
@@ -599,7 +599,7 @@
 				}
 				
 				// date picking					
-				weeks.find("a").click(function(e) {
+				weeks.find("a").on("click", function(e) {
 					var el = $(this); 
 					if (!el.hasClass(css.disabled)) {  
 						$("#" + css.current).removeAttr("id");
@@ -654,7 +654,7 @@
 			},						
 			
 			destroy: function() {
-				input.add(document).unbind("click.d").unbind("keydown.d");
+				input.add(document).off("click.d").off("keydown.d");
 				root.add(trigger).remove();
 				input.removeData("dateinput").removeClass(css.input);
 				if (original)  { input.replaceWith(original); }
@@ -672,7 +672,7 @@
 					// cancelled ?
 					if (e.isDefaultPrevented()) { return; }
 					
-					$(document).unbind("click.d").unbind("keydown.d");
+					$(document).off("click.d").off("keydown.d");
 										
 					// do the hide
 					root.hide();
@@ -713,12 +713,12 @@
 				
 			// configuration
 			if ($.isFunction(conf[name]))  {
-				$(self).bind(name, conf[name]);	
+				$(self).on(name, conf[name]);	
 			}
 			
 			// API methods				
 			self[name] = function(fn) {
-				if (fn) { $(self).bind(name, fn); }
+				if (fn) { $(self).on(name, fn); }
 				return self;
 			};
 		});
@@ -726,7 +726,7 @@
 		if (!conf.editable) {
 			
 			// show dateinput & assign keyboard shortcuts
-			input.bind("focus.d click.d", self.show).keydown(function(e) {
+			input.on("focus.d click.d", self.show).on("keydown", function(e) {
 	
 				var key = e.keyCode;
 		
