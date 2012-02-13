@@ -259,7 +259,7 @@
 				
 		// trigger icon
 		if (conf.trigger) {
-			trigger = $("<a/>").attr("href", "#").addClass(css.trigger).on("click", function(e)  {
+			trigger = $("<a/>").attr("href", "#").addClass(css.trigger).click(function(e)  {
 				conf.toggle ? self.toggle() : self.show();
 				return e.preventDefault();
 			}).insertAfter(input);	
@@ -420,24 +420,24 @@
 				opened = true;
 				
         // month selector
-        monthSelector.off("change").on("change", function() {
+        monthSelector.off("change").change(function() {
           self.setValue(integer(yearSelector.val()), integer($(this).val()));
         });
 
         // year selector
-        yearSelector.off("change").on("change", function() {
+        yearSelector.off("change").change(function() {
           self.setValue(integer($(this).val()), integer(monthSelector.val()));
         });
         
 				// prev / next month
-				pm = root.find("#" + css.prev).off("click").on("click", function(e) {
+				pm = root.find("#" + css.prev).off("click").click(function(e) {
 					if (!pm.hasClass(css.disabled)) {	
 					  self.addMonth(-1);
 					}
 					return false;
 				});
 				
-				nm = root.find("#" + css.next).off("click").on("click", function(e) {
+				nm = root.find("#" + css.next).off("click").click(function(e) {
 					if (!nm.hasClass(css.disabled)) {
 						self.addMonth();
 					}
@@ -726,7 +726,7 @@
 		if (!conf.editable) {
 			
 			// show dateinput & assign keyboard shortcuts
-			input.on("focus.d click.d", self.show).on("keydown", function(e) {
+			input.on("focus.d click.d", self.show).keydown(function(e) {
 	
 				var key = e.keyCode;
 		

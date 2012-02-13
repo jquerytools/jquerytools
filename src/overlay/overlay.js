@@ -97,7 +97,7 @@
 		
 		// trigger's click event
 		if (trigger && trigger.index(overlay) == -1) {
-			trigger.on("click", function(e) {				
+			trigger.click(function(e) {				
 				self.load(e);
 				return e.preventDefault();
 			});

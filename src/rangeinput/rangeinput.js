@@ -362,12 +362,12 @@
 				fire.trigger(e, [value]);	 
 			}
 			
-		}).on("click", function(e) {
+		}).click(function(e) {
 			return e.preventDefault();	 
 		});		
 		
 		// clicking
-		root.on("click", function(e) { 
+		root.click(function(e) { 
 			if (input.is(":disabled") || e.target == handle[0]) { 
 				return e.preventDefault(); 
 			}				  
@@ -402,7 +402,7 @@
 		}
 		
 		
-		input.on("blur", function(e) {	
+		input.blur(function(e) {	
 			var val = $(this).val();
 			if (val !== value) {
 				self.setValue(val, e);
