@@ -80,7 +80,7 @@
 	} 
 		 
 	// global histroy change listener
-	$(window).bind("hash", function(e, h)  { 
+	$(window).on("hash", function(e, h)  { 
 		if (h) {
 			links.filter(function() {
 			  var href = $(this).attr("href");
@@ -101,7 +101,7 @@
 		$.tools.history.init(this);
 
 		// return jQuery
-		return this.bind("history", fn);		
+		return this.on("history", fn);		
 	};	
 		
 })(jQuery); 

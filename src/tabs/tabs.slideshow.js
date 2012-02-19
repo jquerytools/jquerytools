@@ -86,7 +86,7 @@
 				// onPlay
 				fire.trigger("onPlay");				
 				
-				fire.bind('onClick', next);
+				fire.on('onClick', next);
 				next();
 				
 				return self;
@@ -106,7 +106,7 @@
 				// onPause
 				fire.trigger("onPause");	
 				
-				fire.unbind('onClick', next);
+				fire.off('onClick', next);
 				
 				return self;
 			},
@@ -129,12 +129,12 @@
 				
 			// configuration
 			if ($.isFunction(conf[name]))  {
-				$(self).bind(name, conf[name]);	
+				$(self).on(name, conf[name]);	
 			}
 			
 			// API methods				
 			self[name] = function(fn) {
-				return $(self).bind(name, fn);
+				return $(self).on(name, fn);
 			};
 		});	
 		

@@ -60,13 +60,13 @@
 				
 				stopped = false;
 				
-        root.bind('onSeek', scroll);
+        root.on('onSeek', scroll);
         scroll();
 			};	
 
 			api.pause = function() {
 				timer = clearTimeout(timer);  // clear any queued items immediately
-        root.unbind('onSeek', scroll);
+        root.off('onSeek', scroll);
 			};
 			
 			// resume playing if not stopped

@@ -16,7 +16,7 @@
 (function($) { 
 	
 	$.fn.mousewheel = function( fn ){
-		return this[ fn ? "bind" : "trigger" ]( "wheel", fn );
+		return this[ fn ? "on" : "trigger" ]( "wheel", fn );
 	};
 
 	// special event config
