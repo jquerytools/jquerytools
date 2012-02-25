@@ -254,14 +254,13 @@
 		return !!v; 			
 	});
 	
-	v.fn("[pattern]", function(el) {
-		var p = new RegExp("^" + el.attr("pattern") + "$");  
-		return p.test(el.val()); 			
+	v.fn("[pattern]", function(el, v) {
+		return v === '' || new RegExp("^" + el.attr("pattern") + "$").test(v);
 	});
 
 	v.fn(":radio", "Please select an option.", function(el) {
 		var	checked = false;
-		var	els = $("[name=" + el.attr("name") + "]").each(function(i, el) {
+		var	els = $("[name='" + el.attr("name") + "']").each(function(i, el) {
 			if ($(el).is(":checked")) {
 				checked = true;
 			}
@@ -382,7 +381,7 @@
 						msg.remove();
 						$(this).data("msg.el", null);
 					}
-				}).unbind(conf.errorInputEvent || '');
+				}).unbind(conf.errorInputEvent + '.v' || '');
 				return self;
 			},
 			
@@ -578,7 +577,7 @@
 
 		// get radio groups by name
 		inputs.filter(":radio[required]").bind("change.V", function(e) {			
-			var els = $("[name=" + $(e.srcElement).attr("name") + "]");
+			var els = $("[name='" + $(e.srcElement).attr("name") + "']");
 			if ((els != null) && (els.length != 0)) {
 				self.checkValidity(els, e);
 			}

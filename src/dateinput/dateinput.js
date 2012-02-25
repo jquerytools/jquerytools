@@ -17,8 +17,9 @@
 	
 	$.tools = $.tools || {version: '@VERSION'};
 	
-	var instances = [], 
-		 tool, 
+	var instances = [],
+		formatters = {},
+		 tool,
 		 
 		 // h=72, j=74, k=75, l=76, down=40, left=37, up=38, right=39
 		 KEYS = [75, 76, 38, 39, 74, 72, 40, 37],
@@ -28,6 +29,7 @@
 		
 		conf: { 
 			format: 'mm/dd/yy',
+			formatter: 'default',
 			selectors: false,
 			yearRange: [-5, 5],
 			lang: 'en',
@@ -70,6 +72,10 @@
 			}  
 		},
 		
+		addFormatter: function(name, fn) {
+			formatters[name] = fn;
+		},
+		
 		localize: function(language, labels) {
 			$.each(labels, function(key, val) {
 				labels[key] = val.split(",");		
@@ -103,10 +109,9 @@
 	}  
 	
 	// thanks: http://stevenlevithan.com/assets/misc/date.format.js 
-	var Re = /d{1,4}|m{1,4}|yy(?:yy)?|"[^"]*"|'[^']*'/g, tmpTag = $("<a/>");
+	var tmpTag = $("<a/>");
 	
-	function format(date, fmt, lang) {
-		
+	function format(formatter, date, text, lang) {
 	  var d = date.getDate(),
 			D = date.getDay(),
 			m = date.getMonth(),
@@ -124,15 +129,25 @@
 				yy:   String(y).slice(2),
 				yyyy: y
 			};
-
-		var ret = fmt.replace(Re, function ($0) {
-			return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
-		});
+			
+		var ret = formatters[formatter](text, date, flags, lang);
 		
 		// a small trick to handle special characters
 		return tmpTag.html(ret).html();
 		
 	}
+	
+	tool.addFormatter('default', function(text, date, flags, lang) {
+		return text.replace(/d{1,4}|m{1,4}|yy(?:yy)?|"[^"]*"|'[^']*'/g, function ($0) {
+			return $0 in flags ? flags[$0] : $0;
+		});
+	});
+	
+	tool.addFormatter('prefixed', function(text, date, flags, lang) {
+		return text.replace(/%(d{1,4}|m{1,4}|yy(?:yy)?|"[^"]*"|'[^']*')/g, function ($0, $1) {
+			return $1 in flags ? flags[$1] : $0;
+		});
+	});
 	
 	function integer(val) {
 		return parseInt(val, 10);	
@@ -296,7 +311,7 @@
 			if (e.isDefaultPrevented()) { return; }
 			
 			// formatting			
-			input.val(format(date, conf.format, conf.lang));
+			input.val(format(conf.formatter, date, conf.format, conf.lang));
 			
       // change
 			e.type = "change";
@@ -699,7 +714,7 @@
 			},
 			
 			getValue: function(dateFormat) {
-				return dateFormat ? format(value, dateFormat, conf.lang) : value;	
+				return dateFormat ? format(conf.formatter, value, dateFormat, conf.lang) : value;	
 			},
 			
 			isOpen: function() {
