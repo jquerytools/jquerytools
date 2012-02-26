@@ -62,7 +62,7 @@
 			if (hashed) {
 				history.pushState({i: 0}, '');
 				
-				$(window).bind("popstate", function(evt) {
+				$(window).on("popstate", function(evt) {
 					var s = evt.originalEvent.state;
 					if (s) { api.seekTo(s.i); }
 				});					
