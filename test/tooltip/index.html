@@ -156,3 +156,31 @@ body {
 	
 </div>
 
+<div id="destroy" class="test">
+
+	<h3>Destroy API</h3>
+	  
+	<a class="trigger" title="This is the title">trigger 1</a>
+	<a class="trigger" title="This is the title">trigger 2</a>
+	<a class="trigger" title="This is the title">trigger 3</a>
+  
+  <a href='#' class="create">create</a> | 
+  <a href='#' class="destroy">destroy</a>
+  
+	<script>
+		$('#destroy a.destroy').click(function(e){
+		  e.preventDefault();
+		  $("#destroy a.trigger").each(function(){
+		    var tipApi = $(this).data('tooltip');
+		    tipApi.destroy();
+		  })
+		});
+		$('#destroy a.create').click(function(e){
+		  e.preventDefault();
+  		$("#destroy a.trigger").tooltip();
+		});
+	</script>      
+	
+	
+</div>
+
