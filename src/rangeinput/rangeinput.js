@@ -66,21 +66,21 @@
 		
 		conf = $.extend({x: true, y: true, drag: true}, conf);
 	
-		doc = doc || $(document).bind("mousedown mouseup", function(e) {
+		doc = doc || $(document).bind("mousedown mouseup touchstart touchend", function(e) {
 				
 			var el = $(e.target);  
 			
 			// start 
-			if (e.type == "mousedown" && el.data("drag")) {
-				
+			if ((e.type == "mousedown" || e.type == "touchstart") && el.data("drag")) {
+				// touchstart/touchmove use e.orginalEvent.pageX/Y instead of e.pageX/Y
 				var offset = el.position(),
-					 x0 = e.pageX - offset.left, 
-					 y0 = e.pageY - offset.top,
+					 x0 = (e.pageX || e.originalEvent.pageX) - offset.left, 
+					 y0 = (e.pageY || e.originalEvent.pageY) - offset.top,
 					 start = true;    
-				
-				doc.bind("mousemove.drag", function(e) {  
-					var x = e.pageX -x0, 
-						 y = e.pageY -y0,
+
+				doc.bind("mousemove.drag touchmove.drag", function(e) {
+					var x = (e.pageX || e.originalEvent.pageX) -x0, 
+						 y = (e.pageY || e.originalEvent.pageY) -y0,
 						 props = {};
 					
 					if (conf.x) { props.left = x; }
@@ -104,7 +104,7 @@
 						draggable.trigger("dragEnd");  
 					}
 				} finally { 
-					doc.unbind("mousemove.drag");
+					doc.unbind("mousemove.drag touchmove.drag");
 					draggable = null; 
 				}
 			} 
