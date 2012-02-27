@@ -566,6 +566,7 @@
 				pm.add(nm).removeClass(css.disabled); 
 				
 				// !begin === "sunday"
+				var isOff = false;
 				for (var j = !begin ? -7 : 0, a, num; j < (!begin ? 35 : 42); j++) { 
 					
 					a = $("<a/>");
@@ -576,11 +577,13 @@
 					}					
 					
 					if (j < begin)  { 
+						isOff = true;
 						a.addClass(css.off); 
 						num = prevDays - begin + j + 1;
 						date = new Date(year, month-1, num);
 						
 					} else if (j >= begin + days)  {
+						isOff = true;
 						a.addClass(css.off);	
 						num = j - days - begin + 1;
 						date = new Date(year, month+1, num);
@@ -606,6 +609,8 @@
 					
 					if (max && date > max) {
 						a.add(nm).addClass(css.disabled);						
+						a.addClass(css.disabled);
+						if (!isOff) { nm.addClass(css.disabled); }
 					}
 					
 					a.attr("href", "#" + num).text(num).data("date", date);					
