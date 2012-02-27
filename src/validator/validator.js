@@ -136,7 +136,7 @@
 		function fn() {
 			return this.getAttribute("type") == type;  	
 		} 
-		fn.key = "[type=" + type + "]";
+		fn.key = "[type=\"" + type + "\"]";
 		return fn;
 	}	
 
@@ -213,7 +213,7 @@
 		Usage: $("input:eq(2)").oninvalid(function() { ... });
 	*/
 	$.fn.oninvalid = function( fn ){
-		return this[fn ? "bind" : "trigger"]("OI", fn);
+		return this[fn ? "on" : "trigger"]("OI", fn);
 	};
 	
 	
@@ -381,13 +381,13 @@
 						msg.remove();
 						$(this).data("msg.el", null);
 					}
-				}).unbind(conf.errorInputEvent + '.v' || '');
+				}).off(conf.errorInputEvent + '.v' || '');
 				return self;
 			},
 			
 			destroy: function() { 
-				form.unbind(conf.formEvent + ".V").unbind("reset.V"); 
-				inputs.unbind(conf.inputEvent + ".V").unbind("change.V");
+				form.off(conf.formEvent + ".V reset.V"); 
+				inputs.off(conf.inputEvent + ".V change.V");
 				return self.reset();	
 			}, 
 			
@@ -431,7 +431,7 @@
 						 event = dateInput && el.is(":date") ? "onHide.v" : conf.errorInputEvent + ".v";					
 					
 					// cleanup previous validation event
-					el.unbind(event);
+					el.off(event);
 					
 					
 					// loop all validator functions
@@ -474,7 +474,7 @@
 						
 						// begin validating upon error event type (such as keyup) 
 						if (conf.errorInputEvent) {							
-							el.bind(event, function(e) {
+							el.on(event, function(e) {
 								self.checkValidity(el, e);		
 							});							
 						} 					
@@ -504,7 +504,7 @@
 					e.type = "onSuccess";					
 					fire.trigger(e, [els]);
 					
-					els.unbind(conf.errorInputEvent + ".v");
+					els.off(conf.errorInputEvent + ".v");
 				}
 				
 				return true;				
@@ -518,12 +518,12 @@
 				
 			// configuration
 			if ($.isFunction(conf[name]))  {
-				$(self).bind(name, conf[name]);	
+				$(self).on(name, conf[name]);	
 			}
 			
 			// API methods				
 			self[name] = function(fn) {
-				if (fn) { $(self).bind(name, fn); }
+				if (fn) { $(self).on(name, fn); }
 				return self;
 			};
 		});	
@@ -531,7 +531,7 @@
 		
 		// form validation
 		if (conf.formEvent) {
-			form.bind(conf.formEvent + ".V", function(e) {
+			form.on(conf.formEvent + ".V", function(e) {
 				if (!self.checkValidity(null, e)) { 
 					return e.preventDefault(); 
 				}
@@ -542,7 +542,7 @@
 		}
 		
 		// form reset
-		form.bind("reset.V", function()  {
+		form.on("reset.V", function()  {
 			self.reset();			
 		});
 		
@@ -562,13 +562,13 @@
 		
 		// input validation               
 		if (conf.inputEvent) {
-			inputs.bind(conf.inputEvent + ".V", function(e) {
+			inputs.on(conf.inputEvent + ".V", function(e) {
 				self.checkValidity($(this), e);
 			});	
 		} 
 	
 		// checkboxes and selects are checked separately
-		inputs.filter(":checkbox, select").filter("[required]").bind("change.V", function(e) {
+		inputs.filter(":checkbox, select").filter("[required]").on("change.V", function(e) {
 			var el = $(this);
 			if (this.checked || (el.is("select") && $(this).val())) {
 				effects[conf.effect][1].call(self, el, e); 
@@ -576,7 +576,7 @@
 		});
 
 		// get radio groups by name
-		inputs.filter(":radio[required]").bind("change.V", function(e) {			
+		inputs.filter(":radio[required]").on("change.V", function(e) {			
 			var els = $("[name='" + $(e.srcElement).attr("name") + "']");
 			if ((els != null) && (els.length != 0)) {
 				self.checkValidity(els, e);

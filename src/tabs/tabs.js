@@ -163,7 +163,7 @@
 				    firstRender = !root.data('tabs');
 				
 				if (typeof i == 'string' && i.replace("#", "")) {
-					tab = tabs.filter("[href*=" + i.replace("#", "") + "]");
+					tab = tabs.filter("[href*=\"" + i.replace("#", "") + "\"]");
 					i = Math.max(tabs.index(tab), 0);
 				}
 								
@@ -239,8 +239,8 @@
 			},
 			
 			destroy: function() {
-				tabs.unbind(conf.event).removeClass(conf.current);
-				panes.find("a[href^=#]").unbind("click.T"); 
+				tabs.off(conf.event).removeClass(conf.current);
+				panes.find("a[href^=\"#\"]").off("click.T"); 
 				return self;
 			}
 		
@@ -251,12 +251,12 @@
 				
 			// configuration
 			if ($.isFunction(conf[name])) {
-				$(self).bind(name, conf[name]); 
+				$(self).on(name, conf[name]); 
 			}
 
 			// API
 			self[name] = function(fn) {
-				if (fn) { $(self).bind(name, fn); }
+				if (fn) { $(self).on(name, fn); }
 				return self;	
 			};
 		});
@@ -269,19 +269,19 @@
 		
 		// setup click actions for each tab
 		tabs.each(function(i) { 				
-			$(this).bind(conf.event, function(e) {
+			$(this).on(conf.event, function(e) {
 				self.click(i, e);
 				return e.preventDefault();
 			});			
 		});
 		
 		// cross tab anchor link
-		panes.find("a[href^=#]").bind("click.T", function(e) {
+		panes.find("a[href^=\"#\"]").on("click.T", function(e) {
 			self.click($(this).attr("href"), e);		
 		}); 
 		
 		// open initial tab
-		if (location.hash && conf.tabs == "a" && root.find("[href=" +location.hash+ "]").length) {
+		if (location.hash && conf.tabs == "a" && root.find("[href=\"" +location.hash+ "\"]").length) {
 			self.click(location.hash);
 
 		} else {
