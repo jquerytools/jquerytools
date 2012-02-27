@@ -33,7 +33,8 @@
 			speed: 400,
 			vertical: false,
 			touch: true,
-			wheelSpeed: 0
+			wheelSpeed: 0,
+			visibleItems: 1
 		} 
 	};
 					
@@ -205,6 +206,7 @@
 			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
 				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
 
+			self.getItems().slice(2, conf.visibleItems + 1).clone().appendTo(itemWrap).addClass(conf.clonedClass);
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			
 			self.onBeforeSeek(function(e, i, time) {
