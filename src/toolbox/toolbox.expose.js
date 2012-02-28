@@ -116,7 +116,7 @@
 			
 			// esc button
 			if (conf.closeOnEsc) {						
-				$(document).bind("keydown.mask", function(e) {							
+				$(document).on("keydown.mask", function(e) {							
 					if (e.keyCode == 27) {
 						$.mask.close(e);	
 					}		
@@ -125,13 +125,13 @@
 			
 			// mask click closes
 			if (conf.closeOnClick) {
-				mask.bind("click.mask", function(e)  {
+				mask.on("click.mask", function(e)  {
 					$.mask.close(e);		
 				});					
 			}			
 			
 			// resize mask when window is resized
-			$(window).bind("resize.mask", function() {
+			$(window).on("resize.mask", function() {
 				$.mask.fit();
 			});
 			
@@ -178,9 +178,9 @@
 				});				
 				
 				// unbind various event listeners
-				$(document).unbind("keydown.mask");
-				mask.unbind("click.mask");
-				$(window).unbind("resize.mask");  
+				$(document).off("keydown.mask");
+				mask.off("click.mask");
+				$(window).off("resize.mask");  
 			}
 			
 			return this; 

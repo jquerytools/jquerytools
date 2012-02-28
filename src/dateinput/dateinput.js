@@ -332,7 +332,7 @@
 			ev.type = "onShow";
 			fire.trigger(ev);
 			
-			$(document).bind("keydown.d", function(e) {
+			$(document).on("keydown.d", function(e) {
 					
 				if (e.ctrlKey) { return true; }				
 				var key = e.keyCode;			 
@@ -399,7 +399,7 @@
 			
 			
 			// click outside dateinput
-			$(document).bind("click.d", function(e) {					
+			$(document).on("click.d", function(e) {					
 				var el = e.target;
 				
 				if (!$(el).parents("#" + css.root).length && el != input[0] && (!trigger || el != trigger[0])) {
@@ -435,24 +435,24 @@
 				opened = true;
 				
         // month selector
-        monthSelector.unbind("change").change(function() {
+        monthSelector.off("change").change(function() {
           self.setValue(integer(yearSelector.val()), integer($(this).val()));
         });
 
         // year selector
-        yearSelector.unbind("change").change(function() {
+        yearSelector.off("change").change(function() {
           self.setValue(integer($(this).val()), integer(monthSelector.val()));
         });
         
 				// prev / next month
-				pm = root.find("#" + css.prev).unbind("click").click(function(e) {
+				pm = root.find("#" + css.prev).off("click").click(function(e) {
 					if (!pm.hasClass(css.disabled)) {	
 					  self.addMonth(-1);
 					}
 					return false;
 				});
 				
-				nm = root.find("#" + css.next).unbind("click").click(function(e) {
+				nm = root.find("#" + css.next).off("click").click(function(e) {
 					if (!nm.hasClass(css.disabled)) {
 						self.addMonth();
 					}
@@ -669,7 +669,7 @@
 			},						
 			
 			destroy: function() {
-				input.add(document).unbind("click.d").unbind("keydown.d");
+				input.add(document).off("click.d keydown.d");
 				root.add(trigger).remove();
 				input.removeData("dateinput").removeClass(css.input);
 				if (original)  { input.replaceWith(original); }
@@ -687,7 +687,7 @@
 					// cancelled ?
 					if (e.isDefaultPrevented()) { return; }
 					
-					$(document).unbind("click.d").unbind("keydown.d");
+					$(document).off("click.d keydown.d");
 										
 					// do the hide
 					root.hide();
@@ -728,12 +728,12 @@
 				
 			// configuration
 			if ($.isFunction(conf[name]))  {
-				$(self).bind(name, conf[name]);	
+				$(self).on(name, conf[name]);	
 			}
 			
 			// API methods				
 			self[name] = function(fn) {
-				if (fn) { $(self).bind(name, fn); }
+				if (fn) { $(self).on(name, fn); }
 				return self;
 			};
 		});
@@ -741,7 +741,7 @@
 		if (!conf.editable) {
 			
 			// show dateinput & assign keyboard shortcuts
-			input.bind("focus.d click.d", self.show).keydown(function(e) {
+			input.on("focus.d click.d", self.show).keydown(function(e) {
 	
 				var key = e.keyCode;
 		

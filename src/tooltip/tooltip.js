@@ -152,7 +152,7 @@
 		
 		
 		// trigger --> show  
-		trigger.bind(evt[0], function(e) {
+		trigger.on(evt[0], function(e) {
 
 			clearTimeout(timer);
 			if (conf.predelay) {
@@ -163,7 +163,7 @@
 			}
 			
 		// trigger --> hide
-		}).bind(evt[1], function(e)  {
+		}).on(evt[1], function(e)  {
 			clearTimeout(pretimer);
 			if (conf.delay)  {
 				timer = setTimeout(function() { self.hide(e); }, conf.delay);	
@@ -251,13 +251,13 @@
 
 				if (!tip.data("__set")) {
 					
-					tip.unbind(event[0]).bind(event[0], function() { 
+					tip.off(event[0]).on(event[0], function() { 
 						clearTimeout(timer);
 						clearTimeout(pretimer);
 					});
 					
 					if (event[1] && !trigger.is("input:not(:checkbox, :radio), textarea")) { 					
-						tip.unbind(event[1]).bind(event[1], function(e) {
+						tip.off(event[1]).on(event[1], function(e) {
 	
 							// being moved to the trigger element
 							if (e.relatedTarget != trigger[0]) {
@@ -316,12 +316,12 @@
 				
 			// configuration
 			if ($.isFunction(conf[name])) { 
-				$(self).bind(name, conf[name]); 
+				$(self).on(name, conf[name]); 
 			}
 
 			// API
 			self[name] = function(fn) {
-				if (fn) { $(self).bind(name, fn); }
+				if (fn) { $(self).on(name, fn); }
 				return self;
 			};
 		});

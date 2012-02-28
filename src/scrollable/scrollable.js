@@ -190,11 +190,11 @@
 				
 			// configuration
 			if ($.isFunction(conf[name])) { 
-				$(self).bind(name, conf[name]); 
+				$(self).on(name, conf[name]); 
 			}
 			
 			self[name] = function(fn) {
-				if (fn) { $(self).bind(name, fn); }
+				if (fn) { $(self).on(name, fn); }
 				return self;
 			};
 		});  
@@ -314,7 +314,7 @@
 		
 		if (conf.keyboard)  {
 			
-			$(document).bind("keydown.scrollable", function(evt) {
+			$(document).on("keydown.scrollable", function(evt) {
 
 				// skip certain conditions
 				if (!conf.keyboard || evt.altKey || evt.ctrlKey || evt.metaKey || $(evt.target).is(":input")) { 
