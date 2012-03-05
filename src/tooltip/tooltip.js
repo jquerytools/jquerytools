@@ -34,7 +34,7 @@
 			
 			// type to event mapping 
 			events: {
-				def: 			"mouseenter,mouseleave",
+				def: 			"mouseenter, mouseleave",
 				input: 		"focus,blur",
 				widget:		"focus mouseenter,blur mouseleave",
 				tooltip:		"mouseenter,mouseleave"
@@ -153,7 +153,6 @@
 		
 		// trigger --> show  
 		trigger.bind(evt[0], function(e) {
-
 			clearTimeout(timer);
 			if (conf.predelay) {
 				pretimer = setTimeout(function() { self.show(e); }, conf.predelay);	
@@ -283,9 +282,8 @@
 				fire.trigger(e);				
 				if (e.isDefaultPrevented()) { return; }
 	
-				shown = false;
-				
 				effects[conf.effect][1].call(self, function() {
+  				shown = false;
 					e.type = "onHide";
 					fire.trigger(e);		 
 				});
