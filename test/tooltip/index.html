@@ -107,6 +107,39 @@ body {
 	
 </div>
 
+<div id="manual-enclosed" class="test">
+
+	<h3>Manual enclosed tooltip</h3>
+		
+	<table>
+		<tbody>
+			<tr>
+				<td class="trigger">
+					trigger 1
+					<div class="tooltip">Manual enclosed #1</div>
+				</td>
+				<td class="trigger">
+					trigger 2
+					<div class="tooltip">Manual enclosed #2</div>
+				</td>
+				<td class="trigger">
+					trigger 3
+					<div class="tooltip">Manual enclosed #3</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<script>
+		$("#manual-enclosed td").tooltip({ 
+			delay: 300, 
+			predelay: 0,
+			effect: 'fade'
+		});
+	</script>
+	
+</div>
+
 <div id="same" class="test">
 
 	<h3>Same tip element</h3>
