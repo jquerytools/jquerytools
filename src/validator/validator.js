@@ -609,13 +609,18 @@
 		if (this.is("form")) {
 			return this.each(function() {			
 				var form = $(this); 
-				instance = new Validator(form.find(":input"), form, conf);	 
+				var inputs = (typeof this.elements !== "undefined") ? $(this.elements) : form.find(":input");
+				instance = new Validator(inputs, form, conf);	 
 				form.data("validator", instance);
 			});
 			
 		} else {
-			instance = new Validator(this, this.eq(0).closest("form"), conf);
-			return this.data("validator", instance);
+			return this.each(function() {
+			  var form = (typeof this.form !== "undefined") ? $(this.form) : $(this).closest("form");
+			  var input = $(this);
+			  instance = new Validator(input, form, conf);
+			  input.data("validator", instance);
+			});
 		}     
 		
 	};   
