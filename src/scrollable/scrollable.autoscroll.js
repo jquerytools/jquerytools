@@ -18,7 +18,8 @@
 		conf: {
 			autoplay: true,
 			interval: 3000,
-			autopause: true
+			autopause: true,
+			steps: 1
 		}
 	};	
 	
@@ -47,7 +48,8 @@
       	// Fixes https://github.com/jquerytools/jquerytools/issues/591
         if (timer) clearTimeout(timer); // reset timeout, especially for onSeek event
         timer = setTimeout(function(){
-          api.next();
+          var conf = api.getConf();
+          api.move(opts.steps, opts.steps*conf.speed);
         }, opts.interval);
       }
 			    
