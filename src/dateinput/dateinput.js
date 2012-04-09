@@ -300,7 +300,7 @@
 			e || (e = $.Event("api"));
 
 			// focus the input after selection (doesn't work in IE)
-			if (e.type == "click" && !$.browser.msie) {
+			if (e && e.type == "click" && !$.browser.msie) {
 				input.focus();
 			}
 			
