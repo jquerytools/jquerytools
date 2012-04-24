@@ -260,7 +260,7 @@
 
 	v.fn(":radio", "Please select an option.", function(el) {
 		var	checked = false;
-		var	els = $("[name='" + el.attr("name") + "']").each(function(i, el) {
+		$(el[0].form.elements).filter("[name='" + el.attr("name").replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|\\])/g, '\\$1') + "']").each(function(i, el) {
 			if ($(el).is(":checked")) {
 				checked = true;
 			}
@@ -347,7 +347,7 @@
 				if (!e) {
 					var errors = [];
 					$.each(errs, function(key, val) {
-						var input = inputs.filter("[name='" + key + "']");
+						var input = inputs.filter("[name='" + key.replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|\\])/g, '\\$1') + "']");
 						if (input.length) {
 							
 							// trigger HTML5 ininvalid event
@@ -576,8 +576,8 @@
 		});
 
 		// get radio groups by name
-		inputs.filter(":radio[required]").on("change.V", function(e) {			
-			var els = $("[name='" + $(e.srcElement).attr("name") + "']");
+		inputs.filter(":radio").on("change.V", function(e) {			
+			var els = $(e.target.form.elements).filter("[name='" + $(e.srcElement).attr("name").replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|\\])/g, '\\$1') + "']");
 			if ((els != null) && (els.length != 0)) {
 				self.checkValidity(els, e);
 			}
@@ -609,13 +609,18 @@
 		if (this.is("form")) {
 			return this.each(function() {			
 				var form = $(this); 
-				instance = new Validator(form.find(":input"), form, conf);	 
+				var inputs = (typeof this.elements !== "undefined") ? $(this.elements) : form.find(":input");
+				instance = new Validator(inputs, form, conf);	 
 				form.data("validator", instance);
 			});
 			
 		} else {
-			instance = new Validator(this, this.eq(0).closest("form"), conf);
-			return this.data("validator", instance);
+			return this.each(function() {
+			  var form = (typeof this.form !== "undefined") ? $(this.form) : $(this).closest("form");
+			  var input = $(this);
+			  instance = new Validator(input, form, conf);
+			  input.data("validator", instance);
+			});
 		}     
 		
 	};   
