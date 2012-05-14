@@ -398,7 +398,7 @@
 			checkValidity: function(els, e) {
 				
 				els = els || inputs;    
-				els = els.not(":disabled");
+				els = els.not(":hidden,:disabled");
 
 				// filter duplicate elements by name
 				var names = {};
