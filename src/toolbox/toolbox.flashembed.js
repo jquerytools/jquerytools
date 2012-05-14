@@ -226,29 +226,33 @@
 			});
 
 		} else {
-
-			// fail #2.1 custom content inside container
-			if (!root.innerHTML.replace(/\s/g, '')) {
-				root.innerHTML =
-					"<h2>Flash version " + opts.version + " or greater is required</h2>" +
-					"<h3>" +
-						(VERSION[0] > 0 ? "Your version is " + VERSION : "You have no flash plugin installed") +
-					"</h3>" +
-
-					(root.tagName == 'A' ? "<p>Click here to download latest version</p>" :
-						"<p>Download latest version from <a href='" + URL + "'>here</a></p>");
-
-				if (root.tagName == 'A') {
-					root.onclick = function() {
-						location.href = URL;
-					};
-				}
-			}
+			var ret;
 
 			// onFail
 			if (opts.onFail) {
-				var ret = opts.onFail.call(this);
-				if (typeof ret == 'string') { root.innerHTML = ret; }
+				ret = opts.onFail.call(this);
+			}
+
+			if (typeof ret == 'string') {
+				root.innerHTML = ret;
+			} else {
+				// fail #2.1 custom content inside container
+				if (!root.innerHTML.replace(/\s/g, '')) {
+					root.innerHTML =
+						"<h2>Flash version " + opts.version + " or greater is required</h2>" +
+						"<h3>" +
+							(VERSION[0] > 0 ? "Your version is " + VERSION : "You have no flash plugin installed") +
+						"</h3>" +
+
+						(root.tagName == 'A' ? "<p>Click here to download latest version</p>" :
+							"<p>Download latest version from <a href='" + URL + "'>here</a></p>");
+
+					if (root.tagName == 'A') {
+						root.onclick = function() {
+							location.href = URL;
+						};
+					}
+				}
 			}
 		}
 
