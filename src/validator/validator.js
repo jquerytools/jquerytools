@@ -251,7 +251,7 @@
 	
 	v.fn("[required]", "Please complete this mandatory field.", function(el, v) {
 		if (el.is(":checkbox")) { return el.is(":checked"); }
-		return !!v; 			
+		return !!$.trim(v); 			
 	});
 	
 	v.fn("[pattern]", function(el, v) {
