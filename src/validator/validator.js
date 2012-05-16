@@ -251,7 +251,7 @@
 	
 	v.fn("[required]", "Please complete this mandatory field.", function(el, v) {
 		if (el.is(":checkbox")) { return el.is(":checked"); }
-		return !!v; 			
+		return !!$.trim(v); 			
 	});
 	
 	v.fn("[pattern]", function(el, v) {
@@ -398,7 +398,7 @@
 			checkValidity: function(els, e) {
 				
 				els = els || inputs;    
-				els = els.not(":disabled");
+				els = els.not(":hidden,:disabled");
 
 				// filter duplicate elements by name
 				var names = {};
