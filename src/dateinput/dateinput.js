@@ -589,14 +589,15 @@
 						num = j - begin + 1;
 						date = new Date(year, month, num);  
 						
+						// today
+						if (isSameDay(now, date)) {
+							a.attr("id", css.today).addClass(css.today);
+						}	 
+						
 						// current date
 						if (isSameDay(value, date)) {
 							a.attr("id", css.current).addClass(css.focus);
-							
-						// today
-						} else if (isSameDay(now, date)) {
-							a.attr("id", css.today);
-						}	 
+						} 
 					}
 					
 					// disabled
