@@ -231,7 +231,13 @@
 			// manipulate start, finish and speeds
 			getConf: function() {
 				return conf;	
-			}			
+			},
+			
+			// in case using .delegate() as your initial trigger
+			// this updates the opening and closing triggers
+			updateTrigger: function($trigger){
+				if( $trigger && $trigger.length>0 ){ trigger = $trigger; }
+			}
 			
 		});
 		
