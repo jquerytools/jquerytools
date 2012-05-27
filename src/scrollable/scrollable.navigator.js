@@ -23,7 +23,8 @@
 			idPrefix: null,
 			
 			// 1.2
-			history: false
+			history: false,
+			size: null
 		}
 	};		
 	
@@ -48,7 +49,7 @@
 				 buttons = api.getNaviButtons(),
 				 cls = conf.activeClass,
 				 hashed = conf.history && !!history.pushState,
-				 size = api.getConf().size;
+				 size = conf.size ? conf.size : api.getConf().size;
 				 
 
 			// @deprecated stuff
