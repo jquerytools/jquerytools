@@ -208,6 +208,10 @@
 				if (maskConf) {
 					$.mask.close();		
 				}
+				
+				if( typeof conf.closeCallback === 'function' ){
+					conf.closeCallback();
+				}
 				 
 				return self;
 			}, 
