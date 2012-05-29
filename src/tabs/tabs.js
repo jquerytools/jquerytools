@@ -160,7 +160,10 @@
 			click: function(i, e) {
 			  
 				var tab = tabs.eq(i),
-				    firstRender = !root.data('tabs');
+				    firstRender = !root.data('tabs'),
+                    // we need this to trigger click in the case we're using the effect ajax
+                    // any effect which loads the tabs asynchronously must contain the word "ajax"
+                    isAjax = conf.effect.toLowerCase().indexOf('ajax') >= 0;
 				
 				if (typeof i == 'string' && i.replace("#", "")) {
 					tab = tabs.filter("[href*=\"" + i.replace("#", "") + "\"]");
@@ -188,8 +191,8 @@
 				trigger.trigger(e, [i]);				
 				if (e.isDefaultPrevented()) { return; }
 				
-        // if firstRender, only run effect if initialEffect is set, otherwise default
-				var effect = firstRender ? conf.initialEffect && conf.effect || 'default' : conf.effect;
+        // if firstRender and not using ajax, only run effect if initialEffect is set, otherwise default
+				var effect = firstRender && !isAjax ? conf.initialEffect && conf.effect || 'default' : conf.effect;
 
 				// call the effect
 				effects[effect].call(self, i, function() {
@@ -263,7 +266,9 @@
 	
 		
 		if (conf.history && $.fn.history) {
-			$.tools.history.init(tabs);
+			// if conf.initialIndex is greater than 0 and not null we pass the initial Tab to history.init(), otherwise we pass false (which means do not load anything)
+            var initialTrigger = (conf.initialIndex >= 0 && conf.initialIndex != null) ? self.getTabs().eq(conf.initialIndex) : false ;
+			$.tools.history.init(tabs, initialTrigger);
 			conf.event = 'history';
 		}	
 		
@@ -320,5 +325,4 @@
 	};		
 		
 }) (jQuery); 
-
 
