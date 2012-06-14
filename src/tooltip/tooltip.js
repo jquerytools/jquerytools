@@ -345,6 +345,8 @@
 		
 		// install tooltip for each entry in jQuery object
 		this.each(function() {
+			api = $(this).data("tooltip");
+			if (api) { return; }
 			api = new Tooltip($(this), conf); 
 			$(this).data("tooltip", api); 
 		});
