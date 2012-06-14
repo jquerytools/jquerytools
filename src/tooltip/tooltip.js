@@ -344,12 +344,12 @@
 		// that is not an existing instance
 		this.each(function() {
 			if ( $(this).data("tooltip")===null){
-			    api = new Tooltip($(this), conf);
+			    var api = new Tooltip($(this), conf);
 			    $(this).data("tooltip", api);
 			};
 		});
 		
-		return conf.api ? api: this;		 
+		return this;		 
 	};
 		
 }) (jQuery);
