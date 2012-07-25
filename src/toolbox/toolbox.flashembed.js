@@ -11,11 +11,12 @@
  */
 (function() {
 
-	var IE = document.all,
-		 URL = 'http://www.adobe.com/go/getflashplayer',
-		 JQUERY = typeof jQuery == 'function',
-		 RE = /(\d+)[^\d]+(\d+)[^\d]*(\d*)/,
-		 GLOBAL_OPTS = {
+	var
+		IE = document.all,
+		URL = 'http://www.adobe.com/go/getflashplayer',
+		JQUERY = typeof jQuery == 'function',
+		RE = /(\d+)[^\d]+(\d+)[^\d]*(\d*)/,
+		GLOBAL_OPTS = {
 			// very common opts
 			width: '100%',
 			height: '100%',
@@ -32,7 +33,7 @@
 			expressInstall: null,
 			w3c: false,
 			cachebusting: false
-	};
+		};
 
 	// version 9 bugfix: (http://blog.deconcept.com/2006/07/28/swfobject-143-released/)
 	if (window.attachEvent) {
@@ -99,10 +100,10 @@
 					ver = fo && fo.GetVariable("$version");
 
 				} catch(err) {
-                try  {
-                    fo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash.6");
-                    ver = fo && fo.GetVariable("$version");
-                } catch(err2) { }
+					try  {
+						fo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash.6");
+						ver = fo && fo.GetVariable("$version");
+					} catch(err2) { }
 				}
 			}
 
