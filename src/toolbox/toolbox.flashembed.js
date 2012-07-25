@@ -108,7 +108,7 @@
 			}
 
 			ver = RE.exec(ver);
-			return ver ? [ver[1], ver[3]] : [0, 0];
+			return ver ? [parseInt(ver[1], 10), parseInt(ver[2], 10), parseInt(ver[3], 10)] : [0, 0, 0];
 		},
 
 		asString: function(obj) {
@@ -205,7 +205,19 @@
 		},
 
 		isSupported: function(ver) {
-			return VERSION[0] > ver[0] || VERSION[0] == ver[0] && VERSION[1] >= ver[1];
+			var i;
+			if (ver && ver.length > 0) {
+				for (i = 0; i < ver.length && i < VERSION.length; ++i) {
+					if (VERSION[i] > ver[i]) {
+						return true;
+					}
+					else if (VERSION[i] < ver[i]) {
+						return false;
+					}
+				}
+				return true;
+			}
+			return VERSION[0] > 0;
 		}
 
 	});
@@ -219,7 +231,7 @@
 			root.innerHTML = f.getHTML(opts, conf);
 
 		// express install
-		} else if (opts.expressInstall && f.isSupported([6, 65])) {
+		} else if (opts.expressInstall && f.isSupported([6, 0, 65])) {
 			root.innerHTML = f.getHTML(extend(opts, {src: opts.expressInstall}), {
 				MMredirectURL: location.href,
 				MMplayerType: 'PlugIn',
