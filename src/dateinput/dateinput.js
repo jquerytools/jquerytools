@@ -320,7 +320,7 @@
 			// store value into input
 			input.data("date", date);
 			
-			self.hide(e); 
+			self.hide(); 
 		}
 //}}}
 		
@@ -340,11 +340,11 @@
 				// backspace or delete clears the value
 				if (key == 8 || key == 46) {
 					input.val("");
-					return self.hide(e);	
+					return self.hide();	
 				}
 				
 				// esc or tab key exits
-				if (key == 27 || key == 9) { return self.hide(e); }						
+				if (key == 27 || key == 9) { return self.hide(); }						
 					
 				if ($(KEYS).index(key) >= 0) {
 					
@@ -403,7 +403,7 @@
 				var el = e.target;
 				
 				if (!$(el).parents("#" + css.root).length && el != input[0] && (!trigger || el != trigger[0])) {
-					self.hide(e);
+					self.hide();
 				}
 				
 			}); 
@@ -675,12 +675,12 @@
 				if (original)  { input.replaceWith(original); }
 			},
 			
-			hide: function(e) {				 
+			hide: function() {				 
 				
 				if (opened) {  
 					
 					// onHide 
-					e = $.Event();
+					var e = $.Event();
 					e.type = "onHide";
 					fire.trigger(e);
 					
