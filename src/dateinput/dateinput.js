@@ -314,8 +314,7 @@
 			input.val(format(conf.formatter, date, conf.format, conf.lang));
 			
       // change
-			e.type = "change";
-			fire.trigger(e);
+			fire.change();
               
 			// store value into input
 			input.data("date", date);
@@ -753,6 +752,7 @@
 			// clear value on backspace or delete
 			} else if (key == 8 || key == 46) {
 				input.val("");
+				fire.change();
 				} 
 				
 				// allow tab
