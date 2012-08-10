@@ -91,6 +91,14 @@
 		days: 		 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday', 
 		shortDays: 	 'Sun,Mon,Tue,Wed,Thu,Fri,Sat'	  
 	});
+	$.tools.localize("ru",  {
+	  	months:        'Январь, Февраль, Март, Апрель, Май, Июнь, Июль,' +
+	       	               'Август, Сентябрь, Октябрь, Ноябрь, Декабрь',
+	  	shortMonths:   'январь, февраль, март, апрель, май, июнь, июль,' +
+	       	               'август, сентябрь, октябрь, ноябрь, декабрь',
+		days:          'Воскресенье, Понедельник, Вторник, Среда, Четверг, Пятница, Суббота',
+	 	shortDays:     'вс,пн,вт,ср,чт,пт,сб'
+	});
 
 	
 //{{{ private functions
