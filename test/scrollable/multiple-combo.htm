@@ -1,0 +1,64 @@
+<script src="../../lib/jquery-1.7.1.js"></script>
+<script src="../../src/scrollable/scrollable.js"></script>
+<script src="../../src/scrollable/scrollable.autoscroll.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css"/>
+
+<script>
+$(function() {
+	$(".scrollable-normal").scrollable({ circular: false, initialIndex: 2, onBeforeSeek: function() {
+		console.info("normal");
+	}}); 
+
+	$(".scrollable-autoscroll").scrollable({ circular: false, initialIndex: 2, onBeforeSeek: function() {
+		console.info("autoscroll");
+	}}).autoscroll({interval: 1000}); 		
+});
+</script>
+
+
+<div>
+	
+	<a class="prev">prev</a>
+	
+	<div class="navi"></div>
+	
+	<div class="scrollable scrollable-normal" style="width:130px">
+		
+		<div class="items">
+			<div>0</div>  
+			<div>1</div>  
+			<div>2</div>  
+			<div>3</div>  
+			<div>4</div>
+			<div>5</div>  
+			<div>6</div>  
+		</div>
+		
+	</div> 
+	
+	<a class="next">next</a>
+	
+</div>
+
+<div>
+	
+	
+	<div class="navi"></div>
+	
+	<div class="scrollable scrollable-autoscroll" style="width:130px">
+		
+		<div class="items">
+			<div>0</div>  
+			<div>1</div>  
+			<div>2</div>  
+			<div>3</div>  
+			<div>4</div>
+			<div>5</div>  
+			<div>6</div>  
+		</div>
+		
+	</div> 
+	
+	
+</div>

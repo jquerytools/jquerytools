@@ -46,8 +46,7 @@
 	}
 
 	function find(root, query) { 
-		var el = $(query);
-		return el.length < 2 ? el : root.parent().find(query);
+		return root.parent().find(query);
 	}
 	
 	var current;		
