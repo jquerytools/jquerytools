@@ -258,7 +258,7 @@
 		return v === '' || new RegExp("^" + el.attr("pattern") + "$").test(v);
 	});
 
-	v.fn(":radio", "Please select an option.", function(el) {
+	v.fn(":radio[required]", "Please select an option.", function(el) {
 		var	checked = false;
 		var	els = $("[name='" + el.attr("name") + "']").each(function(i, el) {
 			if ($(el).is(":checked")) {

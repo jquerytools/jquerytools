@@ -169,12 +169,12 @@
 				// onBeforeClose
 				if (call(config.onBeforeClose) === false) { return this; }
 					
-				mask.fadeOut(config.closeSpeed, function()  {					
-					call(config.onClose);					
+				mask.fadeOut(config.closeSpeed, function()  {										
 					if (exposed) {
 						exposed.css({zIndex: overlayIndex});						
 					}				
 					loaded = false;
+					call(config.onClose);
 				});				
 				
 				// unbind various event listeners
