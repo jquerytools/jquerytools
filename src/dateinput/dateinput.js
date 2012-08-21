@@ -315,7 +315,7 @@
 			
       // change
 			e.type = "change";
-			fire.trigger(e);
+			fire.trigger(e, [date]);
               
 			// store value into input
 			input.data("date", date);
