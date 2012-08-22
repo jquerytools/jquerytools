@@ -318,6 +318,18 @@
 			// HTML5 compatible name
 			stepDown: function(am) { 
 				return self.step(-am || -1);
+			},
+
+			setMax: function(val) {
+				conf.max = parseFloat(val, 10);
+				range = conf.max - conf.min;
+				self.setValue(value > conf.max ? conf.max : value);
+			},
+
+			setMin: function(val) {
+				conf.min = parseFloat(val, 10);
+				range = conf.max - conf.min;
+			 	self.setValue(value < conf.min ? conf.min : value);
 			}
 			
 		});
