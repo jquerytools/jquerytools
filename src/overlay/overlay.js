@@ -137,8 +137,8 @@
 				// position & dimensions 
 				var top = conf.top,					
 					 left = conf.left,
-					 oWidth = overlay.outerWidth({margin:true}),
-					 oHeight = overlay.outerHeight({margin:true}); 
+					 oWidth = overlay.outerWidth(true),
+					 oHeight = overlay.outerHeight(true); 
 				
 				if (typeof top == 'string')  {
 					top = top == 'center' ? Math.max((w.height() - oHeight) / 2, 0) : 
