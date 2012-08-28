@@ -132,7 +132,8 @@
 			 tip,
 			 timer = 0,
 			 pretimer = 0, 
-			 title = trigger.attr("title"),
+			 // title = trigger.attr("title"), - XSS BUG
+			 title = $('<div/>').text(trigger.attr('title')).html(),
 			 tipAttr = trigger.attr("data-tooltip"),
 			 effect = effects[conf.effect],
 			 shown,
