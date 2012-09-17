@@ -19,6 +19,7 @@
 		conf: {	
 			activeClass: 'active',
 			circular: false,
+            clones: 1,
 			clonedClass: 'cloned',
 			disabledClass: 'disabled',
 			easing: 'swing',
@@ -201,10 +202,11 @@
 		
 		// circular loop
 		if (conf.circular) {
-			
-			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
-				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
-
+			var items = self.getItems(),
+			    cloned1 = items.slice(-conf.clones).clone(),
+				cloned2 = items.slice(0, conf.clones).clone();
+            cloned1.prependTo(itemWrap);
+            cloned2.appendTo(itemWrap);
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			
 			self.onBeforeSeek(function(e, i, time) {
@@ -216,17 +218,16 @@
 					2. seek to correct position with 0 speed
 				*/
 				if (i == -1) {
-					self.seekTo(cloned1, time, function()  {
-						self.end(0);		
-					});          
+					self.seekTo(cloned1.last(), time, function()  {
+						self.end(0);
+					});
 					return e.preventDefault();
 					
 				} else if (i == self.getSize()) {
-					self.seekTo(cloned2, time, function()  {
-						self.begin(0);		
-					});	
+					self.seekTo(cloned2.first(), time, function()  {
+						self.begin(0);
+					});
 				}
-				
 			});
 
 			// seek over the cloned item
