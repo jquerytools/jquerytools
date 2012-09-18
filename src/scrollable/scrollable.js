@@ -19,7 +19,7 @@
 		conf: {	
 			activeClass: 'active',
 			circular: false,
-            clones: 1,
+			clones: 1,
 			clonedClass: 'cloned',
 			disabledClass: 'disabled',
 			easing: 'swing',
@@ -203,10 +203,10 @@
 		// circular loop
 		if (conf.circular) {
 			var items = self.getItems(),
-			    cloned1 = items.slice(-conf.clones).clone(),
+				cloned1 = items.slice(-conf.clones).clone(),
 				cloned2 = items.slice(0, conf.clones).clone();
-            cloned1.prependTo(itemWrap);
-            cloned2.appendTo(itemWrap);
+			cloned1.prependTo(itemWrap);
+			cloned2.appendTo(itemWrap);
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			
 			self.onBeforeSeek(function(e, i, time) {
