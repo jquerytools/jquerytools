@@ -31,6 +31,7 @@
 			fixed: !$.browser.msie || $.browser.version > 6, 
 			
 			left: 'center',		
+			right: false,
 			load: false, // 1.2
 			mask: null,  
 			oneInstance: true,
@@ -137,6 +138,7 @@
 				// position & dimensions 
 				var top = conf.top,					
 					 left = conf.left,
+					 right = conf.right,
 					 oWidth = overlay.outerWidth({margin:true}),
 					 oHeight = overlay.outerHeight({margin:true}); 
 				
@@ -147,9 +149,18 @@
 				
 				if (left == 'center') { left = Math.max((w.width() - oWidth) / 2, 0); }
 
-				
+				var position = {top: top};
+
+				// position from right if defined
+				if (right !== false) {
+					position.right = right;
+				}
+				else {
+					position.left = left;
+				}
+
 		 		// load effect  		 		
-				eff[0].call(self, {top: top, left: left}, function() {					
+				eff[0].call(self, position, function() {
 					if (opened) {
 						e.type = "onLoad";
 						fire.trigger(e);
