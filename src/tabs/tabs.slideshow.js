@@ -54,6 +54,7 @@
     *   Similar fix for autoscroll animation queue problem
     */
     function next(){
+      clearTimeout(timer);
       timer = setTimeout(function(){
         tabs.next();
       }, conf.interval);
