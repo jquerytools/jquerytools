@@ -231,7 +231,7 @@
 		
 				
 				// onBeforeShow may have altered the configuration
-				updatePosition();				
+				self.updatePosition();				
 				
 				shown = true;
 				
