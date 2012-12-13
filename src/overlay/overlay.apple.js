@@ -43,7 +43,7 @@
 			 conf = this.getConf(),
 			 trigger = this.getTrigger(),
 			 self = this,
-			 oWidth = overlay.outerWidth({margin:true}),
+			 oWidth = overlay.outerWidth(true),
 			 img = overlay.data("img"),
 			 position = conf.fixed ? 'fixed' : 'absolute';  
 		
