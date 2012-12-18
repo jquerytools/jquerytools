@@ -30,6 +30,7 @@
 			next: '.next',   
 			prev: '.prev', 
 			size: 1,
+			frameSize: 1,
 			speed: 400,
 			vertical: false,
 			touch: true,
@@ -203,7 +204,7 @@
 		if (conf.circular) {
 			
 			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
-				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
+				 cloned2 = self.getItems().slice(1, conf.frameSize + 1).clone().appendTo(itemWrap);
 
 			cloned1.add(cloned2).addClass(conf.clonedClass);
 			
