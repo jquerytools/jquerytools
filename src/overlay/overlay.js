@@ -137,15 +137,29 @@
 				// position & dimensions 
 				var top = conf.top,					
 					 left = conf.left,
-					 oWidth = overlay.outerWidth({margin:true}),
-					 oHeight = overlay.outerHeight({margin:true}); 
-				
-				if (typeof top == 'string')  {
-					top = top == 'center' ? Math.max((w.height() - oHeight) / 2, 0) : 
-						parseInt(top, 10) / 100 * w.height();			
-				}				
-				
-				if (left == 'center') { left = Math.max((w.width() - oWidth) / 2, 0); }
+					 oHalfWidth = overlay.outerWidth(true) / 2,
+					 oHalfHeight = overlay.outerHeight(true) / 2;
+
+				if (typeof top == 'string') {
+					if (top == 'center') {
+						if (!conf.fixed) {
+							top = Math.max(w.height() / 2 - oHalfHeight, 0);
+						} else {
+							top = '50%';
+							overlay.css('margin-top', - oHalfHeight);
+						}
+					} else {
+						top = parseInt(top, 10) / 100 * w.height();
+					}
+				}
+				if (left == 'center') {
+					if (!conf.fixed) {
+						left = Math.max(w.width() / 2 - oHalfWidth, 0);
+					} else {
+						left = '50%';
+						overlay.css('margin-left', - oHalfWidth);
+					}
+				}
 
 				
 		 		// load effect  		 		
