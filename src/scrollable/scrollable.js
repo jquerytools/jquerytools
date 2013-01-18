@@ -230,30 +230,6 @@
 				
 			});
 
-			// seek over the cloned item
-
-			// if the scrollable is hidden the calculations for seekTo position
-			// will be incorrect (eg, if the scrollable is inside an overlay).
-			// ensure the elements are shown, calculate the correct position,
-			// then re-hide the elements. This must be done synchronously to
-			// prevent the hidden elements being shown to the user.
-
-			// See: https://github.com/jquerytools/jquerytools/issues#issue/87
-
-			var hidden_parents = root.parents().add(root).filter(function () {
-				if ($(this).css('display') === 'none') {
-					return true;
-				}
-			});
-			if (hidden_parents.length) {
-				hidden_parents.show();
-				self.seekTo(0, 0, function() {});
-				hidden_parents.hide();
-			}
-			else {
-				self.seekTo(0, 0, function() {});
-			}
-
 		}
 		
 		// next/prev buttons
@@ -341,10 +317,30 @@
 		}
 		
 		// initial index
-		if (conf.initialIndex) {
+
+		// if the scrollable is hidden the calculations for seekTo position
+		// will be incorrect (eg, if the scrollable is inside an overlay).
+		// ensure the elements are shown, calculate the correct position,
+		// then re-hide the elements. This must be done synchronously to
+		// prevent the hidden elements being shown to the user.
+
+		// See: https://github.com/jquerytools/jquerytools/issues#issue/87
+
+		var hidden_parents = root.parents().add(root).filter(function () {
+			if ($(this).css('display') === 'none') {
+				return true;
+			}
+		});
+		if (hidden_parents.length) {
+			hidden_parents.show();
+			self.seekTo(conf.initialIndex, 0, function() {});
+			hidden_parents.hide();
+		}
+		else {
 			self.seekTo(conf.initialIndex, 0, function() {});
 		}
-	} 
+
+	}
 
 		
 	// jQuery plugin implementation
