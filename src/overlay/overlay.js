@@ -28,7 +28,7 @@
 			effect: 'default',
 			
 			// since 1.2. fixed positioning not supported by IE6
-			fixed: !$.browser.msie || $.browser.version > 6, 
+			fixed: !$('html').is('.lt-ie7'),
 			
 			left: 'center',		
 			load: false, // 1.2
