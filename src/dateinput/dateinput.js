@@ -300,7 +300,7 @@
 			e || (e = $.Event("api"));
 
 			// focus the input after selection (doesn't work in IE)
-			if (e.type == "click" && !$.browser.msie) {
+			if (e.type == "click" && !$('html').is('.lt-ie10')) {
 				input.focus();
 			}
 			
@@ -471,7 +471,7 @@
 				}
 				
 				root.css({ 
-					top: pos.top + input.outerHeight({margins: true}) + conf.offset[0], 
+					top: pos.top + input.outerHeight(true) + conf.offset[0], 
 					left: pos.left + conf.offset[1] 
 				});
 				
