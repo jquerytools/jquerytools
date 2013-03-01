@@ -67,8 +67,8 @@
 		
 		var confOrigin = $.extend(true,{},conf),
 		    cls = conf.classNames.split(/\s/), 
-		    orig;
-			
+		    orig, ret;
+	
 		this.each(function() {		
 				
 			var api = $(this).tooltip().onBeforeShow(function(e, pos) {				
