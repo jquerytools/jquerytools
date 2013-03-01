@@ -289,7 +289,12 @@
 		
 //{{{ pick
 			 			 
-		function select(date, conf, e) {  
+		function select(date, conf, e) {
+			// If it is readonly, then we'll just close the calendar
+			if (input.attr('readonly')) {
+				self.hide(e);
+				return;
+			}
 			
 			// current value
 			value 	 = date;
@@ -402,7 +407,7 @@
 			$(document).on("click.d", function(e) {					
 				var el = e.target;
 				
-				if (!$(el).parents("#" + css.root).length && el != input[0] && (!trigger || el != trigger[0])) {
+				if (!(el.id == css.root || $(el).parents("#" + css.root).length) && el != input[0] && (!trigger || el != trigger[0])) {
 					self.hide(e);
 				}
 				
@@ -420,7 +425,7 @@
 			*/					
 			show: function(e) {
 				
-				if (input.attr("readonly") || input.attr("disabled") || opened) { return; }
+				if (input.attr("disabled") || opened) { return; }
 				
 				// onBeforeShow
 				e = e || $.Event();
@@ -471,7 +476,7 @@
 				}
 				
 				root.css({ 
-					top: pos.top + input.outerHeight({margins: true}) + conf.offset[0], 
+					top: pos.top + input.outerHeight(true) + conf.offset[0], 
 					left: pos.left + conf.offset[1] 
 				});
 				
