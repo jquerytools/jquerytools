@@ -54,6 +54,8 @@
     *   Similar fix for autoscroll animation queue problem
     */
     function next(){
+      // Fixes https://github.com/jquerytools/jquerytools/issues/885
+      if (timer) clearTimeout(timer); // reset timeout, especially for angry clicks
       timer = setTimeout(function(){
         tabs.next();
       }, conf.interval);
