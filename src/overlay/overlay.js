@@ -36,7 +36,8 @@
 			oneInstance: true,
 			speed: 'normal',
 			target: null, // target element to be overlayed. by default taken from [rel]
-			top: '10%'
+			top: '10%',
+			autoResize: true
 		}
 	};
 
@@ -146,7 +147,30 @@
 				}				
 				
 				if (left == 'center') { left = Math.max((w.width() - oWidth) / 2, 0); }
+				
+				if (conf.autoResize) {
+				    w.on("resize", function() {
 
+					if (typeof conf.top == 'string') {
+					    top = conf.top == 'center' ? Math.max((w.height() - oHeight) / 2, 0) : top;
+					}
+
+					if (conf.left == 'center') {
+					    left = Math.max((w.width() - oWidth) / 2, 0);
+					}
+
+					if (!conf.fixed) {
+					    top += w.scrollTop();
+					    left += w.scrollLeft();
+					}
+
+					if (maskConf) {
+					    $.mask.fit();
+					}
+
+					$(overlay).css("top", top).css("left", left);
+				    });
+				}
 				
 		 		// load effect  		 		
 				eff[0].call(self, {top: top, left: left}, function() {					
