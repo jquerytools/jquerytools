@@ -1,34 +1,39 @@
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/toolbox/toolbox.expose.js"></script>
-<script src="../../src/overlay/overlay.js"></script>
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="../../lib/jquery-1.9.1.js"></script>
+		<script src="../../src/toolbox/toolbox.expose.js"></script>
+		<script src="../../src/overlay/overlay.js"></script>
 
-<link rel="stylesheet" type="text/css" href="style.css"/>
+		<link rel="stylesheet" type="text/css" href="style.css"/>
+	</head>
 
-<p><a rel="#overlay" href="page.htm">show external page</a></p>
+	<body>
 
-<div class="overlay" id="overlay">
-  
-  <!-- the external content is loaded inside this tag -->
-  	<div class="contentWrap"></div>
-  	
-</div>
+		<p><a rel="#overlay" href="page.htm">show external page</a></p>
 
-<script>
-$("a[rel]").overlay({
-	
-	mask: { 
-		color: '#ccc',
-		closeSpeed: 200
-	},
-	
-	onBeforeLoad: function() {
+		<div class="overlay" id="overlay">
 
-		// grab wrapper element inside content
-		var wrap = this.getOverlay().find(".contentWrap");
+			<!-- the external content is loaded inside this tag -->
+			<div class="contentWrap"></div>
 
-		// load the page specified in the trigger
-		wrap.load(this.getTrigger().attr("href"));
-	}
-	
-});
-</script>
+		</div>
+
+		<script>
+			$("a[rel]").overlay({
+				mask: {
+					color: '#ccc',
+					closeSpeed: 200
+				},
+				onBeforeLoad: function() {
+
+					// grab wrapper element inside content
+					var wrap = this.getOverlay().find(".contentWrap");
+
+					// load the page specified in the trigger
+					wrap.load(this.getTrigger().attr("href"));
+				}
+			});
+		</script>
+	</body>
+</html>

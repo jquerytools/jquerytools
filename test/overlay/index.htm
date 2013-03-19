@@ -1,46 +1,45 @@
 <!DOCTYPE html>
 <html>
-    <head>
-	<script src="../../lib/jquery-1.7.1.js"></script>
-	<script src="../../src/toolbox/toolbox.expose.js"></script>
-	<script src="../../src/overlay/overlay.js"></script>
+	<head>
+		<script src="../../lib/jquery-1.9.1.js"></script>
+		<script src="../../src/toolbox/toolbox.expose.js"></script>
+		<script src="../../src/overlay/overlay.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="style.css"/>
-    </head>
+		<link rel="stylesheet" type="text/css" href="style.css"/>
+	</head>
 
-    <body>
+	<body>
 
-	<p>
-		<a rel="#overlay" href="#">show</a>
-		<a rel="#overlay2" href="#">show b</a>
-	</p>
+		<p>
+			<a rel="#overlay" href="#">show</a>
+			<a rel="#overlay2" href="#">show b</a>
+		</p>
 
 
-	<div class="overlay" id="overlay">
+		<div class="overlay" id="overlay">
 
-		<div class="content" style="background-image:url(../img/6481762_3d2c7e79f7.jpg)">  
-			asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj 
+			<div class="content" style="background-image:url(../img/6481762_3d2c7e79f7.jpg)">  
+				asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj 
+			</div>
+
 		</div>
 
-	</div>
+		<div class="overlay" id="overlay2">
 
-	<div class="overlay" id="overlay2">
+			<div style="padding:40px">
+				asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj 
+			</div>
 
-		<div style="padding:40px">
-			asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj 
 		</div>
 
-	</div>
-
-	<script>
-	$("a[rel]").overlay({
-		closeOnClick: false,
-
-		mask: { 
-			color: '#ccc',
-			closeSpeed: 200
-		}
-	});
-	</script>
-    </body>
+		<script>
+		$("a[rel]").overlay({
+			closeOnClick: false,
+			mask: {
+				color: '#ccc',
+				closeSpeed: 200
+			}
+		});
+		</script>
+	</body>
 </html>

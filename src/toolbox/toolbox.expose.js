@@ -39,22 +39,6 @@
 
 	/* one of the greatest headaches in the tool. finally made it */
 	function viewport() {
-				
-		// the horror case
-		if ($.browser.msie) {
-			
-			// if there are no scrollbars then use window.height
-			var d = $(document).height(), w = $(window).height();
-			
-			return [
-				window.innerWidth || 							// ie7+
-				document.documentElement.clientWidth || 	// ie6  
-				document.body.clientWidth, 					// ie6 quirks mode
-				d - w < 20 ? w : d
-			];
-		} 
-		
-		// other well behaving browsers
 		return [$(document).width(), $(document).height()]; 
 	} 
 	

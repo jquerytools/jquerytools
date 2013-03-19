@@ -28,7 +28,7 @@
 			effect: 'default',
 			
 			// since 1.2. fixed positioning not supported by IE6
-			fixed: !$.browser.msie || $.browser.version > 6, 
+			fixed: true, 
 			
 			left: 'center',		
 			load: false, // 1.2
@@ -147,29 +147,29 @@
 				}				
 				
 				if (left == 'center') { left = Math.max((w.width() - oWidth) / 2, 0); }
-				
+
 				if (conf.autoResize) {
-				    w.on("resize", function() {
+					w.on("resize", function() {
 
-					if (typeof conf.top == 'string') {
-					    top = conf.top == 'center' ? Math.max((w.height() - oHeight) / 2, 0) : top;
-					}
+						if (typeof conf.top == 'string') {
+							top = conf.top == 'center' ? Math.max((w.height() - oHeight) / 2, 0) : top;
+						}
 
-					if (conf.left == 'center') {
-					    left = Math.max((w.width() - oWidth) / 2, 0);
-					}
+						if (conf.left == 'center') {
+							left = Math.max((w.width() - oWidth) / 2, 0);
+						}
 
-					if (!conf.fixed) {
-					    top += w.scrollTop();
-					    left += w.scrollLeft();
-					}
+						if (!conf.fixed) {
+							top += w.scrollTop();
+							left += w.scrollLeft();
+						}
 
-					if (maskConf) {
-					    $.mask.fit();
-					}
+						if (maskConf) {
+							$.mask.fit();
+						}
 
-					$(overlay).css("top", top).css("left", left);
-				    });
+						$(overlay).css("top", top).css("left", left);
+					});
 				}
 				
 		 		// load effect  		 		
