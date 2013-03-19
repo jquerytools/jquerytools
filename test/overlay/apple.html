@@ -1,40 +1,62 @@
 <!DOCTYPE html>
-
 <html>
-  <head>
-    <script src="../../lib/jquery-1.7.1.js"></script>
-    <script src="../../src/overlay/overlay.js"></script>
-    <script src="../../src/overlay/overlay.apple.js"></script>
-    
-    <link rel="stylesheet" type="text/css" href="style.css"/>
-  </head>
-  
-  <body>
-    
-    <p>
-    	<a rel="#overlay2" href="#">show overlay</a>
-    </p>
+	<head>
+		<script src="../../lib/jquery-1.9.1.js"></script>
+		<script src="../../src/overlay/overlay.js"></script>
+		<script src="../../src/overlay/overlay.apple.js"></script>
 
-    <div class="overlay" id="overlay2">
+		<link rel="stylesheet" type="text/css" href="overlay-apple.css"/>
+		
+		<script>
+			$(function () {		
+				$("a[rel]").overlay({
+					closeOnClick: false,
+					mask: {
+						color: '#ccc',
+						closeSpeed: 200
+					},
+					effect: 'apple'
+				});	
+			});
+		</script>
+	</head>
 
-    	<div style="padding:40px">
-    		asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj 
-    	</div>
+	<body>
 
-    </div>
+		<div id="apple">
+			<img src="img/gustavohouse.jpg" rel="#photo1"/>
+			<img src="img/alexanderplatz-station.jpg" rel="#photo2"/>
+		</div>
 
-    <script>
-    $("a[rel]").overlay({
-    	closeOnClick: false,
+		<!-- overlayed element, which is styled with external stylesheet -->
+		<div class="apple_overlay black" id="photo1">
+			<img src="img/gustavohouse-medium.jpg" />
+			<div class="details">
+				<h2>Berlin Gustavohouse</h2>
+				<p>
+					The Gustavo House in Storkower Strasse. It was built in 1978 and
+					reconstructed in 1998 by the Spanish artist Gustavo.
+				</p>
+			</div>
+		</div>
 
-    	mask: { 
-    		color: '#ccc',
-    		closeSpeed: 200
-    	},
-    	
-    	effect: 'apple'
-    });
-    </script>
-    
-  </body>
+		<div class="apple_overlay" id="photo2">
+			<img src="img/alexanderplatz-station-medium.jpg" />
+			<div class="details">
+				<h2>Berlin Alexanderplatz Station</h2>
+				<p>
+					Berlin Alexanderplatz is a railway station in the Berlin city
+					centre and is one of the city's most important interchange
+					points for local public transport.
+				</p>
+			</div>
+		</div>
+
+		<!-- make all links with the 'rel' attribute open overlays -->
+		<script>
+		  $(function() {
+		      $("#apple img[rel]").overlay({effect: 'apple'});
+			});
+		</script>
+	</body>
 </html>

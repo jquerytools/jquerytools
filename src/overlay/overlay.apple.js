@@ -43,13 +43,13 @@
 			 conf = this.getConf(),
 			 trigger = this.getTrigger(),
 			 self = this,
-			 oWidth = overlay.outerWidth({margin:true}),
+			 oWidth = overlay.outerWidth(true),
 			 img = overlay.data("img"),
 			 position = conf.fixed ? 'fixed' : 'absolute';  
 		
 		
 		// growing image is required.
-		if (!img) { 
+		if (!img) {
 			var bg = overlay.css("backgroundImage");
 			
 			if (!bg) { 
