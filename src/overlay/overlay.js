@@ -186,6 +186,11 @@
 			}, 
 			
 			close: function(e) {
+				var instanceIndex = instances.indexOf(this);
+				
+				if(instanceIndex > -1){
+					instances.splice(instanceIndex, 1);
+				}
 
 				if (!self.isOpened()) { return self; }
 				
