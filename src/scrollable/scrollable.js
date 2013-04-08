@@ -304,10 +304,14 @@
 				if (e.touches.length == 1 && !itemWrap.is(":animated")) {			
 					var t = e.touches[0],
 						 deltaX = touch.x - t.clientX,
-						 deltaY = touch.y - t.clientY;
-	
-					self[vertical && deltaY > 0 || !vertical && deltaX > 0 ? 'next' : 'prev']();				
-					e.preventDefault();
+						 deltaY = touch.y - t.clientY,
+						 absX = Math.abs(deltaX),
+						 absY = Math.abs(deltaY);
+
+					if (vertical && absY > absX || !vertical && absX > absY) {
+						self[vertical && deltaY > 0 || !vertical && deltaX > 0 ? 'next' : 'prev']();
+						e.preventDefault();
+					}
 				}
 			};
 		}
