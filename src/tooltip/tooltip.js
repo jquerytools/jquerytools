@@ -69,7 +69,7 @@
 		fade: [
 			function(done) {
 				var conf = this.getConf();
-				if (!$.browser.msie || conf.fadeIE) {
+				if (!/msie/.test(navigator.userAgent.toLowerCase()) || conf.fadeIE) {
 					this.getTip().fadeTo(conf.fadeInSpeed, conf.opacity, done);
 				}
 				else {
@@ -79,7 +79,7 @@
 			},
 			function(done) {
 				var conf = this.getConf();
-				if (!$.browser.msie || conf.fadeIE) {
+				if (!/msie/.test(navigator.userAgent.toLowerCase()) || conf.fadeIE) {
 					this.getTip().fadeOut(conf.fadeOutSpeed, done);
 				}
 				else {
