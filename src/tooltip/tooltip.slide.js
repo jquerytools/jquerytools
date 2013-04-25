@@ -21,7 +21,7 @@
 		slideOffset: 10,
 		slideInSpeed: 200,
 		slideOutSpeed: 200, 
-		slideFade: !$.browser.msie
+		slideFade: !/msie/.test(navigator.userAgent.toLowerCase())
 	});			
 	
 	// directions for slide effect
