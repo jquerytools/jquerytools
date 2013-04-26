@@ -401,8 +401,8 @@
 			// click outside dateinput
 			$(document).on("click.d", function(e) {					
 				var el = e.target;
-				
-				if (!$(el).parents("#" + css.root).length && el != input[0] && (!trigger || el != trigger[0])) {
+				// && (el != document) fixed the FF20 bug (issue #982)
+				if (!$(el).parents("#" + css.root).length && el != input[0] && (!trigger || el != trigger[0]) && (el != document)) {	
 					self.hide(e);
 				}
 				
