@@ -471,7 +471,11 @@
 				}
 				
 				root.css({ 
-					top: pos.top + input.outerHeight({margins: true}) + conf.offset[0], 
+					/*
+					 * Changed {margins: true} to bool: true (includeMargins)
+					 * See http://api.jquery.com/outerHeight/ 
+					 */
+					top: pos.top + input.outerHeight(true) + conf.offset[0], 
 					left: pos.left + conf.offset[1] 
 				});
 				
