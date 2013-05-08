@@ -9,6 +9,21 @@
  * Since: Mar 2010
  * Date: @DATE 
  */
+ 
+ var oldFnData = jQuery.fn.data;
+
+jQuery.fn.data = function( name ) {
+  var ret, evt,
+    elem = this[0];
+
+  // Handles 1.7 which has this behavior and 1.8 which doesn't
+  if ( elem && name === "events" && arguments.length === 1 ) {
+    ret = jQuery.data( elem, name );
+    evt = jQuery._data( elem, name );
+  }
+  return oldFnData.apply( this, arguments );
+};
+ 
 (function($) {
 	 
 	$.tools = $.tools || {version: '@VERSION'};
