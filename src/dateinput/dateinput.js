@@ -415,6 +415,14 @@
 		}
 //}}}
 
+		function isSelectable (date) {
+			//console.log (conf.isSelectable);
+			if ($.isFunction(conf.isSelectable)) {
+				return conf.isSelectable(date);
+			} else {
+				return true;
+			}
+		}
 
 		$.extend(self, {
 
@@ -580,28 +588,35 @@
 						weeks.append(week);			
 					}					
 					
-					if (j < begin)  { 
-						a.addClass(css.off); 
+					if (j < begin) {
 						num = prevDays - begin + j + 1;
 						date = new Date(year, month-1, num);
-						
-					} else if (j >= begin + days)  {
-						a.addClass(css.off);	
+						if (!isSelectable(date)) {
+							a.addClass(css.disabled);
+						} else {
+							a.addClass(css.off);
+						}
+					} else if (j >= begin + days) {
 						num = j - days - begin + 1;
 						date = new Date(year, month+1, num);
-						
-					} else  { 
+						if (!isSelectable(date)) {
+							a.addClass(css.disabled);
+						} else {
+							a.addClass(css.off);
+						}
+					} else {
 						num = j - begin + 1;
-						date = new Date(year, month, num);  
-						
-						// current date
-						if (isSameDay(value, date)) {
+						date = new Date(year, month, num);
+
+						if (!isSelectable(date)) {
+							a.addClass(css.disabled);
+						} else if (isSameDay(value, date)) {
+							// current date
 							a.attr("id", css.current).addClass(css.focus);
-							
-						// today
 						} else if (isSameDay(now, date)) {
+							// today
 							a.attr("id", css.today);
-						}	 
+						}
 					}
 					
 					// disabled
