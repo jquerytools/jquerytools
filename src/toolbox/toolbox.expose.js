@@ -41,7 +41,7 @@
 	function viewport() {
 				
 		// the horror case
-		if ($.browser.msie) {
+		if (/msie/.test(navigator.userAgent.toLowerCase())) {
 			
 			// if there are no scrollbars then use window.height
 			var d = $(document).height(), w = $(window).height();
