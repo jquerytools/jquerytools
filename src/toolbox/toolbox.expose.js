@@ -62,7 +62,7 @@
 		if (fn) { return fn.call($.mask); }
 	}
 	
-	var mask, exposed, loaded, config, overlayIndex;		
+	var mask, exposed, loaded, config, overlayIndex, isClosing=false;		
 	
 	
 	$.mask = {
@@ -70,8 +70,15 @@
 		load: function(conf, els) {
 			
 			// already loaded ?
-			if (loaded) { return this; }			
-			
+			if ( isClosing )
+			{
+				isClosing = false;
+			}
+			else if ( loaded ) 
+			{ 
+				return this; 
+			}
+
 			// configuration
 			if (typeof conf == 'string') {
 				conf = {color: conf};	
@@ -84,7 +91,11 @@
 
 			// get the mask
 			mask = $("#" + conf.maskId);
-				
+			
+			// In case we were fading out (from a close call), stop that animation or it'll
+			// continue fading the mask out.
+			mask.stop();
+
 			// or create it
 			if (!mask.length) {
 				mask = $('<div/>').attr("id", conf.maskId);
@@ -166,6 +177,8 @@
 		close: function() {
 			if (loaded) {
 				
+				isClosing = true;
+
 				// onBeforeClose
 				if (call(config.onBeforeClose) === false) { return this; }
 					
@@ -175,6 +188,7 @@
 					}				
 					loaded = false;
 					call(config.onClose);
+					isClosing = false;
 				});				
 				
 				// unbind various event listeners
