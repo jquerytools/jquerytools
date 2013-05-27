@@ -304,9 +304,22 @@
 			
 			e || (e = $.Event("api"));
 
-			// focus the input after selection (doesn't work in IE)
-			if (e.type == "click" && !/msie/.test(navigator.userAgent.toLowerCase())) {
-				input.focus();
+			// focus the input after selection (doesn't work in IE)	
+			
+			/*
+			 * The test against "msie" UA is weak because most of the browsers can
+			 * change their UA string so, if a browser is identified as msie but it supports
+			 * focus method it will fail. 
+			 * Maybe in the future versions of IE the focus method would work. In this case 
+			 * we are ready too (however I hope in the will IE will support date input natively :-) ).
+			 */ 
+			/* if (e.type == "click" && !/msie/.test(navigator.userAgent.toLowerCase())) { */
+			if (e.type == "click") {
+				try{
+					input.focus();
+				}catch(e){
+					// Intercepting the exception if UA does not support the focus
+				}
 			}
 			
 			// beforeChange
