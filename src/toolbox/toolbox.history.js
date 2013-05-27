@@ -11,15 +11,22 @@
  */
 (function($) {
 		
-	var hash, iframe, links, inited;		
+	var hash, iframe, links, inited, stopFirst;		
 	
 	$.tools = $.tools || {version: '@VERSION'};
 	
 	$.tools.history = {
 	
-		init: function(els) {
+		init: function(els, initialTrigger) {
 			
 			if (inited) { return; }
+            // if there's any initialTrigger value
+            if(initialTrigger){
+                // change the hash to the one of initialTrigger
+                if(!location.hash){ location.hash = initialTrigger.attr("href"); }
+            }
+            // if initialTrigger is false it means we have to avoid triggering the hashchange on the first page load
+            stopFirst = initialTrigger === false;
 			
 			// IE
 			if ($.browser.msie && $.browser.version < '8') {
@@ -87,6 +94,8 @@
 			  return href == h || href == h.replace("#", ""); 
 			}).trigger("history", [h]);	
 		} else {
+            // if stopFirst is false it means we should not trigger the first hash change
+            if(stopFirst){ return false; }
 			links.eq(0).trigger("history", [h]);	
 		}
 
