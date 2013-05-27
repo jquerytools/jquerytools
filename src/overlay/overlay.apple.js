@@ -69,6 +69,9 @@
 		// initial top & left
 		var itop = conf.start.top || Math.round(w.height() / 2), 
 			 ileft = conf.start.left || Math.round(w.width() / 2);
+			
+		// determine target height for overlay
+		var oHeight = overlay.outerHeight({margin:true});
 		
 		if (trigger) {
 			var p = getPosition(trigger);
@@ -101,6 +104,7 @@
 		img.animate({			
 			top: pos.top,
 			left: pos.left,
+			height: oHeight,
 			width: oWidth}, conf.speed, function() {
 			
 			// set close button and content over the image
