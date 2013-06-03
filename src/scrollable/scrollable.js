@@ -198,9 +198,9 @@
 				if (conf.transition == 'scroll') {
 					var props = vertical ? {top: -item.position().top} : {left: -item.position().left};  
 					
-				itemWrap.animate(props, time, conf.easing, fn || function() { 
-					fire.trigger("onSeek", [i]);		
-				});	 
+					itemWrap.animate(props, time, conf.easing, fn || function() { 
+						fire.trigger("onSeek", [i]);		
+					});	 
 				
 				} else if (conf.transition == 'fade') {
 					// Note: passing in easing is only possible in jQuery >= 1.4.3 
@@ -254,57 +254,57 @@
 				});
 			} else {
 			
-			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
-				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
+				var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
+					 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
 
-			cloned1.add(cloned2).addClass(conf.clonedClass);
-			
-			self.onBeforeSeek(function(e, i, time) {
+				cloned1.add(cloned2).addClass(conf.clonedClass);
 				
-				if (e.isDefaultPrevented()) { return; }
-				
-				/*
-					1. animate to the clone without event triggering
-						2. when animation finishes, immediately seek to correct position with 0 speed (no visible transition)
-				*/
-				if (i == -1) {
-					self.seekTo(cloned1, time, function()  {
-						self.end(0);		
-					});          
-					return e.preventDefault();
+				self.onBeforeSeek(function(e, i, time) {
 					
-				} else if (i == self.getSize()) {
-					self.seekTo(cloned2, time, function()  {
-						self.begin(0);		
-					});	
+					if (e.isDefaultPrevented()) { return; }
+					
+					/*
+						1. animate to the clone without event triggering
+							2. when animation finishes, immediately seek to correct position with 0 speed (no visible transition)
+					*/
+					if (i == -1) {
+						self.seekTo(cloned1, time, function()  {
+							self.end(0);		
+						});          
+						return e.preventDefault();
+						
+					} else if (i == self.getSize()) {
+						self.seekTo(cloned2, time, function()  {
+							self.begin(0);		
+						});	
+					}
+					
+				});
+
+				// seek over the cloned item
+
+				// if the scrollable is hidden the calculations for seekTo position
+				// will be incorrect (eg, if the scrollable is inside an overlay).
+				// ensure the elements are shown, calculate the correct position,
+				// then re-hide the elements. This must be done synchronously to
+				// prevent the hidden elements being shown to the user.
+
+				// See: https://github.com/jquerytools/jquerytools/issues#issue/87
+
+				var hidden_parents = root.parents().add(root).filter(function () {
+					if ($(this).css('display') === 'none') {
+						return true;
+					}
+				});
+				if (hidden_parents.length) {
+					hidden_parents.show();
+					self.seekTo(0, 0, function() {});
+					hidden_parents.hide();
 				}
-				
-			});
-
-			// seek over the cloned item
-
-			// if the scrollable is hidden the calculations for seekTo position
-			// will be incorrect (eg, if the scrollable is inside an overlay).
-			// ensure the elements are shown, calculate the correct position,
-			// then re-hide the elements. This must be done synchronously to
-			// prevent the hidden elements being shown to the user.
-
-			// See: https://github.com/jquerytools/jquerytools/issues#issue/87
-
-			var hidden_parents = root.parents().add(root).filter(function () {
-				if ($(this).css('display') === 'none') {
-					return true;
+				else {
+					self.seekTo(0, 0, function() {});
 				}
-			});
-			if (hidden_parents.length) {
-				hidden_parents.show();
-				self.seekTo(0, 0, function() {});
-				hidden_parents.hide();
 			}
-			else {
-				self.seekTo(0, 0, function() {});
-			}
-
 		}
 		
 		// next/prev buttons
