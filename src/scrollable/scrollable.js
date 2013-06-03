@@ -17,6 +17,7 @@
 	$.tools.scrollable = {
 		
 		conf: {	
+			transition: 'scroll',
 			activeClass: 'active',
 			circular: false,
 			clonedClass: 'cloned',
@@ -60,7 +61,8 @@
 			 fire = root.add(self),
 			 itemWrap = root.children(),
 			 index = 0,
-			 vertical = conf.vertical;
+			 vertical = conf.vertical,
+			 lastActiveItem = null;
 				
 		if (!current) { current = self; } 
 		if (itemWrap.length > 1) { itemWrap = $(conf.items, root); }
@@ -100,8 +102,23 @@
 				return itemWrap.find(conf.item).not("." + conf.clonedClass);	
 			},
 							
+			// Adjusts the given index for circular loops (if circular is enabled).
+			// We only need to adjust the index if circular is enabled and the transition is 'fade'.
+			// When the transition is 'scroll', we don't want to adjust the index because we actually want to go *beyond* the last index to the cloned slide just beyond. Then it adjusts it to the true index in the onBeforeSeek callback.
+			getCorrectedIndex: function(i) {
+				if (conf.circular && conf.transition == 'fade')  {
+					if (i < 0) {
+						return self.getSize() - 1;
+					} else if (i >= self.getSize()) {
+						return 0;
+					}
+				} else {
+				}
+				return i;
+			},
+							
 			move: function(offset, time) {
-				return self.seekTo(index + offset, time);
+				return self.seekTo(self.getCorrectedIndex(index + offset), time);
 			},
 			
 			next: function(time) {
@@ -148,8 +165,10 @@
 				// ensure numeric index
 				if (!i.jquery) { i *= 1; }
 				
-				// avoid seeking from end clone to the beginning
-				if (conf.circular && i === 0 && index == -1 && time !== 0) { return self; }
+				if (conf.transition == 'scroll') {
+					// avoid seeking from end clone to the beginning
+					if (conf.circular && i === 0 && index == -1 && time !== 0) { return self; }
+				}
 				
 				// check that index is sane				
 				if (!conf.circular && i < 0 || i > self.getSize() || i < -1) { return self; }
@@ -176,10 +195,23 @@
 				current = self;  
 				if (time === undefined) { time = conf.speed; }   
 				
-				itemWrap.animate(props, time, conf.easing, fn || function() { 
-					fire.trigger("onSeek", [i]);		
-				});	 
+				if (conf.transition == 'scroll') {
+					var props = vertical ? {top: -item.position().top} : {left: -item.position().left};  
+					
+					itemWrap.animate(props, time, conf.easing, fn || function() { 
+						fire.trigger("onSeek", [i]);		
+					});	 
 				
+				} else if (conf.transition == 'fade') {
+					// Note: passing in easing is only possible in jQuery >= 1.4.3 
+					if (lastActiveItem)
+						lastActiveItem.fadeOut(time, conf.easing);
+					item.    fadeIn(time, conf.easing, fn || function() { 
+						fire.trigger("onSeek", [i]);		
+					});	 
+				}
+
+				lastActiveItem = item;
 				return self; 
 			}					
 			
@@ -199,60 +231,80 @@
 			};
 		});  
 		
+		if (conf.transition == 'fade') {
+			self.getItems().each(function(i) {
+				var item = $(this);
+				item.css('z-index', String(self.getSize()-i)).
+				     css('position', 'absolute').
+				     hide();
+
+			});
+		}
+		
+		
 		// circular loop
 		if (conf.circular) {
+			if (conf.transition == 'fade') {
+				self.onBeforeSeek(function(e, i, time) {
+					if (i == self.getSize()) {
+						self.seekTo(self.getCorrectedIndex(i+1), time, function()  {
+							self.begin(0);		
+						});	
+					}
+				});
+			} else {
 			
-			var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
-				 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
+				var cloned1 = self.getItems().slice(-1).clone().prependTo(itemWrap),
+					 cloned2 = self.getItems().eq(1).clone().appendTo(itemWrap);
 
-			cloned1.add(cloned2).addClass(conf.clonedClass);
-			
-			self.onBeforeSeek(function(e, i, time) {
+				cloned1.add(cloned2).addClass(conf.clonedClass);
 				
-				if (e.isDefaultPrevented()) { return; }
-				
-				/*
-					1. animate to the clone without event triggering
-					2. seek to correct position with 0 speed
-				*/
-				if (i == -1) {
-					self.seekTo(cloned1, time, function()  {
-						self.end(0);		
-					});          
-					return e.preventDefault();
+				self.onBeforeSeek(function(e, i, time) {
 					
-				} else if (i == self.getSize()) {
-					self.seekTo(cloned2, time, function()  {
-						self.begin(0);		
-					});	
+					if (e.isDefaultPrevented()) { return; }
+					
+					/*
+						1. animate to the clone without event triggering
+							2. when animation finishes, immediately seek to correct position with 0 speed (no visible transition)
+					*/
+					if (i == -1) {
+						self.seekTo(cloned1, time, function()  {
+							self.end(0);		
+						});          
+						return e.preventDefault();
+						
+					} else if (i == self.getSize()) {
+						self.seekTo(cloned2, time, function()  {
+							self.begin(0);		
+						});	
+					}
+					
+				});
+
+				// seek over the cloned item
+
+				// if the scrollable is hidden the calculations for seekTo position
+				// will be incorrect (eg, if the scrollable is inside an overlay).
+				// ensure the elements are shown, calculate the correct position,
+				// then re-hide the elements. This must be done synchronously to
+				// prevent the hidden elements being shown to the user.
+
+				// See: https://github.com/jquerytools/jquerytools/issues#issue/87
+
+				var hidden_parents = root.parents().add(root).filter(function () {
+					if ($(this).css('display') === 'none') {
+						return true;
+					}
+				});
+				if (hidden_parents.length) {
+					hidden_parents.show();
+					self.seekTo(0, 0, function() {});
+					hidden_parents.hide();
 				}
-				
-			});
-
-			// seek over the cloned item
-
-			// if the scrollable is hidden the calculations for seekTo position
-			// will be incorrect (eg, if the scrollable is inside an overlay).
-			// ensure the elements are shown, calculate the correct position,
-			// then re-hide the elements. This must be done synchronously to
-			// prevent the hidden elements being shown to the user.
-
-			// See: https://github.com/jquerytools/jquerytools/issues#issue/87
-
-			var hidden_parents = root.parents().add(root).filter(function () {
-				if ($(this).css('display') === 'none') {
-					return true;
+				else {
+					self.seekTo(0, 0, function() {});
 				}
-			});
-			if (hidden_parents.length) {
-				hidden_parents.show();
-				self.seekTo(0, 0, function() {});
-				hidden_parents.hide();
 			}
-			else {
-				self.seekTo(0, 0, function() {});
-			}
-
 		}
 		
 		// next/prev buttons
