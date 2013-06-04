@@ -28,7 +28,7 @@
 			effect: 'default',
 			
 			// since 1.2. fixed positioning not supported by IE6
-			fixed: !/msie/.test(navigator.userAgent.toLowerCase()) || navigator.appVersion > 6, 
+			fixed: !document.all || !!window.XMLHttpRequest, // XMLHttpRequest exists from IE7
 			
 			left: 'center',		
 			load: false, // 1.2
