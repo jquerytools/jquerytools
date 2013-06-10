@@ -170,7 +170,7 @@
 					if (e.isDefaultPrevented() || !item.length) { return self; }			
 				}  
 	
-				var props = vertical ? {top: -item.position().top} : {left: -item.position().left};  
+				var props = vertical ? {top: -item.position() ? -item.position().top : 0} : {left: -item.position().left};  
 				
 				index = i;
 				current = self;  
