@@ -30,7 +30,8 @@
 			// since 1.2. fixed positioning not supported by IE6
 			fixed: !/msie/.test(navigator.userAgent.toLowerCase()) || navigator.appVersion > 6, 
 			
-			left: 'center',		
+			left: 'center',
+			right: false,
 			load: false, // 1.2
 			mask: null,  
 			oneInstance: true,
@@ -135,10 +136,11 @@
 				if (maskConf) { $(overlay).expose(maskConf); }				
 				
 				// position & dimensions 
-				var top = conf.top,					
-					 left = conf.left,
-					 oWidth = overlay.outerWidth(true),
-					 oHeight = overlay.outerHeight(true); 
+				var top = conf.top,
+					left = conf.left,
+					right = conf.right,
+					oWidth = overlay.outerWidth(true),
+					oHeight = overlay.outerHeight(true);
 				
 				if (typeof top == 'string')  {
 					top = top == 'center' ? Math.max((w.height() - oHeight) / 2, 0) : 
@@ -147,9 +149,18 @@
 				
 				if (left == 'center') { left = Math.max((w.width() - oWidth) / 2, 0); }
 
-				
+				var position = {top: top};
+
+				// position from right if defined
+				if (right !== false) {
+					position.right = right;
+				}
+				else {
+					position.left = left;
+				}
+
 		 		// load effect  		 		
-				eff[0].call(self, {top: top, left: left}, function() {					
+				eff[0].call(self, position, function() {
 					if (opened) {
 						e.type = "onLoad";
 						fire.trigger(e);
