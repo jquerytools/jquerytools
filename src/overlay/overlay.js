@@ -41,7 +41,7 @@
 	};
 
 	
-	var instances = [], effects = {};
+	var instances = [], effects = {}, globalId = 0;
 		
 	// the default effect. nice and easy!
 	$.tools.overlay.addEffect('default', 
@@ -79,7 +79,7 @@
 			 overlay,
 			 opened,
 			 maskConf = $.tools.expose && (conf.mask || conf.expose),
-			 uid = Math.random().toString().slice(10);		
+			 uid = globalId++;
 		
 			 
 		// mask configuration
@@ -212,6 +212,10 @@
 				return self;
 			}, 
 			
+			getId: function() {
+				return uid;
+			},
+
 			getOverlay: function() {
 				return overlay;	
 			},
