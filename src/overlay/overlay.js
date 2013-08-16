@@ -37,6 +37,10 @@
 			speed: 'normal',
 			target: null, // target element to be overlayed. by default taken from [rel]
 			top: '10%'
+		},
+
+		overlays: function() {
+			return instances;
 		}
 	};
 
