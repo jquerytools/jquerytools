@@ -41,7 +41,11 @@
 
 		overlays: function() {
 			return instances;
-		}
+		},
+
+		hasOverlay: function(el) {
+			$(el).data("overlay") ? true : false;
+		},
 	};
 
 	
