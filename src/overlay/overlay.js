@@ -37,11 +37,19 @@
 			speed: 'normal',
 			target: null, // target element to be overlayed. by default taken from [rel]
 			top: '10%'
-		}
+		},
+
+		overlays: function() {
+			return instances;
+		},
+
+		hasOverlay: function(el) {
+			$(el).data("overlay") ? true : false;
+		},
 	};
 
 	
-	var instances = [], effects = {};
+	var instances = [], effects = {}, globalId = 0;
 		
 	// the default effect. nice and easy!
 	$.tools.overlay.addEffect('default', 
@@ -79,9 +87,10 @@
 			 overlay,
 			 opened,
 			 maskConf = $.tools.expose && (conf.mask || conf.expose),
-			 uid = Math.random().toString().slice(10);		
+			 uid = globalId++,
+			 closeOnClick = conf.closeOnClick,
+			 closeOnEsc = conf.closeOnEsc;
 		
-			 
 		// mask configuration
 		if (maskConf) {			
 			if (typeof maskConf == 'string') { maskConf = {color: maskConf}; }
@@ -97,7 +106,7 @@
 		
 		// trigger's click event
 		if (trigger && trigger.index(overlay) == -1) {
-			trigger.click(function(e) {				
+			trigger.click(function(e) {
 				self.load(e);
 				return e.preventDefault();
 			});
@@ -157,31 +166,30 @@
 				}); 				
 
 				// mask.click closes overlay
-				if (maskConf && conf.closeOnClick) {
-					$.mask.getMask().one("click", self.close); 
+				if (maskConf) {
+					$.mask.getMask().one("click", function() {
+						console.log(closeOnClick);
+						if (closeOnClick) {
+							self.close();
+						}
+					}); 
 				}
 				
 				// when window is clicked outside overlay, we close
-				if (conf.closeOnClick) {
-					$(document).on("click." + uid, function(e) { 
-						if (!$(e.target).parents(overlay).length) { 
-							self.close(e); 
-						}
-					});						
-				}						
+				$(document).on("click." + uid, function(e) {
+					if (closeOnClick && !$(e.target).parents(overlay).length) {
+						self.close(e);
+					}
+				});
 			
 				// keyboard::escape
-				if (conf.closeOnEsc) { 
+				// one callback is enough if multiple instances are loaded simultaneously
+				$(document).on("keydown." + uid, function(e) {
+					if (closeOnEsc && e.keyCode == 27) {
+						self.close(e);
+					}
+				});
 
-					// one callback is enough if multiple instances are loaded simultaneously
-					$(document).on("keydown." + uid, function(e) {
-						if (e.keyCode == 27) { 
-							self.close(e);	 
-						}
-					});			
-				}
-
-				
 				return self; 
 			}, 
 			
@@ -212,6 +220,10 @@
 				return self;
 			}, 
 			
+			getId: function() {
+				return uid;
+			},
+
 			getOverlay: function() {
 				return overlay;	
 			},
@@ -231,7 +243,25 @@
 			// manipulate start, finish and speeds
 			getConf: function() {
 				return conf;	
-			}			
+			},
+
+			setCloseOnClick: function(bool) {
+				closeOnClick = bool;
+				return this;
+			},
+
+			getCloseOnClick: function() {
+				return closeOnClick;
+			},
+
+			setCloseOnEsc: function(bool) {
+				closeOnEsc = bool;
+				return this;
+			},
+
+			getCloseOnEsc: function() {
+				return closeOnEsc;
+			}
 			
 		});
 		
@@ -287,7 +317,7 @@
 		});
 		
 		return conf.api ? el: this;		
-	}; 
-	
+	};
+
 })(jQuery);
 
