@@ -39,25 +39,7 @@
 			top: '10%'
 		},
 
-		// takes a dom element or a jquery selector or nothing
-		// will return all overlay instances if nothing or the overlay instance for a given element
-		overlays: function(el) {
-			var instanceElement, overlayInstance;
-
-			if (el) {
-				el = el["context"] || el;
-
-				// this is slow but should be small
-				for (var i=0 ; i < instances.length; i++ ) {
-					overlayInstance = instances[i];
-					instanceElement = overlayInstance.getTrigger()[0];
-
-					if (instanceElement == el) {
-						return overlayInstance; // short circuit b/c there is only 1 overlay for this selector
-					}
-				};
-			}
-
+		overlays: function() {
 			return instances;
 		}
 	};
