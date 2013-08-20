@@ -254,17 +254,17 @@ jQuery.fn.data = function(name) {
 			// onSlide
 			var isClick = evt.type == "click";
 			if (fireOnSlide && value !== undefined && !isClick) {
-				evt.type = "onSlide";           
+				evt.type = "onSlide";
 				fire.trigger(evt, [val, x]); 
 				if (evt.isDefaultPrevented()) { return self; }
 			}
 			
 			// speed & callback
 			var speed = isClick ? conf.speed : 0,
-				 callback = isClick ? function()  {
+				callback = isClick ? function() {
 					evt.type = "change";
 					fire.trigger(evt, [val]);
-				 } : null;
+				} : null;
 			
 			if (vertical) {
 				handle.animate({top: x}, speed, callback);
