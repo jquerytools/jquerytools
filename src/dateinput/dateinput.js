@@ -41,6 +41,7 @@
 			trigger: 0,
 			toggle: 0,
 			editable: 0,
+			positioner: undefined,
 			
 			css: {
 				
@@ -240,7 +241,11 @@
 			
 			// root
 			root = $('<div><div><a/><div/><a/></div><div><div/><div/></div></div>')
-				.hide().css({position: 'absolute'}).attr("id", css.root);			
+				.hide().attr("id", css.root);
+			
+			if (!conf.positioner){
+				root.css({position: 'absolute'})
+			}
 						
 			// elements
 			root.children()
@@ -467,18 +472,22 @@
 				// set date
 				self.setValue(value);				 
 				
-				// show calendar
-				var pos = input.offset();
+				if (conf.positioner){
+					conf.positioner(input, root, conf);
+				} else {
+					// show calendar
+					var pos = input.offset();
 
-				// iPad position fix
-				if (/iPad/i.test(navigator.userAgent)) {
-					pos.top -= $(window).scrollTop();
+					// iPad position fix
+					if (/iPad/i.test(navigator.userAgent)) {
+						pos.top -= $(window).scrollTop();
+					}
+					
+					root.css({ 
+						top: pos.top + input.outerHeight(true) + conf.offset[0], 
+						left: pos.left + conf.offset[1] 
+					});
 				}
-				
-				root.css({ 
-					top: pos.top + input.outerHeight(true) + conf.offset[0], 
-					left: pos.left + conf.offset[1] 
-				});
 				
 				if (conf.speed) {
 					root.show(conf.speed, function() {
