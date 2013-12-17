@@ -263,7 +263,7 @@
 			self.onBeforeSeek(function(e, i) {
 				setTimeout(function() {
 					if (!e.isDefaultPrevented()) {
-						prev.toggleClass(conf.disabledClass, i <= 0);
+						prev.toggleClass(conf.disabledClass, i <= 0 || self.getSize() === 1);
 						next.toggleClass(conf.disabledClass, i >= self.getSize() -1);
 					}
 				}, 1);
