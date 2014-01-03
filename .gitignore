@@ -3,6 +3,8 @@ site
 www
 builder
 jquerytools.github.com
+node_modules
+bower_modules
 
 # patch
 *.rej

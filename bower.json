@@ -1,0 +1,32 @@
+{
+  "name": "jquery-multiselect",
+  "version": "1.2.7",
+  "homepage": "http://jquerytools.org",
+  "description": "The missing UI library for the Web",
+  "main": "dist/jquery.tools.js",
+  "license": "None",
+  "keywords": [
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "ignore": [
+    "**/.*",
+    "build",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "*.md",
+    "AUTHORS.txt",
+    "Gruntfile.js",
+    "package.json",
+    "bower.json"
+  ],
+  "dependencies": {
+    "jquery": "jQuery#~1.11",
+  },
+  "resolutions": {
+      "jquery": "~1.11"
+  }
+}
