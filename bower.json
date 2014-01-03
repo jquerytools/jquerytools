@@ -1,6 +1,6 @@
 {
-  "name": "jquery-multiselect",
-  "version": "1.2.7",
+  "name": "jquerytools",
+  "version": "1.2.8",
   "homepage": "http://jquerytools.org",
   "description": "The missing UI library for the Web",
   "main": "dist/jquery.tools.js",
