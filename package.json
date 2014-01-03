@@ -1,0 +1,41 @@
+{
+  "name": "jquery.tools",
+  "title": "jQuery Tools",
+  "description": "The missing UI library for the Web",
+  "version": "1.11.0-beta3",
+  "main": "dist/jquery.tools.js",
+  "homepage": "http://jquerytools.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jquerytools/jquerytools.git"
+  },
+  "keywords": [
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "bugs": {
+    "url": "https://github.com/jquerytools/jquerytools/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "load-grunt-tasks": "0.2.0",
+    "requirejs": "2.1.9",
+    "shelljs": "0.2.6",
+    "grunt": "0.4.2",
+    "grunt-cli": "0.1.11",
+    "grunt-contrib-jshint": "0.7.2",
+    "grunt-contrib-uglify": "0.2.7",
+    "grunt-contrib-watch": "0.5.3",
+    "grunt-bowercopy": "0.4.1",
+    "grunt-compare-size": "0.4.0",
+    "grunt-git-authors": "1.2.0",
+    "grunt-jscs-checker": "0.2.6",
+    "grunt-jsonlint": "1.0.4"
+  },
+  "scripts": {
+    "build": "npm install && grunt",
+    "start": "grunt watch",
+    "test": "grunt"
+  }
+}

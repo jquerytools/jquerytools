@@ -1,0 +1,28 @@
+{
+        "boss": true,
+        "curly": false,
+        "eqeqeq": false,
+        "eqnull": true,
+        "expr": true,
+        "immed": true,
+        "noarg": true,
+        "onevar": false,
+        "smarttabs": true,
+        "trailing": true,
+        "undef": false,
+        "unused": false,
+        "scripturl":true,
+
+        "evil": true,
+        "sub": true,
+
+        "es3": true,
+        "browser": true,
+        "wsh": true,
+
+        "globals": {
+                "jQuery": true,
+                "define": true,
+                "module": true
+        }
+}
