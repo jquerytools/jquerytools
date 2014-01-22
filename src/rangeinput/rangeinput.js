@@ -16,7 +16,7 @@
 	var tool;
 	
 	tool = $.tools.rangeinput = {
-		                            
+									
 		conf: {
 			min: 0,
 			max: 100,		// as defined in the standard
@@ -66,22 +66,41 @@
 		
 		conf = $.extend({x: true, y: true, drag: true}, conf);
 	
-		doc = doc || $(document).on("mousedown mouseup", function(e) {
+		doc = doc || $(document).on("mousedown mouseup touchstart touchend", function(e) {
 				
 			var el = $(e.target);  
 			
 			// start 
-			if (e.type == "mousedown" && el.data("drag")) {
+			if ((e.type == "mousedown" || e.type == "touchstart") && el.data("drag")) {
 				
-				var offset = el.position(),
-					 x0 = e.pageX - offset.left, 
-					 y0 = e.pageY - offset.top,
-					 start = true;    
+				var offset = el.position();
+				var x0;
+				var y0;
+
+				if(e.type === 'touchstart') {
+					if(e.originalEvent) {
+						x0 = e.originalEvent.changedTouches[0].pageX - offset.left;
+						y0 = e.originalEvent.changedTouches[0].pageY - offset.top;
+					}
+				} else {
+					x0 = e.pageX - offset.left;
+					y0 = e.pageY - offset.top;
+					var start = true;
+				}
 				
-				doc.on("mousemove.drag", function(e) {  
-					var x = e.pageX -x0, 
-						 y = e.pageY -y0,
-						 props = {};
+				doc.on("mousemove.drag touchmove", function(e) {  
+					var x;
+					var y;
+					if(e.type === 'touchmove') {
+					    if(e.originalEvent) {
+					        x = e.originalEvent.changedTouches[0].pageX - x0;
+					        y = e.originalEvent.changedTouches[0].pageY - y0;
+					    }
+					} else {
+					    x = e.pageX -x0;
+					    y = e.pageY -y0;
+					}
+					var props = {};
 					
 					if (conf.x) { props.left = x; }
 					if (conf.y) { props.top = y; } 
@@ -104,7 +123,7 @@
 						draggable.trigger("dragEnd");  
 					}
 				} finally { 
-					doc.off("mousemove.drag");
+					doc.off("mousemove.drag touchmove");
 					draggable = null; 
 				}
 			} 
@@ -187,7 +206,7 @@
 
 		
 		/**
-		 	The flesh and bone of this tool. All sliding is routed trough this.
+			The flesh and bone of this tool. All sliding is routed trough this.
 			
 			@param evt types include: click, keydown, blur and api (setValue call)
 			@param isSetValue when called trough setValue() call (keydown, blur, api)
@@ -413,7 +432,7 @@
 		
 		// calculate all dimension related stuff
 		function init() { 
-		 	vertical = conf.vertical || dim(root, "height") > dim(root, "width");
+			vertical = conf.vertical || dim(root, "height") > dim(root, "width");
 		 
 			if (vertical) {
 				len = dim(root, "height") - dim(handle, "height");
