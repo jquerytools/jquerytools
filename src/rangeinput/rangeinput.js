@@ -60,60 +60,77 @@
 	var doc, draggable;
 	
 	$.fn.drag = function(conf) {
-		
-		// disable IE specialities
-		document.ondragstart = function () { return false; };
-		
-		conf = $.extend({x: true, y: true, drag: true}, conf);
-	
-		doc = doc || $(document).on("mousedown mouseup", function(e) {
-				
-			var el = $(e.target);  
-			
-			// start 
-			if (e.type == "mousedown" && el.data("drag")) {
-				
-				var offset = el.position(),
-					 x0 = e.pageX - offset.left, 
-					 y0 = e.pageY - offset.top,
-					 start = true;    
-				
-				doc.on("mousemove.drag", function(e) {  
-					var x = e.pageX -x0, 
-						 y = e.pageY -y0,
-						 props = {};
-					
-					if (conf.x) { props.left = x; }
-					if (conf.y) { props.top = y; } 
-					
-					if (start) {
-						el.trigger("dragStart");
-						start = false;
-					}
-					if (conf.drag) { el.css(props); }
-					el.trigger("drag", [y, x]);
-					draggable = el;
-				}); 
-				
-				e.preventDefault();
-				
-			} else {
-				
-				try {
-					if (draggable) {  
-						draggable.trigger("dragEnd");  
-					}
-				} finally { 
-					doc.off("mousemove.drag");
-					draggable = null; 
-				}
-			} 
-							
-		});
-		
-		return this.data("drag", true); 
-	};	
+	        
+	    // disable IE specialities
+	    document.ondragstart = function () { return false; };
+	    
+	    conf = $.extend({x: true, y: true, drag: true}, conf);
 
+	    doc = doc || $(document).on("mousedown mouseup touchstart touchend", function(e) {
+	        var el = $(e.target);
+	        
+	        // start 
+	        if ((e.type == "mousedown" || e.type == "touchstart") && el.data("drag")) {
+	            var offset = el.position();
+	            var x0;
+	            var y0;
+
+	            if(e.type === 'touchstart') {
+	                if(e.originalEvent) {
+	                    x0 = e.originalEvent.changedTouches[0].pageX - offset.left;
+	                    y0 = e.originalEvent.changedTouches[0].pageY - offset.top;
+	                }
+	            } else {
+	                x0 = e.pageX - offset.left;
+	                y0 = e.pageY - offset.top;
+	                var start = true;
+	            }
+	                
+	            doc.on("mousemove.drag touchmove", function(e) {
+	                var x;
+	                var y;
+	                if(e.type === 'touchmove') {
+	                    if(e.originalEvent) {
+	                        x = e.originalEvent.changedTouches[0].pageX - x0;
+	                        y = e.originalEvent.changedTouches[0].pageY - y0;
+	                    }
+	                } else {
+	                    x = e.pageX -x0;
+	                    y = e.pageY -y0;
+	                }
+
+	                var props = {};
+	                
+	                if (conf.x) { props.left = x; }
+	                if (conf.y) { props.top = y; }
+	                
+	                if (start) {
+	                    el.trigger("dragStart");
+	                    start = false;
+	                }
+	                if (conf.drag) { el.css(props); }
+	                el.trigger("drag", [y, x]);
+	                draggable = el;
+	            });
+	            
+	            e.preventDefault();
+	                
+	        } else {
+	                
+	            try {
+	                if (draggable) {
+	                    draggable.trigger("dragEnd");
+	                }
+	            } finally {
+	                doc.off("mousemove.drag touchmove");
+	                draggable = null;
+	            }
+	        }
+	                                            
+	    });
+	    
+	    return this.data("drag", true);
+	};
 //}}}
 	
 
