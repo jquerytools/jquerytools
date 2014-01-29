@@ -295,35 +295,45 @@
       // this value can come from configuration, but I do not want to be too intrusive
       var touchMinDelta = conf.touchMinDelta || 25;
       
-      // find best way to get the TouchList prototype
-      // attemp to find the TouchList prototype in use
-      var touchListProto = ( function(){ 
+      // polyfill part
+      ( function(){ 
+        // find best way to get the TouchList prototype
+        var proto;
+        
         // standard method
-        if (window.TouchList) {
-          return TouchList.prototype;
-        // can we look for document.createTouchList (Android)
-        } else if ('getPrototypeOf' in Object && 'createTouchList' in document) {
+        if( window.TouchList ) {
+          proto = window.TouchList.prototype;
+        // can we look for document.createTouchList
+        } else if( 'createTouchList' in document ) {
           // get prototype of this
-          return Object.getPrototypeOf( document.createTouchList() );
+          if( 'getPrototypeOf' in window.Object ) {
+            proto = window.Object.getPrototypeOf( document.createTouchList() );
+          } else if( typeof 'xx'.__proto__ === 'object' ) {
+            proto = document.createTouchList().__proto__;
+          } else {
+            // may break
+            proto = document.createTouchList().constructor.prototype;
+          }
         } else {
           // oups...
-          return false;
+          return;
+        }
+        
+        // at this point proto is OK
+        // prototype the method if not exists
+        if(!('identifiedTouch' in proto)) {
+          proto.identifiedTouch = function( id ) {
+            var i = this.length, t;
+            while( i-- ) {
+              t = this.item( i );
+              // found, stop and return it
+              if( t.identifier === id ) return t;
+            }
+            // not found
+            return false;
+          };
         }
       } )();
-      
-      // prototype this method if not exists
-      if (touchListProto && !('identifiedTouch' in touchListProto)) {
-        touchListProto.identifiedTouch = function( id ) {
-          var i = this.length, t;
-          while( i-- ) {
-            t = this.item( i );
-            // found, stop and return it
-            if( t.identifier === id ) return t;
-          }
-          // not found
-          return false;
-        };
-      }
 			
 			itemWrap[0].ontouchstart = function(e) {
         // at first, look if it is not a second touch
