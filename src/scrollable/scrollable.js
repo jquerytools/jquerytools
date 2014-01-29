@@ -289,27 +289,183 @@
 		}
 		
 		// touch event
-		if (conf.touch) {
+		if (conf.touch && ('ontouchstart' in document)) {
 			var touch = {};
+      // yes, you want a limit to not launch scrollable on tiny moves
+      // this value can come from configuration, but I do not want to be too intrusive
+      var touchMinDelta = conf.touchMinDelta || 25;
+      
+      // prototype this method if not exists
+      if(!('identifiedTouch' in TouchList.prototype)) {
+        TouchList.prototype.identifiedTouch = function( id ) {
+          var i = this.length, t;
+          while( i-- ) {
+            t = this.item( i );
+            // found, stop and return it
+            if( t.identifier === id ) return t;
+          }
+          // not found
+          return false;
+        };
+      }
 			
 			itemWrap[0].ontouchstart = function(e) {
-				var t = e.touches[0];
-				touch.x = t.clientX;
-				touch.y = t.clientY;
+        // at first, look if it is not a second touch
+        if(!touch.id) {
+          // we want the first touch that trigger the event
+				  var t = e.changedTouches[0];
+				  touch.id = t.identifier;
+				  touch.x = t.clientX;
+				  touch.y = t.clientY;
+        }
 			};
 			
 			itemWrap[0].ontouchmove = function(e) {
 				
-				// only deal with one finger
-				if (e.touches.length == 1 && !itemWrap.is(":animated")) {			
-					var t = e.touches[0],
-						 deltaX = touch.x - t.clientX,
-						 deltaY = touch.y - t.clientY;
-	
-					self[vertical && deltaY > 0 || !vertical && deltaX > 0 ? 'next' : 'prev']();				
-					e.preventDefault();
+				// do the current touch still on contact
+        // - first contact (registered)
+        // - second contact (not regisetred)
+        // - remove first contact (unregistred)
+        // - move second contact
+        // = will trigger a touchmove event from the second contact, but the 
+        // first one is not available anymore
+				if (touch.id && !itemWrap.is(":animated")) {
+          // look if the current touch has trigger the event
+          var t = e.changedTouches.identifiedTouch(touch.id);
+          
+          if (t) {
+            // ok, we can do the job now
+            // >0 from right to left, <0 from left to right
+            var deltaX = touch.x - t.clientX;
+            var absdeltaX = Math.abs( deltaX );
+            // >0 from bottom to top, <0 from top to bottom
+            var deltaY = touch.y - t.clientY;
+            var absdeltaY = Math.abs( deltaY );
+            
+            // look for the biggest one to determine vertical or horizontal move
+            if (absdeltaX > absdeltaY) {
+              // horizontal move
+              
+              // if the scrollable is vertical, do not do anything
+              if(vertical) return true;
+              
+              // prevent tiny move
+              if(absdeltaX > touchMinDelta){
+                // we are ok, we can process move
+                // >0 from right to left: move right, next
+                // <0 from left to right: move left, prev
+                self[ deltaX > 0 ? 'next' : 'prev']();
+                
+                // reassign x/y
+                touch.x = t.clientX;
+                touch.y = t.clientY;
+              }
+              
+              // prevent default, even on tiny moves
+              e.preventDefault();
+              
+            } else if (absdeltaX < absdeltaY) {
+              // vertical move
+              
+              // if the scrollable is not vertical, do not do anything
+              if (!vertical) return true;
+              
+              // prevent tiny move
+              if(absdeltaY > touchMinDelta){
+                // we are ok, we can process move
+                // >0 from bottom to top: move down, prev
+                // <0 from top to bottom: move up, next
+                self[ deltaY > 0 ? 'prev' : 'next']();
+                
+                // reassign x/y
+                touch.x = t.clientX;
+                touch.y = t.clientY;
+              }
+              
+              // prevent default, even on tiny moves
+              e.preventDefault();
+              
+            } else {
+              // can be both
+              if (vertical) {
+                // consider vertical
+                
+                // prevent tiny move
+                if(absdeltaY > touchMinDelta){
+                  // we are ok, we can process move
+                  // >0 from bottom to top: move down, prev
+                  // <0 from top to bottom: move up, next
+                  self[ deltaY > 0 ? 'prev' : 'next']();
+                
+                  // reassign x/y
+                  touch.x = t.clientX;
+                  touch.y = t.clientY;
+                }
+
+                // prevent default, even on tiny moves
+                e.preventDefault();
+              } else {
+                // consider horizontal
+                
+                // prevent tiny move
+                if(absdeltaX > touchMinDelta){
+                  // we are ok, we can process move
+                  // >0 from right to left: move right, next
+                  // <0 from left to right: move left, prev
+                  self[ deltaX > 0 ? 'next' : 'prev']();
+                
+                  // reassign x/y
+                  touch.x = t.clientX;
+                  touch.y = t.clientY;
+                }
+
+                // prevent default, even on tiny moves
+                e.preventDefault();
+              }
+            }
+          }
 				}
 			};
+			
+			itemWrap[0].ontouchend = function(e) {
+        // do the current touch still on contact
+				if (touch.id) {	
+          // look if the current touch has trigger the event
+          if(e.changedTouches.identifiedTouch(touch.id)) {
+            // ok, unregister
+            touch = {};
+            // if there was a move, a touchmove should have 
+            // been trigger before this event
+          }
+        }
+      };
+			
+			itemWrap[0].ontouchcancel = function(e) {
+        // do the current touch still on contact
+				if (touch.id) {	
+          // look if the current touch has trigger the event
+          if(e.changedTouches.identifiedTouch(touch.id)) {
+            // ok, unregister
+            touch = {};
+            // if there was a move, a touchmove should have 
+            // been trigger before this event
+          }
+        }
+      };
+			
+			itemWrap[0].ontouchleave = function(e) {
+        // do the current touch still on contact
+				if (touch.id) {	
+          // look if the current touch has trigger the event
+          if(e.changedTouches.identifiedTouch(touch.id)) {
+            // ok, unregister
+            touch = {};
+            // if there was a move, a touchmove should have 
+            // been trigger before this event
+          }
+        }
+      };
+      
 		}
 		
 		if (conf.keyboard)  {
