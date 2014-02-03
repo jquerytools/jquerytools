@@ -380,8 +380,8 @@
               // prevent tiny move
               if(absdeltaX > touchMinDelta){
                 // we are ok, we can process move
-                // >0 from right to left: move right, next
-                // <0 from left to right: move left, prev
+                // >0 from right to left: move left, next
+                // <0 from left to right: move right, prev
                 self[ deltaX > 0 ? 'next' : 'prev']();
                 
                 // reassign x/y
@@ -401,9 +401,9 @@
               // prevent tiny move
               if(absdeltaY > touchMinDelta){
                 // we are ok, we can process move
-                // >0 from bottom to top: move down, prev
-                // <0 from top to bottom: move up, next
-                self[ deltaY > 0 ? 'prev' : 'next']();
+                // >0 from bottom to top: move up, next
+                // <0 from top to bottom: move down, prev
+                self[ deltaY > 0 ? 'next' : 'prev']();
                 
                 // reassign x/y
                 touch.x = t.clientX;
@@ -421,9 +421,9 @@
                 // prevent tiny move
                 if(absdeltaY > touchMinDelta){
                   // we are ok, we can process move
-                  // >0 from bottom to top: move down, prev
-                  // <0 from top to bottom: move up, next
-                  self[ deltaY > 0 ? 'prev' : 'next']();
+                  // >0 from bottom to top: move up, next
+                  // <0 from top to bottom: move down, prev
+                  self[ deltaY > 0 ? 'next' : 'prev']();
                 
                   // reassign x/y
                   touch.x = t.clientX;
@@ -438,8 +438,8 @@
                 // prevent tiny move
                 if(absdeltaX > touchMinDelta){
                   // we are ok, we can process move
-                  // >0 from right to left: move right, next
-                  // <0 from left to right: move left, prev
+                  // >0 from right to left: move left, next
+                  // <0 from left to right: move right, prev
                   self[ deltaX > 0 ? 'next' : 'prev']();
                 
                   // reassign x/y
