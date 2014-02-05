@@ -232,10 +232,7 @@
 		
 				
 				// onBeforeShow may have altered the configuration
-				pos = getPosition(trigger, tip, conf);
-				
-				// set position
-				tip.css({position:'absolute', top: pos.top, left: pos.left});					
+				self.updatePosition();				
 				
 				shown = true;
 				
@@ -308,7 +305,14 @@
 			
 			getTrigger: function() {
 				return trigger;	
-			}		
+			},
+			
+			/* Re-evaluate the position */
+			updatePosition: function(){
+				var pos = getPosition(trigger, tip, conf);
+				// set position
+				tip.css({position:'absolute', top: pos.top, left: pos.left});
+			}	
 
 		});		
 
