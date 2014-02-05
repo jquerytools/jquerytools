@@ -35,25 +35,27 @@
 
 	// shared event handler
 	function wheelHandler( event ) {
-		
 		switch ( event.type ) {
 			
 			// FF2 has incorrect event positions
 			case "mousemove": 
-				return $.extend( event.data, { // store the correct properties
+                // store the correct properties
+				return $.extend( event.originalEvent.data, { 
 					clientX: event.clientX, clientY: event.clientY,
 					pageX: event.pageX, pageY: event.pageY
 				});
 				
 			// firefox	
 			case "DOMMouseScroll": 
-				$.extend( event, event.data ); // fix event properties in FF2
-				event.delta = -event.detail / 3; // normalize delta
+                // fix event properties in FF2
+				$.extend( event.originalEvent, event.originalEvent.data ); 
+                // normalize delta
+				event.delta = -event.originalEvent.detail / 3;
 				break;
 				
 			// IE, opera, safari	
 			case "mousewheel":				
-				event.delta = event.wheelDelta / 120;
+				event.delta = event.originalEvent.wheelDelta / 120;
 				break;
 		}
 		
