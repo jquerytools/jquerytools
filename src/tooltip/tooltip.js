@@ -260,8 +260,10 @@
 					if (event[1] && !trigger.is("input:not(:checkbox, :radio), textarea")) { 					
 						tip.off(event[1]).on(event[1], function(e) {
 	
-							// being moved to the trigger element
-							if (e.relatedTarget != trigger[0]) {
+							// being moved to the trigger element or target is <select> tag.
+							// Chrom{e,ium} under Linux generates 'mouseout' event which in turn
+							// cause 'mouseover' for tooltip
+							if (e.relatedTarget != trigger[0] && !$(e.target).is('select')) {
 								trigger.trigger(evt[1].split(" ")[0]);
 							}
 						}); 
