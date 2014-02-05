@@ -535,6 +535,8 @@
 				var tmp = new Date(year, month, 1 - conf.firstDay), begin = tmp.getDay(),
 					 days = dayAm(year, month),
 					 prevDays = dayAm(year, month - 1),
+					 firstDay = new Date(year, month, 1),
+					 lastDay = new Date(year, month, days),
 					 week;	 
 				
 				// selectors
@@ -568,7 +570,15 @@
 					 
 				// populate weeks
 				weeks.empty();				
-				pm.add(nm).removeClass(css.disabled); 
+				pm.add(nm).removeClass(css.disabled);
+				
+				if (max && lastDay > max) {
+					nm.addClass(css.disabled);
+				}
+				
+				if (min && firstDay < min) {
+					pm.addClass(css.disabled);
+				}
 				
 				// !begin === "sunday"
 				for (var j = !begin ? -7 : 0, a, num; j < (!begin ? 35 : 42); j++) { 
@@ -606,11 +616,11 @@
 					
 					// disabled
 					if (min && date < min) {
-						a.add(pm).addClass(css.disabled);						
+						a.addClass(css.disabled);						
 					}
 					
 					if (max && date > max) {
-						a.add(nm).addClass(css.disabled);						
+						a.addClass(css.disabled);
 					}
 					
 					a.attr("href", "#" + num).text(num).data("date", date);					
