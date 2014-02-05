@@ -18,7 +18,8 @@
 		conf: {
 			autoplay: true,
 			interval: 3000,
-			autopause: true
+			autopause: true,
+			invert: false
 		}
 	};	
 	
@@ -47,7 +48,7 @@
       	// Fixes https://github.com/jquerytools/jquerytools/issues/591
         if (timer) clearTimeout(timer); // reset timeout, especially for onSeek event
         timer = setTimeout(function(){
-          api.next();
+          opts.invert?api.prev():api.next();
         }, opts.interval);
       }
 			    
