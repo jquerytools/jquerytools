@@ -262,22 +262,25 @@ jQuery.fn.data = function( name ) {
 			}				
 			
 			// speed & callback
-			var speed = isClick ? conf.speed : 0,
-				 callback = isClick ? function()  {
-					evt.type = "change";
-					fire.trigger(evt, [val]);
-				 } : null;
-			
-			if (vertical) {
-				handle.animate({top: x}, speed, callback);
-				if (conf.progress) { 
-					progress.animate({height: len - x + handle.height() / 2}, speed);	
-				}				
-				
+			var speed    = isClick ? conf.speed : 0,
+					callback = isClick ? function() {
+						evt.type = "change";
+						fire.trigger(evt, [val]);
+					} : null,
+					prop = vertical ? 'top' : 'left',
+					prog = vertical ? (len - x + handle.height() / 2) : (x + handle.width / 2);
+
+			if( speed == 0 ) {
+				handle.css(prop, x);
+				if(conf.progress) { progress.css(prop, prog); }
+				if(callback != null) { callback(); }
 			} else {
-				handle.animate({left: x}, speed, callback);
-				if (conf.progress) { 
-					progress.animate({width: x + handle.width() / 2}, speed); 
+				var toAnim = {}; 
+				toAnim[prop] = x;
+				handle.animate(toAnim, speed, callback);
+				if(conf.progress) {
+					toAnim[prop] = prog;
+					progress.animate(toAnim, speed);
 				}
 			}
 			
@@ -333,6 +336,18 @@ jQuery.fn.data = function( name ) {
 			// HTML5 compatible name
 			stepDown: function(am) { 
 				return self.step(-am || -1);
+			},
+
+			setMax: function(val) {
+				conf.max = parseFloat(val, 10);
+				range = conf.max - conf.min;
+				self.setValue(value > conf.max ? conf.max : value);
+			},
+
+			setMin: function(val) {
+				conf.min = parseFloat(val, 10);
+				range = conf.max - conf.min;
+			 	self.setValue(value < conf.min ? conf.min : value);
 			}
 			
 		});
@@ -361,6 +376,7 @@ jQuery.fn.data = function( name ) {
 			
 			// avoid redundant event triggering (= heavy stuff)
 			fireOnSlide = hasEvent($(self)) || hasEvent(input);
+			if( typeof fireOnSlide == 'undefined' ) { fireOnSlide = true; }
 			
 				
 		}).on("drag", function(e, y, x) {        
