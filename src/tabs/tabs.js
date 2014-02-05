@@ -159,9 +159,10 @@
 		$.extend(this, {				
 			click: function(i, e) {
 			  
-				var tab = tabs.eq(i),
+				var tab = i < 0 ? [] : tabs.eq(i),
 				    firstRender = !root.data('tabs');
 				
+
 				if (typeof i == 'string' && i.replace("#", "")) {
 					tab = tabs.filter("[href*=\"" + i.replace("#", "") + "\"]");
 					i = Math.max(tabs.index(tab), 0);

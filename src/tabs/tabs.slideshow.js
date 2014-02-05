@@ -163,6 +163,9 @@
 			
 			if (!tabs.getIndex()) {
 				prevButton.addClass(disabled);
+			} 
+			if (tabs.getIndex() == tabs.getTabs().length -1) {
+				nextButton.addClass(disabled);
 			}
 			
 			tabs.onBeforeClick(function(e, i)  { 
