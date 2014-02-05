@@ -338,7 +338,7 @@ jQuery.fn.data = function( name ) {
 		});
 		
 		// callbacks
-		$.each("onSlide,change".split(","), function(i, name) {
+		$.each("onSlide,change,onBegin".split(","), function(i, name) {
 				
 			// from configuration
 			if ($.isFunction(conf[name]))  {
@@ -443,6 +443,7 @@ jQuery.fn.data = function( name ) {
 		function begin() {
 			init();	
 			self.setValue(conf.value !== undefined ? conf.value : conf.min);
+			fire.trigger("onBegin", [value]);
 		} 
 		begin();
 		
