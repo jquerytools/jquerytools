@@ -192,14 +192,14 @@
 				e = e || $.Event();
 				e.type = "onBeforeClose";
 				fire.trigger(e);				
-				if (e.isDefaultPrevented()) { return; }				
-				
-				opened = false;
+				if (e.isDefaultPrevented()) { return; }	
 				
 				// close effect
 				effects[conf.effect][1].call(self, function() {
 					e.type = "onClose";
-					fire.trigger(e); 
+					fire.trigger(e);
+				        // consider as closed AFTER effect
+					opened = false;
 				});
 				
 				// unbind the keyboard / clicking actions
