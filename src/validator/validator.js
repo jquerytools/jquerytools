@@ -577,7 +577,7 @@
 
 		// get radio groups by name
 		inputs.filter(":radio[required]").on("change.V", function(e) {			
-			var els = $("[name='" + $(e.srcElement).attr("name") + "']");
+			var els = $("[name='" + $(this).attr("name") + "']");
 			if ((els != null) && (els.length != 0)) {
 				self.checkValidity(els, e);
 			}
