@@ -471,7 +471,7 @@
 				}
 				
 				root.css({ 
-					top: pos.top + input.outerHeight({margins: true}) + conf.offset[0], 
+					top: pos.top + input.outerHeight(true) + conf.offset[0], 
 					left: pos.left + conf.offset[1] 
 				});
 				
