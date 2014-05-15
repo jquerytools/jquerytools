@@ -1,3 +1,9 @@
+# 1.3
+### In Progress
+
+  - Fix API usage of outerWidth and outerHeight.
+
+
 # 1.2.7
 ### In Progress
   
