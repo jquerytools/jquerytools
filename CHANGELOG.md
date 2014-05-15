@@ -2,6 +2,11 @@
 ### In Progress
 
   - Fix API usage of outerWidth and outerHeight.
+    [thet]
+
+  - In the date picker, fire the change event on the input so it doesn't bubble
+    up and cause an error in jquery 1.8.
+    [davisagli]
 
 
 # 1.2.7
