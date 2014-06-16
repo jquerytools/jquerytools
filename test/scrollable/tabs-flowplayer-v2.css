@@ -25,7 +25,7 @@
 
 /* a- tag inside single tab */
 #flowtabs li a {
-    background: url(/media/img/tabs/blue_panes.jpg) no-repeat;
+    background: url(blue_panes.jpg) no-repeat;
     display:block;
     height: 31px;
     width: 189px;
@@ -63,7 +63,7 @@
 
 /* panes */
 #flowpanes {
-    background: url(/media/img/tabs/blue_panes.jpg) no-repeat 0 -100px;
+    background: url(blue_panes.jpg) no-repeat 0 -100px;
     width:760px;
     height:450px;
 }

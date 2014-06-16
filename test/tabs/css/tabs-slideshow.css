@@ -1,7 +1,7 @@
 
 /* container for slides */
 .images {
-    background:#fff url(/media/img/gradient/h300.png) repeat-x;
+    background:#fff url(h300.png) repeat-x;
     border:1px solid #ccc;
     position:relative;
     height:300px;
@@ -50,7 +50,7 @@
     height:8px;
     float:left;
     margin:3px;
-    background:url(/media/img/scrollable/arrow/navigator.png) 0 0 no-repeat;
+    background:url(navigator.png) 0 0 no-repeat;
     display:block;
     font-size:1px;
 }
@@ -70,7 +70,7 @@
 .forward, .backward {
     float:left;
     margin-top:140px;
-    background:#fff url(/media/img/scrollable/arrow/hori_large.png) no-repeat;
+    background:#fff url(hori_large.png) no-repeat;
     display:block;
     width:30px;
     height:30px;
