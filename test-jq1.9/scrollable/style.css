@@ -1,0 +1,57 @@
+
+/* minimal settings */
+.scrollable {
+	
+	/* required settings for the root element */
+	position:relative;
+	overflow:hidden;
+	width: 660px;	
+	
+	/* configurable styling */
+	border:1px solid #ccc;
+	padding:20px 0;
+	height:130px;
+}
+
+.scrollable .items { 	
+	margin-left:10px;
+	position:relative;
+	width:20000em;	
+}
+
+.scrollable .items div {
+	text-align:center;
+	width:110px;
+	padding:25px 0px;
+	font-size:30px;
+	font-family: 'bitstream vera sans';
+	border:1px outset #ccc;
+	background-color: #efefef;
+	margin-right: 20px;
+	float:left;
+	-moz-border-radius:5px;
+	border-radius:5px;
+}
+
+.navi {
+	height:30px;	
+	margin-bottom:20px;	
+}
+
+.navi a {
+	width:20px;
+	height: 20px;
+	background-color:blue;
+	display:block;
+	float:left;
+	margin-right:10px;
+}
+
+.navi a.active {
+	background-color:yellow;		
+}
+
+/* custom style */
+body {
+	padding:50px 100px;		
+}

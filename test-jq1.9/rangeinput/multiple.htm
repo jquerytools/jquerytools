@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title></title>
+
+    <script src="../../lib/jquery-1.9.1.js"></script>
+<script src="../../lib/jquery-migrate-1.2.1.js"></script>
+    <script src="../../src/rangeinput/rangeinput.js"></script>
+
+    <!-- style for the range inputs only -->
+    <link rel="stylesheet" type="text/css" href="css/small.css" />
+
+    <!-- style for the "surroundings" -->
+    <link rel="stylesheet" type="text/css" href="css/multiple.css" />
+
+</head>
+
+<body>
+
+    <div id="controls">
+
+        <div class="column">
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+        </div>
+
+        <div class="column">
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+        </div>
+
+        <div class="column vertical">
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+        </div>
+
+        <div class="column vertical">
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+        </div>
+
+    </div>
+
+    <script>
+        $(".column:lt(2) :range").rangeinput({
+            precision: 1,
+            value: 30.5
+        });
+
+        $(".vertical :range").rangeinput({
+            precision: 1,
+            vertical: true,
+            value: 50.5
+        });
+    </script>
+
+</body>
+
+</html>

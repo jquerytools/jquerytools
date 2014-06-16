@@ -1,0 +1,65 @@
+/* automatically absolutely positioned */
+div.overlay {
+	width:400px;
+	display:none;
+	color:#fff;
+	padding:10px;
+}
+
+div.overlay a.close {
+	background-image:url(img/close.png);
+	position:absolute;
+	right:5px;
+	top:7px;
+	cursor:pointer;
+	height:27px;
+	width:27px;
+}
+
+#overlay {
+	height:200px;		
+	background-color:#666;
+	-moz-border-radius:15px;		
+	border-radius:15px;
+}
+
+#overlay2 {
+	background-image:url(img/overlay.png)	
+}
+
+#img {
+	position:absolute;		
+}
+
+.next, .prev {
+	position:absolute;		
+	cursor:pointer;
+	display:block;
+	width:100px;
+	height:200px;
+	background:url(img/next.gif) no-repeat;
+}
+
+.prev {
+	left:10px;		
+}
+
+.next {
+	right:10px;		
+}
+
+.info {
+	position:absolute;
+	bottom:10px;
+	background-color:#333;
+	opacity:0.7;
+	padding:4px 15px;
+}
+
+.info strong {
+	display:block;	
+}
+
+.disabled {
+	visibility:hidden;		
+}

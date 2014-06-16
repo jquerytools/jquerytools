@@ -1,0 +1,55 @@
+
+.slider { 
+	background:url(../img/small-horizontal.png) no-repeat  0 -5px; 
+	width:94px; 
+	height:5px; 
+	cursor:pointer; 
+	position: relative; 
+	float:left;
+}
+
+.handle { 
+	background:transparent url(../img/small-horizontal.png) no-repeat scroll -97px 0; 
+	height:13px; 
+	position:absolute; 
+	top:-5px; 
+	width:12px; 
+	cursor:move; 
+}
+
+.range { 
+	font-size:10px; 
+	border:0; 
+	background:none; 
+	width: 30px; 
+	margin:-5px 0 10px 0; 
+	float:left;
+	color:#fff;
+	-moz-border-radius:2px; 
+	-webkit-border-radius:2px; 	
+	border-radius:2px;
+}
+
+.range:focus { 
+	background-color:#fff; 
+}
+
+
+/* vertical ranges */
+.vertical .slider {
+	background:url(../img/small-vertical.png) no-repeat  -4px -17px; 
+	height:94px;
+	width: 5px;
+	margin:5px 13px 0 0;
+}
+
+.vertical .handle { 
+	background:transparent url(../img/small-vertical.png) no-repeat scroll -1px -2px; 	
+	left:-3px;
+	margin-bottom:5px;
+}
+
+.vertical .range {
+	margin:-13px 13px 0 -27px;		
+}
+

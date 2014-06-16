@@ -1,0 +1,44 @@
+
+
+/* root element for accordion. decorated with rounded borders and gradient background image */
+#accordion {
+	height:80px;
+	padding:10px 0 10px 20px;
+	width:560px;
+	border:1px solid #ddd;
+}
+
+
+.blok {
+	background-color:#234;
+	width:50px;
+	height:50px;
+	float:left;
+	margin-right:10px;
+	cursor:pointer;
+}
+
+/* 
+	accordion pane. should initially have zero width and display:none.
+	the first pane should override these with inline style
+*/
+.pane {
+	width:0px;
+	float:left;	
+	display:none;		
+	margin-right:10px;
+	overflow:hidden;
+}
+
+/* content inside a pane should have fixed width */
+.pane h3 {
+	color:#444;
+	margin:0 0 -10px 0;
+	width:190px;
+	font-size:15px;	
+}
+	
+.pane p {	
+	font-size:11px;
+	width:190px;
+}

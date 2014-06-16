@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title></title>
+
+    <script src="../../lib/jquery-1.9.1.js"></script>
+<script src="../../lib/jquery-migrate-1.2.1.js"></script>
+    <script src="../../src/dateinput/dateinput.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="skin1.css" />
+
+</head>
+
+<body>
+
+    <!-- HTML5 date input -->
+    <input type="date" name="mydate" />
+
+    <input type="date" name="mydate" data-value="1967-05-30" />
+
+    <input type="date" name="date1" value="Today" />
+
+    <input type="date" name="date2" value="5 days from now" min="2010-03-01" max="2012-01-01" />
+
+    <input type="date" name="date3" value="15" min="-25" max="25" data-value="15" />
+
+    <!-- make it happen -->
+    <script>
+        var begdat = new Date(1980, 1, 1);
+        var mindat = new Date(1940, 1, 1);
+        var maxdat = new Date(1992, 1, 1);
+
+
+        $(":date:first").dateinput({
+            value: begdat,
+            max: maxdat,
+            min: mindat
+        });
+
+        $(":date:eq(1)").dateinput({
+            format: 'dd/mm/yyyy',
+            firstDay: 1,
+            speed: 'fast',
+            selectors: false,
+            yearRange: [-75, -10],
+            trigger: true,
+            toggle: true
+        });
+
+        $(":date:eq(2), :date:eq(3), :date:eq(4)").dateinput({
+            format: 'dddd dd, mmmm yyyy', // the format displayed for the user
+            selectors: true, // whether month/year dropdowns are shown
+            min: -100, // min selectable day (100 days backwards)
+            max: 100, // max selectable day (100 days onwards)
+            offset: [10, 20], // tweak the position of the calendar
+            speed: 'fast', // calendar reveal speed
+            firstDay: 1 // which day starts a week. 0 = sunday, 1 = monday etc..
+        });
+    </script>
+
+</body>
+
+</html>

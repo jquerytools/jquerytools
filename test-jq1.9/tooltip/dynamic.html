@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title></title>
+
+  <script src="../../lib/jquery-1.9.1.js"></script>
+<script src="../../lib/jquery-migrate-1.2.1.js"></script>
+  <script src="../../src/tooltip/tooltip.js"></script>
+  <script src="../../src/tooltip/tooltip.dynamic.js"></script>
+
+  <style type="text/css">
+    body {
+      padding: 30px;
+    }
+    div.tip {
+      background: #000 url(black.png) 0 0 no-repeat;
+      display: none;
+      width: 165px;
+      height: 63px;
+      position: absolute;
+      padding: 20px;
+      color: #fff;
+    }
+    a.tip,
+    a.titled {
+      border: 1px solid blue;
+      display: blocK;
+      padding: 10px;
+      width: 100px;
+      margin: 0px;
+      margin-bottom: 5px;
+    }
+  </style>
+
+  <!--[if IE]>
+<style>
+div.tip {
+filter: Alpha(opacity=40);
+	zoom:1;
+}
+</style>
+<![endif]-->
+
+
+  <script>
+    $(function() {
+
+
+      // base configuration
+      var conf = {
+        tip: '#tip',
+        position: ['top', 'left'],
+        offset: [-10, -10]
+      };
+
+      // topleft
+      $(".titled:eq(0)").tooltip(conf);
+      $(".titled:eq(1)").tooltip($.extend({}, conf)).dynamic();
+
+
+      // topright
+      conf = $.extend(conf, {
+        position: ['top', 'right'],
+        effect: 'toggle',
+        offset: [-10, 10]
+      })
+      $(".titled:eq(2)").tooltip(conf);
+      $(".titled:eq(3)").tooltip($.extend({}, conf)).dynamic();
+
+
+      // bottomleft
+      conf = $.extend(conf, {
+        position: ['bottom', 'left'],
+        effect: 'toggle',
+        offset: [10, -10]
+      })
+      $(".titled:eq(4)").tooltip(conf);
+      $(".titled:eq(5)").tooltip($.extend({}, conf)).dynamic();
+
+      // bottomright
+      conf = $.extend(conf, {
+        position: ['bottom', 'right'],
+        effect: 'toggle',
+        offset: [10, 10]
+      })
+      $(".titled:eq(6)").tooltip(conf);
+      $(".titled:eq(7)").tooltip($.extend({}, conf)).dynamic();
+
+
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+
+  <table border="0" width="100%" height="100%">
+    <tr>
+      <td valign="top">
+        <a href="#" title="jotain tippie #1" class="titled">jtoainv</a>
+        <a href="#" title="jotain tippie #1" class="titled">jtoainv</a>
+      </td>
+      <td align="right" valign="top">
+        <a href="#" title="jotain tippie #1" class="titled">jtoainv</a>
+        <a href="#" title="jotain tippie #1" class="titled">jtoainv</a>
+      </td>
+    </tr>
+    <tr>
+      <td valign="bottom">
+        <a href="#" title="jotain tippie #1" class="titled">jtoainv</a>
+        <a href="#" title="jotain tippie #1" class="titled">jtoainv</a>
+      </td>
+      <td align="right" valign="bottom">
+        <a href="#" title="jotain tippie #1" class="titled">jtoainv</a>
+        <a href="#" title="jotain tippie #1" class="titled">jtoainv</a>
+      </td>
+    </tr>
+
+  </table>
+
+  <div id="tip" class="tip"></div>
+
+</body>
+
+</html>

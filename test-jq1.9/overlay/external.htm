@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title></title>
+
+    <script src="../../lib/jquery-1.9.1.js"></script>
+<script src="../../lib/jquery-migrate-1.2.1.js"></script>
+    <script src="../../src/toolbox/toolbox.expose.js"></script>
+    <script src="../../src/overlay/overlay.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+</head>
+
+<body>
+
+    <p><a rel="#overlay" href="page.htm">show external page</a>
+    </p>
+
+    <div class="overlay" id="overlay">
+
+        <!-- the external content is loaded inside this tag -->
+        <div class="contentWrap"></div>
+
+    </div>
+
+    <script>
+        $("a[rel]").overlay({
+
+            mask: {
+                color: '#ccc',
+                closeSpeed: 200
+            },
+
+            onBeforeLoad: function() {
+
+                // grab wrapper element inside content
+                var wrap = this.getOverlay().find(".contentWrap");
+
+                // load the page specified in the trigger
+                wrap.load(this.getTrigger().attr("href"));
+            }
+
+        });
+    </script>
+
+</body>
+
+</html>
