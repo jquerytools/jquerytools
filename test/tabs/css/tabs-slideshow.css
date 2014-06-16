@@ -1,0 +1,96 @@
+
+/* container for slides */
+.images {
+    background:#fff url(/media/img/gradient/h300.png) repeat-x;
+    border:1px solid #ccc;
+    position:relative;
+    height:300px;
+
+    width:560px;
+    float:left;
+    margin:15px;
+    cursor:pointer;
+
+    /* CSS3 tweaks for modern browsers */
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-box-shadow:0 0 25px #666;
+    -webkit-box-shadow:0 0 25px #666;
+}
+
+/* single slide */
+.images div {
+    display:none;
+    position:absolute;
+    top:0;
+    left:0;
+    margin:7px;
+    padding:15px 30px 15px 15px;
+    height:256px;
+    font-size:12px;
+}
+
+/* header */
+.images h3 {
+    font-size:22px;
+    font-weight:normal;
+    margin:0 0 20px 0;
+    color:#456;
+}
+
+/* tabs (those little circles below slides) */
+.slidetabs {
+    clear:both;
+    margin-left:310px;
+}
+
+/* single tab */
+.slidetabs a {
+    width:8px;
+    height:8px;
+    float:left;
+    margin:3px;
+    background:url(/media/img/scrollable/arrow/navigator.png) 0 0 no-repeat;
+    display:block;
+    font-size:1px;
+}
+
+/* mouseover state */
+.slidetabs a:hover {
+    background-position:0 -8px;
+}
+
+/* active state (current page state) */
+.slidetabs a.current {
+    background-position:0 -16px;
+}
+
+
+/* prev and next buttons */
+.forward, .backward {
+    float:left;
+    margin-top:140px;
+    background:#fff url(/media/img/scrollable/arrow/hori_large.png) no-repeat;
+    display:block;
+    width:30px;
+    height:30px;
+    cursor:pointer;
+    font-size:1px;
+    text-indent:-9999em;
+}
+
+/* next */
+.forward { background-position: 0 -30px; clear:right; }
+.forward:hover { background-position:-30px -30px; }
+.forward:active	{ background-position:-60px -30px; }
+
+
+/* prev */
+.backward:hover	{ background-position:-30px 0; }
+.backward:active { background-position:-60px 0; }
+
+/* disabled navigational button. is not needed when tabs are
+   configured with rotate: true */
+.disabled {
+    visibility:hidden !important;
+}

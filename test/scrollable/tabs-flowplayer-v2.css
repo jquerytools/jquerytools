@@ -1,0 +1,99 @@
+
+/* everything is constructed with a single background image */
+
+/* root element for tabs */
+#flowtabs {
+
+    /* dimensions */
+    width:760px;
+    height:31px !important;
+    margin:0 !important;
+    padding:0;
+
+    /* IE6 specific branch (prefixed with "_") */
+    _margin-bottom:-2px;
+}
+
+/* single tab */
+#flowtabs li {
+    float:left;
+    margin:0;
+    padding:0;
+    text-indent:0;
+    list-style-type:none;
+}
+
+/* a- tag inside single tab */
+#flowtabs li a {
+    background: url(/media/img/tabs/blue_panes.jpg) no-repeat;
+    display:block;
+    height: 31px;
+    width: 189px;
+    padding:0px;
+    margin:0px;
+
+    /* font decoration */
+    color:#000;
+    font-size:12px;
+    line-height:33px;
+    text-align:center;
+    text-decoration:none;
+}
+
+/* adjust the background image position on each tab */
+#flowtabs #t1           { background-position: 0 0; }
+#flowtabs #t2           { background-position: -189px 0; }
+#flowtabs #t3           { background-position: -378px 0; }
+#flowtabs #t4           { background-position: -567px 0; width:192px;}
+
+/* mouseover state */
+#flowtabs a:hover       { color:#fff;    }
+#flowtabs #t1:hover     { background-position:      0 -33px; }
+#flowtabs #t2:hover     { background-position: -189px -33px; }
+#flowtabs #t3:hover     { background-position: -378px -33px; }
+#flowtabs #t4:hover     { background-position: -567px -33px; }
+
+/* currently selected tabs */
+#flowtabs a.current     { cursor:default; color:#fff; line-height:34px; }
+#flowtabs #t1.current { background-position:      0 -66px; }
+#flowtabs #t2.current { background-position: -189px -66px; }
+#flowtabs #t3.current { background-position: -378px -66px; }
+#flowtabs #t4.current { background-position: -567px -66px; }
+
+
+/* panes */
+#flowpanes {
+    background: url(/media/img/tabs/blue_panes.jpg) no-repeat 0 -100px;
+    width:760px;
+    height:450px;
+}
+
+
+/* single pane */
+#flowpanes div {
+    display:none;
+    color:#fff;
+    margin:20px 40px;
+}
+
+/* some decorations for elements inside single pane */
+#flowpanes div h2 {
+    font-weight:normal;
+    color:#ddd;
+    letter-spacing:1px;
+    margin:10px 0 0 0;
+    font-size:22px;
+}
+
+#flowpanes a {
+    color:#cc9;
+    font-size:14px;
+}
+
+#flowpanes p, #flowpanes samp {
+    color:#ccc;
+}
+
+#flowpanes .narrow {
+    padding-right:160px;
+}
