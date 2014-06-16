@@ -5,7 +5,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title></title>
 
-    <script src="../js/jquery-1.7.1.js"></script>
+    <script src="../../lib/jquery-1.7.2.js"></script>
 
     <style>
         body {
@@ -36,16 +36,16 @@
     <script>
         //{{{ fn.drag
 
-        /* 
-		Full featured drag and drop implementation in 35 lines (0.4 kb minified). 
+        /*
+		Full featured drag and drop implementation in 35 lines (0.4 kb minified).
 		Who told that drag and drop is rocket science? Find your way. Example:
-		
+
 		$(".myelement").drag({y: false}).bind("drag", function(event, x, y) {
 			// do your custom thing
 		});
-		 
-		Configuration: x (enable horizontal), y (enable vertical), drag (perform drag) 
-		Tree events: dragStart, drag, dragEnd. 
+
+		Configuration: x (enable horizontal), y (enable vertical), drag (perform drag)
+		Tree events: dragStart, drag, dragEnd.
 	*/
         $.fn.drag = function(conf) {
 
@@ -59,7 +59,7 @@
 
                 var el = $(e.target);
 
-                // start 
+                // start
                 if (e.type == "mousedown" && el.data("drag")) {
 
                     var offset = el.position(),
@@ -105,7 +105,7 @@
             return this.data("drag", true);
         };
 
-         //}}}          
+         //}}}
 
         $(function() {
             $("div").drag({
@@ -117,7 +117,7 @@
                 console.info("draggaa", x, y, e);
 
             }).bind("dragEnd", function() {
-                // console.info("endi", arguments);		
+                // console.info("endi", arguments);
 
             });
         });

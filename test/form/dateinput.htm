@@ -5,9 +5,8 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title></title>
 
-    <script src="../js/jquery-1.7.1.js"></script>
+    <script src="../../lib/jquery-1.7.2.js"></script>
     <script src="../../src/form/form.dateinput.js"></script>
-
 
     <style>
         body {
@@ -59,7 +58,7 @@
                 lang: 'fr',
 
                 change: function(e, date) {
-                    //console.info(date, "picked", this.getDate("yy-mm-dd"));		
+                    //console.info(date, "picked", this.getDate("yy-mm-dd"));
                 },
 
                 onShow: function(e) {
@@ -67,11 +66,11 @@
                 },
 
                 onHide: function(e) {
-                    //console.info("onHide", this.getDate(), e, this);	
+                    //console.info("onHide", this.getDate(), e, this);
                 }
 
             }).one("change", function() {
-                //console.info("binded event");		
+                //console.info("binded event");
 
             }).one("onBeforeShow", function(e) {
                 //console.info("before show", e);
@@ -79,7 +78,7 @@
             });
 
             $(":date:first").change(function() {
-                //console.info("JOOOOOOOOOOOO", this, arguments);		
+                //console.info("JOOOOOOOOOOOO", this, arguments);
             });
         });
     </script>
