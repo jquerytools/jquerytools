@@ -1,27 +1,48 @@
-<!-- /* :wrap=200: */ -->
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/rangeinput/rangeinput.js"></script>
+<!DOCTYPE HTML>
+<html>
 
-<link rel="stylesheet" type="text/css" href="css/skin1.css"/>
-<style>
-.slider {
-	height:400px;
-	width:30px;
-} 
-.range {
-	color:#000;		
-}
-</style>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title></title>
 
-<div class="ranger"><input class="range" type="range" min="-10" max="10" step="1" value="0" /></div>
-<div class="ranger"><input class="range" type="range" min="0" max="1" 	 step="0.1" value="0.2" /></div>
-<div class="ranger"><input class="range" type="range" max="100" step="1" /></div>
-<div class="ranger"><input class="range" type="range" min="400" max="1000" step="100" value="500" /></div>
+    <!-- /* :wrap=200: */ -->
+    <script src="../../lib/jquery-1.7.1.js"></script>
+    <script src="../../src/rangeinput/rangeinput.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="css/skin1.css" />
+    <style>
+        .slider {
+            height: 400px;
+            width: 30px;
+        }
+        .range {
+            color: #000;
+        }
+    </style>
 
-<script>		
+</head>
 
-$(".range").rangeinput( {vertical: true} );
+<body>
 
+    <div class="ranger">
+        <input class="range" type="range" min="-10" max="10" step="1" value="0" />
+    </div>
+    <div class="ranger">
+        <input class="range" type="range" min="0" max="1" step="0.1" value="0.2" />
+    </div>
+    <div class="ranger">
+        <input class="range" type="range" max="100" step="1" />
+    </div>
+    <div class="ranger">
+        <input class="range" type="range" min="400" max="1000" step="100" value="500" />
+    </div>
 
-</script>
+    <script>
+        $(".range").rangeinput({
+            vertical: true
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,84 +1,94 @@
-<!DOCTYPE html>        
+<!DOCTYPE HTML>
+<html>
 
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/validator/validator.js"></script>
-<script src="../../src/dateinput/dateinput.js"></script>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title></title>
 
-<link rel="stylesheet" type="text/css" href="../dateinput/skin1.css"/>
+    <script src="../../lib/jquery-1.7.1.js"></script>
+    <script src="../../src/validator/validator.js"></script>
+    <script src="../../src/dateinput/dateinput.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../dateinput/skin1.css" />
 
 
-<style>
-label {
-	margin:10px 0;
-	display:block;
-}
+    <style>
+        label {
+            margin: 10px 0;
+            display: block;
+        }
+        body {
+            padding: 100px;
+            font-family: sans-serif;
+        }
+        .invalid {
+            border: 1px solid red;
+        }
+        .error {
+            border: 1px solid #667;
+            background: #eee;
+            padding: 5px;
+        }
+    </style>
 
-body {
-	padding:100px;		
-	font-family:sans-serif;
-}
+</head>
 
-.invalid {
-	border:1px solid red;		
-}
+<body>
 
-.error {	
-	border:1px solid #667;
-	background:#eee;
-	padding:5px;
-}
-</style>
+    <form action="#">
 
-<form action="#">
+        <label>
+            requred text
+            <input type="text" required="required" />
+        </label>
 
-	<label>
-		requred text 
-		<input type="text" required="required" />
-	</label>
-	
-	<label>
-		pattern
-		<input type="text" pattern="\d+" />
-	</label>
-	
-	<label>
-		URL
-		<input type="url" value="http://www.spa.gov.sa/NewsHeadlines.php?pg=2" />
-	</label>
-	
-	<label>
-		date 
-		<input type="date" title="Use format yyyy-mm-dd" name="day" required />
-	</label>
-	
-	<label>
-		date 
-		<input type="date" title="Use format yyyy-mm-dd" name="day2" required="required" />
-	</label>
-	
-	<label>
-		email 
-		<input type="email" />
-	</label>
-	
-	<label>
-		terms
-		<input type="checkbox" required="required" name="terms" data-message="Accept the terms" />
-	</label>
-	
-	<label>
-		required
-		<select required="required">
-			<option value="">-- choose one --</option>
-			<option value="8">jotain</option>
-		</select>
-	</label>
-	
-	<button>Submit</button>
-	
-</form>
+        <label>
+            pattern
+            <input type="text" pattern="\d+" />
+        </label>
 
-<script>
-$(":date").dateinput();
-$("form").validator().validator(); 
-</script>
+        <label>
+            URL
+            <input type="url" value="http://www.spa.gov.sa/NewsHeadlines.php?pg=2" />
+        </label>
+
+        <label>
+            date
+            <input type="date" title="Use format yyyy-mm-dd" name="day" required />
+        </label>
+
+        <label>
+            date
+            <input type="date" title="Use format yyyy-mm-dd" name="day2" required="required" />
+        </label>
+
+        <label>
+            email
+            <input type="email" />
+        </label>
+
+        <label>
+            terms
+            <input type="checkbox" required="required" name="terms" data-message="Accept the terms" />
+        </label>
+
+        <label>
+            required
+            <select required="required">
+                <option value="">-- choose one --</option>
+                <option value="8">jotain</option>
+            </select>
+        </label>
+
+        <button>Submit</button>
+
+    </form>
+
+    <script>
+        $(":date").dateinput();
+        $("form").validator().validator();
+    </script>
+
+</body>
+
+</html>

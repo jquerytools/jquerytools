@@ -1,15 +1,32 @@
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/dateinput/dateinput.js"></script>
+<!DOCTYPE HTML>
+<html>
 
-<link rel="stylesheet" type="text/css" href="skin1.css"/>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title></title>
 
-<!-- HTML5 date input -->
-<input type="date" name="mydate" />
+    <script src="../../lib/jquery-1.7.1.js"></script>
+    <script src="../../src/dateinput/dateinput.js"></script>
 
-<!-- make it happen -->
-<script>
-var api = $(":date").dateinput({ selectors: true, yearRange: [-10, 10] }).data("dateinput");
+    <link rel="stylesheet" type="text/css" href="skin1.css" />
 
-api.setValue('2012-10-10');
-</script>
+</head>
 
+<body>
+
+    <!-- HTML5 date input -->
+    <input type="date" name="mydate" />
+
+    <!-- make it happen -->
+    <script>
+        var api = $(":date").dateinput({
+            selectors: true,
+            yearRange: [-10, 10]
+        }).data("dateinput");
+
+        api.setValue('2012-10-10');
+    </script>
+
+</body>
+
+</html>

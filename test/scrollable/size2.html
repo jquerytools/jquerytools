@@ -1,42 +1,59 @@
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/scrollable/scrollable.js"></script>
+<!DOCTYPE HTML>
+<html>
 
-<link rel="stylesheet" type="text/css" href="style.css"/>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title></title>
 
-<script>
-$(function() {
-  var api = $("div.scrollable").scrollable({api: true, size: 2});
+  <script src="../../lib/jquery-1.7.1.js"></script>
+  <script src="../../src/scrollable/scrollable.js"></script>
 
-  // test http://flowplayer.org/forum/8/31650
-  $("button:eq(0)").click(function () {
-    try {
-      api.click(0);
-      $(this).text("success");
-    } catch (err) {
-      $(this).text("failed");
-    }
-  });
-});
-</script>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 
+  <script>
+    $(function() {
+      var api = $("div.scrollable").scrollable({
+        api: true,
+        size: 2
+      });
 
-<div class="scrollable" style="width:260px">
-	
-	<div class="items">
-		<div>0</div>  
-		<div>1</div>  
-		<div>2</div>  
-    <div>3</div>
-	</div>
-	
-</div>
+      // test http://flowplayer.org/forum/8/31650
+      $("button:eq(0)").click(function() {
+        try {
+          api.click(0);
+          $(this).text("success");
+        } catch (err) {
+          $(this).text("failed");
+        }
+      });
+    });
+  </script>
 
-<h4>issue 8/31650</h4>
+</head>
 
-<p>
-  <a href="http://flowplayer.org/forum/8/31650">Scrollable error when size = 2</a>
-</p>
+<body>
 
-<p>
-  <button type="button">test click</button>
-</p>
+  <div class="scrollable" style="width:260px">
+
+    <div class="items">
+      <div>0</div>
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+    </div>
+
+  </div>
+
+  <h4>issue 8/31650</h4>
+
+  <p>
+    <a href="http://flowplayer.org/forum/8/31650">Scrollable error when size = 2</a>
+  </p>
+
+  <p>
+    <button type="button">test click</button>
+  </p>
+
+</body>
+
+</html>

@@ -1,36 +1,48 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<html>
 
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/tooltip/tooltip.js"></script>
-<link rel="stylesheet" type="text/css" href="style.css"/>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title></title>
+
+  <script src="../../lib/jquery-1.7.1.js"></script>
+  <script src="../../src/tooltip/tooltip.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 
 
-<script>
-$(function() {
-	
-	// topleft
-	window.api = $(".trigger").tooltip({
-		tip: '#tip', 
-		position: "top left",
-		effect: 'toggle',
-		cursor: true,
-		
-		events: {
-			def: 'click,mouseout'
-		}
-		
-	});
-	
-	$(".trigger").next().click(function() {
-		$(this).prev().tooltip().hide();			
-	});
-	
-}); 
-</script>
+  <script>
+    $(function() {
 
-<a href="#" title="jotain tippiä #1" class="trigger">jtoainv</a>
+      // topleft
+      window.api = $(".trigger").tooltip({
+        tip: '#tip',
+        position: "top left",
+        effect: 'toggle',
+        cursor: true,
 
-<div id="tip" class="tip">
-	<a class="close">close</a>
-</div>
+        events: {
+          def: 'click,mouseout'
+        }
 
+      });
+
+      $(".trigger").next().click(function() {
+        $(this).prev().tooltip().hide();
+      });
+
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <a href="#" title="jotain tippie #1" class="trigger">jtoainv</a>
+
+  <div id="tip" class="tip">
+    <a class="close">close</a>
+  </div>
+
+</body>
+
+</html>

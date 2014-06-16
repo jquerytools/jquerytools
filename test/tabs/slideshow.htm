@@ -13,22 +13,23 @@
 -->
 
 <head>
-	<title>jQuery Tools standalone demo</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>jQuery Tools standalone demo</title>
 
-	<!-- include the Tools -->
-	<script src="../../lib/jquery-1.7.1.js"></script>
-  <script src="../../src/tabs/tabs.js"></script>
-  <script src="../../src/tabs/tabs.slideshow.js"></script>
+    <!-- include the Tools -->
+    <script src="../../lib/jquery-1.7.1.js"></script>
+    <script src="../../src/tabs/tabs.js"></script>
+    <script src="../../src/tabs/tabs.slideshow.js"></script>
 
-	<!-- standalone page styling (can be removed) -->
-	<link rel="stylesheet" type="text/css" href="http://static.flowplayer.org/tools/css/standalone.css"/>	
+    <!-- standalone page styling (can be removed) -->
+    <link rel="stylesheet" type="text/css" href="http://static.flowplayer.org/tools/css/standalone.css" />
 
 
-	<link rel="stylesheet" type="text/css" href="http://static.flowplayer.org/tools/css/tabs-slideshow.css"/>
-	
-	<!-- fix IE "black box" problems with PNG images when opacity is being animated -->
-	
-	<!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="http://static.flowplayer.org/tools/css/tabs-slideshow.css" />
+
+    <!-- fix IE "black box" problems with PNG images when opacity is being animated -->
+
+    <!--[if IE]>
 	<style type="text/css">
 	.images img {
 		background:#efefef url(/img/global/gradient/h300.png) repeat-x 0 -22px;
@@ -41,96 +42,97 @@
 
 
 
-<!-- "previous slide" button -->
-<a class="backward">prev</a>
+    <!-- "previous slide" button -->
+    <a class="backward">prev</a>
 
-<!-- container for the slides -->
-<div class="images">
+    <!-- container for the slides -->
+    <div class="images">
 
-	<!-- first slide -->
-	<div>
-		<h3>First pane</h3>
+        <!-- first slide -->
+        <div>
+            <h3>First pane</h3>
 
-		<img src="http://static.flowplayer.org/img/title/screens.png" alt="Flying screens" style="float:left;margin:0 30px 20px 0" />
+            <img src="http://static.flowplayer.org/img/title/screens.png" alt="Flying screens" style="float:left;margin:0 30px 20px 0" />
 
-		<p style="font-weight:bold">
+            <p style="font-weight:bold">
 
-			Aenean nec imperdiet ligula. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-		</p>
+                Aenean nec imperdiet ligula. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </p>
 
-		<p>
-			Suspendisse potenti. Sed elementum risus eleifend massa vestibulum consectetur. Duis massa augue, aliquam eget fringilla vel, aliquam vitae arcu. Nam sed magna mi. Praesent odio neque, dapibus sit amet suscipit at, tempus sed nibh. Aliquam sagittis ligula in ligula faucibus cursus. Quisque vulputate pellentesque facilisis.
-		</p>
+            <p>
+                Suspendisse potenti. Sed elementum risus eleifend massa vestibulum consectetur. Duis massa augue, aliquam eget fringilla vel, aliquam vitae arcu. Nam sed magna mi. Praesent odio neque, dapibus sit amet suscipit at, tempus sed nibh. Aliquam sagittis ligula in ligula faucibus cursus. Quisque vulputate pellentesque facilisis.
+            </p>
 
-	</div>
+        </div>
 
-	<!-- second slide -->
-	<div>
+        <!-- second slide -->
+        <div>
 
-		<h3>Second pane</h3>
-
-
-		<img src="http://static.flowplayer.org/img/title/eye192.png" alt="Flying screens" style="float:left;margin:0 30px 20px 0" />
-
-		<p style="font-weight:bold">
-			Consectetur adipiscing elit. Praesent bibendum eros ac nulla. Integer vel lacus ac neque viverra.
-		</p>
-
-		<p>
-			Vivamus euismod euismod sagittis. Etiam cursus neque non lectus mattis cursus et a libero. Vivamus condimentum hendrerit metus, a sollicitudin magna vulputate eu. Donec sed tincidunt lectus. Donec tellus lectus, fermentum sit amet porta non, rhoncus ac mi. Quisque placerat auctor justo, a egestas urna tincidunt eleifend.
-		</p>
-
-	</div>
-
-	<!-- third slide -->
-	<div>
-		<h3>Third pane</h3>
-
-		<p style="font-weight:bold">
-			Non lectus lacinia egestas. Nulla hendrerit, felis quis elementum viverra, purus felis egestas magna.
-		</p>
-
-		<p>
-			Aenean elit lorem, pretium vitae dictum in, fermentum consequat dolor. Proin consectetur sollicitudin tellus, non elementum turpis pharetra non. Sed quis tellus quam.
-		</p>
-	</div>
-
-</div>
-
-<!-- "next slide" button -->
-<a class="forward">next</a><p>
-
-<!-- the tabs -->
-<div class="slidetabs">
-	<a href="#"></a>
-
-	<a href="#"></a>
-	<a href="#"></a>
-</div>
-
-<div style="clear:both;margin:30px 0;text-align:center;padding-right:40px">
-
-<button onClick='$(".slidetabs").data("slideshow").play();'>Play</button>
-<button onClick='$(".slidetabs").data("slideshow").stop();'>Stop</button>
-</div>
+            <h3>Second pane</h3>
 
 
-<script language="JavaScript">
-$(function() {
+            <img src="http://static.flowplayer.org/img/title/eye192.png" alt="Flying screens" style="float:left;margin:0 30px 20px 0" />
 
-  $(".slidetabs").tabs(".images > div", {
+            <p style="font-weight:bold">
+                Consectetur adipiscing elit. Praesent bibendum eros ac nulla. Integer vel lacus ac neque viverra.
+            </p>
 
-  	// enable "cross-fading" effect
-  	effect: 'fade',
-  	fadeOutSpeed: "slow",
+            <p>
+                Vivamus euismod euismod sagittis. Etiam cursus neque non lectus mattis cursus et a libero. Vivamus condimentum hendrerit metus, a sollicitudin magna vulputate eu. Donec sed tincidunt lectus. Donec tellus lectus, fermentum sit amet porta non, rhoncus ac mi. Quisque placerat auctor justo, a egestas urna tincidunt eleifend.
+            </p>
 
-  	// start from the beginning after the last tab
-  	rotate: true
+        </div>
 
-  // use the slideshow plugin. It accepts its own configuration
-  }).slideshow();
-});
-</script>
+        <!-- third slide -->
+        <div>
+            <h3>Third pane</h3>
+
+            <p style="font-weight:bold">
+                Non lectus lacinia egestas. Nulla hendrerit, felis quis elementum viverra, purus felis egestas magna.
+            </p>
+
+            <p>
+                Aenean elit lorem, pretium vitae dictum in, fermentum consequat dolor. Proin consectetur sollicitudin tellus, non elementum turpis pharetra non. Sed quis tellus quam.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- "next slide" button -->
+    <a class="forward">next</a>
+    <p>
+
+        <!-- the tabs -->
+        <div class="slidetabs">
+            <a href="#"></a>
+
+            <a href="#"></a>
+            <a href="#"></a>
+        </div>
+
+        <div style="clear:both;margin:30px 0;text-align:center;padding-right:40px">
+
+            <button onClick='$(".slidetabs").data("slideshow").play();'>Play</button>
+            <button onClick='$(".slidetabs").data("slideshow").stop();'>Stop</button>
+        </div>
+
+
+        <script language="JavaScript">
+            $(function() {
+
+                $(".slidetabs").tabs(".images > div", {
+
+                    // enable "cross-fading" effect
+                    effect: 'fade',
+                    fadeOutSpeed: "slow",
+
+                    // start from the beginning after the last tab
+                    rotate: true
+
+                    // use the slideshow plugin. It accepts its own configuration
+                }).slideshow();
+            });
+        </script>
 
 </body>
 

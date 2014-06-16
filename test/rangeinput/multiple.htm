@@ -1,47 +1,69 @@
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/rangeinput/rangeinput.js"></script>
+<!DOCTYPE HTML>
+<html>
 
-<!-- style for the range inputs only -->
-<link rel="stylesheet" type="text/css" href="css/small.css"/>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title></title>
 
-<!-- style for the "surroundings" -->
-<link rel="stylesheet" type="text/css" href="css/multiple.css"/>
 
-<div id="controls">
+    <script src="../../lib/jquery-1.7.1.js"></script>
+    <script src="../../src/rangeinput/rangeinput.js"></script>
 
-	<div class="column">
-		<input type="range" />
-		<input type="range" />
-		<input type="range" />
-		<input type="range" />
-	</div>
+    <!-- style for the range inputs only -->
+    <link rel="stylesheet" type="text/css" href="css/small.css" />
 
-	<div class="column">
-		<input type="range" />
-		<input type="range" />
-		<input type="range" />
-		<input type="range" />
-	</div>
+    <!-- style for the "surroundings" -->
+    <link rel="stylesheet" type="text/css" href="css/multiple.css" />
 
-	<div class="column vertical">
-		<input type="range" />
-		<input type="range" />
-		<input type="range" />
-		<input type="range" />
-	</div>
-	
-	<div class="column vertical">
-		<input type="range" />
-		<input type="range" />
-		<input type="range" />
-		<input type="range" />
-	</div>
-	
-</div>
+</head>
 
-<script>		
-$(".column:lt(2) :range").rangeinput({ precision: 1, value: 30.5 });
+<body>
 
-$(".vertical :range").rangeinput({ precision: 1, vertical: true, value: 50.5 });
-</script>
+    <div id="controls">
 
+        <div class="column">
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+        </div>
+
+        <div class="column">
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+        </div>
+
+        <div class="column vertical">
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+        </div>
+
+        <div class="column vertical">
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+            <input type="range" />
+        </div>
+
+    </div>
+
+    <script>
+        $(".column:lt(2) :range").rangeinput({
+            precision: 1,
+            value: 30.5
+        });
+
+        $(".vertical :range").rangeinput({
+            precision: 1,
+            vertical: true,
+            value: 50.5
+        });
+    </script>
+
+</body>
+
+</html>

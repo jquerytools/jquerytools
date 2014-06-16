@@ -1,191 +1,173 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<html>
 
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/tooltip/tooltip.js"></script>
-<script src="../../src/tooltip/tooltip.slide.js"></script>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title></title>
 
-<!--{{{ style -->
+  <script src="../../lib/jquery-1.7.1.js"></script>
+  <script src="../../src/tooltip/tooltip.js"></script>
+  <script src="../../src/tooltip/tooltip.slide.js"></script>
 
-<style>
-body {
-	padding:50px 100px;	
-	font-family:sans-serif;	
-}
+  <!--{{{ style -->
 
-.tooltip {
-	display:none;
-	width:165px;
-	height:63px;
-	position:absolute;
-	padding:20px;
-	color:#fff;		
-	background-color:#000;
-	-moz-border-radius:4px;
-	border-radius:4px;
-}
+  <style>
+    body {
+      padding: 50px 100px;
+      font-family: sans-serif;
+    }
+    .tooltip {
+      display: none;
+      width: 165px;
+      height: 63px;
+      position: absolute;
+      padding: 20px;
+      color: #fff;
+      background-color: #000;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+    }
+    .trigger {
+      border: 1px solid #ccc;
+      background-color: #eee;
+      display: block;
+      padding: 5px 10px;
+      width: 100px;
+      margin: 0 20px 10px 0;
+      float: left;
+      text-align: center;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+    }
+    .test {
+      clear: left;
+      height: 90px;
+    }
+  </style>
 
-.trigger {
-	border:1px solid #ccc;
-	background-color:#eee;
-	display:block;
-	padding:5px 10px;
-	width:100px;
-	margin:0 20px 10px 0;
-	float:left;
-	text-align:center;
-	-moz-border-radius:4px;
-	border-radius:4px;
-}
+  <!--}}}-->
 
-.test {
-	clear:left;		
-	height:90px;
-}
-</style>
+</head>
 
-<!--}}}-->
+<body>
 
+  <div id="titled" class="test">
 
-<div id="titled" class="test">
+    <h3>Title attribute</h3>
 
-	<h3>Title attribute</h3>
-	
-	<a class="trigger" title="Tooltip #1 in title & more">trigger 1</a>
-	<a class="trigger" title="Tooltip #2 in title & more">trigger 2</a>
-	<a class="trigger" title="Tooltip #3 in title & more">trigger 3</a>
+    <a class="trigger" title="Tooltip #1 in title & more">trigger 1</a>
+    <a class="trigger" title="Tooltip #2 in title & more">trigger 2</a>
+    <a class="trigger" title="Tooltip #3 in title & more">trigger 3</a>
 
-	<script>
-		$("#titled a").tooltip({ 
-			delay: 300, 
-			predelay: 0,
-			effect: 'fade'
-		});
-	</script>
-	
-</div>
+    <script>
+      $("#titled a").tooltip({
+        delay: 300,
+        predelay: 0,
+        effect: 'fade'
+      });
+    </script>
 
-<div id="attr" class="test">
+  </div>
 
-	<h3>Data-tooltip attribute</h3>
-	
-	<a class="trigger" data-tooltip="#attr .tooltip">trigger 1</a> 
-	<a class="trigger" data-tooltip="#attr .tooltip">trigger 2</a>
-	<a class="trigger">trigger 3</a>
+  <div id="attr" class="test">
 
-	<span></span>
-	
-	<div><div class="tooltip">Manual #3</div></div>
-	
-	<script>
-		$("#attr a").tooltip({ 
-			delay: 50
-		});
-	</script>
-	
-</div>
+    <h3>Data-tooltip attribute</h3>
 
-<div id="manual" class="test">
+    <a class="trigger" data-tooltip="#attr .tooltip">trigger 1</a>
+    <a class="trigger" data-tooltip="#attr .tooltip">trigger 2</a>
+    <a class="trigger">trigger 3</a>
 
-	<h3>Manual tooltip</h3>
-	
-	<a class="trigger">trigger 1</a>
-	<div class="tooltip">Manual #1</div>
-	
-	<a class="trigger">trigger 2</a>
-	<div class="tooltip">Manual #2</div>
-	
-	<a class="trigger">trigger 3</a>
-	<div class="tooltip">Manual #3</div>	
+    <span></span>
 
-	<script>
-		$("#manual a").tooltip({ 
-			delay: 300, 
-			predelay: 0,
-			effect: 'fade'
-		});
-	</script>
-	
-</div>
+    <div>
+      <div class="tooltip">Manual #3</div>
+    </div>
 
-<div id="manual-enclosed" class="test">
+    <script>
+      $("#attr a").tooltip({
+        delay: 50
+      });
+    </script>
 
-	<h3>Manual enclosed tooltip</h3>
-		
-	<table>
-		<tbody>
-			<tr>
-				<td class="trigger">
-					trigger 1
-					<div class="tooltip">Manual enclosed #1</div>
-				</td>
-				<td class="trigger">
-					trigger 2
-					<div class="tooltip">Manual enclosed #2</div>
-				</td>
-				<td class="trigger">
-					trigger 3
-					<div class="tooltip">Manual enclosed #3</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	
-	<script>
-		$("#manual-enclosed td").tooltip({ 
-			delay: 300, 
-			predelay: 0,
-			effect: 'fade'
-		});
-	</script>
-	
-</div>
+  </div>
 
-<div id="same" class="test">
+  <div id="manual" class="test">
 
-	<h3>Same tip element</h3>
-	
-	<a class="trigger" title="you can now use different tip">trigger 1</a>
-	<a class="trigger" title="you can now truly use different tip">trigger 2</a>
-	<a class="trigger" title="different tip again">trigger 3</a>
-	
-	<div id="sametip" class="tooltip">
-		The same tooltip for multiple triggers
-	</div>
+    <h3>Manual tooltip</h3>
 
-	<script>
-		$("#same a").tooltip({ 
-			tip: '#sametip', 
-			effect: 'fade'
-		});
-	</script>
-	
-</div>
+    <a class="trigger">trigger 1</a>
+    <div class="tooltip">Manual #1</div>
 
-<div id="bare" class="test">
+    <a class="trigger">trigger 2</a>
+    <div class="tooltip">Manual #2</div>
 
-	<h3>No styling</h3>
-	
-	<a class="trigger" title="This is the title">trigger 1</a>
-	<a class="trigger" title="This is the title">trigger 2</a>
-	<a class="trigger" title="This is the title">trigger 3</a>
+    <a class="trigger">trigger 3</a>
+    <div class="tooltip">Manual #3</div>
 
-	<script>
-		$("#bare a").tooltip({ tipClass: 'fool' });
-	</script>
-	
-</div>
+    <script>
+      $("#manual a").tooltip({
+        delay: 300,
+        predelay: 0,
+        effect: 'fade'
+      });
+    </script>
 
-<div id="slide" class="test">
+  </div>
 
-	<h3>Slide effect</h3>
-	
-	<a class="trigger" title="This is the title">trigger 1</a>
-	<a class="trigger" title="This is the title">trigger 2</a>
-	<a class="trigger" title="This is the title">trigger 3</a>
+  <div id="same" class="test">
 
-	<script>
-		$("#slide a").tooltip({ effect: 'slide', opacity: 0.7 });
-	</script>
-	
-</div>
+    <h3>Same tip element</h3>
 
+    <a class="trigger" title="you can now use different tip">trigger 1</a>
+    <a class="trigger" title="you can now truly use different tip">trigger 2</a>
+    <a class="trigger" title="different tip again">trigger 3</a>
+
+    <div id="sametip" class="tooltip">
+      The same tooltip for multiple triggers
+    </div>
+
+    <script>
+      $("#same a").tooltip({
+        tip: '#sametip',
+        effect: 'fade'
+      });
+    </script>
+
+  </div>
+
+  <div id="bare" class="test">
+
+    <h3>No styling</h3>
+
+    <a class="trigger" title="This is the title">trigger 1</a>
+    <a class="trigger" title="This is the title">trigger 2</a>
+    <a class="trigger" title="This is the title">trigger 3</a>
+
+    <script>
+      $("#bare a").tooltip({
+        tipClass: 'fool'
+      });
+    </script>
+
+  </div>
+
+  <div id="slide" class="test">
+
+    <h3>Slide effect</h3>
+
+    <a class="trigger" title="This is the title">trigger 1</a>
+    <a class="trigger" title="This is the title">trigger 2</a>
+    <a class="trigger" title="This is the title">trigger 3</a>
+
+    <script>
+      $("#slide a").tooltip({
+        effect: 'slide',
+        opacity: 0.7
+      });
+    </script>
+
+  </div>
+
+</body>
+
+</html>

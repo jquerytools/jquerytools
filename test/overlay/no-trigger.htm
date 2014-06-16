@@ -1,20 +1,34 @@
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/overlay/overlay.js"></script>
+<!DOCTYPE HTML>
+<html>
 
-<link rel="stylesheet" type="text/css" href="style.css"/>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title></title>
+
+    <script src="../../lib/jquery-1.7.1.js"></script>
+    <script src="../../src/overlay/overlay.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+</head>
+
+<body>
+
+    <div class="overlay" id="overlay">
+
+        <div class="content" style="background-image:url(../img/6481762_3d2c7e79f7.jpg)">
+            asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj
+        </div>
+
+    </div>
 
 
-<div class="overlay" id="overlay">
-	
-	<div class="content" style="background-image:url(../img/6481762_3d2c7e79f7.jpg)">  
-		asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj asdfasdfsfadasd kasdj fjhasd fljkasd flkjasd flkasdj 
-	</div>
-	
-</div>
+    <script>
+        var api = $("#overlay").overlay().data("overlay");
 
+        api.load();
+    </script>
 
-<script>
-var api = $("#overlay").overlay().data("overlay");
+</body>
 
-api.load();
-</script>
+</html>

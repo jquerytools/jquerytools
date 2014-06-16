@@ -1,26 +1,41 @@
-<!DOCTYPE html>        
+<!DOCTYPE HTML>
+<html>
 
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/validator/validator.js"></script>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title></title>
 
-<form action="#" style="margin:100px">
+    <script src="../../lib/jquery-1.7.1.js"></script>
+    <script src="../../src/validator/validator.js"></script>
 
-	<label>
-		requred text 
-		<input type="text" name="kama" required="required" />
-	</label>
-	
-	<button>Submit</button>
-	
-</form>
+</head>
 
-<script>
-$("form").validator({ position: 'top center'}).submit(function(e) {
-		
-	// flag to see whether validation failed
-	var failed = $(":input", this).hasClass("invalid");
-	
-	// do not perform submit
-	// e.preventDefault();
-}); 
-</script>
+<body>
+
+    <form action="#" style="margin:100px">
+
+        <label>
+            requred text
+            <input type="text" name="kama" required="required" />
+        </label>
+
+        <button>Submit</button>
+
+    </form>
+
+    <script>
+        $("form").validator({
+            position: 'top center'
+        }).submit(function(e) {
+
+            // flag to see whether validation failed
+            var failed = $(":input", this).hasClass("invalid");
+
+            // do not perform submit
+            // e.preventDefault();
+        });
+    </script>
+
+</body>
+
+</html>

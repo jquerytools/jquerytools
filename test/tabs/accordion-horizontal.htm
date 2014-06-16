@@ -1,43 +1,61 @@
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/tabs/tabs.js"></script>
-<link rel="stylesheet" type="text/css" href="css/horizontal.css"/> 
+<!DOCTYPE HTML>
+<html>
 
-<!-- accordion root -->
-<div id="accordion">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title></title>
 
-	<!-- accordion header #1 -->
-	<div class="blok"></div>
-	
-	<div class="pane 0" style="width:200px;">
-		<h3>First pane</h3>
-		<p>
-			Consectetur adipiscing elit. Praesent bibendum eros ac nulla. Integer vel lacus ac neque viverra.
-		</p>
-	</div>
-	
-	<div class="blok"></div>
-	
-	<div class="pane 1">
-		<h3>Second pane</h3>
-		<p>
-			Cras diam. Donec dolor lacus, vestibulum at, varius in, mollis id, dolor. Aliquam erat volutpat. 
-		</p>
-	</div>
+    <script src="../../lib/jquery-1.7.1.js"></script>
+    <script src="../../src/tabs/tabs.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/horizontal.css" />
 
-	<div class="blok"></div>
-	
-	<div class="pane 2">
-		<h3>Third pane</h3>
-		<p>
-			Non lectus lacinia egestas. Nulla hendrerit, felis quis elementum viverra, purus felis egestas magna.
-		</p>
-	</div>	
+</head>
 
-</div>
+<body>
+
+    <!-- accordion root -->
+    <div id="accordion">
+
+        <!-- accordion header #1 -->
+        <div class="blok"></div>
+
+        <div class="pane 0" style="width:200px;">
+            <h3>First pane</h3>
+            <p>
+                Consectetur adipiscing elit. Praesent bibendum eros ac nulla. Integer vel lacus ac neque viverra.
+            </p>
+        </div>
+
+        <div class="blok"></div>
+
+        <div class="pane 1">
+            <h3>Second pane</h3>
+            <p>
+                Cras diam. Donec dolor lacus, vestibulum at, varius in, mollis id, dolor. Aliquam erat volutpat.
+            </p>
+        </div>
+
+        <div class="blok"></div>
+
+        <div class="pane 2">
+            <h3>Third pane</h3>
+            <p>
+                Non lectus lacinia egestas. Nulla hendrerit, felis quis elementum viverra, purus felis egestas magna.
+            </p>
+        </div>
+
+    </div>
 
 
-<script>		
-  $(function(){
-    $("#accordion").tabs(".pane", { tabs: '.blok',  effect: 'horizontal'});
-  });
-</script>
+    <script>
+        $(function() {
+            $("#accordion").tabs(".pane", {
+                tabs: '.blok',
+                effect: 'horizontal'
+            });
+        });
+    </script>
+
+</body>
+
+</html>

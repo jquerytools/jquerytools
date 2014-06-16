@@ -1,58 +1,69 @@
-<!DOCTYPE html>        
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/validator/validator.js"></script>
+<!DOCTYPE HTML>
+<html>
 
-<style>
-label {
-	margin:10px 0;
-	display:block;
-}
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title></title>
 
-body {
-	padding:100px;		
-	font-family:sans-serif;
-}
+    <script src="../../lib/jquery-1.7.1.js"></script>
+    <script src="../../src/validator/validator.js"></script>
 
-.invalid {
-	border:1px solid red;		
-}
+    <style>
+        label {
+            margin: 10px 0;
+            display: block;
+        }
+        body {
+            padding: 100px;
+            font-family: sans-serif;
+        }
+        .invalid {
+            border: 1px solid red;
+        }
+        .error {
+            display: none;
+            border: 1px solid #667;
+            background: #eee;
+            padding: 5px;
+        }
+    </style>
 
-.error {
-	display:none;		
-	border:1px solid #667;
-	background:#eee;
-	padding:5px;
-}
-</style>
+</head>
 
-<div class="form" action="#">
+<body>
 
-	<label>
-		requred text 
-		<input type="text" required="required" />
-	</label>
-	
-	<label>
-		pattern
-		<input type="text" pattern="\d+" />
-	</label>
-	
-	<label>
-		date 
-		<input type="date" title="Use format yyyy-mm-dd" name="day" />
-	</label>
-	
-	<label>
-		email 
-		<input type="email" />
-	</label>
-	
-	<button>Submit</button>
-	
-</div>
+    <div class="form" action="#">
 
-<script>
-// perform validation programmatically
-var inputs = $(".form :input").validator(); 
-inputs.data("validator").checkValidity();
-</script>
+        <label>
+            requred text
+            <input type="text" required="required" />
+        </label>
+
+        <label>
+            pattern
+            <input type="text" pattern="\d+" />
+        </label>
+
+        <label>
+            date
+            <input type="date" title="Use format yyyy-mm-dd" name="day" />
+        </label>
+
+        <label>
+            email
+            <input type="email" />
+        </label>
+
+        <button>Submit</button>
+
+    </div>
+
+    <script>
+        // perform validation programmatically
+        var inputs = $(".form :input").validator();
+        inputs.data("validator").checkValidity();
+    </script>
+
+</body>
+
+</html>

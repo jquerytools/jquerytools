@@ -1,61 +1,79 @@
-<script src="../../lib/jquery-1.7.1.js"></script>
-<script src="../../src/scrollable/scrollable.js"></script>
+<!DOCTYPE HTML>
+<html>
 
-<link rel="stylesheet" type="text/css" href="style.css"/>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title></title>
 
-<script>
-$(function() {
-	$(".scrollable").scrollable({ circular: false, initialIndex: 2, onBeforeSeek: function() {
-		console.info("jou");
-	}}); 	
-});
-</script>
+    <script src="../../lib/jquery-1.7.1.js"></script>
+    <script src="../../src/scrollable/scrollable.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="style.css" />
 
-<div>
-	
-	<a class="prev">prev</a>
-	
-	<div class="navi"></div>
-	
-	<div class="scrollable" style="width:130px">
-		
-		<div class="items">
-			<div>0</div>  
-			<div>1</div>  
-			<div>2</div>  
-			<div>3</div>  
-			<div>4</div>
-			<div>5</div>  
-			<div>6</div>  
-		</div>
-		
-	</div> 
-	
-	<a class="next">next</a>
-	
-</div>
+    <script>
+        $(function() {
+            $(".scrollable").scrollable({
+                circular: false,
+                initialIndex: 2,
+                onBeforeSeek: function() {
+                    console.info("jou");
+                }
+            });
+        });
+    </script>
 
-<div>
-	
-	<a class="prev">prev</a>
-	
-	<div class="navi"></div>
-	
-	<div class="scrollable" style="width:130px">
-		
-		<div class="items">
-			<div>0</div>  
-			<div>1</div>  
-			<div>2</div>  
-			<div>3</div>  
-			<div>4</div>
-			<div>5</div>  
-			<div>6</div>  
-		</div>
-		
-	</div> 
-	
-	<a class="next">next</a>
-	
-</div>
+</head>
+
+<body>
+
+    <div>
+
+        <a class="prev">prev</a>
+
+        <div class="navi"></div>
+
+        <div class="scrollable" style="width:130px">
+
+            <div class="items">
+                <div>0</div>
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+                <div>4</div>
+                <div>5</div>
+                <div>6</div>
+            </div>
+
+        </div>
+
+        <a class="next">next</a>
+
+    </div>
+
+    <div>
+
+        <a class="prev">prev</a>
+
+        <div class="navi"></div>
+
+        <div class="scrollable" style="width:130px">
+
+            <div class="items">
+                <div>0</div>
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+                <div>4</div>
+                <div>5</div>
+                <div>6</div>
+            </div>
+
+        </div>
+
+        <a class="next">next</a>
+
+    </div>
+
+</body>
+
+</html>
