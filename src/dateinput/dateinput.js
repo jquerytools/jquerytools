@@ -318,8 +318,9 @@
 			// formatting			
 			input.val(format(conf.formatter, date, conf.format, conf.lang));
 			
-            // change
-            e.target = input[0];
+      // change
+      e.type = "change";
+      e.target = input[0];
 			fire.trigger(e);
               
 			// store value into input

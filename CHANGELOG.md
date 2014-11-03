@@ -1,6 +1,9 @@
 # 1.3
 ### In Progress
 
+  - Fix dateinput (change event was not triggered anymore).
+    [thomasdesvenain]
+
   - Fix API usage of outerWidth and outerHeight.
     [thet]
 
@@ -11,7 +14,7 @@
 
 # 1.2.7
 ### In Progress
-  
+
   - Fix dateinput selectors bug[#541](https://github.com/jquerytools/jquerytools/issues/541)
   - Fix history bug in scrollable navigator[#542](https://github.com/jquerytools/jquerytools/issues/542)
   - Fix apple effect on firefox 3.6 [#310](https://github.com/jquerytools/jquerytools/issues/310)
