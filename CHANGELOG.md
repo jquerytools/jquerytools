@@ -1,6 +1,12 @@
 # 1.3
 ### In Progress
 
+  - Revert "check each tooltip for existence, fixes issue 349".
+    This reverts commit d55f9bb714e85f9d421cbef0675602c9a16ce813.
+    Fixes broken Tooltip. See discussion at
+    https://github.com/jquerytools/jquerytools/pull/1076#issuecomment-60933002
+    [vincentfretin, thet]
+
   - Fix dateinput (change event was not triggered anymore).
     [thomasdesvenain]
 
