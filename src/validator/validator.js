@@ -584,8 +584,15 @@
 		});
 		
 		// reposition tooltips when window is resized
-		$(window).resize(function() {
-			self.reflow();		
+		// deboucing reflow call is good for perf & fixes issue with
+		// mobile browsers that trigger window resize when the nav bar is visible, the position tends be off because of the
+		// scroll inertia
+		var reflowTimer = null;
+		$(window).on('resize.V', function() {
+			cancelTimeout( reflowTimer );
+			reflowTimer = setTimeout(function(){
+				self.reflow();
+			},300)
 		});
 		
 	}
