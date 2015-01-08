@@ -20,7 +20,8 @@
 		dateInput = $.tools.dateinput,
 		
 		// http://net.tutsplus.com/tutorials/other/8-regular-expressions-you-should-know/
-		emailRe = /^([a-z0-9_\.\-\+]+)@([\da-z\.\-]+)\.([a-z\.]{2,6})$/i,
+        // domain name TLDs can have a maximum of 63 characters
+		emailRe = /^([a-z0-9_\.\-\+]+)@([\da-z\.\-]+)\.([a-z\.]{2,63})$/i,
 		urlRe = /^(https?:\/\/)?[\da-z\.\-]+\.[a-z\.]{2,6}[#&+_\?\/\w \.\-=]*$/i,
 		v;
 		 
@@ -584,8 +585,15 @@
 		});
 		
 		// reposition tooltips when window is resized
-		$(window).resize(function() {
-			self.reflow();		
+		// deboucing reflow call is good for perf & fixes issue with
+		// mobile browsers that trigger window resize when the nav bar is visible, the position tends be off because of the
+		// scroll inertia
+		var reflowTimer = null;
+		$(window).on('resize.V', function() {
+			clearTimeout( reflowTimer );
+			reflowTimer = setTimeout(function(){
+				self.reflow();
+			},300)
 		});
 		
 	}
