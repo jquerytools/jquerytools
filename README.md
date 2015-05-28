@@ -1,3 +1,8 @@
+> NOTE: This is the main branch, which is compatible with jQuery 1.7+, 1.9+, 2.0+.
+
+> NOTE: This is a fork from: https://github.com/jquerytools/jquerytools - The original repository seems to be abandoned and not jQuery 1.9 compatbile. The reason for this fork is, that Plone 4 depends on jquerytools but needs newer jQuery versions.
+
+
 [jQuery Tools](http://flowplayer.org/tools/) - The Missing UI library for the Web
 ================================
 
