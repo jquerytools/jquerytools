@@ -4,7 +4,7 @@
  * 
  * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
  * 
- * http://flowplayer.org/tools/toolbox/expose.html
+ * http://jquerytools.github.io/documentation/toolbox/expose.html
  *
  * Since: Mar 2010
  * Date: @DATE 
