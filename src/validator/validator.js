@@ -63,7 +63,12 @@
 			v.messages[key] = v.messages[key] || {};
 			$.extend(v.messages[key], messages);
 		},
-		
+		updateEmailRe : function (re) {
+			emailRe = re;
+		},
+		updateUrlRe : function (re) {
+			urlRe = re;
+		},
 		/** 
 		 * Adds a new validator 
 		 */
