@@ -415,9 +415,10 @@
 				e = e || $.Event();
 
 				// onBeforeValidate
-				e.type = "onBeforeValidate";
-				fire.trigger(e, [els]);				
-				if (e.isDefaultPrevented()) { return e.result; }				
+				var onBeforeValidateEvent = $.Event();
+				onBeforeValidateEvent.type = "onBeforeValidate";
+				fire.trigger(onBeforeValidateEvent, [els]);
+				if (onBeforeValidateEvent.isDefaultPrevented()) { return e.result; }
 					
 				// container for errors
 				var errs = [];
@@ -449,9 +450,10 @@
 							if (returnValue !== true) {								
 								
 								// onBeforeFail
-								e.type = "onBeforeFail";
-								fire.trigger(e, [el, match]);
-								if (e.isDefaultPrevented()) { return false; }
+								var onBeforeFailEvent = $.Event();
+								onBeforeFailEvent.type = "onBeforeFail";
+								fire.trigger(onBeforeFailEvent, [el, match]);
+								if (onBeforeFailEvent.isDefaultPrevented()) { return false; }
 								
 								// overridden custom message
 								var msg = el.attr(conf.messageAttr);
@@ -577,7 +579,7 @@
 
 		// get radio groups by name
 		inputs.filter(":radio[required]").on("change.V", function(e) {			
-			var els = $("[name='" + $(e.srcElement).attr("name") + "']");
+			var els = $("[name='" + $(this).attr("name") + "']");
 			if ((els != null) && (els.length != 0)) {
 				self.checkValidity(els, e);
 			}
