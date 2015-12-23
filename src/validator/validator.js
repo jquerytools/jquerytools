@@ -415,9 +415,10 @@
 				e = e || $.Event();
 
 				// onBeforeValidate
-				e.type = "onBeforeValidate";
-				fire.trigger(e, [els]);				
-				if (e.isDefaultPrevented()) { return e.result; }				
+				var beforeHook = $.Event();
+				beforeHook.type = "onBeforeValidate";
+				fire.trigger(beforeHook, [els]);				
+				if (beforeHook.isDefaultPrevented()) { return e.result; }				
 					
 				// container for errors
 				var errs = [];
