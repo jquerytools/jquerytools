@@ -415,10 +415,10 @@
 				e = e || $.Event();
 
 				// onBeforeValidate
-				var beforeHook = $.Event();
-				beforeHook.type = "onBeforeValidate";
-				fire.trigger(beforeHook, [els]);				
-				if (beforeHook.isDefaultPrevented()) { return e.result; }				
+				var onBeforeValidateEvent = $.Event();
+				onBeforeValidateEvent.type = "onBeforeValidate";
+				fire.trigger(onBeforeValidateEvent, [els]);
+				if (onBeforeValidateEvent.isDefaultPrevented()) { return e.result; }
 					
 				// container for errors
 				var errs = [];
@@ -450,9 +450,10 @@
 							if (returnValue !== true) {								
 								
 								// onBeforeFail
-								e.type = "onBeforeFail";
-								fire.trigger(e, [el, match]);
-								if (e.isDefaultPrevented()) { return false; }
+								var onBeforeFailEvent = $.Event();
+								onBeforeFailEvent.type = "onBeforeFail";
+								fire.trigger(onBeforeFailEvent, [el, match]);
+								if (onBeforeFailEvent.isDefaultPrevented()) { return false; }
 								
 								// overridden custom message
 								var msg = el.attr(conf.messageAttr);
