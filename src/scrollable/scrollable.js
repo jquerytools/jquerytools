@@ -97,7 +97,7 @@
 			},
 			
 			getItems: function() {
-				return itemWrap.find(conf.item).not("." + conf.clonedClass);	
+				return itemWrap[conf.item ? 'find' : 'children'](conf.item).not('.' + conf.clonedClass);
 			},
 							
 			move: function(offset, time) {
