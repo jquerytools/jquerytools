@@ -118,7 +118,9 @@
 		pos = conf.position[1]; 	
 		var width = tip.outerWidth() + trigger.outerWidth();
 		if (pos == 'center') 	{ left -= width / 2; }
-		if (pos == 'left')   	{ left -= width; }	 
+		if (pos == 'left')   	{ left -= width; }
+		if (left < 0) { left = 0; }
+		if (left+tip.width() > $(window).width()) { left = $(window).width() - tip.width(); }
 		
 		return {top: top, left: left};
 	}		
@@ -208,7 +210,10 @@
 					}
 					
 					if (!tip.length) { throw "Cannot find tooltip for " + trigger;	}
+					tip.data('width',tip.width());
 				} 
+			 	
+			 	tip.width(tip.data('width'));
 			 	
 			 	if (self.isShown()) { return self; }  
 				
