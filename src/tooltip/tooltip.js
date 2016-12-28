@@ -203,7 +203,8 @@
 
 					// manual tooltip
 					} else {	
-						tip = trigger.next();  
+						tip = trigger.find('.' + conf.tipClass);
+						if (!tip.length) { tip = trigger.next(); }
 						if (!tip.length) { tip = trigger.parent().next(); } 	 
 					}
 					
