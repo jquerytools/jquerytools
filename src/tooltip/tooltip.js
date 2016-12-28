@@ -249,7 +249,7 @@
 				// tooltip events       
 				var event = conf.events.tooltip.split(/,\s*/);
 
-				if (!tip.data("__set")) {
+				if (conf.tip || !tip.data("__set")) {
 					
 					tip.off(event[0]).on(event[0], function() { 
 						clearTimeout(timer);
