@@ -1,0 +1,86 @@
+
+<script src="../js/jquery-1.4.1.js"></script>
+<script src="../../src/tooltip/tooltip.js"></script>
+<script src="../../src/tooltip/tooltip.slide.js"></script>
+
+<!--{{{ style -->
+
+<style>
+body {
+	padding:50px 100px;	
+	font-family:sans-serif;	
+}
+
+.tooltip {
+	display:none;
+	width:200px;
+	height:63px;
+	position:absolute;
+	padding:20px;
+	color:#fff;		
+	background-color:#000;
+	-moz-border-radius:4px;
+}
+
+.trigger {
+	border:1px solid #ccc;
+	background-color:#eee;
+	display:block;
+	padding:5px 10px;
+	width:100px;
+	margin:0 20px 10px 0;
+	float:left;
+	text-align:center;
+	-moz-border-radius:4px;
+}
+
+.error{
+  background-color:#A60E0E;
+}
+
+.correct{
+  background:#74A60E;
+}
+
+.test {
+	clear:left;		
+	height:90px;
+}
+#slide p{
+  width:500px;
+  font-size:12px;
+}
+.tooltip-item{
+  border-bottom:2px dotted #C6C3C3;
+}
+</style>
+
+<!--}}}-->
+
+
+
+
+<div id="slide" class="test">
+
+	<h3>Multiline content</h3>
+    <strong>Test case for : without calculating inline offset</strong>
+  <p>
+    jQuery Tools is a collection of the most important user-interface <strong><span class="show-tooltip1 tooltip-item" title="Tooltip is not positioning correctly with the content. <br> :(">components for modern websites.</span></strong> Used by large sites all over the world.
+  </p>
+  <strong>Test case for : with calculating inline offset</strong>
+  <p>
+    jQuery Tools is a collection of the most important user-interface <strong><span class="show-tooltip2 tooltip-item" title="Tooltip is positioning correctly with the content. <br> :)">components for modern websites.</span></strong> Used by large sites all over the world.
+  </p>
+
+<h3>Simple content</h3>
+  <p>
+    <strong><span class="show-tooltip2 tooltip-item" title="Tooltip is positioning correctly with the content. <br> :)">jQuery Tools</span></strong> is a collection of the most important user-interface components for modern websites. Used by <strong><span class="show-tooltip2 tooltip-item" title="Tooltip is positioning correctly with the content. <br> :)">large sites</span></strong> all over the world.
+  </p>
+
+	<script>
+		$("#slide .show-tooltip1").tooltip({ effect: 'slide', opacity: 0.9, calculateInlineOffset : false, onBeforeShow: function(ob, pos) {this.getTip().addClass('error')} });
+    $("#slide .show-tooltip2").tooltip({ effect: 'slide', opacity: 0.9, calculateInlineOffset : true, onBeforeShow: function(ob, pos) {this.getTip().addClass('correct')}  });
+	</script>
+
+</div>
+
