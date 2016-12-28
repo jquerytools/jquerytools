@@ -30,8 +30,9 @@
 			position: ['top', 'center'], 
 			offset: [0, 0],
 			relative: false,
+			calculateInlineOffset: false,
 			cancelDefault: true,
-			
+
 			// type to event mapping 
 			events: {
 				def: 			"mouseenter,mouseleave",
@@ -43,6 +44,7 @@
 			// 1.2
 			layout: '<div/>',
 			tipClass: 'tooltip'
+
 		},
 		
 		addEffect: function(name, loadFn, hideFn) {
@@ -99,6 +101,17 @@
 		var top = conf.relative ? trigger.position().top : trigger.offset().top, 
 			 left = conf.relative ? trigger.position().left : trigger.offset().left,
 			 pos = conf.position[0];
+		
+		//If relative is false and calculateInlineOffset flag is on then only go for it.
+		if (!conf.relative && conf.calculateInlineOffset) {
+			//Get the actual inline offset of triggered elem
+			var iOffset = $(trigger).inlineOffset();
+			
+			//If element is spans multilines then compare the left positions.  
+			if (left < iOffset.left){
+				left = iOffset.left;
+			}
+		}
 
 		top  -= tip.outerHeight() - conf.offset[0];
 		left += trigger.outerWidth() + conf.offset[1];
@@ -351,8 +364,15 @@
 		
 		return conf.api ? api: this;		 
 	};
+	
+	//Adding jQuery plugin to calculate the inline offset of elem
+	$.fn.inlineOffset = function() {
+	    var el = $('<i/>').css('display','inline').insertBefore(this[0]);
+	    var pos = el.offset();
+	    el.remove();
+	    return pos;
+	};
 		
 }) (jQuery);
 
 		
-
