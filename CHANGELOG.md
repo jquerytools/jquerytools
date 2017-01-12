@@ -17,6 +17,9 @@
     up and cause an error in jquery 1.8.
     [davisagli]
 
+  - Fix initaliziation of minimum and maximum dates in dateinput.
+    [msom]
+
 
 # 1.2.7
 ### In Progress
