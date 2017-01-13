@@ -211,9 +211,8 @@
 		
 		// use sane values for value, min & max		
 		value = parseDate(value) || now;  
-		
-		min   = parseDate(min || new Date(yearNow + conf.yearRange[0], 1, 1));
-		max   = parseDate(max || new Date( yearNow + conf.yearRange[1]+ 1, 1, -1));
+		min   = parseDate(min || new Date(yearNow + conf.yearRange[0], 0, 1));
+		max   = parseDate(max || new Date(yearNow + conf.yearRange[1]+ 1, 0, 0));
 		
 		
 		// check that language exists
