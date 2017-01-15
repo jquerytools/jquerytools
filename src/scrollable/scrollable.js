@@ -152,7 +152,7 @@
 				if (conf.circular && i === 0 && index == -1 && time !== 0) { return self; }
 				
 				// check that index is sane				
-				if (!conf.circular && i < 0 || i > self.getSize() || i < -1) { return self; }
+				if (!conf.circular && i < 0 || (!conf.circular && i >= self.getSize()) ||  i > self.getSize() || i < -1) { return self; }
 				
 				var item = i;
 			
