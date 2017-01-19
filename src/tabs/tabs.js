@@ -146,7 +146,7 @@
         trigger = root.add(this),
         tabs = root.find(conf.tabs),
         panes = paneSelector.jquery ? paneSelector : root.children(paneSelector),
-        current;
+        current, lock = false; // additionnal variable to prevent multiple click() call
 			 
 		
 		// make sure tabs and panes are found
@@ -158,6 +158,9 @@
 		// public methods
 		$.extend(this, {				
 			click: function(i, e) {
+				
+				// it is lock? do not do anything
+				if( lock ) return self;
 			  
 				var tab = tabs.eq(i),
 				    firstRender = !root.data('tabs');
@@ -188,12 +191,17 @@
 				trigger.trigger(e, [i]);				
 				if (e.isDefaultPrevented()) { return; }
 				
-        // if firstRender, only run effect if initialEffect is set, otherwise default
+				// lock the click event while the effect is not over
+				lock = true;
+				
+				// if firstRender, only run effect if initialEffect is set, otherwise default
 				var effect = firstRender ? conf.initialEffect && conf.effect || 'default' : conf.effect;
 
 				// call the effect
 				effects[effect].call(self, i, function() {
 					current = i;
+					// release lock
+					lock = false;
 					// onClick callback
 					e.type = "onClick";
 					trigger.trigger(e, [i]);
