@@ -566,51 +566,42 @@
 				pm.add(nm).removeClass(css.disabled); 
 				
 				// !begin === "sunday"
-				for (var j = !begin ? -7 : 0, a, num; j < (!begin ? 35 : 42); j++) { 
-					
+				for (var j = !begin ? -7 : 0, a; j < (!begin ? 35 : 42); j++) {
 					a = $("<a/>");
-					
 					if (j % 7 === 0) {
 						week = $("<div/>").addClass(css.week);
-						weeks.append(week);			
-					}					
-					
-					if (j < begin)  { 
-						a.addClass(css.off); 
-						num = prevDays - begin + j + 1;
-						date = new Date(year, month-1, num);
-						
-					} else if (j >= begin + days)  {
-						a.addClass(css.off);	
-						num = j - days - begin + 1;
-						date = new Date(year, month+1, num);
-						
-					} else  { 
-						num = j - begin + 1;
-						date = new Date(year, month, num);  
-						
-						// current date
-						if (isSameDay(value, date)) {
-							a.attr("id", css.current).addClass(css.focus);
-							
-						// today
-						} else if (isSameDay(now, date)) {
-							a.attr("id", css.today);
-						}	 
+						weeks.append(week);
 					}
-					
-					// disabled
+
+					date = new Date(year, month, j - begin + 1);
+
+					if (date.getMonth() !== month) {
+						a.addClass(css.off);
+					}
 					if (min && date < min) {
-						a.add(pm).addClass(css.disabled);						
+						a.addClass(css.disabled);
+					} else if (max && date > max) {
+						a.addClass(css.disabled);
 					}
-					
-					if (max && date > max) {
-						a.add(nm).addClass(css.disabled);						
+					if (isSameDay(value, date)) {
+						a.attr("id", css.current).addClass(css.focus);
 					}
-					
-					a.attr("href", "#" + num).text(num).data("date", date);					
-					
+					if (isSameDay(today, date)) {
+						a.attr("id", css.today);
+					}
+
+					a.attr("href", "#" + date.getDate()).text(date.getDate()).data("date", date);
 					week.append(a);
+				}
+				
+				var firstMonthDate = new Date(year, month, 1);
+				// disable switching to the previouse month
+				if (min && firstMonthDate <= new Date(min.getFullYear(), min.getMonth(), 1)) {
+					pm.addClass(css.disabled);
+				}
+				// disable switching to the previouse month
+				if (max && firstMonthDate >= new Date(max.getFullYear(), max.getMonth(), 1)) {
+					nm.addClass(css.disabled);
 				}
 				
 				// date picking					
