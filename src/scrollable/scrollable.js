@@ -81,7 +81,7 @@
 			}, 
 
 			getSize: function() {
-				return self.getItems().size();	
+				return self.getItems().length;	
 			},
 
 			getNaviButtons: function() {
